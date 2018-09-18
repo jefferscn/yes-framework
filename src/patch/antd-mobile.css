@@ -1,0 +1,21 @@
+.am-modal-content {
+    height: auto!important;
+}
+
+.am-modal-body {
+    height: auto!important;
+}
+
+.am-search * {
+    box-sizing: content-box;
+}
+
+.am-search-synthetic-ph {
+    display: flex!important;
+    justify-content: center;
+    align-items: center;
+}
+
+.am-modal-button {
+    cursor: pointer;
+}

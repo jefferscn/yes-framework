@@ -1,0 +1,9 @@
+{
+    "Login1":"yes-native/Login",
+    "Login2":"yes-native/Login",
+    "DateText":"../template/ListTemplate/DateText/default",
+    "CellLayoutList":"yes-native/CellLayoutList",
+    "Timeline":"yes-native/Timeline",
+    "Avatar":"../controls/Avatar/default",
+    "AuditIcon":"../controls/AuditStatusIcon/default"
+}
