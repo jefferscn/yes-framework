@@ -73,7 +73,7 @@
     "weui": "^0.4.2",
     "whatwg-fetch": "^2.0.3",
     "yes-common": "^1.0.1",
-    "yes-core": "0.0.x",
+    "yes-core": "^1.0.0",
     "yes-intf": "^1.0.12",
     "yes-native": "^1.0.3",
     "yes-prop-types": "^1.0.1",
