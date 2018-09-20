@@ -4,6 +4,8 @@ import { CellLayoutList as CellLayoutList } from 'yes-platform';
 // import DateText from '../template/ListTemplate/DateText';
 import { Timeline, TextGrid } from 'yes-platform';
 import Login from '../controls/Login';
+import HasDetailSign from '../controls/HasDetailSign';
+import MultiControl from '../controls/MultiControl';
 // import Avatar from '../controls/Avatar';
 // import PathText from '../controls/PathText';
 // import ListRightElement from '../controls/ListRightElement';
@@ -21,6 +23,8 @@ export default {
     // TextArea,
     // AuditIcon, 
     TextGrid, 
+    HasDetailSign,
+    MultiControl,
     // PathText, 
     // ListRightElement 
 };

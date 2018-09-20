@@ -14,7 +14,7 @@
             ]
         },
         {
-            "caption": "基本",
+            "caption": "明细",
             "isGroup": false,
             "isGrid": true,
             "grid": "grid0"

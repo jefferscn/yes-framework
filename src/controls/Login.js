@@ -67,7 +67,7 @@ class Login extends Component {
             `${this.state.corp}_${this.state.user}`, 
             this.state.password,
             {
-                orgCode: this.state.corp
+                OrgCode: this.state.corp,
             });
     }
     render() {
