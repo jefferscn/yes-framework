@@ -19,7 +19,7 @@ import { generateTabRouter, generatePageRouter } from 'yes-router';
 import generateRouteComponent from './util/generateRouteComponent';
 import i18n from './i18n';
 import { LocaleProvider } from 'antd-mobile';
-import './yigopatch';
+// import './yigopatch';
 
 const { sessionKey, serverPath, appName } = projectJSON;
 const { template, tooltip, companyName, bgImagePath, logoImagePath } = loginJSON;

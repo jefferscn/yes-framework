@@ -1,9 +1,9 @@
 // import { Login as Login1 } from 'yes-platform';
-// import { Login as Login2 } from 'yes-platform';
+import { Login } from 'yes-platform';
 import { CellLayoutList as CellLayoutList } from 'yes-platform';
 // import DateText from '../template/ListTemplate/DateText';
 import { Timeline, TextGrid } from 'yes-platform';
-import Login from '../controls/Login';
+// import Login from '../controls/Login';
 import HasDetailSign from '../controls/HasDetailSign';
 import MultiControl from '../controls/MultiControl';
 // import Avatar from '../controls/Avatar';
