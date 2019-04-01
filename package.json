@@ -55,7 +55,7 @@
     "react-native-root-toast": "git+https://github.com/zhouzhongyuan/react-native-root-toast.git",
     "react-native-rsa": "0.0.3",
     "react-native-scrollable-tab-view": "^0.6.5",
-    "react-native-tab-view": "^1.0.2",
+    "react-native-tab-view": "1.0.2",
     "react-native-tableview-simple": "^0.16.13",
     "react-native-vector-icons": "github:jefferscn/react-native-vector-icons",
     "react-native-web": "github:jefferscn/react-native-web#port_virtualized_list",
