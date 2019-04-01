@@ -6,6 +6,7 @@ import { Timeline, TextGrid } from 'yes-platform';
 // import Login from '../controls/Login';
 import HasDetailSign from '../controls/HasDetailSign';
 import MultiControl from '../controls/MultiControl';
+import Home from '../controls/Home';
 // import Avatar from '../controls/Avatar';
 // import PathText from '../controls/PathText';
 // import ListRightElement from '../controls/ListRightElement';
@@ -25,6 +26,7 @@ export default {
     TextGrid, 
     HasDetailSign,
     MultiControl,
+    Home,
     // PathText, 
     // ListRightElement 
 };

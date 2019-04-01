@@ -19,6 +19,8 @@ import { generateTabRouter, generatePageRouter } from 'yes-router';
 import generateRouteComponent from './util/generateRouteComponent';
 import i18n from './i18n';
 import { LocaleProvider } from 'antd-mobile';
+import RouteConfig from './config/route.json';
+import buildRoute from './route'
 // import './yigopatch';
 
 const { sessionKey, serverPath, appName } = projectJSON;
@@ -48,44 +50,46 @@ const appOptions = {
 
 };
 
-const routes = {
-    DynamicDetail: {
-        screen: withNavigation(DynamicView),
-        path: 'YESMOBILE/:metaKey/:id/:status',
-    },
-    DynamicDetail1: {
-        screen: withNavigation(DynamicView),
-        path: 'YES/:metaKey/:id/:status',
-    },
-    Workitem: {
-        screen: withNavigation(WorkitemView),
-        path: 'WORKITEM/:wid',
-    },
-    WorkitemField: {
-        screen: withNavigation(FieldView),
-        path: 'WORKITEM/:wid/:field',
-    },
-    DynamicMulti: {
-        screen: withNavigation(DynamicView),
-        path: 'YESMOBILE/:metaKey/:status',
-    },
-};
+// const routes = {
+//     DynamicDetail: {
+//         screen: withNavigation(DynamicView),
+//         path: 'YESMOBILE/:metaKey/:id/:status',
+//     },
+//     DynamicDetail1: {
+//         screen: withNavigation(DynamicView),
+//         path: 'YES/:metaKey/:id/:status',
+//     },
+//     Workitem: {
+//         screen: withNavigation(WorkitemView),
+//         path: 'WORKITEM/:wid',
+//     },
+//     WorkitemField: {
+//         screen: withNavigation(FieldView),
+//         path: 'WORKITEM/:wid/:field',
+//     },
+//     DynamicMulti: {
+//         screen: withNavigation(DynamicView),
+//         path: 'YESMOBILE/:metaKey/:status',
+//     },
+// };
 
-let MainRouter = null;
-switch (initialPageJSON.type) {
-    case 'tab':
-        MainRouter = generateTabRouter(initialPageJSON.tab, routes, generateRouteComponent);
-        break;
-    case 'custom':
-        const customScreen = control[initialPageJSON.page];
-        MainRouter = generatePageRouter(customScreen, routes);
-        break;
-    case 'page':
-        const homeScreen = generateRouteComponent(initialPageJSON);
-        MainRouter = generatePageRouter(homeScreen, routes);
-        break;
-    default:
-}
+// let MainRouter = null;
+// switch (initialPageJSON.type) {
+//     case 'tab':
+//         MainRouter = generateTabRouter(initialPageJSON.tab, routes, generateRouteComponent);
+//         break;
+//     case 'custom':
+//         const customScreen = control[initialPageJSON.page];
+//         MainRouter = generatePageRouter(customScreen, routes);
+//         break;
+//     case 'page':
+//         const homeScreen = generateRouteComponent(initialPageJSON);
+//         MainRouter = generatePageRouter(homeScreen, routes);
+//         break;
+//     default:
+// }
+
+const MainRouter = buildRoute(RouteConfig);
 
 const getAntLocale = () => {
     if (navigator.language === 'zh-CN') {
