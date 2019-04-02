@@ -1,5 +1,5 @@
 {
     "sessionKey": "test",
-    "serverPath":"http://bpmtest.trinasolar.com/yigo",
+    "serverPath":"http://localhost/yigo",
     "appName": "yesdemo"
 }
