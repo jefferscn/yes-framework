@@ -14,7 +14,7 @@ export default (options) => ({
     entry: options.entry,
     output: Object.assign({
         path: path.resolve(process.cwd(), 'build'),
-        publicPath: '/',
+        publicPath: './',
         filename: '[name].js',
     }, options.output),
     module: {
