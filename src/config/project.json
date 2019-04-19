@@ -1,5 +1,11 @@
 {
     "sessionKey": "test",
-    "serverPath":"http://localhost/yigo",
+    "serverPath":"http://bpmtest.trinasolar.com/yigo",
+    "wechat": {
+        "signurl": "http://localhost:3001/wechatsign/com.bokesoft.test"
+    },
+    "baidumap": {
+        "ak": "fSDn0wEEkKVVunWlh1GqyMoU"
+    },
     "appName": "yesdemo"
 }

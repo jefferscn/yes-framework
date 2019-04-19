@@ -44,11 +44,6 @@ export default baseConfig({
             inject: true,
 
         }),
-        new BundleAnalyzerPlugin({
-            analyzerMode: 'static',
-            reportFilename: './reports.html',
-            openAnalyzer: true,
-        }),
         new CompressionPlugin({
             test: /\.js/,
         }),

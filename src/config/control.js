@@ -7,6 +7,9 @@ import { Timeline, TextGrid } from 'yes-platform';
 import HasDetailSign from '../controls/HasDetailSign';
 import MultiControl from '../controls/MultiControl';
 import Home from '../controls/Home';
+import GpsText from '../controls/GpsText';
+import MapText from '../controls/MapText';
+import Image from '../controls/Image';
 // import Avatar from '../controls/Avatar';
 // import PathText from '../controls/PathText';
 // import ListRightElement from '../controls/ListRightElement';
@@ -27,6 +30,9 @@ export default {
     HasDetailSign,
     MultiControl,
     Home,
+    GpsText,
+    MapText,
+    Image,
     // PathText, 
     // ListRightElement 
 };
