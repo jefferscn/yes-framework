@@ -1,6 +1,6 @@
 [
     {
-        "key": "Home",
+        "key": "Home1",
         "type": "control",
         "path": "Home",
         "control" : "Home",

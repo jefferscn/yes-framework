@@ -4,7 +4,7 @@ import './template';
 import projectJSON from './config/project.json';
 import loginJSON from './config/login.json';
 import control from './config/control.js';
-import { ControlMappings, Switch, Util } from 'yes-platform';
+import { ControlMappings, Switch, Util, App } from 'yes-platform';
 import i18n from './i18n';
 import { LocaleProvider, Modal } from 'antd-mobile';
 import RouteConfig from './config/route.json';
@@ -13,10 +13,9 @@ import PlatformProvider from './controls/providers';
 import BaiduProvider from './controls/providers/BaiduMapProvider';
 import Designer from '../designer/ui';
 import Toolbar from '../designer/components/Toolbar';
-import { Provider } from "mobx-react";
+import { Provider as MobxProvider } from "mobx-react";
 import store from '../designer/mobx-store';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-// import './yigopatch';
 
 const { sessionKey, serverPath, appName, wechat, cordova, baidumap } = projectJSON;
 const { template, tooltip, companyName, bgImagePath, logoImagePath } = loginJSON;
@@ -189,14 +188,15 @@ if (isCordova()) {
 const NavigatorListenerWrapper = (props) =>
     (<LocaleProvider locale={getAntLocale()}>
         <Provider>
-            <MainRouter
-                onNavig ationStateChange={onNavigationStateChange}
-                {...props} />
+            <Designer {...props} />
         </Provider>
     </LocaleProvider>);
 
 appOptions.messages = getLocaleMessages();
+appOptions.floatComponent = (<MuiThemeProvider><MobxProvider store={store}>
+            <Toolbar />
+         </MobxProvider></MuiThemeProvider>);
+appOptions.debug = true;
 appOptions.router = NavigatorListenerWrapper;
 appOptions.mock = true;
-appOptions.debug = true;
-export default appOptions;
+export default new App(appOptions);

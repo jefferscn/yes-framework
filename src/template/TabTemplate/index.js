@@ -6,6 +6,8 @@ import defaultTemplateMapping from '../defaultTemplateMapping';
 import { View, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import { intlShape, FormattedMessage } from 'react-intl';
+import TabMeta from './TabMeta';
+import { observer } from 'mobx-react';
 
 const { DynamicBillForm, LoadingComp } = Components;
 const ToastComponent = LoadingComp;
@@ -15,29 +17,44 @@ const styles = StyleSheet.create({
         flexBasis: 0,
     },
 });
+@observer
 class TabTemplate extends DynamicBillForm {
     static contextTypes = {
         createElement: PropTypes.func,
         intl: intlShape,
     }
+    static defaultProps = {
+        meta: {
+        },
+        designMode: false,
+    }
     formatMessage = (msg) => {
         return this.context.intl ? this.context.intl.formatMessage({ id: msg }) : msg;
     }
+    onTabChange = (tabs)=> {
+        this.props.meta.tabs = tabs;
+        this.props.onMetaChange(this.props.meta);
+    }
     renderContent(tabs) {
-        if (this.props.foot) {
-            const foot = this.context.createElement(this.props.foot);
+        if (this.props.meta.foot || this.props.meta.head) {
+            const foot = this.context.createElement(this.props.meta.foot);
+            const head = this.context.createElement(this.props.meta.head);
             return (<View style={styles.container}>
+                {head}
                 <TabViewTemplate
-                    itemList={tabs}
-                    {...this.props}
+                    designMode={this.props.designMode}
+                    onTabChange={this.onTabChange}
+                    meta={tabs}
+                    {...this.props.meta}
                 />
                 {foot}
             </View>);
         }
         return (
             <TabViewTemplate
-                itemList={tabs}
-                {...this.props}
+                designMode = {this.props.designMode}
+                meta={tabs}
+                {...this.props.meta}
             />
         );
     }
@@ -47,7 +64,7 @@ class TabTemplate extends DynamicBillForm {
     }
 
     buildChildren() {
-        const { ignoredControl, labels = {}, mergeGridLayout, mergeGridLayoutTitle, ignoredTags, tabs } = this.props;
+        const { ignoredControl, labels = {}, mergeGridLayout, mergeGridLayoutTitle, ignoredTags, tabs } = this.props.meta;
         const form = this.getBillForm();
         if (tabs) {
             const newTabs = this.formatTabs(tabs);
@@ -144,5 +161,8 @@ class TabTemplate extends DynamicBillForm {
     }
 }
 const WrappedTabTemplate = getMappedComponentHOC(TabTemplate);
+WrappedTabTemplate.fromJson = (json) => {
+    return new TabMeta(json);
+}
 defaultTemplateMapping.reg('tabs', WrappedTabTemplate);
 export default WrappedTabTemplate;

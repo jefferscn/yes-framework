@@ -88,25 +88,16 @@ export default class TemplateView extends PureComponent {
             extraProps = Object.assign({}, extraProps, billform[formKey]);
         }
         const TemplateComponent = defaultTemplateMapping.get(extraProps.formTemplate);
-
-        // if (this.props.field) {
-        //     return (<FieldView
-        //         formKey={formKey}
-        //         status={status || 'VIEW'}
-        //         field={this.props.field}
-        //         oid={oid ? oid : -1} // eslint-disable-line
-        //         {...otherProps}
-        //         {...extraProps}
-        //     />);
-        // }
+        const meta = TemplateComponent.fromJson(extraProps)
 
         return (
             <TemplateComponent
                 formKey={formKey}
                 status={status || 'VIEW'}
                 oid={oid ? oid : -1} // eslint-disable-line
+                meta = { meta }
                 {...otherProps}
-                {...extraProps}
+                // {...extraProps}
             />
         );
     }

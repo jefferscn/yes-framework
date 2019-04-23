@@ -14,8 +14,12 @@ export default class Home extends Component {
     render() {
         return (
             <View style={styles.view}>
-                <Text>Home</Text>
+                <Text>Home12</Text>
             </View>
         )
     }
+}
+
+if (module.hot) {
+    module.hot.accept();
 }
