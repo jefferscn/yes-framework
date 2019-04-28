@@ -20,15 +20,31 @@ export default class RouteComponent extends Component {
     }
 
     async componentWillMount() {
-        if (this.isNew()) {
-            const data = await YIUI.DocService.newDocument(this.props.navigation.state.params.metaKey);
+        await this.processNewForm(this.props);
+    }
+
+    componentWillReceiveProps(props) {
+        const params = props.navigation.state.params;
+        const oldParams = this.props.navigation.state.params;
+        if (params.metaKey !== oldParams.metaKey || params.id !== oldParams.id) {
+            this.processNewForm(props);
+        }
+    }
+
+    componentWillUnmount() {
+        // YIUI.GlobalMessageBus.removeListener('updateview');// 这里有问题
+    }
+
+    processNewForm = async (props) => {
+        if (this.isNew(props)) {
+            const data = await YIUI.DocService.newDocument(props.navigation.state.params.metaKey);
             if (!data) {
                 this.setState({
                     withoutData: true,
                 });
                 return;
             }
-            const currentForm = await BillformStore.getBillForm(`${this.props.navigation.state.params.metaKey}.new`);
+            const currentForm = await BillformStore.getBillForm(`${props.navigation.state.params.metaKey}.new`);
             if (currentForm) {
                 this.setState({
                     withoutData: true,
@@ -48,34 +64,32 @@ export default class RouteComponent extends Component {
             form.form.paras.map = Object.assign(form.form.paras.map, paras.paras);
             this.setState({
                 oid: newOid,
+                document: data,
             });
             // History.push(`card/YES/${entry.formKey}/${newOid}/NEW`);
-            this.props.navigation.setParams({
+            props.navigation.setParams({
                 oid: newOid,
             });
-            YIUI.GlobalMessageBus.on('updateview', async (formKey, oid) => {
-                if (formKey === this.props.navigation.state.params.metaKey && oid === this.state.oid) {
-                    // await confirm('message', 'Save Complete!', 'OK');
-                }
+        } else {
+            this.setState({
+                oid: props.navigation.state.params.id,
             });
         }
     }
 
-    componentWillUnmount() {
-        YIUI.GlobalMessageBus.removeListener('updateview');// 这里有问题
-    }
-    isNew() {
-        return this.state.oid === 'new';
+    isNew(props) {
+        return props.navigation.state.params.id === 'new';
     }
 
     render() {
-        if (this.isNew() && !this.state.withoutData) { // 如果是新增单据，则需要在本控件中请求一个新的Document，放到cache中，以保持
+        if (this.isNew(this.props) && !this.state.withoutData) { // 如果是新增单据，则需要在本控件中请求一个新的Document，放到cache中，以保持
             return null;                // Navigation中引用的单据额一致
         }
         return (
             <TemplateView
                 formKey={this.props.navigation.state.params.metaKey}
                 oid={this.state.oid || -1}
+                document={this.state.document}
                 status={this.props.navigation.state.params.status || 'EDIT'}
             />
         );
