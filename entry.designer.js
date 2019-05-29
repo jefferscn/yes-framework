@@ -10,25 +10,7 @@ import App from './src/designer.config';
 import { start } from 'yes-platform';
 import 'antd-mobile/dist/antd-mobile.css';
 
-// self.MonacoEnvironment = {
-//   getWorkerUrl: function (moduleId, label) {
-//     if (label === 'json') {
-//       return './json.worker.bundle.js';
-//     }
-//     if (label === 'css') {
-//       return './css.worker.bundle.js';
-//     }
-//     if (label === 'html') {
-//       return './html.worker.bundle.js';
-//     }
-//     if (label === 'typescript' || label === 'javascript') {
-//       return './ts.worker.bundle.js';
-//     }
-//     return './editor.worker.bundle.js';
-//   }
-// }
-
-export default () => {
+export default (() => {
     if (window.cordova) {
         document.addEventListener("deviceready", ()=> {
             start(App);
@@ -36,4 +18,4 @@ export default () => {
     } else {
         start(App);
     }
-};
+})();

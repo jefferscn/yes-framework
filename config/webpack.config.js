@@ -46,6 +46,7 @@ export default (DEBUG, PATH, PORT = 3000) => {
                         path.resolve(__dirname, '../node_modules/react-native-safe-area-view/'),
                         path.resolve(__dirname, '../node_modules/react-native-web/'),
                         path.resolve(__dirname, '../src'),
+                        path.resolve(__dirname, '../designer'),
                         path.resolve(__dirname, '../entry.js'),
                         path.resolve(__dirname, '../main.js'),
                     ],
@@ -53,6 +54,7 @@ export default (DEBUG, PATH, PORT = 3000) => {
                     query: {
                         babelrc: false,
                         presets: ['es2015', 'react', 'stage-1'],
+                        plugins: ["transform-decorators-legacy", "react-hot-loader/babel"]
                     },
                 }, {
                     test: /\.scss$/,
@@ -94,7 +96,7 @@ export default (DEBUG, PATH, PORT = 3000) => {
             ],
         },
         plugins: DEBUG
-            ? [new webpack.DefinePlugin({ 'process.env.NODE_ENV': '"debug"', __DEV__: true }),
+            ? [new webpack.DefinePlugin({ 'process.env.NODE_ENV': '"debug"', __DEV__: true, __DESIGN__: false }),
                 new HtmlWebpackPlugin({
                     template: './index.html',
                 }),

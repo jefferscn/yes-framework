@@ -42,6 +42,7 @@ export default (options) => ({
                 query: {
                     babelrc: false,
                     presets: ['es2015', 'react', 'stage-1'],
+                    plugins: ["transform-decorators-legacy", "react-hot-loader/babel"]
                 },
             }, {
                 test: /\.scss$/,

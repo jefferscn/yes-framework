@@ -17,7 +17,7 @@ export default (DEBUG, PATH, PORT = 3000) => {
             app: (DEBUG ? [] : []).concat([
                 'whatwg-fetch',
                 'babel-polyfill',
-                './main.designer',
+                './entry.designer',
             ]),
             // "editor.worker": './node_modules/monaco-editor/esm/vs/editor/editor.worker.js',
             // "json.worker": './node_modules/monaco-editor/esm/vs/language/json/json.worker',
@@ -30,7 +30,7 @@ export default (DEBUG, PATH, PORT = 3000) => {
             // globalObject: 'self',
             path: path.resolve(__dirname, `../${PATH}`, 'generated'),
             filename: '[name].js',
-            publicPath: '/',
+            publicPath: '/designer',
             // hotUpdateChunkFilename: 'hot/hot-update.js',
             // hotUpdateMainFilename: 'hot/hot-update.json'
         },
@@ -107,9 +107,9 @@ export default (DEBUG, PATH, PORT = 3000) => {
         },
         plugins: DEBUG
             ? [
-                new webpack.DefinePlugin({ 'process.env.NODE_ENV': '"debug"', __DEV__: true, 'process.env.YIGO_PLATFORM':'"common"', __VERSION__: '"debug"' }),
+                new webpack.DefinePlugin({ 'process.env.NODE_ENV': '"debug"', __DEV__: true, 'process.env.YIGO_PLATFORM':'"common"', __VERSION__: '"debug"', __DESIGN__:true }),
                 new HtmlWebpackPlugin({
-                    template: './index.html',
+                    template: './index.designer.html',
                 }),
                 // new webpack.HotModuleReplacementPlugin(),
                 // new MonacoWebpackPlugin(),
@@ -125,7 +125,7 @@ export default (DEBUG, PATH, PORT = 3000) => {
                 // new webpack.optimize.OccurenceOrderPlugin(),
                 new webpack.optimize.AggressiveMergingPlugin(),
                 new HtmlWebpackPlugin({
-                    template: './index.html',
+                    template: './index.designer.html',
                     // chunksSortMode: 'manual',
                     // chunks: ['initializationLoading', 'vendor'],
 

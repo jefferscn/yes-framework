@@ -6,25 +6,27 @@ import { BrowserRouter as Router } from "react-router-dom";
 // import routes from './router';
 import 'font-awesome/css/font-awesome.css';
 // import { Provider } from 'react-redux'
-import { Provider } from "mobx-react";
+import { Provider, inject } from "mobx-react";
 import App from './components/App';
 import store from './mobx-store';
-import { hot } from 'react-hot-loader/root'
+import injectTapEventPlugin from 'react-tap-event-plugin'
+// import { hot } from 'react-hot-loader/root'
 // import store, { history } from './store';
 
 let app = document.getElementById('app');
 // const store = new Store();
 window.store = store;
-// ReactDOM.render(
-//     <Router>
-//         <Provider store={store}>
-//             <App />
-//         </Provider>
-//     </Router>
-//     , app);
+injectTapEventPlugin();
+ReactDOM.render(
+    <Router>
+        <Provider store={store}>
+            <App />
+        </Provider>
+    </Router>
+    , app);
 
-export default hot(()=><Router>
-         <Provider store={store}>
-             <App />
-         </Provider>
-     </Router>);
+// export default hot(()=><Router>
+//          <Provider store={store}>
+//              <App />
+//          </Provider>
+//      </Router>);

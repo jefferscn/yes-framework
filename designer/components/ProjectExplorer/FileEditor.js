@@ -3,14 +3,17 @@ import { inject, observer } from "mobx-react";
 import MonacoEditor from 'react-monaco-editor';
 import { observable, action } from 'mobx';
 import View from '../View';
-import Icon from '../Icon';
 import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/Toolbar';
 import BillformViewer from './BillformViewer';
 import AwesomeFontIcon from 'react-native-vector-icons/FontAwesome';
 import { StyleSheet } from 'react-native';
+import { FILE_TYPE } from '../../mobx-store/AppState';
+import ProjectViewer from './ProjectCfgView';
+import RouteViewer from './RouteView';
+import LoginViewer from './LoginView';
 
 const styles = StyleSheet.create({
-    toolbarItem : {
+    toolbarItem: {
         fontSize: 29,
         paddingRight: 16,
     }
@@ -25,7 +28,7 @@ export default class FileEditor extends Component {
     editorDidMount = () => {
         const { store } = this.props;
         const file = store.selected;
-        if (file && !file.loaded) {
+        if (file && !file.loaded && !file.isDirectory) {
             file.reloadContent();
         }
     }
@@ -51,7 +54,7 @@ export default class FileEditor extends Component {
     }
     deploy = () => {
         const currentEditFile = this.props.store.selected;
-        if(currentEditFile) {
+        if (currentEditFile) {
             currentEditFile.save();
         }
     }
@@ -66,21 +69,7 @@ export default class FileEditor extends Component {
         const options = {
             selectOnLineNumbers: true
         };
-        if (file && fileType === 'form') {
-            const meta = JSON.parse(text);
-            const formKey = store.selectedFormKey;
-            return (<BillformViewer
-                meta={meta}
-                formKey={formKey} />);
-        }
-        return <View style={containerStyle}>
-            <Toolbar>
-                <ToolbarGroup>
-                    <AwesomeFontIcon style={styles.toolbarItem} name="save" onPress={this.save} />
-                    {dirty ? <AwesomeFontIcon style={styles.toolbarItem} name="send" onPress={this.deploy} /> : null}
-                    <AwesomeFontIcon style={styles.toolbarItem} name="refresh" onPress={this.refresh} />
-                </ToolbarGroup>
-            </Toolbar>
+        let editor =
             <MonacoEditor
                 language="javascript"
                 theme="vs-dark"
@@ -89,6 +78,41 @@ export default class FileEditor extends Component {
                 options={options}
                 onChange={this.onChange}
                 editorDidMount={this.editorDidMount}
-            /></View>;
+            />;
+        if (file && fileType === 'form') {
+            const formKey = store.selectedFormKey;
+            editor = (<BillformViewer
+                formKey={formKey} />);
+        }
+        if (file && file.type === FILE_TYPE.LOGINCFG) {//登陆界面
+            editor = (
+                <LoginViewer />
+            )
+        }
+        if (file && file.type === FILE_TYPE.PROJECTCFG) {//项目配置
+            editor = (
+                <ProjectViewer
+                />
+            );
+        }
+        if (file && file.type === FILE_TYPE.ROUTECFG) {//路由配置
+            editor = (
+                <RouteViewer />
+            );
+        }
+
+        if(!file || file.isDirectory) {
+            return null;
+        }
+        return <View style={containerStyle}>
+                <Toolbar>
+                    <ToolbarGroup>
+                        <AwesomeFontIcon style={styles.toolbarItem} name="save" onPress={this.save} />
+                        {dirty ? <AwesomeFontIcon style={styles.toolbarItem} name="send" onPress={this.deploy} /> : null}
+                        <AwesomeFontIcon style={styles.toolbarItem} name="refresh" onPress={this.refresh} />
+                    </ToolbarGroup>
+                </Toolbar>
+                {editor}
+            </View>;
     }
 }

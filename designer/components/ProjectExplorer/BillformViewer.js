@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import { observer, inject } from "mobx-react";
 import { observable, action } from 'mobx';
-import TemplateView from '../../../src/TemplateView';
 import View from '../View';
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
-import CellLayoutEditor from '../Editor/CellLayoutEditor';
 
 @inject('store')
 @observer
@@ -25,15 +23,21 @@ export default class BillformViewer extends Component {
     }
     @action
     submitChange = () => {
-        // this.oid = this.tempOid;
         this.props.store.setFormId(this.props.formKey, this.tempOid);
+        this.frame && this.frame.contentWindow.location.reload();
     }
+
     componentWillReceiveProps(props) {
         if (this.props.formKey !== props.formKey) {
             const oid = this.props.store.formIds[props.formKey];
             this.tempOid = this.props.store.formIds[props.formKey];
         }
     }
+
+    componentDidUpdate() {
+        this.frame && this.frame.contentWindow.location.reload();
+    }
+
     render() {
         const oid = this.props.store.formIds[this.props.formKey];
         return (
@@ -49,17 +53,17 @@ export default class BillformViewer extends Component {
                 </SelectField>
                 <TextField type='text' value={oid} onChange={this.changeOID} />
                 <FlatButton onClick={this.submitChange} label="刷新" />
-                <View style={{flexDirection:'row'}}>
-                    <View style={{ width: 375, height: 667 }}>
-                        {oid ? <TemplateView
-                            navigation={{}}
-                            designMode
-                            meta={this.props.meta}
-                            formKey={this.props.formKey}
-                            oid={oid}
-                            status={this.status} /> : null}
+                <View style={{ flexDirection: 'row' }}>
+                    <View style={{ width: 800, height: 667 }}>
+                        {
+                            oid ? <iframe
+                                ref={(ref) => this.frame = ref}
+                                src={`/designer#card/YES/${this.props.formKey}/${oid}/${this.status}`}
+                                width="800"
+                                height="667"
+                            /> : null
+                        }
                     </View>
-                    <CellLayoutEditor  />
                 </View>
             </View>
         )

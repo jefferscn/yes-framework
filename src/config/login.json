@@ -1,7 +1,9 @@
 {
-    "template": "Login",
-    "tooltip": "欢迎登录天和光能1",
-    "companyName": "Copyright © 常州天合光能有限公司",
-    "bgImagePath":"./img/login_bg.jpg",
-    "logoImagePath": "./img/logo.png"
+    "elementType": "Login",
+    "elementProps": {
+        "tooltip": "欢迎登录天和光能1",
+        "companyName": "Copyright © 常州天合光能有限公司",
+        "bgImagePath": "./img/login_bg.jpg",
+        "logoImagePath": "./img/logo.png"
+    }
 }

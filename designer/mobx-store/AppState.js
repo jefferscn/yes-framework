@@ -10,6 +10,10 @@ export const FILE_TYPE = {
     LOGINCFG:4,
     ROUTECFG:5,
 };
+const defaultFormTemplate = `{
+    "formTemplate": "void"
+}
+`
 
 const fileCompare = (a1,a2)=>{
                 if(a1.isDirectory===a2.isDirectory) {
@@ -29,6 +33,7 @@ const fileCompare = (a1,a2)=>{
 
 export class Project {
     @observable files = [];
+    billforms
     access;
     constructor(access) {
         this.access = access;
@@ -38,17 +43,18 @@ export class Project {
         runInAction(()=>{
             this.files = [];
             // 1. 加载单据配置目录
-            this.files.push(new ProjectFile(this.access, '单据', '//config/billforms', true, FILE_TYPE.BILLFORM));
+            this.billforms = new ProjectFile(this.access, '单据', '//config/billforms', true, FILE_TYPE.BILLFORM, true);
+            this.files.push(this.billforms);
             // 2. 加载控件目录
-            this.files.push(new ProjectFile(this.access, '控件', '//controls', true, FILE_TYPE.CONTROL));
+            this.files.push(new ProjectFile(this.access, '控件', '//controls', true, FILE_TYPE.CONTROL, true));
             // 3. 加载项目配置文件
-            this.files.push(new ProjectFile(this.access, '项目配置(正式)', '//config/project.json', false, FILE_TYPE.PROJECTCFG));
-            this.files.push(new ProjectFile(this.access, '项目配置(测试)', '//config/project.debug.json', false, FILE_TYPE.PROJECTCFG));
+            this.files.push(new ProjectFile(this.access, '项目配置(正式)', '//config/project.json', false, FILE_TYPE.PROJECTCFG, true));
+            this.files.push(new ProjectFile(this.access, '项目配置(测试)', '//config/project.debug.json', false, FILE_TYPE.PROJECTCFG, true));
             // 4. 加载首页配置文件
-            this.files.push(new ProjectFile(this.access, '路由配置', '//config/route.json', false, FILE_TYPE.ROUTECFG));
+            this.files.push(new ProjectFile(this.access, '路由配置', '//config/route.json', false, FILE_TYPE.ROUTECFG, true));
             // this.files.push(new ProjectFile(this.access, '首页配置', '//config/initialPage.json', false));
             // 5. 加载登录界面配置文件
-            this.files.push(new ProjectFile(this.access, '登录配置', '//config/login.json', false, FILE_TYPE.LOGINCFG));
+            this.files.push(new ProjectFile(this.access, '登录配置', '//config/login.json', false, FILE_TYPE.LOGINCFG, true));
             this.files = this.files.sort(fileCompare);
         });
         // const data = await this.access.fetchMeta('/');
@@ -59,6 +65,15 @@ export class Project {
         //     }
         //     this.files = this.files.sort(fileCompare);
         // });
+    }
+    @action
+    async addBillForm(formKey) {
+        // runInAction(()=> {
+            const file = this.billforms.addFile(`${formKey}.json`);
+            // file.content = defaultFormTemplate; 
+            await file.commitContent(defaultFormTemplate);
+            await file.save();
+        // })
     }
     async getProjectFile(path) {
         if(this.files.length===0) {
@@ -87,18 +102,22 @@ export class ProjectFile {
     @observable isLoading = false;
     @observable expand = false;
     @observable type = '';
+    @observable reserve = false;
     loaded = false;
     access = null;
     isDirectory;
-    constructor(access, name, path, isDirectory, type) {
+    constructor(access, name, path, isDirectory, type, reserve = false) {
         this.access = access;
         this.name = name;
         this.path = path;
         this.isDirectory = isDirectory;
         this.type = type;
+        this.reserve = reserve;
     }
     @action addFile(file) {
-        this.children.push(new ProjectFile(dir, `${this.path}/${dir}`, false));
+        const result = new ProjectFile(this.access, file, `${this.path}/${file}`, false, this.type);
+        this.children.push(result);
+        return result;
     }
     @action addDirectory(dir) {
         this.children.push(new ProjectFile(dir, `${this.path}/${dir}`, true));
@@ -180,6 +199,7 @@ export default class AppState {
     @observable fileType = null; 
     @observable selectedFormKey = null; 
     @observable selectedControl = null;
+    @observable meta = null;
     @observable toolbarVisible=false;
     constructor() {
         this.project = new Project(new Access('/file'));
@@ -201,8 +221,9 @@ export default class AppState {
         }
     }
     @action
-    selectControl(control) {
+    selectControl(control, meta) {
         this.selectedControl = control;
+        this.meta = meta;
     }
     @action 
     async selectFormKey(formKey) {
@@ -225,6 +246,16 @@ export default class AppState {
             this.selectedFormKey = formKey;
             this.project.expandPath(path);
         });
+    }
+    async getRouteCfg() {
+        const path = `//config/route.json`;
+        const f =  await this.project.getProjectFile(path);
+        return f;
+    }
+    async getBillForm(formKey) {
+        const path = `//config/billforms/${formKey}.json`;
+        const f =  await this.project.getProjectFile(path);
+        return f;
     }
     @action
     setFormId(formKey, id) {

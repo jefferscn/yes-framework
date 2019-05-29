@@ -14,4 +14,5 @@ View.FuncMap.put('OpenWorkitem',
         }
     }
 );
+
 export default store;

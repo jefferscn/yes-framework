@@ -1,3 +1,4 @@
+import React from 'react';
 import {
     createStackNavigator,
     createMaterialTopTabNavigator,
@@ -9,6 +10,7 @@ import Controls from '../config/control';
 import WorkitemView from '../WorkitemView';
 import FieldView from '../FieldView';
 import generateRouteComponent from '../util/generateRouteComponent';
+import Element from '../template/Element';
 
 const defaultCardRoute = {
     DynamicDetail: {
@@ -125,7 +127,8 @@ const buildYIGOBillformScreen = (config) => {
 };
 
 const buildControlScreen = (config) => {
-    return Controls[config.control];
+    // return Controls[config.control];
+    return ()=><Element debugStyle={{flex:1}} meta={config.control} />;
 };
 
 const buildScreen = (config) => {

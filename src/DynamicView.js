@@ -6,12 +6,8 @@ import FormParas from './FormPara';
 
 export default class RouteComponent extends Component {
     static navigationOptions = ({ navigation }) => {
-        const FormOptions = FormParas[navigation.state.params.metaKey];
         return {
-            headerTitle: FormOptions.title,
-            headerStyle: {
-                // backgroundColor: '#2196f3',
-            },
+            header: null,
         };
     };
 
@@ -77,6 +73,7 @@ export default class RouteComponent extends Component {
                 formKey={this.props.navigation.state.params.metaKey}
                 oid={this.state.oid || -1}
                 status={this.props.navigation.state.params.status || 'EDIT'}
+                {...this.props}
             />
         );
     }

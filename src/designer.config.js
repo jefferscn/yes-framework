@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 // import { generateTabRouteConfig } from './util';
 import './template';
+import PropTypes from 'prop-types';
 import projectJSON from './config/project.json';
 import loginJSON from './config/login.json';
 import control from './config/control.js';
@@ -11,11 +12,14 @@ import RouteConfig from './config/route.json';
 import buildRoute from './route';
 import PlatformProvider from './controls/providers';
 import BaiduProvider from './controls/providers/BaiduMapProvider';
-import Designer from '../designer/ui';
-import Toolbar from '../designer/components/Toolbar';
-import { Provider as MobxProvider } from "mobx-react";
-import store from '../designer/mobx-store';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import DesignerProvider from '../designer/utils/provider';
+import Element from './template/Element';
+// import Designer from '../designer/ui';
+// import Toolbar from '../designer/components/Toolbar';
+// import { Provider as MobxProvider } from "mobx-react";
+import enUS from 'antd-mobile/lib/locale-provider/en_US'
+import './yigopatch';
+import './patch/antd-mobile.css';
 
 const { sessionKey, serverPath, appName, wechat, cordova, baidumap } = projectJSON;
 const { template, tooltip, companyName, bgImagePath, logoImagePath } = loginJSON;
@@ -34,6 +38,7 @@ const appOptions = {
     serverPath,
     appName,
     rootEl,
+    loginScreen: ()=> <Element meta = {loginJSON} />,
     loginConfig: {
         template: control[template],
         tooltip,
@@ -124,16 +129,42 @@ const onNavigationStateChange = (prevState, nextState, action) => {
     console.log(action);
 };
 
-let Provider = ({ children }) => {
-    if (baidumap) {
-        return (
-            <BaiduProvider>
-                {children}
-            </BaiduProvider>
-        );
+// let Provider = ({ children }) => {
+//     if (baidumap) {
+//         return (
+//             <BaiduProvider>
+//                 {children}
+//             </BaiduProvider>
+//         );
+//     }
+//     return children;
+// };
+class Provider extends Component {
+    static childContextTypes = {
+        getControl: PropTypes.func,
     }
-    return children;
-};
+
+    getChildContext() {
+        return {
+            getControl: this.getControl,
+        }
+    }
+
+    getControl = (key) => {
+        return control[key];
+    }
+
+    render() {
+        if (baidumap && baidumap.ak) {
+            return (
+                <BaiduProvider>
+                    {this.props.children}
+                </BaiduProvider>
+            );
+        }
+        return children;
+    }
+}
 
 // wechat
 function isWeixin() {
@@ -187,15 +218,19 @@ if (isCordova()) {
 
 const NavigatorListenerWrapper = (props) =>
     (<LocaleProvider locale={getAntLocale()}>
-        <Provider>
-            <Designer {...props} />
-        </Provider>
+        <DesignerProvider>
+            <Provider>
+                <MainRouter
+                    onNavigationStateChange={onNavigationStateChange}
+                    {...props} />
+            </Provider>
+        </DesignerProvider>
     </LocaleProvider>);
 
 appOptions.messages = getLocaleMessages();
-appOptions.floatComponent = (<MuiThemeProvider><MobxProvider store={store}>
-            <Toolbar />
-         </MobxProvider></MuiThemeProvider>);
+// appOptions.floatComponent = (<MuiThemeProvider><MobxProvider store={store}>
+//             <Toolbar />
+//          </MobxProvider></MuiThemeProvider>);
 appOptions.debug = true;
 appOptions.router = NavigatorListenerWrapper;
 appOptions.mock = true;

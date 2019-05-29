@@ -8,16 +8,29 @@ import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 // import cors from 'cors';
 import webpackConfig from '../config/webpack.config.designer';
+import uiWebpackConfig from '../config/webpack.config.designer.ui';
 import filetree from './routes/filetree';
 
 const app = new express();
 // app.use(cors());
 var config = webpackConfig(true, 'build');
+var uiConfig = uiWebpackConfig(true, 'build');
 const compiler = webpack(config);
+const uiCompiler = webpack(uiConfig);
 // attach to the compiler & the server
 app.use(webpackDevMiddleware(compiler, {
     // public path should be the same with webpack config
     publicPath: config.output.publicPath,
+    index: 'index.html',
+    // hot: true,
+    // noInfo: true,
+    stats: {
+        colors: true,
+    },
+}));
+app.use(webpackDevMiddleware(uiCompiler, {
+    // public path should be the same with webpack config
+    publicPath: uiConfig.output.publicPath,
     index: 'index.html',
     // hot: true,
     // noInfo: true,
@@ -35,10 +48,6 @@ app.use(methodOverride());
 
 app.use('/file', filetree(path.resolve(__dirname, '../src')));
 // app.use('/file', filetree('C:/Users/Administrator/workspace/yes-webapp/src/js/projects/thgn'));
-// app.get('/designer', (req, res) => {
-//     res.sendFile('index.html', { root: path.resolve(__dirname) });
-// });
-
 app.listen(3001);
 
 export default app;

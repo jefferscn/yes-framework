@@ -3,7 +3,18 @@
         "key": "Home1",
         "type": "control",
         "path": "Home",
-        "control" : "Home",
-        "isRoot": true 
+        "control": { "elementType": "Home", "elementProps": {} },
+        "isRoot": false
+    },
+    {
+        "key": "test11",
+        "path": "Test",
+        "type": "billform",
+        "control": { "elementProps": {} },
+        "tabs": [],
+        "isRoot": true,
+        "formKey": "TSL_ToDoList",
+        "oid": "-1",
+        "status": "EDIT"
     }
 ]

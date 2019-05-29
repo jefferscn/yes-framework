@@ -3,7 +3,7 @@ import SelectField from 'material-ui/SelectField';
 import { View } from 'react-native';
 import MenuItem from 'material-ui/MenuItem';
 
-export default class ToggleEditor extends Component {
+export default class ComboboxEditor extends Component {
     static defaultProps = {
         onChange: function(){}
     }

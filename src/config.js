@@ -11,11 +11,10 @@ import RouteConfig from './config/route.json';
 import buildRoute from './route';
 import PlatformProvider from './controls/providers';
 import BaiduProvider from './controls/providers/BaiduMapProvider';
-import Designer from '../designer/ui';
-import Toolbar from '../designer/components/Toolbar';
-import { Provider } from "mobx-react";
-import store from '../designer/mobx-store';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import enUS from 'antd-mobile/lib/locale-provider/en_US'
+import PropTypes from 'prop-types';
+import './patch/antd-mobile.css';
+import Element from './template/Element';
 // import './yigopatch';
 
 const { sessionKey, serverPath, appName, wechat, cordova, baidumap } = projectJSON;
@@ -30,11 +29,37 @@ try {
 } catch (e) {
     console.info(e.message);    // eslint-disable-line no-console
 }
+
+class PP extends Component {
+    static childContextTypes = {
+        getControl: PropTypes.func,
+        isDesignMode: PropTypes.func,
+    }
+
+    getChildContext() {
+        return {
+            getControl: this.getControl,
+            isDesignMode: this.isDesignMode,
+        }
+    }
+
+    isDesignMode = () => false
+
+    getControl = (key) => {
+        return control[key];
+    }
+
+    render() {
+        return this.props.children;
+    }
+}
+
 const appOptions = {
     sessionKey,
     serverPath,
     appName,
     rootEl,
+    loginScreen: () => <PP><Element meta={loginJSON} /></PP>,
     loginConfig: {
         template: control[template],
         tooltip,
@@ -126,7 +151,7 @@ const onNavigationStateChange = (prevState, nextState, action) => {
 };
 
 let Provider = ({ children }) => {
-    if (baidumap) {
+    if (baidumap && baidumap.ak) {
         return (
             <BaiduProvider>
                 {children}
@@ -146,7 +171,7 @@ function isWeixin() {
     }
 }
 
-if (isWeixin() && wechat) {
+if (isWeixin() && wechat && wechat.signurl) {
     Provider = ({ children }) => {
         if (baidumap) {
             return (<BaiduProvider>
@@ -188,11 +213,13 @@ if (isCordova()) {
 
 const NavigatorListenerWrapper = (props) =>
     (<LocaleProvider locale={getAntLocale()}>
-        <Provider>
-            <MainRouter
-                onNavig ationStateChange={onNavigationStateChange}
-                {...props} />
-        </Provider>
+        <PP>
+            <Provider>
+                <MainRouter
+                    onNavig ationStateChange={onNavigationStateChange}
+                    {...props} />
+            </Provider>
+        </PP>
     </LocaleProvider>);
 
 appOptions.messages = getLocaleMessages();

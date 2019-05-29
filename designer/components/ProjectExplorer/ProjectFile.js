@@ -25,6 +25,7 @@ const NewProjectFile = inject('store')(observer(class ProjectFile extends Compon
         await this.props.file.toggleExpand();
     }
     onSelect = (e)=> {
+        e.stopPropagation();
         this.props.store.select(this.props.file);
     }
     getIcon = (type)=> {
@@ -55,7 +56,7 @@ const NewProjectFile = inject('store')(observer(class ProjectFile extends Compon
                 iconDir = 'fa-spinner';
             }
             return (
-                <View onClick={this.onSelect}>
+                <View onClick={this.onSelect} onMouseDown={this.onSelect} >
                     <View onClick = {this.onSelect} style={{...styles.file, ...selectedStyle, ...containerStyle}}>
                         <Icon onClick={this.toggleExpand} className={file.isLoading?'fa-spin':''} name={iconDir} style={styles.icon}/>
                         <a>{file.name}</a>
@@ -72,7 +73,7 @@ const NewProjectFile = inject('store')(observer(class ProjectFile extends Compon
             );
         } else {
             return (
-                <View onClick = {this.onSelect} style ={{...containerStyle, ...styles.file, ...selectedStyle}}>
+                <View onClick = {this.onSelect} onMouseDown={this.onSelect} style ={{...containerStyle, ...styles.file, ...selectedStyle}}>
                     <Icon name={this.getIcon(file.type)} style={styles.icon}/>
                     <a>{file.name}</a>
                 </View>

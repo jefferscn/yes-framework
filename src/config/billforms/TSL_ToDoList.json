@@ -1,0 +1,45 @@
+{
+    "formTemplate": "list",
+    "head": {
+        "type": "element",
+        "elementType": "Header",
+        "elementProps": {
+            "canBack": true,
+            "titleElement": {
+                "type": "element",
+                "elementType": "FormTitle",
+                "elementProps": {
+                    "containerStyle": {
+                        "alignItems": "center",
+                        "justifyContent": "center"
+                    }
+                }
+            },
+            "title": "",
+            "leftElement": {
+                "elementType": "",
+                "elementProps": {}
+            },
+            "rightElement": {
+                "elementType": "",
+                "elementProps": {}
+            }
+        }
+    },
+    "searchBar": {
+        "textField": "ApplicantInstanceidNo",
+        "queryButton": "Button1",
+        "searchText": "",
+        "lastSearchingText": ""
+    },
+    "list": {
+        "yigoId": "list",
+        "control": "ListView",
+        "controlProps": {
+            "primaryKey": "FormKeyID",
+            "secondKey": "WorkitemName",
+            "tertiaryKey": "InstanceID",
+            "divider": true
+        }
+    }
+}

@@ -2,17 +2,18 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Components } from 'yes-platform';
 import { observer } from 'mobx-react';
+import { observable } from 'mobx';
 import { DynamicControl, controlVisibleWrapper, notEmptyVisibleWrapper, equalVisibleWrapper } from 'yes'; // eslint-disable-line import/no-unresolved
 import internationalWrap from '../../controls/InternationalWrap';
-import { observable } from 'mobx';
-import designWrap from '../DesignWrap';
+import YigoControl from '../YigoControl';
+import Element from '../Element';
 
 const { Layout } = Components;
 const { CellLayout } = Layout;
 
-const RelatedCell = controlVisibleWrapper(DynamicControl);
-const NotEmptyRelatedCell = notEmptyVisibleWrapper(DynamicControl);
-const EqualCell = equalVisibleWrapper(DynamicControl);
+const RelatedCell = controlVisibleWrapper(YigoControl);
+const NotEmptyRelatedCell = notEmptyVisibleWrapper(YigoControl);
+const EqualCell = equalVisibleWrapper(YigoControl);
 
 const styles = {
     textStyle: {
@@ -38,12 +39,11 @@ const styles = {
 @observer
 export default class CellLayoutItem extends Component {
     static contextTypes = {
-        getControlProps: PropTypes.func,
+        // getControlProps: PropTypes.func,
         createElement: PropTypes.func,
     }
-    static defaultProps = {
-        designMode: false,
-    }
+   
+    @observable meta = this.props.meta
 
     getLayout(item, contentStyle) {
         if (!item.layoutType || item.layoutType === 'cell') {
@@ -55,11 +55,11 @@ export default class CellLayoutItem extends Component {
         return null;
     }
     render() {
-        const item = this.props.meta;
-        let S = DynamicControl;
+        const item = this.meta;
+        let S = YigoControl;
         const extraProps = {};
         if (this.props.designMode) {
-            S = designWrap(S);
+            // S = designWrap(S);
             extraProps.visible = true;
         } else {
             if (item.visibleNotEmpty) {
@@ -70,20 +70,21 @@ export default class CellLayoutItem extends Component {
                 S = RelatedCell;
                 extraProps.relatedId = item.visibleRelation;
             }
-            if (item.visibleEqual) {
+            if (item.visibleEqual && item.visibleEqual.yigoid) {
                 S = EqualCell;
                 extraProps.relatedId = item.visibleEqual.yigoid;
                 extraProps.value = item.visibleEqual.value;
             }
         }
         if (item.type === 'element') {
-            return this.context.createElement(item);
+            return <Element meta = {item.elementControl} />;
+            // return this.context.createElement(item);
         }
         return (<S
             {...extraProps}
-            meta={item}
-            key={item.key || item}
-            yigoid={item.key || item}
+            meta={item.yigoControl}
+            // key={item.key || item}
+            // yigoid={item.key || item}
             isCustomLayout
             contentContainerStyle={{ justifyContent: 'flex-end', alignItems: 'center', textAlign: 'right' }}
             showLabel={false}
@@ -91,7 +92,6 @@ export default class CellLayoutItem extends Component {
             textStyles={{ textAlign: 'left' }}
             layoutStyles={{ minHeight: 44, textAlign: 'left', justifyContent: 'flex-start', alignItems: 'center' }}
             layout={this.getLayout(item)}
-            {...this.context.getControlProps(item.key || item)}
         />);
 
     }

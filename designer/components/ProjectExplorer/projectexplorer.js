@@ -16,7 +16,7 @@ class ProjectExplorer extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <ProjectFileList containerStyle={{ minWidth: 200, display: 'block', overflow: 'auto' }} project={this.props.store.project} />
+                <ProjectFileList containerStyle={{ minWidth: 200, display: 'block', overflow: 'auto' }} file={this.props.store.selected} project={this.props.store.project} />
                 <FileEditor containerStyle = {{ flex: 1, overflow: 'hidden'}} file={this.props.store.selected} type={this.props.store.fileType} />
             </View>
         )
