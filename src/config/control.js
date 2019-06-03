@@ -10,6 +10,7 @@ import Home from '../controls/Home';
 import GpsText from '../controls/GpsText';
 import MapText from '../controls/MapText';
 import Image from '../controls/Image';
+import CellLayoutGridView from '../controls/CellLayoutGridView';
 // import Avatar from '../controls/Avatar';
 // import PathText from '../controls/PathText';
 // import ListRightElement from '../controls/ListRightElement';
@@ -33,6 +34,7 @@ export default {
     GpsText,
     MapText,
     Image,
+    CellLayoutGridView,
     // PathText, 
     // ListRightElement 
 };
