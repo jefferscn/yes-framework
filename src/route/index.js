@@ -1,3 +1,4 @@
+import React from 'react';
 import {
     createStackNavigator,
     createMaterialTopTabNavigator,
@@ -8,6 +9,7 @@ import DynamicView from '../DynamicView';
 import Controls from '../config/control';
 import WorkitemView from '../WorkitemView';
 import FieldView from '../FieldView';
+import Icon from '../font/IconFont';
 import generateRouteComponent from '../util/generateRouteComponent';
 
 const defaultCardRoute = {
@@ -58,30 +60,40 @@ const defaultModalRoute = {
 const buildTabNavigator = (tabConfig) => {
     const tabs = {};
     for (let tab of tabConfig.tabs) {
-        tabs[tab.key] = buildScreen(tab);
+        const page = buildScreen(tab);
+        page.navigationOptions = {
+            tabBarIcon: tab.icon?({
+                tintColor,
+                focused,
+                horizontal,
+            }) => (
+                    <Icon
+                        name={tab.icon}
+                        size={horizontal ? 20 : 26}
+                        style={{ color: tintColor }}
+                    />
+                ): null,
+            tabBarLabel: tab.label,
+        };
+        tabs[tab.key] = page;
     }
     if (!tabConfig.tabPosition || tabConfig.tabPosition === "top") {
         return createMaterialTopTabNavigator(
             tabs, {
                 headerMode: 'none',
+                backBehavior: 'history',
                 tabBarOptions: {
+                    showIcon: tabConfig.showIcon,
+                    showLabel: tabConfig.showLabel==null?true: tabConfig.showLabel,
+                    upperCaseLabel: false,
+                    activeTintColor: tabConfig.activeTintColor,
+                    inactiveTintColor: tabConfig.inactiveTintColor,
                     style: {
-                        backgroundColor: 'white',
-                    },
-                    labelStyle: {
-                        height: 30,
-                        fontSize: 16,
-                        display: 'flex',
-                        alignItems: 'center',
+                        backgroundColor: tabConfig.backgroundColor,
                     },
                     indicatorStyle: {
-                        backgroundColor: '#008CD7',
+                        backgroundColor: tabConfig.indicatorColor,
                     },
-                    activeBackgroundColor: 'white',
-                    activeTintColor: '#008CD7',
-                    inactiveBackgroundColor: 'white',
-                    inactiveTintColor: '#aaa',
-                    showLabel: true,
                 },
             }
         );
@@ -89,24 +101,21 @@ const buildTabNavigator = (tabConfig) => {
         return createBottomTabNavigator(
             tabs, {
                 headerMode: 'none',
+                backBehavior: 'history',
+                showIcon: tabConfig.showIcon,
+                upperCaseLabel: false,
                 tabBarOptions: {
+                    showIcon: tabConfig.showIcon,
+                    upperCaseLabel: false,
+                    showLabel: tabConfig.showLabel==null?true: tabConfig.showLabel,
+                    activeTintColor: tabConfig.activeTintColor,
+                    inactiveTintColor: tabConfig.inactiveTintColor,
                     style: {
-                        backgroundColor: 'white',
-                    },
-                    labelStyle: {
-                        height: 30,
-                        fontSize: 16,
-                        display: 'flex',
-                        alignItems: 'center',
+                        backgroundColor: tabConfig.backgroundColor,
                     },
                     indicatorStyle: {
-                        backgroundColor: '#008CD7',
+                        backgroundColor: tabConfig.indicatorColor,
                     },
-                    activeBackgroundColor: 'white',
-                    activeTintColor: '#008CD7',
-                    inactiveBackgroundColor: 'white',
-                    inactiveTintColor: '#aaa',
-                    showLabel: true,
                 },
             }
         );
@@ -125,7 +134,10 @@ const buildYIGOBillformScreen = (config) => {
 };
 
 const buildControlScreen = (config) => {
-    return Controls[config.control];
+    return (props)=>{
+        const C = Controls[config.control];
+        return <C {...props} />;
+    }
 };
 
 const buildScreen = (config) => {
@@ -147,7 +159,7 @@ export default (config) => {
         route.screen = buildScreen(r);
         route.path = r.path;
         customRoute[r.key] = route;
-        if(r.isRoot) {
+        if (r.isRoot) {
             initialRouteName = r.key;
         }
     }

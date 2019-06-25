@@ -3,7 +3,35 @@
         "key": "Home",
         "type": "control",
         "path": "Home",
-        "control" : "Home",
-        "isRoot": true 
+        "control": "Home",
+        "isRoot": false 
+    },
+    {
+        "key": "Tab",
+        "type": "tab",
+        "path": "Tabs",
+        "showIcon": true,
+        "isRoot": true,
+        "tabPosition": "top",
+        "activeTintColor": "blue",
+        "backgroundColor": "white",
+        "inactiveTintColor": "white",
+        "indicatorColor": "green",
+        "tabs": [{
+                "key": "Home1",
+                "type": "control",
+                "path": "Home1",
+                "label": "Home1",
+                "icon": "icon-CustomerlAccounAdd_flow",
+                "control": "Home"
+            },{
+                "key": "Home2",
+                "type": "control",
+                "path": "Home2",
+                "label": "Home2",
+                "icon": "icon-CustomerlAccounAdd_flow",
+                "control": "Home"
+            }
+        ]
     }
 ]
