@@ -21,9 +21,11 @@ class NormalTemplate extends DynamicBillForm {
         const { items } = this.props;
         const form = this.getBillForm();
         if (form) {
-            if (this.props.foot) {
+            if (this.props.foot || this.props.head) {
                 const foot = this.context.createElement(this.props.foot);
+                const head = this.context.createElement(this.props.head);
                 return (<View style={styles.container}>
+                    {head}
                     <ScrollView><CellLayoutTemplate
                         items={items}
                     /></ScrollView>

@@ -1,7 +1,7 @@
 import defaultForm from './default.json';
-import SD_SaleOrder from './SD_SaleOrder.json';
+import TSL_ToDoList from './TSL_ToDoList.json';
 
 export default {
     default: defaultForm,
-    SD_SaleOrder,
+    TSL_ToDoList,
 };

@@ -11,22 +11,16 @@ import GpsText from '../controls/GpsText';
 import MapText from '../controls/MapText';
 import Image from '../controls/Image';
 import CellLayoutGridView from '../controls/CellLayoutGridView';
-// import Avatar from '../controls/Avatar';
-// import PathText from '../controls/PathText';
-// import ListRightElement from '../controls/ListRightElement';
-// import AuditIcon from '../controls/AuditStatusIcon';
-// import TextArea from '../controls/TextArea';
+import Header from '../controls/Header';
+import FormTitle from '../controls/FormTitle';
+import Searchbar from '../controls/Searchbar';
+import ListView from '../controls/ListView';
+import GridView from '../controls/GridView';
 
 export default { 
-    // Login1, 
-    // Login2, 
     Login,
     CellLayoutList, 
-    // DateText, 
     Timeline, 
-    // Avatar,
-    // TextArea,
-    // AuditIcon, 
     TextGrid, 
     HasDetailSign,
     MultiControl,
@@ -35,6 +29,9 @@ export default {
     MapText,
     Image,
     CellLayoutGridView,
-    // PathText, 
-    // ListRightElement 
+    Header,
+    FormTitle,
+    Searchbar,
+    ListView,
+    GridView,
 };

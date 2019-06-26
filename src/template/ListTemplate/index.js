@@ -1,51 +1,23 @@
-import React, { PureComponent } from 'react';
-import { Components } from 'yes-platform';
+import React, { Component } from 'react';
 import defaultTemplateMapping from '../defaultTemplateMapping';
-import LeftIcon from '../../controls/LeftIcon';
-import ListView from '../../controls/ListView';
-import DateText from './DateText';
 import { View, Text as RawText, StyleSheet, InteractionManager } from 'react-native';
 import { AppDispatcher, Util, DynamicControl } from 'yes';
-import PureUserName from '../../controls/PureUserName';
-import TimeSpan from '../../controls/TimeSpan';
-import Searchbar from '../../controls/Searchbar';
-import NodeText from '../../controls/NodeText';
+import Controls from '../../config/control';
 import { withNavigation } from 'react-navigation';
 import internationalWrap from '../../controls/InternationalWrap';
+import PropTypes from 'prop-types';
+import { DynamicBillForm } from 'yes-platform';
+import { intlShape, FormattedMessage } from 'react-intl';
 
-const {
-    DynamicBillForm,
-    BillForm,
-    Text,
-} = Components;
+const { Searchbar } = Controls;
 
-const styles = StyleSheet.create({
-    listView: {
+class ListTemplate extends DynamicBillForm{
+    static contextTypes = {
+        createElement: PropTypes.func,
+        getControlProps: PropTypes.func,
+        intl: intlShape,
+    }
 
-    },
-    primaryTextLayout: {
-        justifyContent: 'flex-start',
-    },
-    primaryContainer: {
-        flexDirection: 'row',
-        lineHeight: 24,
-        paddingBottom: 6,
-    },
-    primaryText: {
-        fontSize: 17,
-        whiteSpace: 'pre',
-    },
-    secondaryContainer: {
-        flexDirection: 'row',
-        lineHeight: 14,
-        paddingBottom: 6,
-    },
-    secondaryText: {
-        fontSize: 13,
-        color: 'rgba(0,0,0,0.5)',
-    },
-});
-class ListTemplate extends PureComponent {
     onRefresh = () => {
         AppDispatcher.dispatch({
             type: 'RELOADFORM',
@@ -56,79 +28,56 @@ class ListTemplate extends PureComponent {
         ready: false,
     }
 
-    componentDidMount() {
-        // window.requestIdleCallback(() => {
-        //     this.setState({ ready: true });
-        // });
-        this.props.navigation.addListener(
-            'didFocus',
-            () => {
-                this.setState({
-                    ready: true,
-                });
-            }
-            // this._focusFirstTextInput
-        );
-    }
-
-    render() {
-        if (!this.state.ready) {
-            return null;
-        }
+    // componentDidMount() {
+    //     this.props.navigation.addListener(
+    //         'didFocus',
+    //         () => {
+    //             this.setState({
+    //                 ready: true,
+    //             });
+    //         }
+    //         // this._focusFirstTextInput
+    //     );
+    //     // super.componentDidMount();
+    // }
+    buildChildren() {
+        // if (!this.state.ready) {
+        //     return null;
+        // }
+        const { searchBar, list, head } = this.props;
+        // const header = this.context.createElement(head);
         return (
-            <DynamicBillForm
-                formKey={this.props.formKey}
-                oid={-1}
-                status={'EDIT'}
-            >
-                <View style={{ flex: 1, backgroundColor: 'white' }}>
-                    <Searchbar yigoid="InstanceID_Cond" textField="InstanceID_Cond" searchButton="Button1" placeholder={this.props.formatMessage('search taskid')} />
-                    <ListView
-                        yigoid="list"
-                        rowStyle={{
-                            height: 110,
-                            paddingTop: 12,
-                            paddingBottom: 12,
-                            borderBottom: '1px solid #ddd',
-                        }}
-                        onRefresh={this.onRefresh}
-                        style={{ flex: 1, marginLeft: 12, backgroundColor: 'white' }}
-                        isCustomLayout
-                        primaryKey={<View style={styles.primaryContainer}>
-                            <PureUserName isCustomLayout textStyles={styles.primaryText} yigoid="displayname" />
-                            <RawText style={styles.primaryText}>{this.props.formatMessage('的')}</RawText>
-                            <Text isCustomLayout layoutStyles={styles.primaryTextLayout} textStyles={styles.primaryText} yigoid="FormKeyID" /></View>}
-                        // style={{
-                        //     primaryText: {
-                        //         fontSize: 14,
-                        //         whiteSpace: 'nowrap',
-                        //     },
-                        //     secondaryText: {
-                        //         fontSize: 12,
-                        //         whiteSpace: 'nowrap',
-                        //     },
-                        //     tertiaryText: {
-                        //         fontSize: 12,
-                        //     },
-                        // }}
-                        secondKey={[<View style={styles.secondaryContainer}>
-                            <RawText style={styles.secondaryText}>{this.props.formatMessage('Node')} : </RawText>
-                            <NodeText isCustomeLayout textStyles={styles.secondaryText} yigoid="WorkitemName" />
-                        </View>]}
-                        tertiaryKey={[<View><View style={styles.secondaryContainer}>
-                            <RawText style={styles.secondaryText}>{this.props.formatMessage('Task Id')} : </RawText>
-                            <Text isCustomeLayout textStyles={styles.secondaryText} yigoid='InstanceID' />
-                        </View>
-                            <TimeSpan textStyles={styles.secondaryText} yigoid="creattime" />
-                        </View>]}
-                        leftElement={<LeftIcon yigoid="ProcessKey" />}
-                        rightElement={<DateText yigoid="creattime" />}
+            <View style={{ flex: 1, backgroundColor: 'white' }}>
+                {
+                    this.context.createElement(head)
+                }
+                {
+                    searchBar ? <Searchbar
+                        visible
+                        designPositionBase
+                        meta={searchBar}
+                        yigoid={searchBar.textField}
+                        textField={searchBar.textField}
+                        searchButton={searchBar.queryButton}
+                        placeholder={this.props.formatMessage('search taskid')}
+                    /> : null
+                }
+                <View style={{ flex: 1 }}>
+                    <DynamicControl
+                        designPositionBase
+                        yigoid={list}
+                        debugStyle={{ flex: 1 }}
+                        layoutStyles={{ flex: 1 }}
+                        style={{ flex: 1, marginLeft: 12 }}
+                        {...this.context.getControlProps(list)}
                     />
                 </View>
-            </DynamicBillForm>
+            </View>
         );
     }
 }
 const ListWithNavigation = withNavigation(internationalWrap(ListTemplate));
+
+ListWithNavigation.caption = "单据列表模板";
 defaultTemplateMapping.reg('list', ListWithNavigation);
 export default ListWithNavigation;

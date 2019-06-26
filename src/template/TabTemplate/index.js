@@ -24,9 +24,11 @@ class TabTemplate extends DynamicBillForm {
         return this.context.intl ? this.context.intl.formatMessage({ id: msg }) : msg;
     }
     renderContent(tabs) {
-        if (this.props.foot) {
+        if (this.props.foot || this.props.head) {
             const foot = this.context.createElement(this.props.foot);
+            const head = this.context.createElement(this.props.head);
             return (<View style={styles.container}>
+                {head}
                 <TabViewTemplate
                     itemList={tabs}
                     {...this.props}

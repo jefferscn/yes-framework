@@ -5,16 +5,6 @@ import { BillformStore } from 'yes';
 import FormParas from './FormPara';
 
 export default class RouteComponent extends Component {
-    static navigationOptions = ({ navigation }) => {
-        const FormOptions = FormParas[navigation.state.params.metaKey];
-        return {
-            headerTitle: FormOptions.title,
-            headerStyle: {
-                // backgroundColor: '#2196f3',
-            },
-        };
-    };
-
     state = {
         oid: this.props.navigation.state.params.id,
     }
