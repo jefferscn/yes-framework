@@ -103,6 +103,7 @@ class ListTemplate extends Component {
                 />
                 <Searchbar
                     visible
+                    designPositionBase
                     meta={searchBar}
                     yigoid={searchBar.textField}
                     textField={searchBar.textField}
@@ -111,7 +112,9 @@ class ListTemplate extends Component {
                 />
                 <View style={{ flex: 1 }}>
                     <ListControl
+                        designPositionBase
                         debugStyle={{flex:1}}
+                        layoutStyles={{flex: 1}}
                         style={{ flex: 1, marginLeft: 12 }}
                         meta={list}
                     />

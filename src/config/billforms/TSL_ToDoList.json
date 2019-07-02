@@ -26,6 +26,9 @@
             }
         }
     },
+    "items": [
+
+    ],
     "searchBar": {
         "textField": "ApplicantInstanceidNo",
         "queryButton": "Button1",
@@ -34,7 +37,7 @@
     },
     "list": {
         "yigoId": "list",
-        "control": "ListView",
+        "control": "DefaultListView",
         "controlProps": {
             "primaryKey": "FormKeyID",
             "secondKey": "WorkitemName",

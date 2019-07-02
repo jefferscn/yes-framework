@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Select from './Select';
+import Select from './ListSelect';
 
 export default Select((context, props) => {
     const billform = context.getBillForm();
@@ -13,7 +13,7 @@ export default Select((context, props) => {
     }
     const data = list.columnInfo.map((item)=>{
         return {
-            key: item.columnKey,
+            key: item.key,
             type: item.columnType,
             caption: item.caption || item.key
         };

@@ -9,9 +9,9 @@ import { View, ActivityIndicator, StyleSheet } from 'react-native';
 import { propTypes } from 'yes'; // eslint-disable-line
 import { ListRowWrap as listRowWrap, ListWrap, DynamicControl, GridWrap } from 'yes';
 // import styles from '../../style';
-import ListViewItem from './ListViewItem';
+import ListViewItem from '../ListViewItem';
 import { observer } from 'mobx-react';
-import designable from '../../designer/utils/designable';
+import designable from '../../../designer/utils/designable';
 
 const styles = StyleSheet.create({
     primaryTextLayout: {
@@ -78,7 +78,6 @@ const editor = [
         caption: '輔助信息字段',
     }
 ]
-@designable(defaultValue, editor)
 @observer
 @ListWrap
 class AntdListView extends PureComponent {
@@ -311,7 +310,7 @@ class AntdListView extends PureComponent {
         }
         return (
             <ListView
-                style={style}
+                style={layoutStyles}
                 contentContainerStyle={{ width: '100%' }}
                 dataSource={this.state.dataSource}
                 renderRow={this.renderItem}
@@ -327,8 +326,13 @@ class AntdListView extends PureComponent {
 }
 AntdListView.propTypes = propTypes.List;
 
-// const YIGOAntdListView =  ListWrap(AntdListView);
-AntdListView.category = 'yigo';
-AntdListView.detail = 'ListView';
+let result = AntdListView;
 
-export default AntdListView;
+if(__DESIGN__) {
+    result = designable(defaultValue, editor)(AntdListView);
+}
+// const YIGOAntdListView =  ListWrap(AntdListView);
+result.category = 'yigo';
+result.detail = 'listview';
+
+export default result;

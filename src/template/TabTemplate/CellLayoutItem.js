@@ -97,10 +97,12 @@ const editor = [
         type: 'ControlSelect',
         key: 'visibleNotEmpty',
         caption: '字段不为空可见',
+        showAll: true
     }, {
         type: 'ControlSelect',
         key: 'visibleRelation',
         caption: '可见性关联控件',
+        showAll: true
     }, {
         type: 'SubForm',
         key: 'visibleEqual',
@@ -110,6 +112,7 @@ const editor = [
                 {
                     type: 'ControlSelect',
                     key: 'yigoid',
+                    showAll: true,
                     caption: '关联控件',
                 }, {
                     type: 'Text',

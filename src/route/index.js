@@ -11,6 +11,7 @@ import WorkitemView from '../WorkitemView';
 import FieldView from '../FieldView';
 import generateRouteComponent from '../util/generateRouteComponent';
 import Element from '../template/Element';
+import Icon from '../font/IconFont';
 
 const defaultCardRoute = {
     DynamicDetail: {
@@ -60,30 +61,40 @@ const defaultModalRoute = {
 const buildTabNavigator = (tabConfig) => {
     const tabs = {};
     for (let tab of tabConfig.tabs) {
-        tabs[tab.key] = buildScreen(tab);
+        const page = buildScreen(tab);
+        page.navigationOptions = {
+            tabBarIcon: tab.icon?({
+                tintColor,
+                focused,
+                horizontal,
+            }) => (
+                    <Icon
+                        name={tab.icon}
+                        size={horizontal ? 20 : 26}
+                        style={{ color: tintColor }}
+                    />
+                ): null,
+            tabBarLabel: tab.label,
+        };
+        tabs[tab.key] = page;
     }
     if (!tabConfig.tabPosition || tabConfig.tabPosition === "top") {
         return createMaterialTopTabNavigator(
             tabs, {
                 headerMode: 'none',
+                backBehavior: 'history',
                 tabBarOptions: {
+                    showIcon: tabConfig.showIcon,
+                    showLabel: tabConfig.showLabel==null?true: tabConfig.showLabel,
+                    upperCaseLabel: false,
+                    activeTintColor: tabConfig.activeTintColor,
+                    inactiveTintColor: tabConfig.inactiveTintColor,
                     style: {
-                        backgroundColor: 'white',
-                    },
-                    labelStyle: {
-                        height: 30,
-                        fontSize: 16,
-                        display: 'flex',
-                        alignItems: 'center',
+                        backgroundColor: tabConfig.backgroundColor,
                     },
                     indicatorStyle: {
-                        backgroundColor: '#008CD7',
+                        backgroundColor: tabConfig.indicatorColor,
                     },
-                    activeBackgroundColor: 'white',
-                    activeTintColor: '#008CD7',
-                    inactiveBackgroundColor: 'white',
-                    inactiveTintColor: '#aaa',
-                    showLabel: true,
                 },
             }
         );
@@ -91,24 +102,21 @@ const buildTabNavigator = (tabConfig) => {
         return createBottomTabNavigator(
             tabs, {
                 headerMode: 'none',
+                backBehavior: 'history',
+                showIcon: tabConfig.showIcon,
+                upperCaseLabel: false,
                 tabBarOptions: {
+                    showIcon: tabConfig.showIcon,
+                    upperCaseLabel: false,
+                    showLabel: tabConfig.showLabel==null?true: tabConfig.showLabel,
+                    activeTintColor: tabConfig.activeTintColor,
+                    inactiveTintColor: tabConfig.inactiveTintColor,
                     style: {
-                        backgroundColor: 'white',
-                    },
-                    labelStyle: {
-                        height: 30,
-                        fontSize: 16,
-                        display: 'flex',
-                        alignItems: 'center',
+                        backgroundColor: tabConfig.backgroundColor,
                     },
                     indicatorStyle: {
-                        backgroundColor: '#008CD7',
+                        backgroundColor: tabConfig.indicatorColor,
                     },
-                    activeBackgroundColor: 'white',
-                    activeTintColor: '#008CD7',
-                    inactiveBackgroundColor: 'white',
-                    inactiveTintColor: '#aaa',
-                    showLabel: true,
                 },
             }
         );

@@ -4,6 +4,7 @@ import designable from '../../designer/utils/designable';
 import { observer } from 'mobx-react';
 import { observable } from 'mobx';
 import { DynamicControl } from 'yes';
+import YIGOControlConfig from '../../designer/components/Editor/Controls/YIGO';
 
 @observer
 class YIGOControl extends Component {
@@ -17,6 +18,7 @@ class YIGOControl extends Component {
         const c = this.context.getControl(meta.control);
         return (
             <DynamicControl
+                designStyle = {this.props.layoutStyles}
                 yigoid={this.meta.yigoId}
                 isCustomLayout
                 control={c}
@@ -34,6 +36,10 @@ export function buildYigoControlMeta(filter) {
                 key: 'yigoId',
                 caption: '单据控件',
                 controlType: filter,
+                onChange: function(value, context) {
+                    const control = context.getContextComponent(value);
+                    context.setValue('control', YIGOControlConfig.defaultControlMapping[control.tagName]);
+                }
             },
             {
                 type: 'DesignControlSelect',
@@ -68,4 +74,8 @@ export const ListControl = designable({
     controlProps: {},
 }, buildYigoControlMeta('listview'))(YIGOControl);
 
-export default designable({} ,buildYigoControlMeta())(YIGOControl);
+export default designable({
+    yigoId: '',
+    control: '',
+    controlProps: {},
+} ,buildYigoControlMeta())(YIGOControl);

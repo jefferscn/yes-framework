@@ -42,17 +42,19 @@ export default class BillformViewer extends Component {
         const oid = this.props.store.formIds[this.props.formKey];
         return (
             <View style={{ flex: 1 }}>
-                <SelectField
-                    floatingLabelText="Form Status"
-                    value={this.status}
-                    onChange={this.changeStatus}
-                >
-                    <MenuItem value={'NORMAL'} primaryText="NORMAL" />
-                    <MenuItem value={'EDIT'} primaryText="EDIT" />
-                    <MenuItem value={'NEW'} primaryText="NEW" />
-                </SelectField>
-                <TextField type='text' value={oid} onChange={this.changeOID} />
-                <FlatButton onClick={this.submitChange} label="刷新" />
+                <View style={{flexDirection: 'row'}}>
+                    <SelectField
+                        floatingLabelText="Form Status"
+                        value={this.status}
+                        onChange={this.changeStatus}
+                    >
+                        <MenuItem value={'NORMAL'} primaryText="NORMAL" />
+                        <MenuItem value={'EDIT'} primaryText="EDIT" />
+                        <MenuItem value={'NEW'} primaryText="NEW" />
+                    </SelectField>
+                    <TextField floatingLabelText="单据ID" type='text' value={oid} onChange={this.changeOID} />
+                    <FlatButton onClick={this.submitChange} label="刷新" />
+                </View>
                 <View style={{ flexDirection: 'row' }}>
                     <View style={{ width: 800, height: 667 }}>
                         {

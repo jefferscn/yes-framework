@@ -10,6 +10,7 @@ import { Provider, inject } from "mobx-react";
 import App from './components/App';
 import store from './mobx-store';
 import injectTapEventPlugin from 'react-tap-event-plugin'
+import 'antd-mobile/dist/antd-mobile.css';
 // import { hot } from 'react-hot-loader/root'
 // import store, { history } from './store';
 

@@ -33,12 +33,37 @@ try {
 } catch (e) {
     console.info(e.message);    // eslint-disable-line no-console
 }
+
+class PP extends Component {
+    static childContextTypes = {
+        getControl: PropTypes.func,
+        isDesignMode: PropTypes.func,
+    }
+
+    getChildContext() {
+        return {
+            getControl: this.getControl,
+            isDesignMode: this.isDesignMode,
+        }
+    }
+
+    isDesignMode = () => false
+
+    getControl = (key) => {
+        return control[key];
+    }
+
+    render() {
+        return this.props.children;
+    }
+}
+
 const appOptions = {
     sessionKey,
     serverPath,
     appName,
     rootEl,
-    loginScreen: ()=> <Element meta = {loginJSON} />,
+    loginScreen: ()=> <PP><DesignerProvider><Element meta = {loginJSON} /></DesignerProvider></PP>,
     loginConfig: {
         template: control[template],
         tooltip,

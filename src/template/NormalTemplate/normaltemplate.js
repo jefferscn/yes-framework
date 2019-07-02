@@ -44,9 +44,11 @@ class NormalTemplate extends Component {
             <ScrollView style={{ flex: 1 }} >
                 <CellLayoutTemplate
                     meta={content}
+                    designPositionBase
                 />
             </ScrollView>
             <Element
+                designPositionBase
                 meta={foot}
             />
         </View>);

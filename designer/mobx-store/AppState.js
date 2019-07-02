@@ -210,6 +210,9 @@ export default class AppState {
     }
     @action 
     select(item) {
+        if(this.selected === item) {
+            return;
+        }
         this.selected = item;
         this.project.expandPath(item.path);
         if(item.path.startsWith('//config/billforms/')) {
@@ -219,6 +222,8 @@ export default class AppState {
         } else {
             this.fileType = 'json';
         }
+        this.selectedControl = null;
+        this.meta = null;
     }
     @action
     selectControl(control, meta) {
@@ -235,7 +240,7 @@ export default class AppState {
         this.project.expandPath(path);
     }
     @action
-    async openForm(formKey, oid) {
+    async openForm(formKey, oid, status) {
         const path = `//config/billforms/${formKey}.json`;
         const f =  await this.project.getProjectFile(path);
         runInAction(() => {

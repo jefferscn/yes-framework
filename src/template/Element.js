@@ -19,8 +19,29 @@ const editor = [
         }],
     }
 ];
+
+export const buildElementEditor = (dtlType) => {
+    return [
+        {
+            type: 'DesignControlSelect',
+            key: 'elementType',
+            caption: '控件',
+            category: 'template',
+            detailType: dtlType,
+        }, {
+            type: 'SubForm',
+            key: 'elementProps',
+            isGroup: true,
+            linkProps: [{
+                name: 'control',
+                link: 'elementType',
+            }],
+        }
+    ];
+}
+
 @designable({
-    elementType:'',
+    elementType: '',
     elementProps: {
 
     }
@@ -32,11 +53,11 @@ class Element extends Component {
     }
     render() {
         const { meta } = this.props;
-        if(!meta) {
+        if (!meta) {
             return null;
         }
         const Control = this.context.getControl(meta.elementType);
-        if(Control) {
+        if (Control) {
             return <Control meta={meta.elementProps} {...meta.elementProps} />
         }
         return null;
@@ -44,7 +65,7 @@ class Element extends Component {
 }
 
 export function isElementNull(ele) {
-    if(!ele) {
+    if (!ele) {
         return true;
     }
     return !ele.elementType;

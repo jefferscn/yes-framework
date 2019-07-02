@@ -7,6 +7,9 @@ import DesignControlSelect from './DesignControlSelect';
 import ListColumnSelect from './ListColumnSelect';
 import SubForm from './SubForm';
 import RouteSelect from './RouteSelect';
+import ColorSelect from './ColorSelect';
+import Button from './Button';
+import IconSelect from './IconSelect';
 
 export default {
     Text: controlWrap(Text),
@@ -17,4 +20,7 @@ export default {
     SubForm: controlWrap(SubForm),
     ListColumnSelect: controlWrap(ListColumnSelect),
     RouteSelect: controlWrap(RouteSelect),
+    Color: controlWrap(ColorSelect),
+    Icon: controlWrap(IconSelect),
+    Button,
 }

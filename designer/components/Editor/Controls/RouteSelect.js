@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Select from './Select';
+import Select from './ListSelect';
 
 export default Select(async (context, props) => {
     const routeCfg = props.store.getRouteCfg();

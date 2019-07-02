@@ -151,4 +151,7 @@ class SegementToolbar extends PureComponent {
     }
 }
 
-export default operationWrap(SegementToolbar);
+const result = operationWrap(SegementToolbar);
+result.category='template';
+
+export default result;

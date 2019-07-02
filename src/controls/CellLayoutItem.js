@@ -1,14 +1,22 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import AwesomeFontIcon from 'react-native-vector-icons/FontAwesome';
 import CellLayoutTemplate from '../template/TabTemplate/CellLayoutTemplate';
 import { DynamicControl } from 'yes';
+import PropTypes from 'prop-types';
 
 const pressRetentionOffset = { top: 5, left: 5, right: 5, bottom: 5 };
 
 export default class CellLayoutItem extends PureComponent {
+    static contextTypes = {
+        isDesignMode: PropTypes.func,
+    }
     onPress = () => {
         this.props.onPress();
+    }
+
+    addAction = ()=> {
+
     }
 
     generateActions = () => (
@@ -18,8 +26,6 @@ export default class CellLayoutItem extends PureComponent {
                     const itemType = typeof (action);
                     if (itemType === 'string') {
                         return <DynamicControl isCustomLayout layoutStyles={styles.action} yigoid={action} />;
-                        // return <TouchableOpacity style={gridStyles.action} onPress={() => this.onActionClick(action.yigoid)}><Text>{action.caption}</Text></TouchableOpacity>
-                        // return <DynamicControl isCustomLayout layoutStyles={gridStyles.action} yigoid={action} />;
                     }
                     if (itemType.$$typeof) {
                         return action;
@@ -27,13 +33,16 @@ export default class CellLayoutItem extends PureComponent {
                     return <DynamicControl isCustomLayout layoutStyles={styles.action} {...action} />;
                 })
             }
+            {
+                this.context.isDesignMode()?<AwesomeFontIcon onPress={this.addAction} name='plus' />: null
+            }
         </View>
     );
     render() {
         return (
             <TouchableOpacity onPress={this.onPress} pressRetentionOffset={pressRetentionOffset}>
                 <View style={[styles.container, this.props.containerStyle]}>
-                    <CellLayoutTemplate items = {this.props.items}  />
+                    <CellLayoutTemplate meta = {this.props.content}  />
                     {this.props.actions? this.generateActions(): null}
                 </View>
             </TouchableOpacity>

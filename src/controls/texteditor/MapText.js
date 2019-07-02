@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
     },
 });
 
+@ControlWrap
 class MapText extends Component {
     static contextTypes = {
         getPosition: PropTypes.func,
@@ -89,4 +90,7 @@ class MapText extends Component {
     }
 }
 
-export default ControlWrap(MapText);
+MapText.category = 'yigo';
+MapText.detailType = 'texteditor';
+
+export default MapText;

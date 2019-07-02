@@ -14,7 +14,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import defaultTemplateMapping from './defaultTemplateMapping';
 let TemplateSelect = null;
 let CellLayoutEditor = null;
-if(__DESIGN__) {
+if (__DESIGN__) {
     TemplateSelect = require('../../designer/components/Editor/Controls/TemplateSelect').default;
     CellLayoutEditor = require('../../designer/components/Editor/CellLayoutEditor').default;
 }
@@ -46,11 +46,15 @@ export default class Template extends Component {
 
     static childContextTypes = {
         onMetaChange: PropTypes.func,
+        regDesignableIcon: PropTypes.func,
+        calcIconPosition: PropTypes.func,
     }
 
     getChildContext() {
         return {
             onMetaChange: this.onMetaChange,
+            regDesignableIcon: this.regDesignableIcon,
+            calcIconPosition: this.calcIconPosition,
         }
     }
 
@@ -63,17 +67,48 @@ export default class Template extends Component {
 
 
     onTemplateChange = (templateKey) => {
+        if (this.meta.formTemplate === templateKey) {
+            return;
+        }
         const templateClass = defaultTemplateMapping.get(templateKey);
         if (templateClass) {
             this.meta = Object.assign({}, templateClass.defaultValue);
         }
     }
+    positions = {};
+    regDesignableIcon = (rect) => {
+        let oldV = this.positions[rect.top];
+        if (!oldV) {
+            this.positions[rect.top] = [];
+            oldV = this.positions[rect.top];
+        }
+        oldV.push(rect.right);
+    }
+
+    findUsablePos = (rect) => {
+        const oldV = this.positions[rect.top];
+        let right = rect.right;
+        let count = 0;
+        if (!oldV) {
+            return count;
+        }
+        while (oldV.includes(right)) {
+            right -= 20;
+            count--;
+        }
+        return count;
+    }
+
+    calcIconPosition = (rect) => {
+        return this.findUsablePos(rect);
+    }
+
 
     render() {
         const { meta, ...others } = this.props;
         const TemplateClass = defaultTemplateMapping.get(this.meta.formTemplate);
         // if (this.context.isDesignMode()) {
-        if(__DESIGN__) {
+        if (__DESIGN__) {
             return (
                 <MuiThemeProvider uiTheme={{}} >
                     <View style={styles.container} >

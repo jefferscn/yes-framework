@@ -17,17 +17,13 @@ class CellLayoutTemplate extends Component {  // eslint-disable-line
         // createElement: PropTypes.func,
     }
 
-    addItem = () => {
-        console.log('aaa');
-    }
-
     @observable meta = this.props.meta;
 
     render() {
         return (
             <ScrollView>
                 <TableView>
-                    <CellLayoutItem meta = {this.meta} />
+                    <CellLayoutItem designPositionBase meta = {this.meta} />
                 </TableView>
             </ScrollView>
         );

@@ -12,9 +12,49 @@
         "type": "billform",
         "control": { "elementProps": {} },
         "tabs": [],
-        "isRoot": true,
+        "isRoot": false,
         "formKey": "TSL_ToDoList",
         "oid": "-1",
         "status": "EDIT"
+    },
+    {
+        "tabScreen": false,
+        "path": "tab",
+        "type": "tab",
+        "control": { "elementProps": null },
+        "tabs": [
+            {
+                "tabScreen": true,
+                "path": "aaaa",
+                "type": "control",
+                "control": { "elementProps": {}, "elementType": "Home" },
+                "tabs": [],
+                "icon": "icon-COAApplicationV3_flow",
+                "label": "Home1",
+                "key": "aaaa"
+            },
+            {
+                "tabScreen": true,
+                "path": "bbbb",
+                "type": "billform",
+                "control": { "elementProps": {} },
+                "tabs": [],
+                "icon": "icon-TDtestOrderN_flow",
+                "label": "Todo",
+                "formKey": "TSL_ToDoList",
+                "status": "EDIT",
+                "oid": "-1",
+                "key": "bbbb"
+            }
+        ],
+        "isRoot": true,
+        "tabPosition": "bottom",
+        "indicatorColor": "#d22b2b",
+        "key": "Tab",
+        "backgroundColor": "#63a0e8",
+        "activeTintColor": "#e6d93b",
+        "inactiveTintColor": "#ffffff",
+        "showIcon": true,
+        "showLabel": true
     }
 ]

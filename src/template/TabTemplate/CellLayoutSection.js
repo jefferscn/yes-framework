@@ -92,7 +92,7 @@ export default class CellLayoutSection extends Component {
                 {
                     section.items.map((item) => {
                         return (
-                            <CellLayoutItem meta={item} />
+                            <CellLayoutItem designPositionBase meta={item} />
                         )
                     })
                 }

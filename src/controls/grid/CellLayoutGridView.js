@@ -9,8 +9,11 @@ import { View, ActivityIndicator } from 'react-native';
 import { propTypes } from 'yes'; // eslint-disable-line
 import { GridRowWrap as gridRowWrap, DynamicControl, GridWrap } from 'yes';
 // import styles from '../../style';
-import ListViewItem from './CellLayoutItem';
+import AwesomeFontIcon from 'react-native-vector-icons/FontAwesome';
+import ListViewItem from '../CellLayoutItem';
+import designable from '../../../designer/utils/designable';
 
+@GridWrap
 class AntdListView extends PureComponent {
     static propTypes = {
         yigoid: PropTypes.string,
@@ -78,7 +81,7 @@ class AntdListView extends PureComponent {
         const NewListItem = this.NewListItem;
         return (
             <NewListItem
-                items={this.props.items}
+                content={this.props.content}
                 actions={this.props.actions}
                 onPress={() => this.onClick(rowId)}
                 rowIndex={rowId}
@@ -128,4 +131,21 @@ class AntdListView extends PureComponent {
 }
 AntdListView.propTypes = propTypes.List;
 
-export default GridWrap(AntdListView);
+let result = AntdListView;
+
+if (__DESIGN__) {
+    const editor = {
+
+    };
+    const defaultValue = {
+        content: {
+            isGroup: true,
+            hideTitle: true,
+            items: [],
+        },
+        actions: []
+    };
+    result = designable(defaultValue, editor)(AntdListView);
+}
+
+export default result;

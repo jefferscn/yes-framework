@@ -34,7 +34,49 @@ export default function debugWrap(Comp) {
         static contextTypes = {
             isDesignMode: PropTypes.func,
         }
+        static childContextTypes = {
+            regDesignableIcon: PropTypes.func,
+            calcIconPosition: PropTypes.func,
+        }
+        getChildContext() {
+            return {
+                regDesignableIcon: this.regDesignableIcon,
+                calcIconPosition: this.calcIconPosition,
+            };
+        }
+        positions = {};
+        regDesignableIcon = (rect) => {
+            let oldV = this.positions[rect.top];
+            if (!oldV) {
+                this.positions[rect.top] = [];
+                oldV = this.positions[rect.top];
+            }
+            oldV.push(rect.right);
+        }
+
+        findUsablePos = (rect) => {
+            const oldV = this.positions[rect.top];
+            let right = rect.right;
+            let count = 0;
+            if (!oldV) {
+                return count;
+            }
+            while (oldV.includes(right)) {
+                right -= 20;
+                count--;
+            }
+            return count;
+        }
+
+        calcIconPosition = (rect) => {
+            return this.findUsablePos(rect);
+        }
+
+
         onTemplateChange = (templateKey) => {
+            if (this.meta.formTemplate === templateKey) {
+                return;
+            }
             const templateClass = defaultTemplateMapping.get(templateKey);
             if (templateClass) {
                 this.meta = templateClass.fromJson();

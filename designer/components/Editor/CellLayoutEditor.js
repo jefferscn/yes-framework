@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { ScrollView } from 'yes-platform';
+import { View, Text } from 'react-native';
 import { observer, inject } from 'mobx-react';
 import PropTypes from 'prop-types';
 import {
@@ -36,7 +37,7 @@ export class VisibleEqual extends Component {
 export class CellLayoutEditorCell extends Component {
     render() {
         const { meta, onChange, ...otherProps } = this.props;
-        const { key, caption, type, disabled = false, visibleEqual } = this.props.meta;
+        const { key, caption, type, disabled = false, visibleEqual, hideTitle = false } = this.props.meta;
         let Comp = type;
         if (typeof type === 'string') {
             Comp = Controls[type];
@@ -61,11 +62,23 @@ export class CellLayoutEditorCell extends Component {
 
             }
             if (visibleEqual) {
+                if (hideTitle) {
+                    return (<VisibleEqual {...visibleEqual}>
+                        <Cell
+                            title={caption}
+                            isDisabled={disabled}
+                            cellContentView={<Comp
+                                {...otherProps}
+                                style={{ flex: 2, alignSelf: 'stretch', flexBasis: 0, justifyContent: 'center' }} onChange={onChange} disabled={disabled} meta={this.props.meta} controlId={key} />}
+                        />
+                    </VisibleEqual>);
+                }
                 return (
                     <VisibleEqual {...visibleEqual}>
                         <Cell
                             title={caption}
                             isDisabled={disabled}
+                            cellContentView={<View style={{ minWidth: 100, alignItems: 'center', justifyContent: 'center' }}><Text>{caption}</Text></View>}
                             cellAccessoryView={<Comp
                                 {...otherProps}
                                 style={{ flex: 2, alignSelf: 'stretch', flexBasis: 0, justifyContent: 'center' }} onChange={onChange} disabled={disabled} meta={this.props.meta} controlId={key} />}
@@ -73,9 +86,19 @@ export class CellLayoutEditorCell extends Component {
                     </VisibleEqual>
                 )
             }
+            if (hideTitle) {
+                return (<Cell
+                    title={caption}
+                    isDisabled={disabled}
+                    cellContentView= {<Comp
+                        {...otherProps}
+                        style={{ flex: 2, alignSelf: 'stretch', flexBasis: 0, justifyContent: 'center' }} onChange={onChange} meta={this.props.meta} controlId={key} />}
+                />);
+            }
             return (<Cell
                 title={caption}
                 isDisabled={disabled}
+                cellContentView={<View style={{ minWidth: 100, alignItems: 'center', justifyContent: 'center' }}><Text>{caption}</Text></View>}
                 cellAccessoryView={<Comp
                     {...otherProps}
                     style={{ flex: 2, alignSelf: 'stretch', flexBasis: 0, justifyContent: 'center' }} onChange={onChange} meta={this.props.meta} controlId={key} />}

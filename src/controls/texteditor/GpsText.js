@@ -3,6 +3,7 @@ import { ControlWrap } from 'yes';
 import { View, Text } from 'react-native';
 import PropTypes from 'prop-types';
 
+@ControlWrap
 class GpsText extends Component {
     static defaultProps = {
         autoLocation: false,
@@ -62,4 +63,6 @@ class GpsText extends Component {
     }
 }
 
-export default ControlWrap(GpsText);
+GpsText.category = 'yigo';
+GpsText.detailType = 'texteditor';
+export default GpsText;

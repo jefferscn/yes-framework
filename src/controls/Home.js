@@ -20,6 +20,8 @@ export default class Home extends Component {
     }
 }
 
+Home.category = 'template';
+
 if (module.hot) {
     module.hot.accept();
 }

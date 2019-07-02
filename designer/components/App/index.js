@@ -40,6 +40,14 @@ export default class App extends Component {
                 f.commitContent(JSON.stringify(data.meta));
                 // store.selectControl(data.control, data.meta);
             }
+            if(data.type==='Open') {
+                const { formKey, oid, status } = data;
+                let f = await this.props.store.getBillForm(formKey);
+                if (!f) {
+                    f = await this.props.store.project.addBillForm(formKey);
+                }
+                this.props.store.openForm(formKey, oid);
+            }
             if (data.type === 'OpenWorkitem') {
                 const { WorkitemID, formKey, oid } = data;
                 let f = await this.props.store.getBillForm(formKey);

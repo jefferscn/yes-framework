@@ -3,16 +3,18 @@ import defaultTemplateMapping from '../../../../src/template/defaultTemplateMapp
 import ComboboxEditor from './Combobox';
 
 export default class TemplateSelect extends Component {
-    onChange = (key)=> {
+    onChange = (key) => {
         this.props.onChange && this.props.onChange(key);
     }
     render() {
         const items = [];
         for (var entry of defaultTemplateMapping.data.entries()) {
-            items.push({
-                key: entry[0],
-                text: entry[1].caption,
-            })
+            if (entry[1].caption) {
+                items.push({
+                    key: entry[0],
+                    text: entry[1].caption,
+                })
+            }
         }
         const meta = {
             items,

@@ -6,7 +6,7 @@ import CellLayoutEditor from '../Editor/CellLayoutEditor';
 import beautify from "json-beautify";
 import { View, StyleSheet } from 'react-native';
 import Controls from '../../../src/config/control';
-import Element from '../../../src/template/Element';
+import Element, { buildElementEditor } from '../../../src/template/Element';
 
 const styles = StyleSheet.create({
     container: {
@@ -47,7 +47,7 @@ class LoginViewer extends Component {
                 await this.props.store.selected.reloadContent();
             }
             this.meta = JSON.parse(this.props.store.selected.content);
-            this.props.store.selectControl(this.meta, Element.editor);
+            this.props.store.selectControl(this.meta, buildElementEditor('login'));
             this.loading = false;
         } catch (ex) {
             console.log(ex);
@@ -59,7 +59,7 @@ class LoginViewer extends Component {
                 await this.props.store.selected.reloadContent();
             }
             this.meta = JSON.parse(this.props.store.selected.content);
-            this.props.store.selectControl(this.meta, Element.editor);
+            this.props.store.selectControl(this.meta, buildElementEditor('login'));
             this.loading = false;
         } catch (ex) {
             console.log(ex);
