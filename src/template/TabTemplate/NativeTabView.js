@@ -71,6 +71,7 @@ class TabView extends PureComponent {
             <RawTabView
                 style={[styles.container, this.props.style]}
                 navigationState={this.state}
+                tabBar
                 tabBarPosition={this.props.tabPosition}
                 renderScene={this.renderScene}
                 renderTabBar={this.renderHeader}

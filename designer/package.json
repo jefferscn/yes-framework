@@ -1,0 +1,12 @@
+{
+  "name": "yes-designer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "babel src -d ./dist",
+    "release": "npm publish -registry http://registry.npmjs.org"
+  },
+  "author": "",
+  "license": "ISC"
+}

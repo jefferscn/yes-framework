@@ -10,7 +10,7 @@ import { intlShape, FormattedMessage } from 'react-intl';
 import Element from '../Element';
 import { ListControl } from '../YigoControl';
 import { observer } from 'mobx-react';
-import designable from '../../../designer/utils/designable';
+import designable from 'yes-designer/utils/designable';
 
 const { Searchbar } = Controls;
 

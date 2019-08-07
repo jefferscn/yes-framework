@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ScrollView } from 'yes-platform';
 import { View, Text } from 'react-native';
-import { observer, inject } from 'mobx-react';
+import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import {
     Cell,
@@ -10,7 +10,7 @@ import {
 } from 'react-native-tableview-simple';
 import Controls from './Controls';
 
-@inject('store')
+// @inject('store')
 @observer
 export class VisibleEqual extends Component {
     render() {
@@ -46,7 +46,7 @@ export class CellLayoutEditorCell extends Component {
             if (meta.isGroup) {
                 if (visibleEqual) {
                     return (
-                        <VisibleEqual {...visibleEqual}>
+                        <VisibleEqual store={this.props.store} {...visibleEqual}>
                             <Comp {...otherProps} onChange={onChange} disabled={disabled} meta={this.props.meta} controlId={key} />
                             {/* <Cell
                                 title={caption}
@@ -63,7 +63,7 @@ export class CellLayoutEditorCell extends Component {
             }
             if (visibleEqual) {
                 if (hideTitle) {
-                    return (<VisibleEqual {...visibleEqual}>
+                    return (<VisibleEqual store={this.props.store} {...visibleEqual}>
                         <Cell
                             title={caption}
                             isDisabled={disabled}
@@ -74,7 +74,7 @@ export class CellLayoutEditorCell extends Component {
                     </VisibleEqual>);
                 }
                 return (
-                    <VisibleEqual {...visibleEqual}>
+                    <VisibleEqual store={this.props.store} {...visibleEqual}>
                         <Cell
                             title={caption}
                             isDisabled={disabled}
@@ -108,7 +108,7 @@ export class CellLayoutEditorCell extends Component {
     }
 }
 
-@inject('store')
+// @inject('store')
 @observer
 class CellLayoutEditor extends Component {
     static childContextTypes = {
@@ -144,17 +144,18 @@ class CellLayoutEditor extends Component {
         return selectedControl.defaultEditorValue || {};
     }
     render() {
-        const { onChange, store } = this.props;
+        const { onChange, store} = this.props;
         const { meta, props } = store;
         if (!meta) {
             return null;
         }
         return (
-            <ScrollView style={{ maxWidth: 375, height: 667 }}>
+            // <ScrollView style={{ maxWidth: 375, height: 667 }}>
+            <ScrollView style={this.props.style}>
                 <TableView>
                     {
                         meta.map((item) =>
-                            <CellLayoutEditorCell onChange={onChange} {...props} meta={item} />
+                            <CellLayoutEditorCell store={store} onChange={onChange} meta={item} />
                         )
                     }
                 </TableView>

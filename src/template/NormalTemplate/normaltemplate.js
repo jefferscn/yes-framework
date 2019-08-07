@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { ScrollView, View, StyleSheet } from 'react-native';
 import { Components } from 'yes-platform'; // eslint-disable-line import/no-unresolved
-import { getMappedComponentHOC } from 'yes'; // eslint-disable-line import/no-unresolved
 import defaultTemplateMapping from '../defaultTemplateMapping';
 import CellLayoutTemplate from '../TabTemplate/CellLayoutTemplate';
 import PropTypes from 'prop-types';
-import designable from '../../../designer/utils/designable';
+import designable from 'yes-designer/utils/designable';
 import Element from '../Element';
 
 const { DynamicBillForm, LoadingComp } = Components;

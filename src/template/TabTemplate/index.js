@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Components } from 'yes-platform'; // eslint-disable-line import/no-unresolved
-import { getMappedComponentHOC } from 'yes'; // eslint-disable-line import/no-unresolved
 import TabViewTemplate from './TabViewTemplate';
 import defaultTemplateMapping from '../defaultTemplateMapping';
 import { View, StyleSheet } from 'react-native';
@@ -8,7 +7,7 @@ import PropTypes from 'prop-types';
 import { intlShape, FormattedMessage } from 'react-intl';
 import { observer } from 'mobx-react';
 import { observable } from 'mobx';
-import designable from '../../../designer/utils/designable';
+import designable from 'yes-designer/utils/designable';
 import Element from '../Element';
 
 const { LoadingComp } = Components;

@@ -97,7 +97,7 @@ class ProjectViewer extends Component {
         if (this.loading) {
             return null;
         }
-        return <CellLayoutEditor />
+        return <CellLayoutEditor store = {this.props.store} />
     }
 }
 

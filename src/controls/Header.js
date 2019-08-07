@@ -1,9 +1,9 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Component } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { HeaderBackButton } from 'react-navigation';
 import Element, { isElementNull } from '../template/Element';
-import designable from '../../designer/utils/designable';
+import designable from 'yes-designer/utils/designable';
 import { observer } from 'mobx-react';
 
 const styles = StyleSheet.create({
@@ -53,7 +53,7 @@ const editor = [
 ]
 @designable(defaultValue, editor)
 @observer
-class Header extends PureComponent {
+class Header extends Component{
     static defaultProps = {
         titleMode: 'flex',//flex=使用 flex布局，absolute=使用absolute布局
         canBack: true,

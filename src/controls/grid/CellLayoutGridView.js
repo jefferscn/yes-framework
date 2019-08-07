@@ -11,7 +11,7 @@ import { GridRowWrap as gridRowWrap, DynamicControl, GridWrap } from 'yes';
 // import styles from '../../style';
 import AwesomeFontIcon from 'react-native-vector-icons/FontAwesome';
 import ListViewItem from '../CellLayoutItem';
-import designable from '../../../designer/utils/designable';
+import designable from 'yes-designer/utils/designable';
 
 @GridWrap
 class AntdListView extends PureComponent {

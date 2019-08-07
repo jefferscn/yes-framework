@@ -11,7 +11,7 @@ import { ListRowWrap as listRowWrap, ListWrap, DynamicControl, GridWrap } from '
 // import styles from '../../style';
 import ListViewItem from '../ListViewItem';
 import { observer } from 'mobx-react';
-import designable from '../../../designer/utils/designable';
+import designable from 'yes-designer/utils/designable';
 
 const styles = StyleSheet.create({
     primaryTextLayout: {

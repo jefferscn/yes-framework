@@ -30,36 +30,12 @@ try {
     console.info(e.message);    // eslint-disable-line no-console
 }
 
-class PP extends Component {
-    static childContextTypes = {
-        getControl: PropTypes.func,
-        isDesignMode: PropTypes.func,
-    }
-
-    getChildContext() {
-        return {
-            getControl: this.getControl,
-            isDesignMode: this.isDesignMode,
-        }
-    }
-
-    isDesignMode = () => false
-
-    getControl = (key) => {
-        return control[key];
-    }
-
-    render() {
-        return this.props.children;
-    }
-}
-
 const appOptions = {
     sessionKey,
     serverPath,
     appName,
     rootEl,
-    loginScreen: () => <PP><Element meta={loginJSON} /></PP>,
+    loginScreen: () => <Element meta={loginJSON} />,
     loginConfig: {
         template: control[template],
         tooltip,
@@ -137,6 +113,17 @@ Util.confirm = function (title, msg, type) {
     });
 };
 
+/**
+ * 添加一个Login的默认路由
+ */
+const loginRoute = {
+    "key": "Login",
+    "type": "control",
+    "path": "Login",
+    "control": loginJSON,
+    "isRoot": false
+};
+RouteConfig.push(loginRoute);
 const MainRouter = buildRoute(RouteConfig);
 
 const getAntLocale = () => {
@@ -213,13 +200,11 @@ if (isCordova()) {
 
 const NavigatorListenerWrapper = (props) =>
     (<LocaleProvider locale={getAntLocale()}>
-        <PP>
-            <Provider>
-                <MainRouter
-                    onNavig ationStateChange={onNavigationStateChange}
-                    {...props} />
-            </Provider>
-        </PP>
+        <Provider>
+            <MainRouter
+                onNavig ationStateChange={onNavigationStateChange}
+                {...props} />
+        </Provider>
     </LocaleProvider>);
 
 appOptions.messages = getLocaleMessages();

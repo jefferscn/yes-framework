@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import CellLayoutSection from './CellLayoutSection';
 import CellLayoutCell from './CellLayoutCell';
-import designable from '../../../designer/utils/designable';
+import designable from 'yes-designer/utils/designable';
 import YigoControl from '../YigoControl';
 import Element from '../Element';
 import { observable } from 'mobx';

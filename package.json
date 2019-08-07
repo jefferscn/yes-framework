@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "gulp serve --platform web",
-    "designer": "babel-node ./designer/index.js --exec babel-node",
+    "designer": "babel-node --presets es2015 ./designer.js",
     "build": "npm run build:clean && cross-env NODE_ENV=production webpack --config config/webpack.prod.babel.js --color -p --progress",
     "build:clean": "rimraf ./build"
   },
@@ -62,6 +62,7 @@
     "react-native-root-toast": "git+https://github.com/zhouzhongyuan/react-native-root-toast.git",
     "react-native-rsa": "0.0.3",
     "react-native-scrollable-tab-view": "^0.6.5",
+    "react-native-swipeable": "^0.6.0",
     "react-native-tab-view": "1.0.2",
     "react-native-tableview-simple": "^0.16.13",
     "react-native-vector-icons": "github:jefferscn/react-native-vector-icons",
@@ -89,6 +90,7 @@
   },
   "devDependencies": {
     "@storybook/react": "^3.0.0",
+    "babel-cli": "^6.26.0",
     "babel-core": "^6.5.2",
     "babel-eslint": "^6.1.2",
     "babel-jest": "^20.0.3",

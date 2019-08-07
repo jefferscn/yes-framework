@@ -1,10 +1,9 @@
 import Select from './ListSelect';
-import Controls from '../../../../src/config/control';
 
 export default Select((context, props) => {
     const { meta, yigoId } = props;
     const {  category, detailType } = meta;
-    let cc = Controls;
+    let cc = context.getAllControls();
     let dtlType = detailType;
     if(yigoId) {
         const cmp = context.getContextComponent(yigoId);
@@ -14,6 +13,7 @@ export default Select((context, props) => {
     }
     if(category) {
         const result = [];
+        const Controls = context.getAllControls();
         cc = Object.entries(Controls).forEach(([key, c])=>{ 
             if(c.category === category && c.detailType == dtlType) {
                 result.push({

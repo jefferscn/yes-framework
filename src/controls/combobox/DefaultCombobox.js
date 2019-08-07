@@ -1,5 +1,5 @@
 import { ComboBox } from 'yes-platform';
-import designable from '../../../designer/utils/designable';
+import designable from 'yes-designer/utils/designable';
 
 ComboBox.category = 'yigo';
 ComboBox.detailType = 'combobox';

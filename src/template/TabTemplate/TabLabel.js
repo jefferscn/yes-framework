@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import ArrowLeft from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
 import ArrowRight from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
 import { observable } from 'mobx';
-import designable from '../../../designer/utils/designable';
+import designable from 'yes-designer/utils/designable';
 import AwesomeFontIcon from 'react-native-vector-icons/FontAwesome';
 
 const styles = StyleSheet.create({

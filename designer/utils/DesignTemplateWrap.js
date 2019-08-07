@@ -2,12 +2,11 @@ import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { observer, inject } from 'mobx-react';
 import { observable } from 'mobx';
-import CellLayoutEditor from '../../designer/components/Editor/CellLayoutEditor';
+import CellLayoutEditor from '../components/Editor/CellLayoutEditor';
 import PropTypes from 'prop-types';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import BaseMeta from './BaseMeta';
-import TemplateSelect from '../../designer/components/Editor/Controls/TemplateSelect';
-import defaultTemplateMapping from './defaultTemplateMapping';
+import TemplateSelect from '../components/Editor/Controls/TemplateSelect';
+import DesignerStore from './designerstore';
 
 const styles = StyleSheet.create({
     container: {
@@ -24,60 +23,40 @@ const styles = StyleSheet.create({
     },
     template: {
         height: 50,
+    },
+    bill: {
+        flex:1,
     }
 });
 
 export default function debugWrap(Comp) {
     @observer
-    class DebugWrap extends Component {
+    class DesignTemplateWrap extends Component {
         @observable meta = this.props.meta;
         static contextTypes = {
             isDesignMode: PropTypes.func,
+            getTemplate: PropTypes.func,
         }
+
         static childContextTypes = {
-            regDesignableIcon: PropTypes.func,
-            calcIconPosition: PropTypes.func,
+            selectControl: PropTypes.func,
         }
+
         getChildContext() {
             return {
-                regDesignableIcon: this.regDesignableIcon,
-                calcIconPosition: this.calcIconPosition,
-            };
-        }
-        positions = {};
-        regDesignableIcon = (rect) => {
-            let oldV = this.positions[rect.top];
-            if (!oldV) {
-                this.positions[rect.top] = [];
-                oldV = this.positions[rect.top];
+                selectControl: this.selectControl,
             }
-            oldV.push(rect.right);
         }
+        @observable store = new DesignerStore();
 
-        findUsablePos = (rect) => {
-            const oldV = this.positions[rect.top];
-            let right = rect.right;
-            let count = 0;
-            if (!oldV) {
-                return count;
-            }
-            while (oldV.includes(right)) {
-                right -= 20;
-                count--;
-            }
-            return count;
+        selectControl = (control, props, meta, defaultValue) => {
+            this.store.selectControl(control, props, meta, defaultValue);
         }
-
-        calcIconPosition = (rect) => {
-            return this.findUsablePos(rect);
-        }
-
-
         onTemplateChange = (templateKey) => {
             if (this.meta.formTemplate === templateKey) {
                 return;
             }
-            const templateClass = defaultTemplateMapping.get(templateKey);
+            const templateClass = this.context.getTemplate(templateKey);
             if (templateClass) {
                 this.meta = templateClass.fromJson();
             }
@@ -92,10 +71,10 @@ export default function debugWrap(Comp) {
                                 <View style={styles.template}>
                                     <TemplateSelect value={this.meta.formTemplate} onChange={this.onTemplateChange} />
                                 </View>
-                                <Comp meta={this.meta} {...others} />
+                                <Comp debugStyle={styles.bill} meta={this.meta} {...others} />
                             </View>
                             <View style={styles.editor}>
-                                <CellLayoutEditor />
+                                <CellLayoutEditor store={this.store} />
                             </View>
                         </View>
                     </MuiThemeProvider>
@@ -104,5 +83,5 @@ export default function debugWrap(Comp) {
             return <Comp meta={this.meta} {...others} />
         }
     }
-    return DebugWrap;
+    return DesignTemplateWrap;
 }

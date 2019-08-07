@@ -6,9 +6,18 @@
  */
 // import App from './app/scm'
 // import App from './cmcc'
-import App from './src/designer.config';
+import React from 'react';
+import App from './src';
 import { start } from 'yes-platform';
 import 'antd-mobile/dist/antd-mobile.css';
+import DesignerProvider from 'yes-designer/utils/provider';
+import Controls from './src/config/control';
+import './src/yigopatch/design';
+import defaultTemplateMapping from './src/template/defaultTemplateMapping';
+import Icon from './src/font/IconFont';
+import IconData from './src/font/iconfont.json';
+
+App.appWrapper = <DesignerProvider iconData={IconData} iconComponent={Icon} templates={defaultTemplateMapping} controls = {Controls} />;
 
 export default (() => {
     if (window.cordova) {

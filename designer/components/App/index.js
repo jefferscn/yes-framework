@@ -36,9 +36,9 @@ export default class App extends Component {
         this.loading = false;
         window.addEventListener('message', async ({ data }) => {
             if (data.type === 'deploymeta') {
-                const f = await this.props.store.getBillForm(data.formKey);
+                const f= this.props.store.selected;
+                // const f = await this.props.store.getBillForm(data.formKey);
                 f.commitContent(JSON.stringify(data.meta));
-                // store.selectControl(data.control, data.meta);
             }
             if(data.type==='Open') {
                 const { formKey, oid, status } = data;

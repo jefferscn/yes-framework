@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { inject, observer } from 'mobx-react';
-import { observable } from 'mobx';
+import { observable, toJS } from 'mobx';
+import { deepObserve } from 'mobx-utils';
 import AwesomeFontIcon from 'react-native-vector-icons/FontAwesome';
 import { red400, indigo400, blue400, teal400, yellow400, brown400, pink400, green400, amber400 } from 'material-ui/styles/colors';
 
@@ -49,9 +50,12 @@ export default (defaultValue, designMeta) => {
             }
 
             @observable store = this.props.store
-            @observable meta = this.calcMeta(this.props.meta);
+            @observable meta = null;
             @observable position = this.props.designPositionBase ? 0 : (this.context.applyIconPosition ? this.context.applyIconPosition() : 0)
             positionApply = [];
+            state = {
+                version: 0,
+            }
 
             getChildContext() {
                 return {
@@ -90,9 +94,27 @@ export default (defaultValue, designMeta) => {
                 e.stopPropagation();
             }
 
-            componentWillReceiveProps(props) {
-                this.meta = this.calcMeta(props.meta);
+            onDeepChange = (change, path)=> {
+                console.dir(change);
+                // this.render();
+                // this.version = this.version+1;
+                this.setState({
+                    version: this.state.version + 1,
+                });
             }
+
+            componentWillMount() {
+                this.meta = this.calcMeta(this.props.meta);
+                this.disposer = deepObserve(this.meta, this.onDeepChange);
+            }
+
+            // componentWillReceiveProps(props) {
+            //     this.meta = this.calcMeta(props.meta);
+            //     if(this.disposer) {
+            //         this.disposer();
+            //     }
+            //     this.disposer = deepObserve(this.meta, this.onDeepChange);
+            // }
 
             componentWillUnmount() {
                 if (this.context.isDesignMode() && (this.props.designPositionBase || !this.context.applyIconPosition)) {
@@ -118,6 +140,9 @@ export default (defaultValue, designMeta) => {
                         } else {
                             meta[key] = val;
                         }
+                        if(this.props[key]) {
+                            meta[key] = this.props[key];
+                        }
                     }
                 });
                 return meta;
@@ -140,10 +165,10 @@ export default (defaultValue, designMeta) => {
                         <TouchableOpacity onPress={this.onSelect} ref={(ref) => this.icon = ref} style={{ pointerEvents: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'absolute', top: 0, right: 20 * this.position, width: 20, height: 20, zIndex: 100 }}>
                             <AwesomeFontIcon name="gear" style={iconColorStyle} />
                         </TouchableOpacity>
-                        <Clazz visible designStyle={dbgStyle || designStyle} meta={this.meta} {...this.meta} {...otherProps} />
+                        <Clazz version = {this.state.version} visible designStyle={dbgStyle || designStyle} meta={this.meta} {...otherProps} {...this.meta}/>
                     </View>
                 }
-                return <Clazz meta={this.meta} {...this.meta} {...this.props} />
+                return <Clazz meta={this.meta} {...this.props} {...this.meta} />
             }
         }
         if (__DESIGN__) {

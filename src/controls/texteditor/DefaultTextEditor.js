@@ -1,5 +1,5 @@
 import { Text } from 'yes-platform';
-import designable from '../../../designer/utils/designable';
+import designable from 'yes-designer/utils/designable';
 
 Text.category = 'yigo';
 Text.detailType = 'texteditor';

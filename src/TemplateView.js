@@ -1,4 +1,4 @@
-import React, { PureComponent, isValidElement } from 'react';
+import React, { Component, isValidElement } from 'react';
 import { Components } from 'yes-platform'; // eslint-disable-line
 import defaultTemplateMapping from './template/defaultTemplateMapping';
 import billform from './config/billforms';
@@ -13,7 +13,7 @@ const {
 } = Components;
 
 @observer
-export default class TemplateView extends PureComponent {
+export default class TemplateView extends Component{
     static childContextTypes = {
         getControlProps: PropTypes.func,
         createElement: PropTypes.func,

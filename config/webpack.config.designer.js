@@ -10,6 +10,7 @@ export default (DEBUG, PATH, PORT = 3000) => {
             alias: {
                 'react-native': 'react-native-web',
                 'yes-platform': 'yes-web',
+                'yes-designer': path.resolve(__dirname, '../designer'),
                 yes: 'yes-intf',
             },
         },
@@ -54,6 +55,9 @@ export default (DEBUG, PATH, PORT = 3000) => {
                         path.resolve(__dirname, '../node_modules/react-native-safe-area-view/'),
                         path.resolve(__dirname, '../node_modules/react-navigation/'),
                         path.resolve(__dirname, '../node_modules/react-native-web/'),
+                        path.resolve(__dirname, '../node_modules/yes-intf/'),
+                        path.resolve(__dirname, '../node_modules/yes-web/'),
+                        path.resolve(__dirname, '../node_modules/yes-designer/'),
                         path.resolve(__dirname, '../src'),
                         path.resolve(__dirname, '../designer'),
                         path.resolve(__dirname, '../entry.designer.js'),
@@ -109,7 +113,7 @@ export default (DEBUG, PATH, PORT = 3000) => {
             ? [
                 new webpack.DefinePlugin({ 'process.env.NODE_ENV': '"debug"', __DEV__: true, 'process.env.YIGO_PLATFORM':'"common"', __VERSION__: '"debug"', __DESIGN__:true }),
                 new HtmlWebpackPlugin({
-                    template: './index.designer.html',
+                    template: './index.html',
                 }),
                 // new webpack.HotModuleReplacementPlugin(),
                 // new MonacoWebpackPlugin(),
@@ -125,7 +129,7 @@ export default (DEBUG, PATH, PORT = 3000) => {
                 // new webpack.optimize.OccurenceOrderPlugin(),
                 new webpack.optimize.AggressiveMergingPlugin(),
                 new HtmlWebpackPlugin({
-                    template: './index.designer.html',
+                    template: './index.html',
                     // chunksSortMode: 'manual',
                     // chunks: ['initializationLoading', 'vendor'],
 

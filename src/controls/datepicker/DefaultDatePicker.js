@@ -1,5 +1,5 @@
 import { DatePicker } from 'yes-platform';
-import designable from '../../../designer/utils/designable';
+import designable from 'yes-designer/utils/designable';
 
 DatePicker.category = 'yigo';
 DatePicker.detailType = 'datepicker';

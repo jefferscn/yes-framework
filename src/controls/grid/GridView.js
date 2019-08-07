@@ -10,42 +10,8 @@ import { propTypes } from 'yes'; // eslint-disable-line
 import { GridRowWrap as gridRowWrap, DynamicControl, GridWrap } from 'yes';
 // import styles from '../../style';
 import ListViewItem from '../ListViewItem';
-import designable from 'yes-designer/utils/designable';
-import { observer } from 'mobx-react';
 
-const defaultValue = {
-    divider: true,
-    primaryKey: '',
-    secondKey: '',
-    tertiaryKey: '',
-}
-
-const editor = [
-    {
-        type: 'Toggle',
-        key: 'divider',
-        caption: '是否显示分隔线',
-    },
-    {
-        type: 'ListColumnSelect',
-        key: 'primaryKey',
-        caption: '主文本字段',
-    },
-    {
-        type: 'ListColumnSelect',
-        key: 'secondKey',
-        caption: '次文本字段',
-    },
-    {
-        type: 'ListColumnSelect',
-        key: 'tertiaryKey',
-        caption: '輔助信息字段',
-    }
-];
-
-@observer
-@GridWrap
-class AntdGridView extends PureComponent {
+class AntdListView extends PureComponent {
     static propTypes = {
         yigoid: PropTypes.string,
         primaryKey: PropTypes.string,
@@ -247,12 +213,6 @@ class AntdGridView extends PureComponent {
         );
     }
 }
-AntdGridView.propTypes = propTypes.List;
+AntdListView.propTypes = propTypes.List;
 
-let result = AntdGridView;
-if(__DESIGN__) {
-    result = designable(defaultValue, editor)(AntdGridView);
-}
-result.category = 'yigo';
-result.detailType = 'grid';
-export default result;
+export default GridWrap(AntdListView);

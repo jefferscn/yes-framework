@@ -48,8 +48,8 @@
             }
         ],
         "isRoot": true,
-        "tabPosition": "bottom",
-        "indicatorColor": "#d22b2b",
+        "tabPosition": "top",
+        "indicatorColor": "#254fd7",
         "key": "Tab",
         "backgroundColor": "#63a0e8",
         "activeTintColor": "#e6d93b",

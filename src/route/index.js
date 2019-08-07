@@ -12,6 +12,7 @@ import FieldView from '../FieldView';
 import generateRouteComponent from '../util/generateRouteComponent';
 import Element from '../template/Element';
 import Icon from '../font/IconFont';
+import DesignControlWrap from 'yes-designer/utils/DesignControlWrap';
 
 const defaultCardRoute = {
     DynamicDetail: {
@@ -136,6 +137,10 @@ const buildYIGOBillformScreen = (config) => {
 
 const buildControlScreen = (config) => {
     // return Controls[config.control];
+    if(__DESIGN__) {
+        const DesignElement = DesignControlWrap(Element);
+        return ()=><DesignElement debugStyle={{flex:1}} meta={config.control} />;
+    }
     return ()=><Element debugStyle={{flex:1}} meta={config.control} />;
 };
 

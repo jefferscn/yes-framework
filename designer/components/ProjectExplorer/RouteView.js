@@ -3,7 +3,7 @@ import { View, StyleSheet, Button, TouchableOpacity } from 'react-native';
 import { observable, toJS } from 'mobx';
 import { observer, inject } from 'mobx-react';
 import { List, ListItem, makeSelectable } from 'material-ui/List';
-import Element from '../../../src/template/Element';
+import Element from '../Framework/Element';
 import PropTypes from 'prop-types';
 import CellLayoutEditor from '../Editor/CellLayoutEditor';
 import ActionGrade from 'material-ui/svg-icons/action/grade';
@@ -386,7 +386,7 @@ class RouteViewer extends Component {
             </View>
             <RouteList addRoute={this.addRoute} addPage={this.addPage} removeRoute={this.removeRoute} meta={this.meta} />
             <View>
-                <CellLayoutEditor />
+                <CellLayoutEditor store={this.props.store} />
             </View>
         </View>);
     }

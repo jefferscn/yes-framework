@@ -1,7 +1,7 @@
 import { observable, action } from 'mobx';
 import BaseMeta from '../BaseMeta';
 import uuid from 'uuid';
-import Controls from '../../../designer/components/Editor/Controls';
+import Controls from 'yes-designer/components/Editor/Controls';
 
 const { Text, Toggle, Combobox } = Controls;
 

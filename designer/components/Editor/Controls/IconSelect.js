@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 import Select from './Select';
-import { observer } from 'mobx-react';
+import { observer, PropTypes } from 'mobx-react';
 import { observable } from 'mobx';
-import Icon from '../../../../src/font/IconFont';
 import { SearchBar, Pagination, Grid } from 'antd-mobile';
-import IconMapper from '../../../../src/font/iconfont.json';
 
 const styles = StyleSheet.create({
     display: {
@@ -29,7 +27,12 @@ class IconWall extends Component {
     @observable currentPage = 1;
     @observable totalPage = Math.ceil(this.props.data.length/this.pageSize);
     @observable selected = '';
+    static contextTypes = {
+        getIconComponent: PropTypes.func,
+        getIconData: PropTypes.func,
+    }
     renderItem = (item)=> {
+        const Icon = this.context.getIconComponent();
         return <Icon style={[styles.icon,this.selected===item?styles.selected:null]} onPress={()=>this.onPress(item)} name={item} />;
     }
     onPress = (icon)=> {
@@ -66,7 +69,10 @@ class IconWall extends Component {
 @observer
 export default class IconSelect extends Select {
     @observable searchingText = ''
-    @observable iconData = Object.keys(IconMapper);
+    @observable iconData = Object.keys(this.context.getIconData());
+    static contextTypes = {
+        getIconData : PropTypes.func,
+    }
     static defaultProps = {
         onChange: function () { }
     }

@@ -257,6 +257,11 @@ export default class AppState {
         const f =  await this.project.getProjectFile(path);
         return f;
     }
+    async getLoginCfg() {
+        const path = '//config/login.json';
+        const f =  await this.project.getProjectFile(path);
+        return f;
+    }
     async getBillForm(formKey) {
         const path = `//config/billforms/${formKey}.json`;
         const f =  await this.project.getProjectFile(path);

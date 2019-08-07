@@ -115,6 +115,8 @@ export default (getItemsList, showCategorySelect = false, showDetailSelect = fal
         static contextTypes = {
             getBillForm: PropTypes.func,
             getContextComponent: PropTypes.func,
+            getControl: PropTypes.func,
+            getAllControls: PropTypes.func,
         }
 
         defaultProps = {

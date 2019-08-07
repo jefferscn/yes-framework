@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { SearchBar } from 'antd-mobile';
 import PropTypes from 'prop-types';
 import { ControlWrap as controlWrap } from 'yes';
-import designable from '../../designer/utils/designable';
+import designable from 'yes-designer/utils/designable';
 
 const defaultValue = {
     searchText: '',
