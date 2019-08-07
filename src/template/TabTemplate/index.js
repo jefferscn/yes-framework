@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { intlShape, FormattedMessage } from 'react-intl';
 import { observer } from 'mobx-react';
 import { observable } from 'mobx';
-import designable from 'yes-designer/utils/designable';
+import designExport from 'yes-designer/utils/DesignExport';
 import Element from '../Element';
 
 const { LoadingComp } = Components;
@@ -112,7 +112,7 @@ const defaultValue = {
     tabPosition: 'top',
 }
 
-const WrappedTabTemplate = designable(defaultValue, editor)(TabTemplate);
+const WrappedTabTemplate = designExport(TabTemplate, defaultValue, editor);
 WrappedTabTemplate.caption = "多页单据模板";
 
 defaultTemplateMapping.reg('tabs', WrappedTabTemplate);

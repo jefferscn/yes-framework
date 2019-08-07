@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import { Animated, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
-import ArrowLeft from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
 import ArrowRight from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
 import { observable } from 'mobx';
-import designable from 'yes-designer/utils/designable';
+import designExport from 'yes-designer/utils/DesignExport';
 import AwesomeFontIcon from 'react-native-vector-icons/FontAwesome';
 
 const styles = StyleSheet.create({
@@ -62,4 +61,4 @@ const editor = [
     }
 ]
 
-export default designable(defaultValue, editor)(TabLabel);
+export default designExport(TabLabel, defaultValue, editor);

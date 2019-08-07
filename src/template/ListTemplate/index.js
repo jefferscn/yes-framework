@@ -10,7 +10,7 @@ import { intlShape, FormattedMessage } from 'react-intl';
 import Element from '../Element';
 import { ListControl } from '../YigoControl';
 import { observer } from 'mobx-react';
-import designable from 'yes-designer/utils/designable';
+import designExport from 'yes-designer/utils/DesignExport';
 
 const { Searchbar } = Controls;
 
@@ -123,7 +123,7 @@ class ListTemplate extends Component {
         );
     }
 }
-const ListWithNavigation = designable(defaultValue, editor)(withNavigation(internationalWrap(ListTemplate)));
+const ListWithNavigation = designExport(withNavigation(internationalWrap(ListTemplate)), defaultValue, editor);
 
 // ListWithNavigation.fromJson = (json) => {
 //     return new ListMeta(json);

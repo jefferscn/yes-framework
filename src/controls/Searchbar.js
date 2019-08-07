@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { SearchBar } from 'antd-mobile';
 import PropTypes from 'prop-types';
 import { ControlWrap as controlWrap } from 'yes';
-import designable from 'yes-designer/utils/designable';
+import designExport from 'yes-designer/utils/DesignExport';
 
 const defaultValue = {
     searchText: '',
@@ -22,7 +22,7 @@ const editor = [
             controlType: 'button',
         },
     ];
-@designable(defaultValue, editor)
+
 @controlWrap
 class YigoSearchbar extends PureComponent {
     static contextTypes = {
@@ -76,4 +76,4 @@ class YigoSearchbar extends PureComponent {
 
 YigoSearchbar.category = 'template';
 
-export default YigoSearchbar;
+export default designExport(YigoSearchbar, defaultValue, editor);

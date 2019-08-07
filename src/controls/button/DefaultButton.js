@@ -1,5 +1,5 @@
 import { Button } from 'yes-platform';
-import designable from 'yes-designer/utils/designable';
+import designExport from 'yes-designer/utils/DesignExport';
 import layoutStyleEditor from 'yes-designer/components/Editor/Meta/LayoutStyle';
 import textStyleEditor from 'yes-designer/components/Editor/Meta/TextStyle';
 
@@ -28,7 +28,7 @@ const defaultValue ={
     }
 }
 
-const DesignableButton = designable(defaultValue, editor)(Button);
+const DesignableButton = designExport(Button, defaultValue, editor);
 DesignableButton.category = 'yigo';
 DesignableButton.detailType = 'button';
 export default DesignableButton;

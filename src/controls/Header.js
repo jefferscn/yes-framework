@@ -3,7 +3,7 @@ import { View, StyleSheet, Text } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { HeaderBackButton } from 'react-navigation';
 import Element, { isElementNull } from '../template/Element';
-import designable from 'yes-designer/utils/designable';
+import designExport from 'yes-designer/utils/DesignExport';
 import { observer } from 'mobx-react';
 
 const styles = StyleSheet.create({
@@ -51,9 +51,8 @@ const editor = [
         control: Element,
     }
 ]
-@designable(defaultValue, editor)
 @observer
-class Header extends Component{
+class _Header extends Component{
     static defaultProps = {
         titleMode: 'flex',//flex=使用 flex布局，absolute=使用absolute布局
         canBack: true,
@@ -116,6 +115,8 @@ class HeadTitle extends PureComponent {
         )
     }
 }
+
+const Header = designExport(_Header, defaultValue, editor);
 
 Object.assign(Header, {
     HeadBackButton,

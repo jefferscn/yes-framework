@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { observable } from 'mobx';
 import CellLayoutTemplate from './CellLayoutTemplate';
-import designExport from '../DesignExport';
+import designExport from 'yes-designer/utils/DesignExport';
 import YIGOControl from '../YigoControl';
 import Element from '../Element';
 import CellLayoutItem from './CellLayoutItem';

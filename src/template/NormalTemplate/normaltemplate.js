@@ -5,6 +5,7 @@ import defaultTemplateMapping from '../defaultTemplateMapping';
 import CellLayoutTemplate from '../TabTemplate/CellLayoutTemplate';
 import PropTypes from 'prop-types';
 import designable from 'yes-designer/utils/designable';
+import designExport from 'yes-designer/utils/DesignExport';
 import Element from '../Element';
 
 const { DynamicBillForm, LoadingComp } = Components;
@@ -79,7 +80,7 @@ const editor = [
     },
 ]
 // const WrappedNormalTemplate = getMappedComponentHOC(NormalTemplate);
-const DesignableNormalTemplate = designable(defaultValue, editor)(NormalTemplate);
+const DesignableNormalTemplate = designExport(NormalTemplate, defaultValue, editor);
 DesignableNormalTemplate.caption = "单列表模板";
 defaultTemplateMapping.reg('normal', DesignableNormalTemplate);
 export default DesignableNormalTemplate;

@@ -12,7 +12,7 @@ import buildRoute from './route';
 import PlatformProvider from './controls/providers';
 import BaiduProvider from './controls/providers/BaiduMapProvider';
 import enUS from 'antd-mobile/lib/locale-provider/en_US'
-import PropTypes from 'prop-types';
+import RuntimeProvider from './controls/providers/RuntimeProvider';
 import './patch/antd-mobile.css';
 import Element from './template/Element';
 // import './yigopatch';
@@ -200,11 +200,13 @@ if (isCordova()) {
 
 const NavigatorListenerWrapper = (props) =>
     (<LocaleProvider locale={getAntLocale()}>
-        <Provider>
-            <MainRouter
-                onNavig ationStateChange={onNavigationStateChange}
-                {...props} />
-        </Provider>
+        <RuntimeProvider controls={control}>
+            <Provider>
+                <MainRouter
+                    onNavig ationStateChange={onNavigationStateChange}
+                    {...props} />
+            </Provider>
+        </RuntimeProvider>
     </LocaleProvider>);
 
 appOptions.messages = getLocaleMessages();

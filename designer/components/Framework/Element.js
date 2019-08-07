@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import designable from '../../utils/designable';
 import { observer } from 'mobx-react';
+import designExport from '../../utils/DesignExport';
 
 const editor = [
     {
@@ -40,12 +40,6 @@ export const buildElementEditor = (dtlType) => {
     ];
 }
 
-@designable({
-    elementType: '',
-    elementProps: {
-
-    }
-}, editor)
 @observer
 class Element extends Component {
     static contextTypes = {
@@ -71,4 +65,9 @@ export function isElementNull(ele) {
     return !ele.elementType;
 }
 
-export default Element;
+export default designExport(Element, {
+    elementType: '',
+    elementProps: {
+
+    }
+}, editor);

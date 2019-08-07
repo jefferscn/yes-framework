@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import CellLayoutSection from './CellLayoutSection';
 import CellLayoutCell from './CellLayoutCell';
-import designable from 'yes-designer/utils/designable';
+import designExport from 'yes-designer/utils/DesignExport';
 import YigoControl from '../YigoControl';
 import Element from '../Element';
 import { observable } from 'mobx';
@@ -128,9 +128,8 @@ const editor = [
     }
 ];
 
-@designable(defaultValue, editor)
 @observer
-export default class CellLayoutItem extends Component {
+class CellLayoutItem extends Component {
     @observable meta = this.props.meta
     render() {
         const meta = this.meta;
@@ -140,3 +139,5 @@ export default class CellLayoutItem extends Component {
         return (<CellLayoutCell meta={meta} />);
     }
 }
+
+export default designExport(CellLayoutItem, defaultValue, editor);
