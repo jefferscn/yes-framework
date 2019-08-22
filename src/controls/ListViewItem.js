@@ -4,6 +4,9 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 const pressRetentionOffset = { top: 5, left: 5, right: 5, bottom: 5 };
 
 export default class ListViewItem extends PureComponent {
+    static defaultProps = {
+        divider: true,
+    }
     renderLeftElement() {
         return this.props.leftElement;
     }
@@ -31,7 +34,7 @@ export default class ListViewItem extends PureComponent {
     render() {
         return (
             <TouchableOpacity onPress={this.onPress} pressRetentionOffset={pressRetentionOffset}>
-                <View style={[styles.container, this.props.containerStyle]}>
+                <View style={[styles.container, this.props.divider? styles.divider: {}, this.props.containerStyle]}>
                     {this.renderLeftElement()}
                     {this.renderCenterElement()}
                     {this.renderRightElement()}
@@ -46,6 +49,10 @@ export default class ListViewItem extends PureComponent {
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
+    },
+    divider: {
+        borderBottomWidth: 1,
+        borderBottomColor: 'lightgray',
     },
     arrow: {
         alignItems: 'center',
