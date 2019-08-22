@@ -69,6 +69,7 @@ class Header extends PureComponent {
     }
 }
 
+@withNavigation
 class HeadBackButton extends PureComponent {
     onPress = () => {
         this.props.navigation.goBack(null);

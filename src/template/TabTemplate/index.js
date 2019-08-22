@@ -1,14 +1,12 @@
 import React from 'react';
 import { Components } from 'yes-platform'; // eslint-disable-line import/no-unresolved
-import { getMappedComponentHOC } from 'yes'; // eslint-disable-line import/no-unresolved
+import { getMappedComponentHOC, internationalWrap } from 'yes'; // eslint-disable-line import/no-unresolved
 import TabViewTemplate from './TabViewTemplate';
 import defaultTemplateMapping from '../defaultTemplateMapping';
 import { View, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
-import { intlShape, FormattedMessage } from 'react-intl';
 
 const { DynamicBillForm, LoadingComp } = Components;
-const ToastComponent = LoadingComp;
 const styles = StyleSheet.create({
     container: {
         flexGrow: 1,
@@ -18,10 +16,9 @@ const styles = StyleSheet.create({
 class TabTemplate extends DynamicBillForm {
     static contextTypes = {
         createElement: PropTypes.func,
-        intl: intlShape,
     }
     formatMessage = (msg) => {
-        return this.context.intl ? this.context.intl.formatMessage({ id: msg }) : msg;
+        return this.props.formatMessage? this.props.formatMessage(msg) : msg;
     }
     renderContent(tabs) {
         if (this.props.foot || this.props.head) {
@@ -145,6 +142,6 @@ class TabTemplate extends DynamicBillForm {
         return <LoadingComp icon="loading" show>{this.formatMessage('loading...')}</LoadingComp>; // eslint-disable-line react/jsx-no-undef, max-len
     }
 }
-const WrappedTabTemplate = getMappedComponentHOC(TabTemplate);
+const WrappedTabTemplate = getMappedComponentHOC(internationalWrap(TabTemplate));
 defaultTemplateMapping.reg('tabs', WrappedTabTemplate);
 export default WrappedTabTemplate;

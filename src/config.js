@@ -57,6 +57,16 @@ Util.alert = (title, msg) => {
     }]);
 };
 
+Util.showBillformInModal = (formKey, oid=-1, status='EDIT')=> {
+    showModal(
+        <TemplateView 
+            formKey={formKey}
+            oid={oid}
+            status={status}
+        />
+    )
+}
+
 Util.confirm = function (title, msg, type) {
     return new Promise((resolve, reject) => {
         function pressOK() {
