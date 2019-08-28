@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import designable from 'yes-designer/utils/designable';
 import { observer } from 'mobx-react';
 import { observable, toJS } from 'mobx';
 import { deepObserve } from 'mobx-utils';

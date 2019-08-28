@@ -1,18 +1,17 @@
 import React from 'react';
 import {
+    createAppContainer,
     createStackNavigator,
     createMaterialTopTabNavigator,
-    createBottomTabNavigator,
     withNavigation,
 } from 'react-navigation';
 import DynamicView from '../DynamicView';
-import Controls from '../config/control';
 import WorkitemView from '../WorkitemView';
 import FieldView from '../FieldView';
 import generateRouteComponent from '../util/generateRouteComponent';
 import Element from '../template/Element';
 import Icon from '../font/IconFont';
-import DesignControlWrap from 'yes-designer/utils/DesignControlWrap';
+// import DesignControlWrap from 'yes-designer/utils/DesignControlWrap';
 
 const defaultCardRoute = {
     DynamicDetail: {
@@ -39,23 +38,23 @@ const defaultCardRoute = {
 const defaultModalRoute = {
     DynamicDetail: {
         screen: withNavigation(DynamicView),
-        path: 'modal/YESMOBILE/:metaKey/:id/:status',
+        path: 'YESMOBILE/:metaKey/:id/:status',
     },
     DynamicDetail1: {
         screen: withNavigation(DynamicView),
-        path: 'modal/YES/:metaKey/:id/:status',
+        path: 'YES/:metaKey/:id/:status',
     },
     Workitem: {
         screen: withNavigation(WorkitemView),
-        path: 'modal/WORKITEM/:wid/:onlyOpen/:loadInfo',
+        path: 'WORKITEM/:wid/:onlyOpen/:loadInfo',
     },
     WorkitemM: {
         screen: withNavigation(WorkitemView),
-        path: 'modal/WORKITEMM/:wid/:onlyOpen/:loadInfo/:msg',
+        path: 'WORKITEMM/:wid/:onlyOpen/:loadInfo/:msg',
     },
     WorkitemField: {
         screen: withNavigation(FieldView),
-        path: 'modal/WORKITEM/:wid/:field',
+        path: 'WORKITEM/:wid/:field',
     },
 };
 
@@ -63,8 +62,8 @@ const buildTabNavigator = (tabConfig) => {
     const tabs = {};
     for (let tab of tabConfig.tabs) {
         const page = buildScreen(tab);
-        page.navigationOptions = {
-            tabBarIcon: tab.icon?({
+        page.navigationOptions = ({ navigation }) => ({
+            tabBarIcon: tab.icon ? ({
                 tintColor,
                 focused,
                 horizontal,
@@ -74,54 +73,39 @@ const buildTabNavigator = (tabConfig) => {
                         size={horizontal ? 20 : 26}
                         style={{ color: tintColor }}
                     />
-                ): null,
+                ) : null,
             tabBarLabel: tab.label,
-        };
+        })
         tabs[tab.key] = page;
     }
-    if (!tabConfig.tabPosition || tabConfig.tabPosition === "top") {
-        return createMaterialTopTabNavigator(
-            tabs, {
-                headerMode: 'none',
-                backBehavior: 'history',
-                tabBarOptions: {
-                    showIcon: tabConfig.showIcon,
-                    showLabel: tabConfig.showLabel==null?true: tabConfig.showLabel,
-                    upperCaseLabel: false,
-                    activeTintColor: tabConfig.activeTintColor,
-                    inactiveTintColor: tabConfig.inactiveTintColor,
-                    style: {
-                        backgroundColor: tabConfig.backgroundColor,
-                    },
-                    indicatorStyle: {
-                        backgroundColor: tabConfig.indicatorColor,
-                    },
-                },
-            }
-        );
-    } else {
-        return createBottomTabNavigator(
-            tabs, {
-                headerMode: 'none',
-                backBehavior: 'history',
-                showIcon: tabConfig.showIcon,
-                upperCaseLabel: false,
-                tabBarOptions: {
-                    showIcon: tabConfig.showIcon,
-                    upperCaseLabel: false,
-                    showLabel: tabConfig.showLabel==null?true: tabConfig.showLabel,
-                    activeTintColor: tabConfig.activeTintColor,
-                    inactiveTintColor: tabConfig.inactiveTintColor,
-                    style: {
-                        backgroundColor: tabConfig.backgroundColor,
-                    },
-                    indicatorStyle: {
-                        backgroundColor: tabConfig.indicatorColor,
-                    },
-                },
-            }
-        );
+    const tabBarPosition = tabConfig.tabPosition || 'top';
+    const indicatorStyle = {};
+    if (tabBarPosition === 'bottom') {
+        indicatorStyle.display = 'none';
     }
+    // if (!tabConfig.tabPosition || tabConfig.tabPosition === "top") {
+    return createMaterialTopTabNavigator(
+        tabs, {
+        headerMode: 'none',
+        backBehavior: 'history',
+        tabBarOptions: {
+            labelStyle: {
+                fontSize: 14,
+                margin: 0,
+            },
+            indicatorStyle: {
+                backgroundColor: tabConfig.indicatorColor || '#008CD7',
+                ...indicatorStyle,
+            },
+            activeBackgroundColor: tabConfig.activeBackgroundColor || 'white',
+            activeTintColor: tabConfig.activeTintColor || '#008CD7',
+            inactiveBackgroundColor: tabConfig.inactiveBackgroundColor || 'white',
+            inactiveTintColor: tabConfig.inactiveTintColor || '#aaa',
+            showLabel: tabConfig.showLabel,
+            showIcon: tabConfig.showIcon
+        },
+        tabBarPosition,
+    });
 };
 
 const buildYIGOBillformScreen = (config) => {
@@ -137,11 +121,12 @@ const buildYIGOBillformScreen = (config) => {
 
 const buildControlScreen = (config) => {
     // return Controls[config.control];
-    if(__DESIGN__) {
+    if (__DESIGN__) {
+        const DesignControlWrap  = require('yes-designer/utils/DesignControlWrap').default;
         const DesignElement = DesignControlWrap(Element);
-        return ()=><DesignElement debugStyle={{flex:1}} meta={config.control} />;
+        return () => <DesignElement debugStyle={{ flex: 1 }} meta={config.control} />;
     }
-    return ()=><Element debugStyle={{flex:1}} meta={config.control} />;
+    return () => <Element debugStyle={{ flex: 1 }} meta={config.control} />;
 };
 
 const buildScreen = (config) => {
@@ -158,19 +143,38 @@ const buildScreen = (config) => {
 export default (config) => {
     const customRoute = {};
     let initialRouteName = null;
+    console.log(config)
     for (let r of config) {
         let route = {};
         route.screen = buildScreen(r);
         route.path = r.path;
         customRoute[r.key] = route;
-        if(r.isRoot) {
+        if (r.isRoot) {
             initialRouteName = r.key;
         }
     }
     const mainCardNavigator = createStackNavigator(
         defaultCardRoute,
         {
-            headerMode: 'none'
+            headerMode: 'none',
+            cardStyle: {
+                flex: 1
+            }
+        }
+    )
+    const mainModalNavigator = createStackNavigator(
+        defaultModalRoute,
+        {
+            defaultNavigationOptions: {
+                header: null,
+            },
+            cardStyle: {
+                backgroundColor: 'transparent',
+            },
+            initialRouteName,
+            mode: 'modal',
+            headerMode: 'none',
+            transparentCard: true,
         }
     )
     const MainNavigator = createStackNavigator(
@@ -180,14 +184,24 @@ export default (config) => {
                 screen: mainCardNavigator,
                 path: 'card',
             },
-            ...defaultModalRoute,
+            // ...defaultModalRoute,
+            Modal: {
+                screen: mainModalNavigator,
+                path: 'modal',
+            }
         },
         {
+            defaultNavigationOptions: {
+                header: null,
+            },
+            cardStyle: {
+                backgroundColor: 'transparent',
+            },
             initialRouteName,
             mode: 'modal',
             headerMode: 'none',
             transparentCard: true,
         },
     );
-    return MainNavigator;
+    return createAppContainer(MainNavigator);
 }

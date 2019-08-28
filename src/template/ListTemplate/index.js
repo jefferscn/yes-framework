@@ -16,7 +16,8 @@ const { Searchbar } = Controls;
 
 const styles = StyleSheet.create({
     listView: {
-
+        paddingLeft: 16,
+        flex:1,
     },
     primaryTextLayout: {
         justifyContent: 'flex-start',
@@ -110,7 +111,7 @@ class ListTemplate extends Component {
                     searchButton={searchBar.queryButton}
                     placeholder={this.props.formatMessage('search taskid')}
                 />
-                <View style={{ flex: 1 }}>
+                <View style={styles.listView}>
                     <ListControl
                         designPositionBase
                         debugStyle={{flex:1}}

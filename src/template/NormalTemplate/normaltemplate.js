@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
 import { ScrollView, View, StyleSheet } from 'react-native';
-import { Components } from 'yes-platform'; // eslint-disable-line import/no-unresolved
 import defaultTemplateMapping from '../defaultTemplateMapping';
 import CellLayoutTemplate from '../TabTemplate/CellLayoutTemplate';
-import PropTypes from 'prop-types';
-import designable from 'yes-designer/utils/designable';
 import designExport from 'yes-designer/utils/DesignExport';
 import Element from '../Element';
 
-const { DynamicBillForm, LoadingComp } = Components;
 const styles = StyleSheet.create({
     container: {
         flexGrow: 1,
@@ -16,25 +12,6 @@ const styles = StyleSheet.create({
     },
 });
 class NormalTemplate extends Component {
-    // buildChildren() {
-    //     const { items } = this.props;
-    //     const form = this.getBillForm();
-    //     if (form) {
-    //         if (this.props.foot) {
-    //             const foot = this.context.createElement(this.props.foot);
-    //             return (<View style={styles.container}>
-    //                 <ScrollView><CellLayoutTemplate
-    //                     items={items}
-    //                 /></ScrollView>
-    //                 {foot}
-    //             </View>);
-    //         }
-    //         return (<ScrollView><CellLayoutTemplate
-    //             items={items}
-    //         /></ScrollView>);
-    //     }
-    //     return <LoadingComp icon="loading" show>加载中...</LoadingComp>; // eslint-disable-line react/jsx-no-undef, max-len
-    // }
     render() {
         const { head, foot, content } = this.props;
         return (<View style={{ flex: 1, backgroundColor: 'white' }}>

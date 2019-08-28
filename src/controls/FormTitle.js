@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import { FormInfo } from 'yes-platform'; // eslint-disable-line
-import designable from 'yes-designer/utils/designable';
 
 class FormTitle extends PureComponent {
     render() {

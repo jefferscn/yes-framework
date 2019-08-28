@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Animated, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
-import ArrowRight from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
 import { observable } from 'mobx';
 import designExport from 'yes-designer/utils/DesignExport';
 import AwesomeFontIcon from 'react-native-vector-icons/FontAwesome';
@@ -36,12 +35,14 @@ class TabLabel extends Component {
             const showMoveRight = index < this.props.routes.length - 2;
             return (<View style={styles.container}>
                 {showMoveLeft ? <TouchableOpacity onPress={this.onMoveLeft} style={{ pointerEvents: 'auto' }}>
-                    <AwesomeFontIcon name="chevron-left" />
+                    <AwesomeFontIcon name="angle-left" />
                 </TouchableOpacity> : null}
                 <Animated.Text style={this.props.style} >
                     {this.meta.title}
                 </Animated.Text>
-                {showMoveRight ? <ArrowRight style={{ pointerEvents: 'auto' }} onClick={this.onMoveRight} /> : null}</View>);
+                {showMoveRight ? <TouchableOpacity onPress={this.onMoveRight} style={{pointerEvents: 'auto'}}>
+                    <AwesomeFontIcon name="angle-right" /></TouchableOpacity> : null}
+                    </View>);
         } else {
             return (<Animated.Text style={this.props.style} >
                 {this.meta.title}

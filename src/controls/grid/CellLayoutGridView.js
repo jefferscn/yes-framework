@@ -9,9 +9,8 @@ import { View, ActivityIndicator } from 'react-native';
 import { propTypes } from 'yes'; // eslint-disable-line
 import { GridRowWrap as gridRowWrap, DynamicControl, GridWrap } from 'yes';
 // import styles from '../../style';
-import AwesomeFontIcon from 'react-native-vector-icons/FontAwesome';
 import ListViewItem from '../CellLayoutItem';
-import designable from 'yes-designer/utils/designable';
+import designExport from 'yes-designer/utils/DesignExport';
 
 @GridWrap
 class AntdListView extends PureComponent {
@@ -131,21 +130,18 @@ class AntdListView extends PureComponent {
 }
 AntdListView.propTypes = propTypes.List;
 
-let result = AntdListView;
 
-if (__DESIGN__) {
-    const editor = {
+const editor = {
 
-    };
-    const defaultValue = {
-        content: {
-            isGroup: true,
-            hideTitle: true,
-            items: [],
-        },
-        actions: []
-    };
-    result = designable(defaultValue, editor)(AntdListView);
-}
+};
+const defaultValue = {
+    content: {
+        isGroup: true,
+        hideTitle: true,
+        items: [],
+    },
+    actions: []
+};
 
+let result = designExport(AntdListView, defaultValue, editor);
 export default result;

@@ -1,25 +1,23 @@
 import React from 'react';
-import TabView from './NativeTabView'; // eslint-disable-line import/no-unresolved
-// import TabView from './TabView';
 import CellLayoutTemplate from './CellLayoutTemplate';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
-import { intlShape, FormattedMessage } from 'react-intl';
 import { StyleSheet, View, Animated } from 'react-native';
 import TabLabel from './TabLabel';
 import AwesomeFontIcon from 'react-native-vector-icons/FontAwesome';
 import { observable } from 'mobx';
-import TabPanel from './TabPanel';
+import { internationalWrap, getMappedComponentHOC } from 'yes'; // eslint-disable-line import/no-unresolved
+import { TabView } from 'yes-platform'; // eslint-disable-line import/no-unresolved
+const CellLayout = getMappedComponentHOC(CellLayoutTemplate);
 // const { TabView, TextGrid } = Components;
 @observer
 class TabViewTemplate extends TabView {
     static contextTypes = {
-        intl: intlShape,
         isDesignMode: PropTypes.func,
     }
 
     formatMessage = (msg) => {
-        return this.context.intl ? this.context.intl.formatMessage({ id: msg }) : msg;
+        return this.props.formatMessage? this.props.formatMessage(msg) : msg;
     }
 
     buildRoutes = () => {
@@ -117,5 +115,5 @@ const styles = StyleSheet.create({
     },
 });
 
-export default TabViewTemplate;
 // export default getMappedComponentHOC(TabViewTemplate);
+export default internationalWrap(TabViewTemplate);

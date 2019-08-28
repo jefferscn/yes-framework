@@ -27,32 +27,8 @@ const styles = StyleSheet.create({
     }
 });
 
-const defaultValue = {
-    canBack: true,
-    title: '',
-    titleElement: Element.defaultValue,
-    leftElement: Element.defaultValue,
-    rightElement: Element.defaultValue,
-}
-const editor = [
-    {
-        type: 'Toggle',
-        key: 'canBack',
-        caption: '是否显示返回',
-    },
-    {
-        type: 'Text',
-        key: 'title',
-        caption: '抬头',
-    }, {
-        type: 'SubForm',
-        key: 'titleElement',
-        isGroup: true,
-        control: Element,
-    }
-]
 @observer
-class _Header extends Component{
+class _Header extends PureComponent {
     static defaultProps = {
         titleMode: 'flex',//flex=使用 flex布局，absolute=使用absolute布局
         canBack: true,
@@ -116,6 +92,30 @@ class HeadTitle extends PureComponent {
     }
 }
 
+const defaultValue = {
+    canBack: true,
+    title: '',
+    titleElement: Element.defaultValue,
+    leftElement: Element.defaultValue,
+    rightElement: Element.defaultValue,
+}
+const editor = [
+    {
+        type: 'Toggle',
+        key: 'canBack',
+        caption: '是否显示返回',
+    },
+    {
+        type: 'Text',
+        key: 'title',
+        caption: '抬头',
+    }, {
+        type: 'SubForm',
+        key: 'titleElement',
+        isGroup: true,
+        control: Element,
+    }
+]
 const Header = designExport(_Header, defaultValue, editor);
 
 Object.assign(Header, {

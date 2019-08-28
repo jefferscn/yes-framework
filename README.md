@@ -5,14 +5,13 @@ YIGO2.0手机端(h5)开发包
 -------------------------------------------------
 
 1. 执行npm install
-2. 完成之后复制node_modules_patch目录到node_modules目录下覆盖原来文件
 
 升级
 -------------------------------------------------
 
 1. 依赖包升级
 
-    可以通过执行npm update yes-intf yes-core yes-native yes-web来升级，升级完成之后重新复制一次node_modules_patch目录
+    可以通过执行npm update yes-intf yes-core yes-native yes-web来升级
 
 2. 框架升级
 

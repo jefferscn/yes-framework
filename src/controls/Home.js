@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Button } from 'react-native';
+import { openForm } from '../util/navigateUtil';
 
 const styles = StyleSheet.create({
     view: {
@@ -11,10 +12,14 @@ const styles = StyleSheet.create({
 })
 
 export default class Home extends Component {
+    onPress = ()=> {
+        openForm('TSL_ToDoList', -1, 'EDIT');
+    }
     render() {
         return (
             <View style={styles.view}>
-                <Text>Home12</Text>
+                <Text>Home</Text>
+                <Button onPress={this.onPress} />
             </View>
         )
     }

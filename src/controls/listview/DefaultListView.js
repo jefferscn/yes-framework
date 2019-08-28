@@ -11,7 +11,7 @@ import { ListRowWrap as listRowWrap, ListWrap, DynamicControl, GridWrap } from '
 // import styles from '../../style';
 import ListViewItem from '../ListViewItem';
 import { observer } from 'mobx-react';
-import designable from 'yes-designer/utils/designable';
+import designExport from 'yes-designer/utils/DesignExport';
 
 const styles = StyleSheet.create({
     primaryTextLayout: {
@@ -326,11 +326,8 @@ class AntdListView extends PureComponent {
 }
 AntdListView.propTypes = propTypes.List;
 
-let result = AntdListView;
+let result = designExport(AntdListView, defaultValue, editor);
 
-if(__DESIGN__) {
-    result = designable(defaultValue, editor)(AntdListView);
-}
 // const YIGOAntdListView =  ListWrap(AntdListView);
 result.category = 'yigo';
 result.detail = 'listview';

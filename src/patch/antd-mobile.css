@@ -19,3 +19,27 @@
 .am-modal-button {
     cursor: pointer;
 }
+
+.sibling .am-modal {
+    flex: 1;
+    align-items: stretch;
+    display: flex;
+    background: #0000;
+}
+
+.sibling .am-modal-transparent .am-modal-content {
+    padding-top: 0;
+    display: flex;
+    flex:1;
+    background: #0000;
+}
+.sibling .am-modal-transparent .am-modal-content .am-modal-body {
+    padding: 0;
+    display: flex;
+    flex: 1;
+    justify-content: center;
+}
+
+.am-modal-wrap {
+    z-index: 9999!important;
+}

@@ -3,14 +3,14 @@ import { Components } from 'yes-platform'; // eslint-disable-line import/no-unre
 import TabViewTemplate from './TabViewTemplate';
 import defaultTemplateMapping from '../defaultTemplateMapping';
 import { View, StyleSheet } from 'react-native';
-import PropTypes from 'prop-types';
-import { intlShape, FormattedMessage } from 'react-intl';
+import { internationalWrap } from 'yes';
 import { observer } from 'mobx-react';
 import { observable } from 'mobx';
 import designExport from 'yes-designer/utils/DesignExport';
 import Element from '../Element';
 
 const { LoadingComp } = Components;
+
 const styles = StyleSheet.create({
     container: {
         flexGrow: 1,
@@ -20,20 +20,9 @@ const styles = StyleSheet.create({
 
 @observer
 class TabTemplate extends Component {
-    static contextTypes = {
-        // createElement: PropTypes.func,
-        intl: intlShape,
-        isDesignMode: PropTypes.func,
-    }
-    static defaultProps = {
-        meta: {
-        },
-        designMode: false,
-    }
-
     @observable meta = this.props.meta;
     formatMessage = (msg) => {
-        return this.context.intl ? this.context.intl.formatMessage({ id: msg }) : msg;
+        return this.props.formatMessage? this.props.formatMessage(msg) : msg;
     }
 
     onTabChange = (tabs)=> {
@@ -112,7 +101,7 @@ const defaultValue = {
     tabPosition: 'top',
 }
 
-const WrappedTabTemplate = designExport(TabTemplate, defaultValue, editor);
+const WrappedTabTemplate = designExport(internationalWrap(TabTemplate), defaultValue, editor);
 WrappedTabTemplate.caption = "多页单据模板";
 
 defaultTemplateMapping.reg('tabs', WrappedTabTemplate);

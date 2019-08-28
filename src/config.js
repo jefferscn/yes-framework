@@ -16,6 +16,7 @@ import RuntimeProvider from './controls/providers/RuntimeProvider';
 import './patch/antd-mobile.css';
 import Element from './template/Element';
 // import './yigopatch';
+import './patch/antd-mobile.css';
 
 const { sessionKey, serverPath, appName, wechat, cordova, baidumap } = projectJSON;
 const { template, tooltip, companyName, bgImagePath, logoImagePath } = loginJSON;
@@ -62,6 +63,16 @@ Util.alert = (title, msg) => {
         onPress: () => modal.close(),
     }]);
 };
+
+Util.showBillformInModal = (formKey, oid=-1, status='EDIT')=> {
+    showModal(
+        <TemplateView 
+            formKey={formKey}
+            oid={oid}
+            status={status}
+        />
+    )
+}
 
 Util.confirm = function (title, msg, type) {
     return new Promise((resolve, reject) => {
@@ -200,17 +211,16 @@ if (isCordova()) {
 
 const NavigatorListenerWrapper = (props) =>
     (<LocaleProvider locale={getAntLocale()}>
-        <RuntimeProvider controls={control}>
             <Provider>
                 <MainRouter
                     onNavig ationStateChange={onNavigationStateChange}
                     {...props} />
             </Provider>
-        </RuntimeProvider>
     </LocaleProvider>);
 
 appOptions.messages = getLocaleMessages();
 appOptions.router = NavigatorListenerWrapper;
 appOptions.mock = true;
 appOptions.debug = true;
+appOptions.appWrapper = <RuntimeProvider controls = {control} />;
 export default appOptions;

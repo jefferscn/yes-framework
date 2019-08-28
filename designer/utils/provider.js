@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Provider, propTypes } from "mobx-react";
 import DesignerStore from './designerstore';
-import { toJS } from 'mobx';
 
 const store = new DesignerStore();
 /**

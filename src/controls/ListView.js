@@ -5,54 +5,57 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { ListView, PullToRefresh } from 'antd-mobile';
-import { View, ActivityIndicator } from 'react-native';
+import { View, ActivityIndicator, StyleSheet } from 'react-native';
 import { propTypes } from 'yes'; // eslint-disable-line
-import { GridRowWrap as gridRowWrap, DynamicControl, GridWrap } from 'yes';
+import { ListRowWrap as listRowWrap, ListWrap, DynamicControl, GridWrap } from 'yes';
 // import styles from '../../style';
-import ListViewItem from '../ListViewItem';
-import { observer } from 'mobx-react';
-import designExport from 'yes-designer/utils/DesignExport';
+import ListViewItem from './ListViewItem';
 
-const defaultValue = {
-    divider: true,
-    primaryKey: '',
-    secondKey: '',
-    tertiaryKey: '',
-}
-
-const editor = [
-    {
-        type: 'Toggle',
-        key: 'divider',
-        caption: '是否显示分隔线',
+const styles = StyleSheet.create({
+    primaryTextLayout: {
+        justifyContent: 'flex-start',
+        flexBasis: 0,
     },
-    {
-        type: 'ListColumnSelect',
-        key: 'primaryKey',
-        caption: '主文本字段',
+    primaryContainer: {
+        justifyContent: 'flex-start',
+        flexDirection: 'row',
+        lineHeight: 24,
+        paddingBottom: 6,
     },
-    {
-        type: 'ListColumnSelect',
-        key: 'secondKey',
-        caption: '次文本字段',
+    primaryText: {
+        fontSize: 17,
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        justifyContent: 'flex-start',
     },
-    {
-        type: 'ListColumnSelect',
-        key: 'tertiaryKey',
-        caption: '輔助信息字段',
+    secondaryContainer: {
+        justifyContent: 'flex-start',
+        flexDirection: 'row',
+        lineHeight: 14,
+        paddingBottom: 6,
+    },
+    secondaryText: {
+        fontSize: 13,
+        color: 'rgba(0,0,0,0.5)',
+    },
+    tertiaryContainer: {
+        justifyContent: 'flex-start',
+        flexDirection: 'row',
+        lineHeight: 12,
+        paddingBottom: 6,
+    },
+    tertiaryText: {
+        fontSize: 11,
+        color: 'rgba(0,0,0,0.5)',
     }
-];
-
-@observer
-@GridWrap
-class AntdGridView extends PureComponent {
+});
+class AntdListView extends PureComponent {
     static propTypes = {
         yigoid: PropTypes.string,
         primaryKey: PropTypes.string,
         secondKey: PropTypes.string,
         tertiaryKey: PropTypes.string,
         divider: PropTypes.bool,
-        showArrow: PropTypes.bool,
     };
     // static contextTypes = {
     //     uiTheme: PropTypes.object.isRequired,
@@ -60,30 +63,29 @@ class AntdGridView extends PureComponent {
     static defaultProps = {
         // ...ImmutableVirtulized.defaultProps,
         style: {},
-        showArrow: true,
         divider: true,
     };
 
     componentWillReceiveProps(nextProps) {
-        const data = nextProps.controlState.getIn(['dataModel', 'data']);
+        const data = nextProps.controlState.get('data');
         if (data) {
             this.setState({
-                dataSource: this.state.dataSource.cloneWithRows(nextProps.controlState.getIn(['dataModel', 'data']), this.generateRowIdentifier(nextProps)),
+                dataSource: this.state.dataSource.cloneWithRows(nextProps.controlState.get('data'), this.generateRowIdentifier(nextProps)),
             });
         }
     }
 
     componentWillMount() {
-        if (this.props.controlState && this.props.controlState.getIn(['dataModel', 'data'])) {
+        if (this.props.controlState && this.props.controlState.get('data')) {
             this.setState({
-                dataSource: this.state.dataSource.cloneWithRows(this.props.controlState.getIn(['dataModel', 'data']),
+                dataSource: this.state.dataSource.cloneWithRows(this.props.controlState.get('data'),
                     this.generateRowIdentifier(this.props)),
             });
         }
     }
 
     generateRowIdentifier = (props) => {
-        const data = props.controlState.getIn(['dataModel', 'data']);
+        const data = props.controlState.get('data');
         const result = [];
         for (let i = 0; i < data.size; i++) {
             result.push(i);
@@ -111,12 +113,21 @@ class AntdGridView extends PureComponent {
             this.props.tertiaryKey.forEach((item) => {
                 let itemtype = typeof item;
                 if (itemtype === 'string') {
-                    el.push(<DynamicControl layoutStyles={{ justifyContent: 'flex-start' }} isCustomLayout={this.props.isCustomLayout} textStyles={this.props.style.tertiaryText} yigoid={item} />);
+                    el.push(<DynamicControl
+                        layoutStyles={StyleSheet.flatten(styles.tertiaryContainer)}
+                        isCustomLayout={this.props.isCustomLayout}
+                        textStyles={StyleSheet.flatten([styles.tertiaryText, this.props.style.tertiaryText])}
+                        yigoid={item} />);
                 } else {
                     if (item.$$typeof) {
                         el.push(item);
                     } else {
-                        el.push(<DynamicControl layoutStyles={{ justifyContent: 'flex-start' }} isCustomLayout={this.props.isCustomLayout} textStyles={this.props.style.tertiaryText} {...item} />);
+                        el.push(<DynamicControl 
+                                layoutStyles={StyleSheet.flatten(styles.tertiaryContainer)}
+                                isCustomLayout={this.props.isCustomLayout}
+                                textStyles={StyleSheet.flatten([styles.tertiaryText, this.props.style.tertiaryText])}
+                                {...item}
+                                />);
                     }
                 }
             });
@@ -132,15 +143,24 @@ class AntdGridView extends PureComponent {
         }
         const itemtype = typeof (primaryKey);
         if (itemtype === 'string') {
-            el = <DynamicControl layoutStyles={{ justifyContent: 'flex-start' }} isCustomLayout={this.props.isCustomLayout} textStyles={this.props.style.primaryText} yigoid={primaryKey} />;
+            el = <DynamicControl
+                layoutStyles={StyleSheet.flatten(styles.primaryContainer)}
+                isCustomLayout={this.props.isCustomLayout}
+                textStyles={StyleSheet.flatten([styles.primaryText, this.props.style.primaryText])}
+                yigoid={primaryKey} />;
         } else {
             if (primaryKey.$$typeof) {
                 el = primaryKey;
             } else {
-                el = <DynamicControl layoutStyles={{ justifyContent: 'flex-start' }} isCustomLayout={this.props.isCustomLayout} textStyles={this.props.style.primaryText} {...primaryKey} />;
+                el = <DynamicControl
+                        layoutStyles={StyleSheet.flatten(styles.primaryContainer)}
+                        isCustomLayout={this.props.isCustomLayout}
+                        textStyles={StyleSheet.flatten([styles.primaryText, this.props.style.primaryText])}
+                        {...primaryKey} 
+                    />;
             }
         }
-        return <View style={[{ flexDirection: 'row' }, this.props.style.firstline]}>{el}</View>;
+        return <View style={[{ flex: 1 }, this.props.style.firstline]}>{el}</View>;
     }
     generateSecondaryElement = () => {
         const el = [];
@@ -148,12 +168,20 @@ class AntdGridView extends PureComponent {
             this.props.secondKey.forEach((item) => {
                 let itemtype = typeof item;
                 if (itemtype === 'string') {
-                    el.push(<DynamicControl layoutStyles={{ justifyContent: 'flex-start' }} isCustomLayout={this.props.isCustomLayout} textStyles={this.props.style.secondaryText} key={item} yigoid={item} />);
+                    el.push(<DynamicControl
+                        layoutStyles={StyleSheet.flatten(styles.secondaryContainer)}
+                        isCustomLayout={this.props.isCustomLayout}
+                        textStyles={StyleSheet.flatten([styles.secondaryText, this.props.style.secondaryText])}
+                        key={item} yigoid={item} />);
                 } else {
                     if (item.$$typeof) {
                         el.push(item);
                     } else {
-                        el.push(<DynamicControl layoutStyles={{ justifyContent: 'flex-start' }} isCustomLayout={this.props.isCustomLayout} textStyles={this.props.style.secondaryText} {...item} />);
+                        el.push(<DynamicControl
+                                layoutStyles={StyleSheet.flatten(styles.secondaryContainer)}
+                                isCustomLayout={this.props.isCustomLayout}
+                                textStyles={StyleSheet.flatten([styles.secondaryText, this.props.style.secondaryText])}
+                                {...item} />);
                     }
                 }
             });
@@ -179,13 +207,13 @@ class AntdGridView extends PureComponent {
     );
 
     centerComp = (
-        <View style={[{ flex: 1 }, this.props.style.centerStyle]}>
+        <View style={[{ flex: 1, overflow: 'hidden' }, this.props.style.centerStyle]}>
             {this.generatePrimaryELement()}
             {this.generateSecondaryElement()}
             {this.generateTertiaryElement()}
         </View>
     )
-    NewListItem = gridRowWrap(ListViewItem, ActivityIndicator, this.props.yigoid)
+    NewListItem = listRowWrap(ListViewItem, this.props.yigoid)
     // RowView = listRowWrap(View, this.props.yigoid)
     renderItem = (item, secionId, rowId, highlightRow) => {
         const NewListItem = this.NewListItem;
@@ -214,7 +242,7 @@ class AntdGridView extends PureComponent {
                 onPress={() => this.onClick(rowId)}
                 // divider={this.props.divider}
                 rowIndex={rowId}
-                showArrow={this.props.showArrow}
+                showArrow
                 leftElement={this.props.leftElement}
             />
         );
@@ -234,11 +262,11 @@ class AntdGridView extends PureComponent {
         return (
             <ListView
                 style={style}
-                initialListSize={20}
-                dataSource={this.state.dataSource}
                 contentContainerStyle={{ width: '100%' }}
+                dataSource={this.state.dataSource}
                 renderRow={this.renderItem}
                 pageSize={4}
+                // pullToRefresh
                 pullToRefresh={this.props.onRefresh ? <PullToRefresh
                     refreshing={false}
                     onRefresh={this.onRefresh}
@@ -247,9 +275,7 @@ class AntdGridView extends PureComponent {
         );
     }
 }
-AntdGridView.propTypes = propTypes.List;
+AntdListView.propTypes = propTypes.List;
 
-let result = designExport(AntdGridView, defaultValue, editor);
-result.category = 'yigo';
-result.detailType = 'grid';
-export default result;
+export const GridView = GridWrap(AntdListView);
+export default ListWrap(AntdListView);

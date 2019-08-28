@@ -10,12 +10,16 @@ import { View, StyleSheet } from 'react-native';
 import { observer, inject } from 'mobx-react';
 import { observable, toJS } from 'mobx';
 import PropTypes from 'prop-types';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+// import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import defaultTemplateMapping from './defaultTemplateMapping';
-import DesignerStore from 'yes-designer/utils/designerstore';
+// import DesignerStore from 'yes-designer/utils/designerstore';
 let TemplateSelect = null;
 let CellLayoutEditor = null;
+let MuiThemeProvider = null;
+let DesignerStore = null;
 if (__DESIGN__) {
+    MuiThemeProvider = require('material-ui/styles/MuiThemeProvider').default;
+    DesignerStore = require('yes-designer/utils/designerstore');
     TemplateSelect = require('yes-designer/components/Editor/Controls/TemplateSelect').default;
     CellLayoutEditor = require('yes-designer/components/Editor/CellLayoutEditor').default;
 }
@@ -40,7 +44,7 @@ const styles = StyleSheet.create({
 @observer
 export default class Template extends Component {
     @observable meta = this.props.meta;
-    @observable store = new DesignerStore();
+    @observable store = DesignerStore? new DesignerStore(): null;
     static contextTypes = {
         isDesignMode: PropTypes.func,
         deployMeta: PropTypes.func,
