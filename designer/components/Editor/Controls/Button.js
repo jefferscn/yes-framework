@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button } from 'antd-mobile';
+import { Button } from 'antd';
 import PropTypes from 'prop-types';
 
 export default class DesignButton extends Component {
@@ -13,7 +13,7 @@ export default class DesignButton extends Component {
     render() {
         const { caption } = this.props.meta;
         return (
-            <Button onClick ={this.onClick}>{caption}</Button>
+            <Button type="primary" block onClick ={this.onClick}>{caption}</Button>
         )
     }
 }

@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
 import { observer, inject } from 'mobx-react';
-import { observable, toJS } from 'mobx';
-import PropTypes from 'prop-types';
-import CellLayoutEditor from '../Editor/CellLayoutEditor';
-import beautify from "json-beautify";
 import { View, StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({

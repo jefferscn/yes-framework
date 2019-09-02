@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, StyleSheet, Button, TouchableOpacity } from 'react-native';
 import { observable, toJS } from 'mobx';
 import { observer, inject } from 'mobx-react';
-import { List, ListItem, makeSelectable } from 'material-ui/List';
+import { List, ListItem } from 'material-ui/List';
 import Element from '../Framework/Element';
 import PropTypes from 'prop-types';
 import CellLayoutEditor from '../Editor/CellLayoutEditor';

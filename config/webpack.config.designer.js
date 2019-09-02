@@ -6,18 +6,19 @@ import MonacoWebpackPlugin from 'monaco-editor-webpack-plugin';
 export default (DEBUG, PATH, PORT = 3000) => {
     return ({
         resolve: {
-            extensions: ['.js', '.web.js'],
+            extensions: ['.web.js', '.js'],
             alias: {
                 'react-native': 'react-native-web',
                 'yes-platform': 'yes-web',
                 'yes-designer': path.resolve(__dirname, '../designer'),
+                'react-native-web/dist/exports/Modal': 'modal-enhanced-react-native-web',
                 yes: 'yes-intf',
             },
         },
         entry: {
             app: (DEBUG ? [] : []).concat([
                 'whatwg-fetch',
-                'babel-polyfill',
+                '@babel/polyfill',
                 './entry.designer',
             ]),
             // "editor.worker": './node_modules/monaco-editor/esm/vs/editor/editor.worker.js',
@@ -58,6 +59,14 @@ export default (DEBUG, PATH, PORT = 3000) => {
                         path.resolve(__dirname, '../node_modules/yes-intf/'),
                         path.resolve(__dirname, '../node_modules/yes-web/'),
                         path.resolve(__dirname, '../node_modules/yes-designer/'),
+                        path.resolve(__dirname, '../node_modules/@react-navigation/'),
+                        path.resolve(__dirname, '../node_modules/react-navigation-tabs/'),
+                        path.resolve(__dirname, '../node_modules/react-navigation-drawer/'),
+                        path.resolve(__dirname, '../node_modules/react-native-gesture-handler'),
+                        path.resolve(__dirname, '../node_modules/react-native-reanimated'),
+                        path.resolve(__dirname, '../node_modules/react-native-screens'),
+                        path.resolve(__dirname, '../node_modules/react-native-root-siblings/'),
+                        path.resolve(__dirname, '../node_modules/static-container/'),
                         path.resolve(__dirname, '../src'),
                         path.resolve(__dirname, '../designer'),
                         path.resolve(__dirname, '../entry.designer.js'),
@@ -66,8 +75,14 @@ export default (DEBUG, PATH, PORT = 3000) => {
                     loader: 'babel-loader',
                     query: {
                         babelrc: false,
-                        presets: ['es2015', 'react', 'stage-1'],
-                        plugins: ["transform-decorators-legacy", "react-hot-loader/babel"]
+                        presets: [['@babel/preset-env', { "modules": "commonjs", }], '@babel/preset-react', '@babel/preset-flow'],
+                        plugins: ['@babel/plugin-proposal-export-default-from',
+                            ['@babel/plugin-proposal-decorators', { "legacy": true}],
+                            ['@babel/plugin-proposal-class-properties', {
+                                "loose": true
+                            }],
+                            'react-native-web',
+                            '@babel/plugin-proposal-export-namespace-from']
                     },
                 }, {
                     test: /\.scss$/,

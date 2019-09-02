@@ -5,7 +5,7 @@ import View from '../View';
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import FlatButton from 'material-ui/FlatButton';
+import { Button } from 'antd';
 
 @inject('store')
 @observer
@@ -42,7 +42,7 @@ export default class BillformViewer extends Component {
         const oid = this.props.store.formIds[this.props.formKey];
         return (
             <View style={{ flex: 1 }}>
-                <View style={{flexDirection: 'row'}}>
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
                     <SelectField
                         floatingLabelText="Form Status"
                         value={this.status}
@@ -53,7 +53,7 @@ export default class BillformViewer extends Component {
                         <MenuItem value={'NEW'} primaryText="NEW" />
                     </SelectField>
                     <TextField floatingLabelText="单据ID" type='text' value={oid} onChange={this.changeOID} />
-                    <FlatButton onClick={this.submitChange} label="刷新" />
+                    <Button type="primary" onClick={this.submitChange} >刷新</Button>
                 </View>
                 <View style={{ flexDirection: 'row' }}>
                     <View style={{ width: 800, height: 667 }}>

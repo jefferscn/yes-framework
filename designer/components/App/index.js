@@ -6,7 +6,8 @@ import { inject, observer } from "mobx-react";
 import { RefreshIndicator } from 'material-ui';
 import { observable } from 'mobx';
 // import ProjectTree from '../ProjectTree';
-import { ThemeProvider } from 'react-native-material-ui';
+// import { ThemeProvider } from 'react-native-material-ui';
+import { getTheme, ThemeContext } from 'react-native-material-ui';
 import View from '../View';
 import { Route, Link, withRouter } from "react-router-dom";
 import ProjectExplorer from '../ProjectExplorer';
@@ -31,43 +32,44 @@ const transitionStyles = {
 @observer
 export default class App extends Component {
     @observable loading = true;
+    onMessage = async ({ data }) => {
+        if (data.type === 'deploymeta') {
+            const f = this.props.store.selected;
+            // const f = await this.props.store.getBillForm(data.formKey);
+            f.commitContent(JSON.stringify(data.meta));
+        }
+        if (data.type === 'Open') {
+            const { formKey, oid, status } = data;
+            let f = await this.props.store.getBillForm(formKey);
+            if (!f) {
+                f = await this.props.store.project.addBillForm(formKey);
+            }
+            this.props.store.openForm(formKey, oid);
+        }
+        if (data.type === 'OpenWorkitem') {
+            const { WorkitemID, formKey, oid } = data;
+            let f = await this.props.store.getBillForm(formKey);
+            if (!f) {
+                f = await this.props.store.project.addBillForm(formKey);
+            }
+            this.props.store.openForm(formKey, oid);
+            // this.props.store.selectFormKey(formKey);
+        }
+        if (data.type === 'showlogin') {//显示登录配置
+
+        }
+    }
     async componentDidMount() {
         await this.props.store.project.reload();
         this.loading = false;
-        window.addEventListener('message', async ({ data }) => {
-            if (data.type === 'deploymeta') {
-                const f= this.props.store.selected;
-                // const f = await this.props.store.getBillForm(data.formKey);
-                f.commitContent(JSON.stringify(data.meta));
-            }
-            if(data.type==='Open') {
-                const { formKey, oid, status } = data;
-                let f = await this.props.store.getBillForm(formKey);
-                if (!f) {
-                    f = await this.props.store.project.addBillForm(formKey);
-                }
-                this.props.store.openForm(formKey, oid);
-            }
-            if (data.type === 'OpenWorkitem') {
-                const { WorkitemID, formKey, oid } = data;
-                let f = await this.props.store.getBillForm(formKey);
-                if (!f) {
-                    f = await this.props.store.project.addBillForm(formKey);
-                }
-                this.props.store.openForm(formKey, oid);
-                // this.props.store.selectFormKey(formKey);
-            }
-            if (data.type === 'showlogin') {//显示登录配置
-
-            }
-        });
+        window.addEventListener('message', this.onMessage);
     }
     componentWillUnmount() {
-        window.removeEventListener('message');
+        window.removeEventListener('message', this.onMessage);
     }
     render() {
         return <MuiThemeProvider muiTheme={getMuiTheme()}>
-            <ThemeProvider muitheme={{}}>
+            <ThemeContext.Provider value={getTheme({})}>
                 <View style={{ flex: 1 }}>
                     <AppBar
                         onLeftIconButtonTouchTap={() => { this.props.toggleTree() }}
@@ -78,7 +80,8 @@ export default class App extends Component {
                                 <ProjectExplorer />
                         }
                     </View>
-                </View></ThemeProvider>
+                </View>
+            </ThemeContext.Provider>
         </MuiThemeProvider>
     }
 }

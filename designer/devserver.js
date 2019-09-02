@@ -5,7 +5,6 @@ import methodOverride from 'method-override';
 import morgan from 'morgan';
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
-import webpackHotMiddleware from 'webpack-hot-middleware';
 // import cors from 'cors';
 // import webpackConfig from '../config/webpack.config.designer';
 // import uiWebpackConfig from '../config/webpack.config.designer.ui';

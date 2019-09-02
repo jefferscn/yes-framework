@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import { inject, observer } from "mobx-react";
+import { observer } from "mobx-react";
 import View from '../View';
 import ProjectFile from './ProjectFile';
-import Popover from 'material-ui/Popover';
-import Menu from 'material-ui/Menu';
-import MenuItem from 'material-ui/MenuItem';
-import Delete from 'material-ui/svg-icons/action/delete';
-import PlaylistAdd from 'material-ui/svg-icons/av/playlist-add';
-import NoteAdd from 'material-ui/svg-icons/action/note-add';
-import Extension from 'material-ui/svg-icons/action/extension';
+// import Popover from 'material-ui/Popover';
+// import Menu from 'material-ui/Menu';
+// import MenuItem from 'material-ui/MenuItem';
+// import Delete from 'material-ui/svg-icons/action/delete';
+// import PlaylistAdd from 'material-ui/svg-icons/av/playlist-add';
+// import NoteAdd from 'material-ui/svg-icons/action/note-add';
+// import Extension from 'material-ui/svg-icons/action/extension';
 import { observable } from 'mobx';
 import { FILE_TYPE } from '../../mobx-store/AppState';
 
@@ -29,28 +29,31 @@ export default class ProjectFileList extends Component {
             }
         },
     }
-    componentDidMount() {
-        this.ref.addEventListener('contextmenu', (e) => {
-            e.preventDefault();
-            // alert('contextmenu');
-            this.x = e.clientX;
-            this.y = e.clientY;
-            const { file } = this.props;
-            if (file) {
-                const isDirectory = file.isDirectory;
-                const type = file.type;
-                const reserve = file.reserve;
-                if (!(reserve && !isDirectory)) {
-                    this.popoverShow = true;
-                }
+
+    onContextMenu = (e) => {
+        e.preventDefault();
+        // alert('contextmenu');
+        this.x = e.clientX;
+        this.y = e.clientY;
+        const { file } = this.props;
+        if (file) {
+            const isDirectory = file.isDirectory;
+            const type = file.type;
+            const reserve = file.reserve;
+            if (!(reserve && !isDirectory)) {
+                this.popoverShow = true;
             }
-        });
+        }
+    }
+
+    componentDidMount() {
+        this.ref.addEventListener('contextmenu', this.onContextMenu);
     }
     onPopoverClose = () => {
         this.popoverShow = false;
     }
     componentWillUnmount() {
-        this.ref.removeEventListener('contextmenu');
+        this.ref.removeEventListener('contextmenu', this.onContextMenu);
     }
     addDir = () => {
 
@@ -83,7 +86,7 @@ export default class ProjectFileList extends Component {
                         <ProjectFile file={file} level={1} />
                     )
                 }
-                <Popover
+                {/* <Popover
                     anchorEl={this.dummyAnchorEl}
                     open={this.popoverShow}
                     onRequestClose={this.onPopoverClose}
@@ -94,7 +97,7 @@ export default class ProjectFileList extends Component {
                         {(type === FILE_TYPE.CONTROL && isDirectory) ? <MenuItem primaryText="新增控件" leftIcon={<Extension />} onClick={this.addControl} /> : null}
                         {reserve ? null : <MenuItem primaryText="删除" leftIcon={<Delete />} onClick={this.remove} />}
                     </Menu>
-                </Popover>
+                </Popover> */}
             </View>
         );
     }

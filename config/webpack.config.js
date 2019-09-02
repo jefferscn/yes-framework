@@ -10,6 +10,7 @@ export default (DEBUG, PATH, PORT = 3000) => {
                 'react-native': 'react-native-web',
                 'yes-platform': 'yes-web',
                 'yes-designer': path.resolve(__dirname, '../designer'),
+                'react-native-web/dist/exports/Modal': 'modal-enhanced-react-native-web',
                 yes: 'yes-intf',
             },
         },

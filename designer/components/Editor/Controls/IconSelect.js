@@ -49,6 +49,9 @@ class IconWall extends Component {
         if(this.totalPage < this.currentPage) {
             this.currentPage = this.totalPage;
         }
+        if(this.totalPage>0 && this.currentPage===0) {
+            this.currentPage =1;
+        }
     }
     render() {
         const start = this.pageSize* (this.currentPage-1);
@@ -70,15 +73,17 @@ class IconWall extends Component {
 export default class IconSelect extends Select {
     @observable searchingText = ''
     @observable iconData = Object.keys(this.context.getIconData());
+    @observable selectedIconData = this.iconData;
     static contextTypes = {
         getIconData : PropTypes.func,
+        getIconComponent: PropTypes.func,
     }
     static defaultProps = {
         onChange: function () { }
     }
     onClear = ()=> {
         this.searchingText = '';
-        this.iconData = Object.keys(IconMapper);
+        this.selectedIconData= this.iconData;
     }
     onSearchTextChange = (v)=> {
         this.searchingText = v;
@@ -87,11 +92,12 @@ export default class IconSelect extends Select {
         this.props.onChange(icon);
     }
     onSubmit = (v)=> {
-        this.iconData = Object.keys(IconMapper).filter((icon)=> {
+        this.selectedIconData= this.iconData.filter((icon)=> {
             return icon.includes(v);
         });
     }
     renderDisplay() {
+        const Icon = this.context.getIconComponent();
         return (
             <Icon style={styles.icon} name={this.props.value} />
         )
@@ -110,7 +116,7 @@ export default class IconSelect extends Select {
                     onClear={this.onClear}
                 />
                 <IconWall 
-                    data = {this.iconData} 
+                    data = {this.selectedIconData} 
                     column={10} 
                     row={5} 
                     value={this.props.value}

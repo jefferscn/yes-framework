@@ -11,8 +11,8 @@ export default class View extends PureComponent {
     addEventListener=(event, fn)=> {
         this.ref.addEventListener(event, fn);
     }
-    removeEventListener=(event)=> {
-        this.ref.removeEventListener(event);
+    removeEventListener=(event,fn)=> {
+        this.ref.removeEventListener(event, fn);
     }
     render() {
         let {style, mouseEnterOrLeave, ...others} = this.props;

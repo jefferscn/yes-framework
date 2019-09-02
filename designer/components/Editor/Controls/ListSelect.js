@@ -5,9 +5,13 @@ import { observer } from 'mobx-react';
 import { observable } from 'mobx';
 import { Modal, Text, View, ScrollView, ListView, Button, StyleSheet, ActivityIndicator } from 'react-native';
 import { ListItem } from 'react-native-material-ui';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
-import ContentClear from 'material-ui/svg-icons/content/clear';
+// import SelectField from 'material-ui/SelectField';
+import { Icon, Select } from 'antd';
+// import MenuItem from 'material-ui/MenuItem';
+// import { Select } from 'antd';
+
+const { Option } = Select;
+// import ContentClear from 'material-ui/svg-icons/content/clear';
 
 const styles = StyleSheet.create({
     filter: {
@@ -78,10 +82,10 @@ class ListViewBasics extends Component {
     componentWillReceiveProps(props, contet) {
         this.data = props.value;
         if (props.value) {
-            this.dirtyRows = Array.concat(this.props.value, props.value);
+            this.dirtyRows = [].concat(this.props.value, props.value);
         } else {
             if (props.value) {
-                this.dirtyRows = Array.concat(this.dirtyRows, props.value);
+                this.dirtyRows = [].concat(this.dirtyRows, props.value);
             }
         }
         let dataSource = this.state.dataSource;
@@ -160,7 +164,7 @@ export default (getItemsList, showCategorySelect = false, showDetailSelect = fal
             }
         }
 
-        selectCategory = (e, index, category) => {
+        selectCategory = (category) => {
             this.selectedCategory = category;
             this.selectableDetails = this.details.filter((item) => {
                 return item.category === category;
@@ -170,7 +174,7 @@ export default (getItemsList, showCategorySelect = false, showDetailSelect = fal
             })
         }
 
-        selectDetail = (e, index, detail) => {
+        selectDetail = (detail) => {
             this.selectedDetailType = detail;
             this.selectableItems = this.items.filter((item) => {
                 return item.category === this.category && item.detailType === detail;
@@ -221,11 +225,11 @@ export default (getItemsList, showCategorySelect = false, showDetailSelect = fal
             if (!items) {
                 return null;
             }
-            return (<SelectField value={value} onChange={onChange}>
+            return (<Select dropdownStyle={{zIndex:9999}} defaultValue={value} style={{width:120}} onChange={onChange}>
                 {
-                    items.map((item) => <MenuItem value={item} primaryText={item}></MenuItem>)
+                    items.map((item) => <Option value={item}>{item}</Option>)
                 }
-            </SelectField>);
+            </Select>);
         }
 
         clearValue = (e) => {
@@ -235,8 +239,11 @@ export default (getItemsList, showCategorySelect = false, showDetailSelect = fal
 
         render() {
             // const data = this.getItemList();
-            return <View onClick={this.onPress} style={this.props.style}>
-                <View style={{ flexDirection: 'row' }}><Text style={{ display: 'flex', alignItems: 'center', flex: 1 }}>{this.props.value}</Text><ContentClear onClick={this.clearValue} /></View>
+            return <View style={this.props.style}>
+                <View onClick={this.onPress} style={{ flexDirection: 'row' }}>
+                    <Text style={{ display: 'flex', alignItems: 'center', flex: 1 }}>{this.props.value}</Text>
+                    <Icon type="delete" onClick={this.clearValue}/>
+                </View>
                 <Modal
                     animationType={"slide"}
                     transparent={true}

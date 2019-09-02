@@ -16,7 +16,6 @@ import RuntimeProvider from './controls/providers/RuntimeProvider';
 import './patch/antd-mobile.css';
 import Element from './template/Element';
 // import './yigopatch';
-import './patch/antd-mobile.css';
 
 const { sessionKey, serverPath, appName, wechat, cordova, baidumap } = projectJSON;
 const { template, tooltip, companyName, bgImagePath, logoImagePath } = loginJSON;

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { inject, observer } from "mobx-react";
-import { observable, action } from 'mobx';
 import View from '../View';
 import Icon from '../Icon';
 import { FILE_TYPE } from '../../mobx-store/AppState';
@@ -31,15 +30,15 @@ const NewProjectFile = inject('store')(observer(class ProjectFile extends Compon
     getIcon = (type)=> {
         switch(type) {
             case FILE_TYPE.BILLFORM:
-                return 'fa-wpforms';
+                return 'form';
             case FILE_TYPE.CONTROL:
-                return 'fa-puzzle-piece';
+                return 'control';
             case FILE_TYPE.PROJECTCFG:
-                return 'fa-gear';
+                return 'setting';
             case FILE_TYPE.LOGINCFG:
-                return 'fa-television';
+                return 'safety-certificate';
             case FILE_TYPE.ROUTECFG:
-                return 'fa-home';
+                return 'home';
         }
     }
     render() {
@@ -51,14 +50,14 @@ const NewProjectFile = inject('store')(observer(class ProjectFile extends Compon
         const selected = store.selected === this.props.file; 
         const selectedStyle = selected?styles.selected:{};
         if (file.isDirectory) {
-            let iconDir = expand ? 'fa-caret-down' : 'fa-caret-right';
+            let iconDir = expand ? 'down' : 'right';
             if(file.isLoading) {
-                iconDir = 'fa-spinner';
+                iconDir = 'sync';
             }
             return (
                 <View onClick={this.onSelect} onMouseDown={this.onSelect} >
                     <View onClick = {this.onSelect} style={{...styles.file, ...selectedStyle, ...containerStyle}}>
-                        <Icon onClick={this.toggleExpand} className={file.isLoading?'fa-spin':''} name={iconDir} style={styles.icon}/>
+                        <Icon onClick={this.toggleExpand} spin={file.isLoading?'true':false} name={iconDir} style={styles.icon}/>
                         <a>{file.name}</a>
                     </View>
                     {

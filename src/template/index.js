@@ -19,7 +19,7 @@ let MuiThemeProvider = null;
 let DesignerStore = null;
 if (__DESIGN__) {
     MuiThemeProvider = require('material-ui/styles/MuiThemeProvider').default;
-    DesignerStore = require('yes-designer/utils/designerstore');
+    DesignerStore = require('yes-designer/utils/designerstore').default;
     TemplateSelect = require('yes-designer/components/Editor/Controls/TemplateSelect').default;
     CellLayoutEditor = require('yes-designer/components/Editor/CellLayoutEditor').default;
 }

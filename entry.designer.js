@@ -16,6 +16,7 @@ import './src/yigopatch/design';
 import defaultTemplateMapping from './src/template/defaultTemplateMapping';
 import Icon from './src/font/IconFont';
 import IconData from './src/font/iconfont.json';
+import 'antd/dist/antd.css';
 
 App.appWrapper = <DesignerProvider iconData={IconData} iconComponent={Icon} templates={defaultTemplateMapping} controls = {Controls} />;
 
