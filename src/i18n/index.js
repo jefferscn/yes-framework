@@ -1,7 +1,1 @@
-import zhCN from './zh-CN';
-import enUS from './en_US';
-
-export default {
-    'zh-CN': zhCN,
-    'en-US': enUS,
-};
+export { i18n as default } from '../config';

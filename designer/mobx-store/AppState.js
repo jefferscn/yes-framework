@@ -46,7 +46,7 @@ export class Project {
             this.billforms = new ProjectFile(this.access, '单据', '//config/billforms', true, FILE_TYPE.BILLFORM, true);
             this.files.push(this.billforms);
             // 2. 加载控件目录
-            this.files.push(new ProjectFile(this.access, '控件', '//controls', true, FILE_TYPE.CONTROL, true));
+            this.files.push(new ProjectFile(this.access, '控件', '//config/controls', true, FILE_TYPE.CONTROL, true));
             // 3. 加载项目配置文件
             this.files.push(new ProjectFile(this.access, '项目配置(正式)', '//config/project.json', false, FILE_TYPE.PROJECTCFG, true));
             this.files.push(new ProjectFile(this.access, '项目配置(测试)', '//config/project.debug.json', false, FILE_TYPE.PROJECTCFG, true));

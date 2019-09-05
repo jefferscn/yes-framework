@@ -11,11 +11,11 @@ import App from './src';
 import { start } from 'yes-platform';
 import 'antd-mobile/dist/antd-mobile.css';
 import DesignerProvider from 'yes-designer/utils/provider';
-import Controls from './src/config/control';
+import Controls from './src/controls';
 import './src/yigopatch/design';
 import defaultTemplateMapping from './src/template/defaultTemplateMapping';
-import Icon from './src/font/IconFont';
-import IconData from './src/font/iconfont.json';
+import Icon from './src/config/font/IconFont';
+import IconData from './src/config/font/iconfont.json';
 import 'antd/dist/antd.css';
 
 App.appWrapper = <DesignerProvider iconData={IconData} iconComponent={Icon} templates={defaultTemplateMapping} controls = {Controls} />;

@@ -4,8 +4,8 @@ import { observer } from 'mobx-react';
 import { observable, toJS } from 'mobx';
 import { deepObserve } from 'mobx-utils';
 import { DynamicControl } from 'yes';
-import designExport from 'yes-designer/utils/DesignExport';
-import YIGOControlConfig from 'yes-designer/components/Editor/Controls/YIGO';
+import designExport from '../../utils/DesignExport';
+import YIGOControlConfig from '../../components/Editor/Controls/YIGO';
 
 @observer
 class YIGOControl extends Component {

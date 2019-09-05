@@ -11,6 +11,8 @@ export default (DEBUG, PATH, PORT = 3000) => {
                 'yes-platform': 'yes-web',
                 'yes-designer': path.resolve(__dirname, '../designer'),
                 'react-native-web/dist/exports/Modal': 'modal-enhanced-react-native-web',
+                'yes-template-default': path.resolve(__dirname, '../src/template/default'),
+                'yes-control-default': path.resolve(__dirname, '../src/controls/default'),
                 yes: 'yes-intf',
             },
         },

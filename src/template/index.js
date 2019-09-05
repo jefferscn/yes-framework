@@ -1,15 +1,17 @@
-import './TabTemplate';
-import './ModalTemplate';
-import './DynamicTemplate';
-import './NormalTemplate';
-import './CustomTemplate';
-import './ListTemplate';
-import './VoidTemplate';
+// import './TabTemplate';
+// import './ModalTemplate';
+// import './DynamicTemplate';
+// import './NormalTemplate';
+// import './CustomTemplate';
+// import './ListTemplate';
+// import './VoidTemplate';
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { observer, inject } from 'mobx-react';
 import { observable, toJS } from 'mobx';
 import PropTypes from 'prop-types';
+import { templates } from '../config';
+import defaultTemplates from './defaulttemplates';
 // import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import defaultTemplateMapping from './defaultTemplateMapping';
 // import DesignerStore from 'yes-designer/utils/designerstore';
@@ -23,6 +25,11 @@ if (__DESIGN__) {
     TemplateSelect = require('yes-designer/components/Editor/Controls/TemplateSelect').default;
     CellLayoutEditor = require('yes-designer/components/Editor/CellLayoutEditor').default;
 }
+
+const allTemplates = Object.assign({}, defaultTemplates, templates);
+Object.keys(allTemplates).forEach((temp)=>{
+    defaultTemplateMapping.reg(temp, allTemplates[temp]);
+});
 
 const styles = StyleSheet.create({
     container: {

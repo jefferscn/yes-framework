@@ -1,9 +1,8 @@
 import React, { Component, isValidElement } from 'react';
 import { Components } from 'yes-platform'; // eslint-disable-line
-import defaultTemplateMapping from './template/defaultTemplateMapping';
-import billform from './config/billforms';
+import billform from './config/billform';
 import PropTypes from 'prop-types';
-import CustomControls from './config/control.js';
+// import CustomControls from './config/control.js';
 import { observer } from 'mobx-react';
 import { observable, toJS } from 'mobx';
 import Template from './template';
@@ -17,7 +16,7 @@ export default class TemplateView extends Component{
     static childContextTypes = {
         getControlProps: PropTypes.func,
         createElement: PropTypes.func,
-        getControl: PropTypes.func,
+        // getControl: PropTypes.func,
     }
 
     static contextTypes = {
@@ -32,7 +31,7 @@ export default class TemplateView extends Component{
         return {
             getControlProps: this.getControlProps,
             createElement: this.createElement,
-            getControl: this.getControl,
+            // getControl: this.getControl,
         };
     }
 
@@ -47,9 +46,9 @@ export default class TemplateView extends Component{
         return null;
     }
 
-    getControl = (type) => {
-        return CustomControls[type];
-    }
+    // getControl = (type) => {
+    //     return CustomControls[type];
+    // }
 
     getControlProps = (yigoid) => {
         const { formKey } = this.props;

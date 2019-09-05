@@ -1,4 +1,5 @@
-const context = require.context('./controls', true, /.js$/);
+import { controls as CustomControls } from '../config';
+const context = require.context('./default', true, /.js$/);
 
 const obj = {};
 context.keys().forEach((key) => {
@@ -12,4 +13,4 @@ context.keys().forEach((key) => {
   }
 });
 
-export default obj;
+export default Object.assign({}, obj, CustomControls);

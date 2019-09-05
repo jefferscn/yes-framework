@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Components } from 'yes-platform'; // eslint-disable-line
 // import billform from './billform';
-import billform from './config/billforms';
+import billform from './config/billform';
 import controls from './config/control.js';
 import { YIUI } from 'yes-core';
 import { WorkitemWrap as workitemWrap, DynamicControl } from 'yes';

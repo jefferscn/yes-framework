@@ -10,7 +10,7 @@ import WorkitemView from '../WorkitemView';
 import FieldView from '../FieldView';
 import generateRouteComponent from '../util/generateRouteComponent';
 import Element from '../template/Element';
-import Icon from '../font/IconFont';
+import Icon from '../config/font/IconFont';
 // import DesignControlWrap from 'yes-designer/utils/DesignControlWrap';
 
 const defaultCardRoute = {
