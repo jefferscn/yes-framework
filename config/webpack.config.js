@@ -53,6 +53,7 @@ export default (DEBUG, PATH, PORT = 3000) => {
                     query: {
                         babelrc: false,
                         presets: ['es2015', 'react', 'stage-1'],
+                        plugins: ["transform-decorators-legacy"]
                     },
                 }, {
                     test: /\.scss$/,
@@ -93,14 +94,14 @@ export default (DEBUG, PATH, PORT = 3000) => {
                 { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'file-loader' },
             ],
         },
-        plugins: DEBUG
-            ? [new webpack.DefinePlugin({ 'process.env.NODE_ENV': '"debug"', __DEV__: true }),
+        plugins: DEBUG ?
+            [new webpack.DefinePlugin({ 'process.env.NODE_ENV': '"debug"', __DEV__: true }),
                 new HtmlWebpackPlugin({
                     template: './index.html',
                 }),
-            ]
-            : [
-                new webpack.DefinePlugin({ 'process.env.NODE_ENV': '"production"',__DEV__: false }),
+            ] :
+            [
+                new webpack.DefinePlugin({ 'process.env.NODE_ENV': '"production"', __DEV__: false }),
                 // new webpack.optimize.DedupePlugin(),
                 new webpack.optimize.UglifyJsPlugin({
                     compressor: { screw_ie8: true, keep_fnames: true, warnings: false },

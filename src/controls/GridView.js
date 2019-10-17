@@ -9,7 +9,7 @@ import { View, ActivityIndicator, StyleSheet } from 'react-native';
 import { propTypes } from 'yes'; // eslint-disable-line
 import { ListRowWrap as listRowWrap, ListWrap, DynamicControl, GridWrap } from 'yes';
 // import styles from '../../style';
-import ListViewItem from '../ListViewItem';
+import ListViewItem from './ListViewItem';
 
 const styles = StyleSheet.create({
     primaryTextLayout: {
@@ -74,12 +74,10 @@ class AntdListView extends PureComponent {
                 dataSource: this.state.dataSource.cloneWithRows(nextProps.controlState.get('data'), this.generateRowIdentifier(nextProps)),
             });
         }
-        this.centerComp = (
-            <View style={[{ flex: 1, overflow: 'hidden' }, this.props.style.centerStyle]}>
-                {this.generatePrimaryElement(nextProps)}
-                {this.generateSecondaryElement(nextProps)}
-                {this.generateTertiaryElement(nextProps)}
-            </View>
+        this.centerComp = ( <
+            View style = {
+                [{ flex: 1, overflow: 'hidden' }, this.props.style.centerStyle] } > { this.generatePrimaryElement(nextProps) } { this.generateSecondaryElement(nextProps) } { this.generateTertiaryElement(nextProps) } <
+            /View>
         )
     }
 
@@ -124,176 +122,189 @@ class AntdListView extends PureComponent {
         }
     }
     generateTertiaryElement = (props) => {
-        const el = [];
-        if (props.tertiaryKey) {
-            let tertiaryKeyArray = props.tertiaryKey;
-            if (typeof props.tertiaryKey === 'string') {
-                tertiaryKeyArray = [props.tertiaryKey];
-            }
-            tertiaryKeyArray.forEach((item) => {
-                let itemtype = typeof item;
-                if (itemtype === 'string') {
-                    el.push(<DynamicControl
-                        layoutStyles={StyleSheet.flatten(styles.tertiaryContainer)}
-                        isCustomLayout={props.isCustomLayout}
-                        textStyles={StyleSheet.flatten([styles.tertiaryText, props.style.tertiaryText])}
-                        yigoid={item} />);
-                } else {
-                    if (item.$$typeof) {
-                        el.push(item);
-                    } else {
-                        el.push(<DynamicControl
-                            layoutStyles={StyleSheet.flatten(styles.tertiaryContainer)}
-                            isCustomLayout={props.isCustomLayout}
-                            textStyles={StyleSheet.flatten([styles.tertiaryText, props.style.tertiaryText])}
-                            {...item} />);
-                    }
+            const el = [];
+            if (props.tertiaryKey) {
+                let tertiaryKeyArray = props.tertiaryKey;
+                if (typeof props.tertiaryKey === 'string') {
+                    tertiaryKeyArray = [props.tertiaryKey];
                 }
-            });
-            return <View style={{ flexDirection: 'row' }}>{el}</View>;
-        }
-        return null;
-    }
-    generatePrimaryElement = (props) => {
-        const primaryKey = props.primaryKey;
-        let el;
-        if (!primaryKey) {
-            return null;
-        }
-        const itemtype = typeof (primaryKey);
-        if (itemtype === 'string') {
-            el = <DynamicControl
-                layoutStyles={StyleSheet.flatten(styles.primaryContainer)}
-                isCustomLayout={props.isCustomLayout}
-                textStyles={StyleSheet.flatten([styles.primaryText, props.style.primaryText])}
-                yigoid={primaryKey} />;
-        } else {
-            if (primaryKey.$$typeof) {
-                el = primaryKey;
-            } else {
-                el = <DynamicControl layoutStyles={{ justifyContent: 'flex-start' }} isCustomLayout={props.isCustomLayout} textStyles={props.style.primaryText} {...primaryKey} />;
-            }
-        }
-        return <View style={[{ flex: 1 }, props.style.firstline]}>{el}</View>;
-    }
-    generateSecondaryElement = (props) => {
-        const el = [];
-        if (props.secondKey) {
-            let secondKeyArray = props.secondKey;
-            if (typeof props.secondKey === 'string') {
-                secondKeyArray = [props.secondKey];
-            }
-            secondKeyArray.forEach((item) => {
-                let itemtype = typeof item;
-                if (itemtype === 'string') {
-                    el.push(<DynamicControl
-                        layoutStyles={StyleSheet.flatten(styles.secondaryContainer)}
-                        isCustomLayout={props.isCustomLayout}
-                        textStyles={StyleSheet.flatten([styles.secondaryText, props.style.secondaryText])}
-                        key={item} yigoid={item} />);
-                } else {
-                    if (item.$$typeof) {
-                        el.push(item);
-                    } else {
-                        el.push(<DynamicControl
-                            layoutStyles={StyleSheet.flatten(styles.secondaryContainer)}
-                            isCustomLayout={props.isCustomLayout}
-                            textStyles={StyleSheet.flatten([styles.secondaryText, props.style.secondaryText])}
-                            {...item} />);
+                tertiaryKeyArray.forEach((item) => {
+                        let itemtype = typeof item;
+                        if (itemtype === 'string') {
+                            el.push( < DynamicControl layoutStyles = { StyleSheet.flatten(styles.tertiaryContainer) }
+                                isCustomLayout = { props.isCustomLayout }
+                                textStyles = { StyleSheet.flatten([styles.tertiaryText, props.style.tertiaryText]) }
+                                yigoid = { item }
+                                />);
+                            }
+                            else {
+                                if (item.$$typeof) {
+                                    el.push(item);
+                                } else {
+                                    el.push( < DynamicControl layoutStyles = { StyleSheet.flatten(styles.tertiaryContainer) }
+                                        isCustomLayout = { props.isCustomLayout }
+                                        textStyles = { StyleSheet.flatten([styles.tertiaryText, props.style.tertiaryText]) } {...item }
+                                        />);
+                                    }
+                                }
+                            });
+                        return <View style = {
+                            { flexDirection: 'row' } } > { el } < /View>;
                     }
+                    return null;
                 }
-            });
-            return <View style={{ flexDirection: 'row' }}>{el}</View>;
-        }
-        return null;
-    }
-    generateActions = () => (
-        <View style={[styles.flexrow_r, this.props.actionContainerStyle]}>
-            {
-                this.props.actions.map((action) => {
-                    const itemType = typeof (action);
-                    if (itemType === 'string') {
-                        return <DynamicControl yigoid={action} />;
+                generatePrimaryElement = (props) => {
+                    const primaryKey = props.primaryKey;
+                    let el;
+                    if (!primaryKey) {
+                        return null;
                     }
-                    if (itemType.$$typeof) {
-                        return action;
+                    const itemtype = typeof(primaryKey);
+                    if (itemtype === 'string') {
+                        el = < DynamicControl
+                        layoutStyles = { StyleSheet.flatten(styles.primaryContainer) }
+                        isCustomLayout = { props.isCustomLayout }
+                        textStyles = { StyleSheet.flatten([styles.primaryText, props.style.primaryText]) }
+                        yigoid = { primaryKey }
+                        />;
+                    } else {
+                        if (primaryKey.$$typeof) {
+                            el = primaryKey;
+                        } else {
+                            el = < DynamicControl layoutStyles = {
+                                { justifyContent: 'flex-start' } }
+                            isCustomLayout = { props.isCustomLayout }
+                            textStyles = { props.style.primaryText } {...primaryKey }
+                            />;
+                        }
                     }
-                    return <DynamicControl {...action} />;
-                })
-            }
-        </View>
-    );
+                    return <View style = {
+                        [{ flex: 1 }, props.style.firstline] } > { el } < /View>;
+                }
+                generateSecondaryElement = (props) => {
+                        const el = [];
+                        if (props.secondKey) {
+                            let secondKeyArray = props.secondKey;
+                            if (typeof props.secondKey === 'string') {
+                                secondKeyArray = [props.secondKey];
+                            }
+                            secondKeyArray.forEach((item) => {
+                                    let itemtype = typeof item;
+                                    if (itemtype === 'string') {
+                                        el.push( < DynamicControl layoutStyles = { StyleSheet.flatten(styles.secondaryContainer) }
+                                            isCustomLayout = { props.isCustomLayout }
+                                            textStyles = { StyleSheet.flatten([styles.secondaryText, props.style.secondaryText]) }
+                                            key = { item }
+                                            yigoid = { item }
+                                            />);
+                                        }
+                                        else {
+                                            if (item.$$typeof) {
+                                                el.push(item);
+                                            } else {
+                                                el.push( < DynamicControl layoutStyles = { StyleSheet.flatten(styles.secondaryContainer) }
+                                                    isCustomLayout = { props.isCustomLayout }
+                                                    textStyles = { StyleSheet.flatten([styles.secondaryText, props.style.secondaryText]) } {...item }
+                                                    />);
+                                                }
+                                            }
+                                        });
+                                    return <View style = {
+                                        { flexDirection: 'row' } } > { el } < /View>;
+                                }
+                                return null;
+                            }
+                            generateActions = () => ( <
+                                View style = {
+                                    [styles.flexrow_r, this.props.actionContainerStyle] } > {
+                                    this.props.actions.map((action) => {
+                                        const itemType = typeof(action);
+                                        if (itemType === 'string') {
+                                            return <DynamicControl yigoid = { action }
+                                            />;
+                                        }
+                                        if (itemType.$$typeof) {
+                                            return action;
+                                        }
+                                        return <DynamicControl {...action }
+                                        />;
+                                    })
+                                } <
+                                /View>
+                            );
 
-    centerComp = (
-        <View style={[{ flex: 1, overflow: 'hidden' }, this.props.style.centerStyle]}>
-            {this.generatePrimaryElement(this.props)}
-            {this.generateSecondaryElement(this.props)}
-            {this.generateTertiaryElement(this.props)}
-        </View>
-    )
-    NewListItem = listRowWrap(ListViewItem, this.props.yigoid)
-    // RowView = listRowWrap(View, this.props.yigoid)
-    renderItem = (item, secionId, rowId, highlightRow) => {
-        const NewListItem = this.NewListItem;
-        // const RowView = this.RowView;
-        // if (this.props.actions) {
-        //     return (<RowView style={[styles.flexcol, this.props.rowContainerStyle]}>
-        //         <ListItem
-        //             centerElement={this.centerComp}
-        //             rightElement={this.props.rightElement}
-        //             onPress={() => this.onClick(index)}
-        //             divider={this.props.divider}
-        //             rowIndex={index}
-        //             numberOfLines={3}
-        //             leftElement={this.props.leftElement}
-        //         />
-        //         {
-        //             this.generateActions()
-        //         }
-        //     </RowView>);
-        // }
-        return (
-            <NewListItem
-                centerElement={this.centerComp}
-                rightElement={this.props.rightElement}
-                containerStyle={this.props.rowStyle}
-                onPress={() => this.onClick(rowId)}
-                // divider={this.props.divider}
-                rowIndex={rowId}
-                showArrow
-                leftElement={this.props.leftElement}
-            />
-        );
-    }
-    onRefresh = () => {
-        this.props.onRefresh && this.props.onRefresh();
-    }
-    render() {
-        const { controlState, layoutStyles, style } = this.props;
-        if (controlState && controlState.get('isVirtual')) {
-            return (
-                <View style={[layoutStyles]}>
-                    <ActivityIndicator size="large" color="cadetblue" />
-                </View>
-            );
-        }
-        return (
-            <ListView
-                style={layoutStyles}
-                useBodyScroll={ths.props.useBodyScroll}
-                contentContainerStyle={{ width: '100%' }}
-                dataSource={this.state.dataSource}
-                renderRow={this.renderItem}
-                pageSize={20}
-                // pullToRefresh
-                pullToRefresh={this.props.onRefresh ? <PullToRefresh
-                    refreshing={false}
-                    onRefresh={this.onRefresh}
-                /> : null}
-            />
-        );
-    }
-}
-AntdListView.propTypes = propTypes.List;
+                            centerComp = ( <
+                                View style = {
+                                    [{ flex: 1, overflow: 'hidden' }, this.props.style.centerStyle] } > { this.generatePrimaryElement(this.props) } { this.generateSecondaryElement(this.props) } { this.generateTertiaryElement(this.props) } <
+                                /View>
+                            )
+                            NewListItem = listRowWrap(ListViewItem, this.props.yigoid)
+                                // RowView = listRowWrap(View, this.props.yigoid)
+                            renderItem = (item, secionId, rowId, highlightRow) => {
+                                const NewListItem = this.NewListItem;
+                                // const RowView = this.RowView;
+                                // if (this.props.actions) {
+                                //     return (<RowView style={[styles.flexcol, this.props.rowContainerStyle]}>
+                                //         <ListItem
+                                //             centerElement={this.centerComp}
+                                //             rightElement={this.props.rightElement}
+                                //             onPress={() => this.onClick(index)}
+                                //             divider={this.props.divider}
+                                //             rowIndex={index}
+                                //             numberOfLines={3}
+                                //             leftElement={this.props.leftElement}
+                                //         />
+                                //         {
+                                //             this.generateActions()
+                                //         }
+                                //     </RowView>);
+                                // }
+                                return ( <
+                                    NewListItem centerElement = { this.centerComp }
+                                    rightElement = { this.props.rightElement }
+                                    containerStyle = { this.props.rowStyle }
+                                    onPress = {
+                                        () => this.onClick(rowId) }
+                                    // divider={this.props.divider}
+                                    rowIndex = { rowId }
+                                    showArrow leftElement = { this.props.leftElement }
+                                    />
+                                );
+                            }
+                            onRefresh = () => {
+                                this.props.onRefresh && this.props.onRefresh();
+                            }
+                            render() {
+                                const { controlState, layoutStyles, style } = this.props;
+                                if (controlState && controlState.get('isVirtual')) {
+                                    return ( <
+                                        View style = {
+                                            [layoutStyles] } >
+                                        <
+                                        ActivityIndicator size = "large"
+                                        color = "cadetblue" / >
+                                        <
+                                        /View>
+                                    );
+                                }
+                                return ( <
+                                    ListView style = { layoutStyles }
+                                    useBodyScroll = { ths.props.useBodyScroll }
+                                    contentContainerStyle = {
+                                        { width: '100%' } }
+                                    dataSource = { this.state.dataSource }
+                                    renderRow = { this.renderItem }
+                                    pageSize = { 20 }
+                                    // pullToRefresh
+                                    pullToRefresh = {
+                                        this.props.onRefresh ? < PullToRefresh
+                                        refreshing = { false }
+                                        onRefresh = { this.onRefresh }
+                                        /> : null} /
+                                        >
+                                    );
+                                }
+                            }
+                            AntdListView.propTypes = propTypes.List;
 
-export default AntdListView;
+                            export default AntdListView;

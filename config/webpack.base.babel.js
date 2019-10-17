@@ -18,8 +18,7 @@ export default (options) => ({
         filename: '[name].js',
     }, options.output),
     module: {
-        loaders: [
-            {
+        loaders: [{
                 test: /\.jsx?$/,
                 include: [
                     path.resolve(__dirname, '../node_modules/react-native-scrollable-tab-view/'),
@@ -36,12 +35,12 @@ export default (options) => ({
                     path.resolve(__dirname, '../entry.js'),
                     path.resolve(__dirname, '../main.js'),
                 ],
-                exclude: [
-                ],
+                exclude: [],
                 loader: 'babel-loader',
                 query: {
                     babelrc: false,
                     presets: ['es2015', 'react', 'stage-1'],
+                    plugins: ["transform-decorators-legacy"]
                 },
             }, {
                 test: /\.scss$/,
@@ -102,4 +101,3 @@ export default (options) => ({
     target: 'web', // Make web variables accessible to webpack, e.g. window
     performance: options.performance || {},
 });
-
