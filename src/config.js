@@ -11,6 +11,7 @@ import RouteConfig from './config/route.json';
 import buildRoute from './route';
 import PlatformProvider from './controls/providers';
 import BaiduProvider from './controls/providers/BaiduMapProvider';
+import './patch/antd-mobile.css';
 // import './yigopatch';
 
 const { sessionKey, serverPath, appName, wechat, cordova, baidumap } = projectJSON;
