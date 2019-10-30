@@ -15,7 +15,7 @@ export default (Comp)=> {
         onChange = (v) => {
             this.context.setValue(this.props.controlId, v);
             // this.props.store.selectedControl[this.props.controlId] = v;
-            this.props.meta.onChange && this.props.meta.onChange(v, this.context);
+            this.props.meta.onChange && this.props.meta.onChange(v, this.context, this.props.store.context);
             this.props.onChange && this.props.onChange(this.props.controlId, v);
             this.context.onMetaChange && this.context.onMetaChange();
         }

@@ -367,6 +367,11 @@ class RouteViewer extends Component {
             console.log(ex);
         }
     }
+    componentWillUnmount() {
+        if (this.frame) {
+            this.frame.parentNode.removeChild(this.frame);
+        }
+    }
     render() {
         if (this.loading) {
             return null;

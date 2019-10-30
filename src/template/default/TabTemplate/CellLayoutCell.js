@@ -89,7 +89,7 @@ export default class CellLayoutItem extends Component {
             showLabel={false}
             // hideWhenEmptyValue
             textStyles={{ textAlign: 'left' }}
-            layoutStyles={{ minHeight: 44, textAlign: 'left', justifyContent: 'flex-start', alignItems: 'center' }}
+            layoutStyles={{ minHeight: 44, textAlign: 'left', justifyContent: 'flex-start', alignItems: 'center', backgroundColor: 'white' }}
             layout={this.getLayout(item)}
         />);
 

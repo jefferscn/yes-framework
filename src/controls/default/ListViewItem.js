@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import YIGOControl from 'yes-designer/components/Framework/YigoControl';
 const pressRetentionOffset = { top: 5, left: 5, right: 5, bottom: 5 };
 
 export default class ListViewItem extends PureComponent {
@@ -8,7 +9,7 @@ export default class ListViewItem extends PureComponent {
         divider: true,
     }
     renderLeftElement() {
-        return this.props.leftElement;
+        return <YIGOControl meta = {this.props.leftElement} />;
     }
 
     renderCenterElement() {

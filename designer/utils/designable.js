@@ -37,6 +37,8 @@ export default (defaultValue, designMeta) => {
                 getMeta: PropTypes.func,
                 applyIconPosition: PropTypes.func,
                 releaseIconPosition: PropTypes.func,
+                getComponents: PropTypes.func,
+                getContextComponent: PropTypes.func,
             }
 
             static childContextTypes = {
@@ -90,11 +92,15 @@ export default (defaultValue, designMeta) => {
             }
 
             onSelect = (e) => {
-                this.context.selectControl(this.meta, this.props, designMeta, defaultValue);
+                this.context.selectControl(this.meta, this.props, this.context, designMeta, defaultValue);
                 e.stopPropagation();
             }
 
-            onDeepChange = (change, path)=> {
+            onRemove = ()=> {
+                this.props.onRemove && this.props.onRemove();
+            }
+
+            onDeepChange = (change, path) => {
                 console.dir(change);
                 // this.render();
                 // this.version = this.version+1;
@@ -140,7 +146,7 @@ export default (defaultValue, designMeta) => {
                         } else {
                             meta[key] = val;
                         }
-                        if(this.props[key]) {
+                        if (this.props[key]) {
                             meta[key] = this.props[key];
                         }
                     }
@@ -154,7 +160,7 @@ export default (defaultValue, designMeta) => {
                     if (this.store.selectedControl === this.meta) {
                         debugStyle = styles.debug;
                     }
-                    const { debugStyle: dbgStyle, designStyle, meta, ...otherProps } = this.props;
+                    const { debugStyle: dbgStyle, designStyle, meta, designPositionBase, ...otherProps } = this.props;
                     const colorStyle = {
                         borderColor: PositionColors[this.position],
                     }
@@ -162,10 +168,16 @@ export default (defaultValue, designMeta) => {
                         color: PositionColors[this.position],
                     }
                     return <View style={[styles.container, debugStyle, dbgStyle, designStyle, colorStyle]} >
+                        {
+                            this.props.removeable ?
+                                (<TouchableOpacity onPress={this.onRemove} ref={(ref) => this.icon = ref} style={{ pointerEvents: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'absolute', top: 0, left: 0, width: 20, height: 20, zIndex: 100 }}>
+                                    <AwesomeFontIcon name="times" style={iconColorStyle} />
+                                </TouchableOpacity>) : null
+                        }
                         <TouchableOpacity onPress={this.onSelect} ref={(ref) => this.icon = ref} style={{ pointerEvents: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'absolute', top: 0, right: 20 * this.position, width: 20, height: 20, zIndex: 100 }}>
                             <AwesomeFontIcon name="gear" style={iconColorStyle} />
                         </TouchableOpacity>
-                        <Clazz version = {this.state.version} visible designStyle={dbgStyle || designStyle} meta={this.meta} {...otherProps} {...this.meta}/>
+                        <Clazz version={this.state.version} visible designStyle={dbgStyle || designStyle} meta={this.meta} {...otherProps} {...this.meta} />
                     </View>
                 }
                 return <Clazz meta={this.meta} {...this.props} {...this.meta} />

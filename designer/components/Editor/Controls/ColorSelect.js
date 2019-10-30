@@ -24,7 +24,7 @@ export default class ColorSelect extends Select {
         }
         return (
             <View style={[styles.display, color]}>
-                
+
             </View>
         )
     }
@@ -32,6 +32,17 @@ export default class ColorSelect extends Select {
         const { value, meta } = this.props;
         return (
             <SketchPicker
+                styles={{
+                    picker:
+                    {
+                        width: '100%',
+                        padding: '10px 10px 0',
+                        background: '#fff',
+                        borderRadius: '4px',
+                        boxShadow: '0 0 0 1px rgba(0,0,0,.15), 0 8px 16px rgba(0,0,0,.15)',
+                        boxSizing: 'border-box'
+                    }
+                }}
                 color={value || ''}
                 onChangeComplete={this.onChange}
             />

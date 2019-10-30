@@ -31,6 +31,9 @@ class YIGOControl extends Component {
     }
     render() {
         const { meta, control, yigoid, ...otherProps } = this.props;
+        if(!meta) {
+            return null;
+        }
         const c = this.context.getControl(meta.control);
         return (
             <DynamicControl
@@ -51,12 +54,11 @@ export function buildYigoControlMeta(filter) {
         key: 'yigoId',
         caption: '单据控件',
         controlType: filter,
-        onChange: function (value, context) {
-            const control = context.getContextComponent(value);
+        onChange: function (value, context, runtimeContext) {
+            const control = runtimeContext.getContextComponent(value);
             context.setValue('control', YIGOControlConfig.defaultControlMapping[control.tagName]);
         }
-    },
-    {
+    }, {
         type: 'DesignControlSelect',
         key: 'control',
         caption: '渲染控件',

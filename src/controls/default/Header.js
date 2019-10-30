@@ -9,6 +9,10 @@ import { observer } from 'mobx-react';
 const styles = StyleSheet.create({
     header: {
         flexDirection: 'row',
+        height: 50,
+    },
+    headerPadding: {
+        paddingLeft: 55,
     },
     absoluteTitle: {
         position: 'absolute',
@@ -60,7 +64,7 @@ class _Header extends PureComponent {
     }
     render() {
         return (
-            <View style={[styles.header, this.props.headerStyle]}>
+            <View style={[styles.header, this.props.headerStyle, this.props.canBack?null:styles.headerPadding]}>
                 {this.createLeftElement()}
                 {this.createTitleElement()}
                 {this.createRightElement()}

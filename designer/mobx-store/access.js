@@ -43,7 +43,7 @@ export default class Access extends EventEmitter{
                 key: file,
             }),
         });
-        return data.text();
+        return await data.text();
     }
 
     deployContent = async(file, content) => {

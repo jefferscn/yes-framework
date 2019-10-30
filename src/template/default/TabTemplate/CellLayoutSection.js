@@ -51,6 +51,10 @@ export default class CellLayoutSection extends Component {
         })
     }
 
+    removeCell = (index)=> {
+        this.meta.items.splice(index,1);
+    }
+
     render() {
         // const { meta: section } = this.props;
         const section = this.meta;
@@ -89,9 +93,9 @@ export default class CellLayoutSection extends Component {
                 header={section.hideTitle ? false : this.props.formatMessage(section.caption)}
                 hideSeparator>
                 {
-                    section.items.map((item) => {
+                    section.items.map((item, i) => {
                         return (
-                            <CellLayoutItem designPositionBase meta={item} />
+                            <CellLayoutItem removeable onRemove={()=>this.removeCell(i)} designPositionBase meta={item} />
                         )
                     })
                 }

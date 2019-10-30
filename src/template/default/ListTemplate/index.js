@@ -14,7 +14,7 @@ import Searchbar from 'yes-control-default/Searchbar';
 
 const styles = StyleSheet.create({
     listView: {
-        paddingLeft: 16,
+        // paddingLeft: 16,
         flex:1,
     },
     primaryTextLayout: {

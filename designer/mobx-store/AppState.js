@@ -9,6 +9,7 @@ export const FILE_TYPE = {
     PROJECTCFG:3,
     LOGINCFG:4,
     ROUTECFG:5,
+    TEMPLATE:6,
 };
 const defaultFormTemplate = `{
     "formTemplate": "void"
@@ -47,6 +48,8 @@ export class Project {
             this.files.push(this.billforms);
             // 2. 加载控件目录
             this.files.push(new ProjectFile(this.access, '控件', '//config/controls', true, FILE_TYPE.CONTROL, true));
+            // 2.1 加载模板目录
+            this.files.push(new ProjectFile(this.access, '模板', '//config/templates', true, FILE_TYPE.TEMPLATE, true));
             // 3. 加载项目配置文件
             this.files.push(new ProjectFile(this.access, '项目配置(正式)', '//config/project.json', false, FILE_TYPE.PROJECTCFG, true));
             this.files.push(new ProjectFile(this.access, '项目配置(测试)', '//config/project.debug.json', false, FILE_TYPE.PROJECTCFG, true));

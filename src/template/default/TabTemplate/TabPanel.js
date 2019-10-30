@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { observable } from 'mobx';
 import CellLayoutTemplate from './CellLayoutTemplate';
 import designExport from 'yes-designer/utils/DesignExport';
-import YIGOControl from '../YigoControl';
-import Element from '../Element';
+import YIGOControl from 'yes-designer/components/Framework/YigoControl';
+import Element from 'yes-designer/components/Framework/Element';
 import CellLayoutItem from './CellLayoutItem';
 import { observer } from 'mobx-react';
 
@@ -48,6 +48,16 @@ const editor = [
         }],
         caption: '內容类型',
     },
+    // {
+    //     type: 'Text',
+    //     key: 'title',
+    //     caption: 'Tab抬头'
+    // },
+    // {
+    //     type: 'Text',
+    //     key: 'key',
+    //     caption: 'Tab标识'
+    // },
 ];
 
 export default designExport(TabPanel, defaultValue, editor);

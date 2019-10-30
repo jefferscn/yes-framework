@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { inject } from 'mobx-react';
 import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
-import { observable } from 'mobx';
+import { observable, action, runInAction } from 'mobx';
 import { Modal, Text, View, ScrollView, ListView, Button, StyleSheet, ActivityIndicator } from 'react-native';
 import { ListItem } from 'react-native-material-ui';
 // import SelectField from 'material-ui/SelectField';
@@ -121,6 +121,7 @@ export default (getItemsList, showCategorySelect = false, showDetailSelect = fal
             getContextComponent: PropTypes.func,
             getControl: PropTypes.func,
             getAllControls: PropTypes.func,
+            getComponents: PropTypes.func,
         }
 
         defaultProps = {
@@ -137,7 +138,7 @@ export default (getItemsList, showCategorySelect = false, showDetailSelect = fal
         @observable selectedDetailType = this.props.detailType;
         @observable selectableDetails = null;
         @observable selectableItems = null;
-
+        @action
         getItemList = async (props) => {
             this.items = await getItemsList(this.context, props);
             const tmp = this.items.reduce((total, item) => {
@@ -145,16 +146,32 @@ export default (getItemsList, showCategorySelect = false, showDetailSelect = fal
                 (item.detailType && !total.details.includes(item.detailType)) && total.details.push({ category: item.category, detailType: item.detailType });
                 return total;
             }, { categories: [], details: [] });
-            this.categories = tmp.categories;
-            this.details = tmp.details;
-            if (showCategorySelect && this.categories.length > 0) {
-                this.selectCategory(null, null, this.props.category || this.categories[0]);
-                if (showDetailSelect && this.selectableDetails.length > 0) {
-                    this.selectDetail(null, null, this.props.detailType || this.selectableDetails[0]);
+            runInAction(() => {
+                this.categories = tmp.categories;
+                this.details = tmp.details;
+                // if (showCategorySelect) {
+                //     if (!this.categories.includes(this.selectedCategory)) {
+                //         this.selectedCategory = null;
+                //     } else {
+                //         this.selectedCategory = this.props.category || this.categories[0];
+                //     }
+                // }
+                // if (showDetailSelect) {
+                //     if (!this.selectedCategory.includes(this.selectedDetailType)) {
+                //         this.selectedDetailType = null;
+                //     } else {
+                //         this.selectedDetailType = this.props.detailType || this.selectableDetails[0];
+                //     }
+                // }
+                if (showCategorySelect && this.categories.length > 0) {
+                    this.selectCategory(this.selectedCategory || this.props.category || this.categories[0]);
+                    if (showDetailSelect && this.selectableDetails.length > 0) {
+                        this.selectDetail(this.selectedDetailType || this.props.detailType || this.selectableDetails[0]);
+                    }
+                } else {
+                    this.selectableItems = this.items;
                 }
-            } else {
-                this.selectableItems = this.items;
-            }
+            });
         }
 
         handleValueChange = (key, caption) => {
@@ -165,6 +182,9 @@ export default (getItemsList, showCategorySelect = false, showDetailSelect = fal
         }
 
         selectCategory = (category) => {
+            if (!this.categories.includes(category)) {
+                return;
+            }
             this.selectedCategory = category;
             this.selectableDetails = this.details.filter((item) => {
                 return item.category === category;
@@ -175,6 +195,9 @@ export default (getItemsList, showCategorySelect = false, showDetailSelect = fal
         }
 
         selectDetail = (detail) => {
+            if (!this.selectableDetails.includes(detail)) {
+                return;
+            }
             this.selectedDetailType = detail;
             this.selectableItems = this.items.filter((item) => {
                 return item.category === this.category && item.detailType === detail;
@@ -225,7 +248,7 @@ export default (getItemsList, showCategorySelect = false, showDetailSelect = fal
             if (!items) {
                 return null;
             }
-            return (<Select dropdownStyle={{zIndex:9999}} defaultValue={value} style={{width:120}} onChange={onChange}>
+            return (<Select dropdownStyle={{ zIndex: 9999 }} defaultValue={value} style={{ width: 120 }} onChange={onChange}>
                 {
                     items.map((item) => <Option value={item}>{item}</Option>)
                 }
@@ -242,7 +265,7 @@ export default (getItemsList, showCategorySelect = false, showDetailSelect = fal
             return <View style={this.props.style}>
                 <View onClick={this.onPress} style={{ flexDirection: 'row' }}>
                     <Text style={{ display: 'flex', alignItems: 'center', flex: 1 }}>{this.props.value}</Text>
-                    <Icon type="delete" onClick={this.clearValue}/>
+                    <Icon type="delete" onClick={this.clearValue} />
                 </View>
                 <Modal
                     animationType={"slide"}

@@ -5,3 +5,4 @@ export { default as controls } from './control';
 // import font from './font';
 export { default as templates } from './template';
 export { default as i18n } from './i18n';
+export { default as FontIcon } from './font/IconFont';

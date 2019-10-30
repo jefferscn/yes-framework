@@ -35,6 +35,10 @@ function injectFont(font, fontName) {
     document.head.appendChild(style);
 }
 
+document.oncontextmenu = function ()//屏蔽鼠标右键  
+{
+    return false;
+}
 App.appWrapper = <DesignerProvider iconData={IconData} iconComponent={Icon} templates={defaultTemplateMapping} controls={Controls} />;
 let app = document.getElementById('app');
 injectFont(fontAwesome, 'FontAwesome');

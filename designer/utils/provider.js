@@ -54,8 +54,8 @@ export default class DesignerProvider extends Component {
 
     isDesignMode = () => true
 
-    selectControl = (control, props, meta, defaultValue) => {
-        store.selectControl(control, props, meta, defaultValue);
+    selectControl = (control, props, context, meta, defaultValue) => {
+        store.selectControl(control, props, context, meta, defaultValue);
     }
 
     deployMeta = (meta)=> {

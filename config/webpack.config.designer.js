@@ -60,6 +60,7 @@ export default (DEBUG, PATH, PORT = 3000) => {
                         path.resolve(__dirname, '../node_modules/react-native-web/'),
                         path.resolve(__dirname, '../node_modules/yes-intf/'),
                         path.resolve(__dirname, '../node_modules/yes-web/'),
+                        path.resolve(__dirname, '../node_modules/yes-core/'),
                         path.resolve(__dirname, '../node_modules/yes-designer/'),
                         path.resolve(__dirname, '../node_modules/@react-navigation/'),
                         path.resolve(__dirname, '../node_modules/react-navigation-tabs/'),

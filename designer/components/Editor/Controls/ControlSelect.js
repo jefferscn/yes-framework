@@ -7,13 +7,32 @@ export default Select((context, props) => {
     if (!billform) {
         return null;
     }
-    const list = billform.form.getComponentList();
-    let data = Object.values(list).map((item) => {
-        return {
+    let list = props.store.context.getComponents();
+    // if(props.yigoid) {
+    //     const cmp = context.getContextComponent(props.yigoid);
+    //     if(cmp.tagName==='listview') {
+    //         list = cmp.getAllColumnEditors();
+    //     }
+    // }
+    let data = [];
+    Object.values(list).forEach((item) => {
+        //这里需要对radiobutton控件进行一下变形
+        //radiobutton会有多个控件但只记录isGroupHead=true的那个
+        if(item.tagName==='radiobutton') {
+            if(item.metaObj.isGroupHead) {
+                data.push({
+                    key: item.key,
+                    category: item.tagName,
+                    caption: item.metaObj.groupKey,
+                })
+            }
+            return;
+        }
+        data.push({
             key: item.key,
             category: item.tagName,
             caption: item.caption || item.key,
-        };
+        });
     });
 
     //只显示支持的控件

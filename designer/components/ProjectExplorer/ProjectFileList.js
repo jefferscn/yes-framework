@@ -1,60 +1,25 @@
 import React, { Component } from 'react';
-import { observer } from "mobx-react";
+import { observer, inject } from "mobx-react";
 import View from '../View';
-import ProjectFile from './ProjectFile';
-// import Popover from 'material-ui/Popover';
-// import Menu from 'material-ui/Menu';
-// import MenuItem from 'material-ui/MenuItem';
-// import Delete from 'material-ui/svg-icons/action/delete';
-// import PlaylistAdd from 'material-ui/svg-icons/av/playlist-add';
-// import NoteAdd from 'material-ui/svg-icons/action/note-add';
-// import Extension from 'material-ui/svg-icons/action/extension';
-import { observable } from 'mobx';
+import { observable, action } from 'mobx';
+import { Tree, Menu, Button, Upload, Modal } from 'antd';
 import { FILE_TYPE } from '../../mobx-store/AppState';
 
+const { TreeNode } = Tree;
+const ButtonGroup = Button.Group;
+
+@inject('store')
 @observer
 export default class ProjectFileList extends Component {
     @observable popoverShow = false;
     @observable x = 0;
     @observable y = 0;
-    @observable anchor = null;
+    @observable popoverFile = null;
 
-    dummyAnchorEl = {
-        offsetWidth: 0,
-        offsetHeight: 0,
-        getBoundingClientRect: () => {
-            return {
-                top: this.y,
-                left: this.x,
-            }
-        },
-    }
-
-    onContextMenu = (e) => {
-        e.preventDefault();
-        // alert('contextmenu');
-        this.x = e.clientX;
-        this.y = e.clientY;
-        const { file } = this.props;
-        if (file) {
-            const isDirectory = file.isDirectory;
-            const type = file.type;
-            const reserve = file.reserve;
-            if (!(reserve && !isDirectory)) {
-                this.popoverShow = true;
-            }
-        }
-    }
-
-    componentDidMount() {
-        this.ref.addEventListener('contextmenu', this.onContextMenu);
-    }
     onPopoverClose = () => {
         this.popoverShow = false;
     }
-    componentWillUnmount() {
-        this.ref.removeEventListener('contextmenu', this.onContextMenu);
-    }
+
     addDir = () => {
 
     }
@@ -66,6 +31,100 @@ export default class ProjectFileList extends Component {
     }
     remove = () => {
 
+    }
+
+    @action
+    treeNodeonRightClick = (e) => {
+        this.x = e.event.pageX;
+        this.y = e.event.pageY;
+        this.popoverFile = e.node.props.file;
+        this.popoverShow = true;
+    }
+
+    onMenuClick = ({ item, key }) => {
+        console.log(key);
+    }
+
+    renderPopover = () => {
+        if (!this.popoverShow) {
+            return null;
+        }
+        const showDelete = !this.popoverFile.reserve;
+        if (!showDelete) {
+            return null;
+        }
+        return (
+            <Menu
+                onClick={this.onMenuClick}>
+                {showDelete ? <Menu.Item key='delete'>删除</Menu.Item> : null}
+            </Menu>
+        )
+    }
+    renderNode = (file) => {
+        if (!file) {
+            return null;
+        }
+        const { isDirectory, type, reserve } = file;
+        if (isDirectory) {
+            if (file.expand) {
+                return <TreeNode title={file.name} key={file.path} file={file} isLeaf={false} >
+                    {
+                        file.children.map((child) => this.renderNode(child))
+                    }
+                </TreeNode>
+            }
+            return <TreeNode title={file.name} key={file.path} file={file} isLeaf={false} />
+        }
+        return <TreeNode title={file.name} file={file} key={file.path} isLeaf />
+    }
+    loadData = async (node) => {
+        await node.props.file.toggleExpand();
+    }
+    onSelect = (keys, { node }) => {
+        this.props.store.select(node.props.file);
+    }
+    importControl = () => {
+
+    }
+    onUploadStatusChange = (info) => {
+        console.log(info);
+        if (info.file.response) {
+            if (!info.file.response.success) {
+                this.errModal = Modal.error({
+                    title: '引入错误',
+                    maskClosable: false,
+                    okCancel: false,
+                    afterClose: () => {
+                        if (this.errModal) {
+                            this.errModal.destroy();
+                            this.errModal = null;
+                        }
+                    },
+                    content: info.file.response.error.code,
+                    onOk: () => {
+                        this.errModal.destroy();
+                        this.errModal = null;
+                    }
+                });
+            } else {
+                this.errModal = Modal.error({
+                    title: '信息',
+                    maskClosable: false,
+                    okCancel: false,
+                    content: '引入成功',
+                    afterClose: () => {
+                        if (this.errModal) {
+                            this.errModal.destroy();
+                            this.errModal = null;
+                        }
+                    },
+                    onOk: () => {
+                        this.errModal.destroy();
+                        this.errModal = null;
+                    }
+                });
+            }
+        }
     }
     render() {
         const { project, containerStyle, file } = this.props;
@@ -81,23 +140,39 @@ export default class ProjectFileList extends Component {
             <View
                 ref={(ref) => this.ref = ref}
                 style={containerStyle}>
-                {
-                    project.files.map((file) =>
-                        <ProjectFile file={file} level={1} />
-                    )
-                }
-                {/* <Popover
-                    anchorEl={this.dummyAnchorEl}
-                    open={this.popoverShow}
-                    onRequestClose={this.onPopoverClose}
-                >
-                    <Menu>
-                        {isDirectory ? <MenuItem primaryText="新增目录" leftIcon={<PlaylistAdd />} onClick={this.addDir} /> : null}
-                        {(type === FILE_TYPE.BILLFORM) ? <MenuItem primaryText="新增单据" leftIcon={<NoteAdd />} onClick={this.addBillForm} /> : null}
-                        {(type === FILE_TYPE.CONTROL && isDirectory) ? <MenuItem primaryText="新增控件" leftIcon={<Extension />} onClick={this.addControl} /> : null}
-                        {reserve ? null : <MenuItem primaryText="删除" leftIcon={<Delete />} onClick={this.remove} />}
-                    </Menu>
-                </Popover> */}
+                <View style={{ flex: 1 }}>
+                    <Tree
+                        showLine
+                        loadData={this.loadData}
+                        onSelect={this.onSelect}
+                        onExpand={this.onExpand}
+                        onRightClick={this.treeNodeonRightClick}
+                    >
+                        {
+                            project.files.map((file) =>
+                                this.renderNode(file)
+                            )
+                        }
+                    </Tree>
+                </View>
+                <ButtonGroup style={{ display: 'flex', flexDirection: 'row' }}>
+                    <Upload
+                        name='file'
+                        action='/file/import/control'
+                        showUploadList={false}
+                        onChange={this.onUploadStatusChange}
+                    >
+                        <Button type="primary" size="large" icon="cloud" />
+                    </Upload>
+                    <Upload
+                        name='file'
+                        action='/file/import/template'
+                        showUploadList={false}
+                        onChange={this.onUploadStatusChange}
+                    >
+                        <Button type="primary" size="large" icon="cloud-download" />
+                    </Upload>
+                </ButtonGroup>
             </View>
         );
     }

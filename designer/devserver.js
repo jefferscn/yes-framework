@@ -10,7 +10,7 @@ import webpackDevMiddleware from 'webpack-dev-middleware';
 // import uiWebpackConfig from '../config/webpack.config.designer.ui';
 import filetree from './routes/filetree';
 
-export default (PORT=3001, srcPath, webpackConfig, uiWebpackConfig) => {
+export default (PORT=3001, projectPath, srcPath, webpackConfig, uiWebpackConfig) => {
     const app = new express();
     // app.use(cors());
     var config = webpackConfig(true, 'build');
@@ -18,7 +18,7 @@ export default (PORT=3001, srcPath, webpackConfig, uiWebpackConfig) => {
     const compiler = webpack(config);
     const uiCompiler = webpack(uiConfig);
     // attach to the compiler & the server
-    app.use(webpackDevMiddleware(compiler, {
+    const instance = webpackDevMiddleware(compiler, {
         // public path should be the same with webpack config
         publicPath: config.output.publicPath,
         index: 'index.html',
@@ -27,7 +27,8 @@ export default (PORT=3001, srcPath, webpackConfig, uiWebpackConfig) => {
         stats: {
             colors: true,
         },
-    }));
+    })
+    app.use(instance);
     app.use(webpackDevMiddleware(uiCompiler, {
         // public path should be the same with webpack config
         publicPath: uiConfig.output.publicPath,
@@ -46,7 +47,7 @@ export default (PORT=3001, srcPath, webpackConfig, uiWebpackConfig) => {
     app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
     app.use(methodOverride());
 
-    app.use('/file', filetree(srcPath));
+    app.use('/file', filetree(projectPath, srcPath, instance));
     // app.use('/file', filetree('C:/Users/Administrator/workspace/yes-webapp/src/js/projects/thgn'));
     app.listen(PORT);
 }

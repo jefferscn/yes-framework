@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 // import Toggle from 'material-ui/Toggle';
-import { Switch } from 'antd';
+import { InputNumber } from 'antd';
 import { View } from 'react-native';
 
-export default class ToggleEditor extends Component {
+export default class NumberEditor extends Component {
     static defaultProps = {
-        onChange: function(){}
+        onChange: function(){},
+        min: 1,
+        max: 1000,
     }
     onChange = (newValue)=> {
         this.props.onChange(newValue);
@@ -14,7 +16,7 @@ export default class ToggleEditor extends Component {
         const { value } = this.props;
         return (
             <View style={{flex:1}}>
-                <Switch style={{width: 50}} defaultChecked = {value} onChange={this.onChange} />
+                <InputNumber size="large" min={this.props.min} max={this.props.max} defaultValue={value} onChange={this.onChange} />
             </View>
         )
     }

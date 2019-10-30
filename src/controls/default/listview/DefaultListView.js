@@ -12,6 +12,7 @@ import { ListRowWrap as listRowWrap, ListWrap, DynamicControl, GridWrap } from '
 import ListViewItem from '../ListViewItem';
 import { observer } from 'mobx-react';
 import designExport from 'yes-designer/utils/DesignExport';
+import YigoControl from 'yes-designer/components/Framework/YigoControl';
 
 const styles = StyleSheet.create({
     primaryTextLayout: {
@@ -48,6 +49,9 @@ const styles = StyleSheet.create({
     tertiaryText: {
         fontSize: 11,
         color: 'rgba(0,0,0,0.5)',
+    },
+    leftBlank: {
+        marginLeft: 16,
     }
 });
 const defaultValue = {
@@ -55,6 +59,9 @@ const defaultValue = {
     primaryKey: '',
     secondKey: '',
     tertiaryKey: '',
+    leftBlank: true,
+    showArrow: true,
+    leftElement: YigoControl.defaultValue,
 }
 const editor = [
     {
@@ -76,10 +83,22 @@ const editor = [
         type: 'ListColumnSelect',
         key: 'tertiaryKey',
         caption: '輔助信息字段',
+    }, {
+        type: 'SubForm',
+        key: 'leftElement',
+        isGroup: true,
+        control: YigoControl,
+    }, {
+        type: 'Toggle',
+        key: 'leftBlank',
+        caption: '左侧留白'
+    }, {
+        type: 'Toggle',
+        key: 'showArrow',
+        caption: '显示箭头'
     }
 ]
 @observer
-@ListWrap
 class AntdListView extends PureComponent {
     static propTypes = {
         yigoid: PropTypes.string,
@@ -291,7 +310,7 @@ class AntdListView extends PureComponent {
                 onPress={() => this.onClick(rowId)}
                 // divider={this.props.divider}
                 rowIndex={rowId}
-                showArrow
+                showArrow={this.props.showArrow}
                 leftElement={this.props.leftElement}
             />
         );
@@ -300,7 +319,7 @@ class AntdListView extends PureComponent {
         this.props.onRefresh && this.props.onRefresh();
     }
     render() {
-        const { controlState, layoutStyles, style } = this.props;
+        const { controlState, layoutStyles, style, leftBlank } = this.props;
         if (controlState && controlState.get('isVirtual')) {
             return (
                 <View style={[layoutStyles]}>
@@ -310,7 +329,7 @@ class AntdListView extends PureComponent {
         }
         return (
             <ListView
-                style={layoutStyles}
+                style={StyleSheet.flatten([layoutStyles, leftBlank? styles.leftBlank: null])}
                 contentContainerStyle={{ width: '100%' }}
                 dataSource={this.state.dataSource}
                 renderRow={this.renderItem}
@@ -326,7 +345,7 @@ class AntdListView extends PureComponent {
 }
 AntdListView.propTypes = propTypes.List;
 
-let result = designExport(AntdListView, defaultValue, editor);
+let result = ListWrap(designExport(AntdListView, defaultValue, editor));
 
 // const YIGOAntdListView =  ListWrap(AntdListView);
 result.category = 'yigo';

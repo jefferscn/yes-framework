@@ -15,19 +15,24 @@ const styles = StyleSheet.create({
 @inject('store')
 @observer
 class LoginViewer extends Component {
+    componentWillUnmount() {
+        if (this.frame) {
+            this.frame.parentNode.removeChild(this.frame);
+        }
+    }
     render() {
         return (
             <View style={styles.container}>
                 <View style={styles.login}>
-                        <iframe
-                                ref={(ref) => this.frame = ref}
-                                src={`/designer#Login`}
-                                width="800"
-                                height="667"
-                            />
+                    <iframe
+                        ref={(ref) => this.frame = ref}
+                        src={`/designer#Login`}
+                        width="800"
+                        height="667"
+                    />
                 </View>
             </View>
-        ) 
+        )
     }
 }
 

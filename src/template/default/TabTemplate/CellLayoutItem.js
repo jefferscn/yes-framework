@@ -46,6 +46,14 @@ const editor = [
             value: [true, false],
         }
     }, {
+        type: 'Text',
+        key: 'caption',
+        caption: '抬头',
+        visibleEqual: {
+            relateId: ['isGroup', 'type'],
+            value: [false, 'yigo'],
+        }
+    },{
         type: 'Combobox',
         key: 'type',
         items: [{

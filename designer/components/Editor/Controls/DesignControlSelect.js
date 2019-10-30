@@ -6,7 +6,7 @@ export default Select((context, props) => {
     let cc = context.getAllControls();
     let dtlType = detailType;
     if(yigoId) {
-        const cmp = context.getContextComponent(yigoId);
+        const cmp = props.store.context.getContextComponent(yigoId);
         if(cmp) {
             dtlType = cmp.tagName;
         }

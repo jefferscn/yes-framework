@@ -10,6 +10,7 @@ import RouteSelect from './RouteSelect';
 import ColorSelect from './ColorSelect';
 import Button from './Button';
 import IconSelect from './IconSelect';
+import NumberEditor from './Number';
 
 export default {
     Text: controlWrap(Text),
@@ -23,4 +24,5 @@ export default {
     Color: controlWrap(ColorSelect),
     Icon: controlWrap(IconSelect),
     Button,
+    Number: controlWrap(NumberEditor),
 }
