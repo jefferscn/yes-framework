@@ -14,6 +14,7 @@ import BaiduProvider from './controls/providers/BaiduMapProvider';
 // import './yigopatch';
 import './patch/antd-mobile.css';
 import enUS from 'antd-mobile/lib/locale-provider/en_US';
+import { showModal } from './SiblingMgr';
 
 const { sessionKey, serverPath, appName, wechat, cordova, baidumap } = projectJSON;
 const { template, tooltip, companyName, bgImagePath, logoImagePath } = loginJSON;
