@@ -21,7 +21,7 @@ export default (DEBUG, PATH, PORT = 3000) => {
             // initializationLoading: './initializationLoading',
         },
         output: {
-            path: path.resolve(__dirname, `../${PATH}`, 'generated'),
+            path: path.resolve(__dirname, `../${PATH}`),
             filename: '[name].js',
             // publicPath: './generated/',
         },

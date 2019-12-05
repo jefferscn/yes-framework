@@ -15,6 +15,7 @@ import BaiduProvider from './controls/providers/BaiduMapProvider';
 import './patch/antd-mobile.css';
 import enUS from 'antd-mobile/lib/locale-provider/en_US';
 import { showModal } from './SiblingMgr';
+import { init as initPush } from './push';
 
 const { sessionKey, serverPath, appName, wechat, cordova, baidumap } = projectJSON;
 const { template, tooltip, companyName, bgImagePath, logoImagePath } = loginJSON;
@@ -213,6 +214,8 @@ const NavigatorListenerWrapper = (props) =>
 //     default:
 //     }
 // });
+
+initPush();
 
 appOptions.messages = getLocaleMessages();
 appOptions.router = NavigatorListenerWrapper;

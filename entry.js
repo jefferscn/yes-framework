@@ -10,4 +10,13 @@ import App from './src';
 import { start } from 'yes-platform';
 import 'antd-mobile/dist/antd-mobile.css';
 
-export default () => start(App);
+export default () => {
+    if (window.cordova) {
+        document.addEventListener('deviceready', () => {
+            start(App);
+        }, false);
+    } else {
+        start(App);
+    }
+}
+// export default () => start(App);

@@ -56,7 +56,8 @@ gulp.task('serve:start', ['serve:static'], () => {
     const config = webpackConfig[options.platform](true, DEST_DIR, PORT);
     console.log(config);
     return new WebpackDevServer(webpack(config), {
-        contentBase: './generated',
+        // contentBase: './generated',
+        contentBase: './',
         compress: true,
         disableHostCheck: true,
         historyApiFallback: true,

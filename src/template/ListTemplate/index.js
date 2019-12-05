@@ -24,22 +24,7 @@ class ListTemplate extends DynamicBillForm{
             key: Util.buildFormKey(this.props.formKey, '-1'),
         });
     }
-    state = {
-        ready: false,
-    }
 
-    // componentDidMount() {
-    //     this.props.navigation.addListener(
-    //         'didFocus',
-    //         () => {
-    //             this.setState({
-    //                 ready: true,
-    //             });
-    //         }
-    //         // this._focusFirstTextInput
-    //     );
-    //     // super.componentDidMount();
-    // }
     buildChildren() {
         // if (!this.state.ready) {
         //     return null;
