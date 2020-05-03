@@ -10,16 +10,16 @@ document.addEventListener("jpush.openNotification", function (event) {
     } else {
         extra = event;
     }
-    if(extra.messageType) {
-        if(extra.messageType==='openForm') {
+    if (extra.messageType) {
+        if (extra.messageType === 'openForm') {
             const { formKey, oid } = extra;
-            if(formKey && oid) {
+            if (formKey && oid) {
                 History.push(`card/YES/${formKey}/${oid}/DEFAULT`);
             }
         }
-        if(extra.messageType==='openWorkitem') {
+        if (extra.messageType === 'openWorkitem') {
             const { workitemId } = extra;
-            if(workitemId) {
+            if (workitemId) {
                 History.push(`card/WORKITEM/${workitemId}/false/true/true`);
             }
         }
@@ -27,14 +27,18 @@ document.addEventListener("jpush.openNotification", function (event) {
 }, false);
 
 function init() {
-    JPush.init();
-    JPush.getRegistrationID(function (rId) {
-        if (rId) {
-            console.log("JPushPlugin:registrationID is " + rId);
-            registrationID = rId;
-            register(rId, 'jpush');
-        }
-    });
+    if (window.JPush) {
+        JPush.init();
+        JPush.getRegistrationID(function (rId) {
+            if (rId) {
+                console.log("JPushPlugin:registrationID is " + rId);
+                registrationID = rId;
+                register(rId, 'jpush');
+            }
+        });
+    } else {
+        console.log("JPush env missing!");
+    }
 }
 
 function uninit() {

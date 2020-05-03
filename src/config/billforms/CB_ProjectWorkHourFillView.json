@@ -1,0 +1,36 @@
+{
+    "formTemplate": "list",
+    "head": {
+        "type": "element",
+        "elementType": "Header",
+        "elementProps": {
+            "canBack": true,
+            "titleElement": {
+                "type": "element",
+                "elementType": "FormTitle",
+                "elementProps": {
+                    "containerStyle": {
+                        "alignItems": "center",
+                        "justifyContent": "center"
+                    }
+                }
+            }
+        }
+    },
+    "searchBar": {
+        "textField": "NO",
+        "queryButton": "Query",
+        "searchText": "",
+        "lastSearchingText": ""
+    },
+    "list": "list",
+    "controls": {
+        "list": {
+            "control": "ListView",
+            "primaryKey": "Period_LV",
+            "secondKey": ["FillPeople_LV"],
+            "tertiaryKey": ["Status_LV"],
+            "divider": true
+        }
+    }
+}

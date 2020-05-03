@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { getTheme, ThemeContext } from 'react-native-material-ui';
+// import { getTheme, ThemeContext } from 'react-native-material-ui';
 import { Modal } from 'antd-mobile';
 import { IntlProvider } from 'react-intl';
 import { BackHandler } from 'yes';
@@ -51,16 +51,16 @@ export function showModal(children) {
     modalHandler = new RootSiblings(
         <IntlProvider>
             <DummyApp>
-                <ThemeContext.Provider value={getTheme({})}>
-                    <Modal
-                        wrapClassName='sibling'
-                        transparent
-                        visible
-                        onClose={onModalClose}
-                    >
-                        {children}
-                    </Modal>
-                </ThemeContext.Provider>
+                {/* <ThemeContext.Provider value={getTheme({})}> */}
+                <Modal
+                    wrapClassName='sibling'
+                    transparent
+                    visible
+                    onClose={onModalClose}
+                >
+                    {children}
+                </Modal>
+                {/* </ThemeContext.Provider> */}
             </DummyApp>
         </IntlProvider>)
 

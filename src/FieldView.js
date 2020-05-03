@@ -1,26 +1,26 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Components } from 'yes-platform'; // eslint-disable-line
+import { Components } from 'yes-comp-react-native-web'; // eslint-disable-line
 // import billform from './billform';
 import billform from './config/billforms';
 import controls from './config/control.js';
 import { YIUI } from 'yes-core';
 import { WorkitemWrap as workitemWrap, DynamicControl } from 'yes';
 
-const { BillForm, LoadingComp, FormInfo } = Components;
-const WorkitemBill = workitemWrap(BillForm, LoadingComp);
+const { CustomBillForm, LoadingComp } = Components;
+// const WorkitemBill = workitemWrap(BillForm, LoadingComp);
 
 export default class FieldView extends PureComponent {
-    static navigationOptions = ({ navigation }) => {
-        return {
-            headerTitle: <WorkitemBill workitemId={navigation.state.params.wid}>
-                <FormInfo.FieldCaption style={{ fontSize: 20 }} yigoid={navigation.state.params.field} />
-            </WorkitemBill>,
-            headerStyle: {
-                // backgroundColor: '#2196f3',
-            },
-        };
-    };
+    // static navigationOptions = ({ navigation }) => {
+    //     return {
+    //         headerTitle: <WorkitemBill workitemId={navigation.state.params.wid}>
+    //             <FormInfo.FieldCaption style={{ fontSize: 20 }} yigoid={navigation.state.params.field} />
+    //         </WorkitemBill>,
+    //         headerStyle: {
+    //             // backgroundColor: '#2196f3',
+    //         },
+    //     };
+    // };
 
     static propTypes = {
         navigation: PropTypes.object,
@@ -64,14 +64,14 @@ export default class FieldView extends PureComponent {
         this.calculateElement(fieldProps);
 
         return (
-            <BillForm
+            <CustomBillForm
                 formKey={formKey}
                 oid={oid}
                 status={'VIEW'}
                 expVals={expVals}
             >
                 <DynamicControl yigoid={this.props.navigation.state.params.field} {...fieldProps} />
-            </BillForm>);
+            </CustomBillForm>);
     }
 
     calculateElement(props) {

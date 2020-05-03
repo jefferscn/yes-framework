@@ -4,7 +4,8 @@ import './template';
 import projectJSON from './config/project.json';
 import loginJSON from './config/login.json';
 import control from './config/control.js';
-import { ControlMappings, Switch, Util } from 'yes-platform';
+import { ControlMappings, Switch, AuthenticatedRoute } from 'yes-comp-react-native-web';
+import { Util } from 'yes-web';
 import i18n from './i18n';
 import { LocaleProvider, Modal } from 'antd-mobile';
 import RouteConfig from './config/route.json';
@@ -16,6 +17,16 @@ import './patch/antd-mobile.css';
 import enUS from 'antd-mobile/lib/locale-provider/en_US';
 import { showModal } from './SiblingMgr';
 import { init as initPush } from './push';
+import TemplateProvider from './template/TemplateProvider';
+import Element from './template/Element';
+import { injectFont } from 'yes-web/dist/webutil';
+import fontAwesome from 'react-native-vector-icons/Fonts/FontAwesome.ttf';
+import FastClick from 'fastclick';
+import './util/fakeFetch';
+Reflect  = undefined;
+
+FastClick.attach(document.body);
+injectFont(fontAwesome, 'FontAwesome');
 
 const { sessionKey, serverPath, appName, wechat, cordova, baidumap } = projectJSON;
 const { template, tooltip, companyName, bgImagePath, logoImagePath } = loginJSON;
@@ -61,9 +72,9 @@ Util.alert = (title, msg) => {
     }]);
 };
 
-Util.showBillformInModal = (formKey, oid=-1, status='EDIT')=> {
+Util.showBillformInModal = (formKey, oid = -1, status = 'EDIT') => {
     showModal(
-        <TemplateView 
+        <TemplateView
             formKey={formKey}
             oid={oid}
             status={status}
@@ -195,13 +206,16 @@ if (isCordova()) {
     };
 }
 
+const AuthRouter = AuthenticatedRoute(MainRouter, ()=><Element meta={loginJSON} />, 'root');
 const NavigatorListenerWrapper = (props) =>
     (<LocaleProvider locale={getAntLocale()}>
-        <Provider>
-            <MainRouter
-                onNavig ationStateChange={onNavigationStateChange}
-                {...props} />
-        </Provider>
+        <TemplateProvider CustomControls={control}>
+            <Provider>
+                <AuthRouter
+                    onNavigationStateChange={onNavigationStateChange}
+                    {...props} />
+            </Provider>
+        </TemplateProvider>
     </LocaleProvider>);
 // 
 // AppDispatcher.register((action) => {
@@ -218,7 +232,10 @@ const NavigatorListenerWrapper = (props) =>
 initPush();
 
 appOptions.messages = getLocaleMessages();
-appOptions.router = NavigatorListenerWrapper;
+// appOptions.router = NavigatorListenerWrapper;
 appOptions.mock = true;
+appOptions.controlMapping = ControlMappings.defaultControlMapping;
 appOptions.debug = true;
+appOptions.util = Util;
+appOptions.root = <NavigatorListenerWrapper />;
 export default appOptions;

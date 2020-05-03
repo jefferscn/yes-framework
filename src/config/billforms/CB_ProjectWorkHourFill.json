@@ -1,0 +1,49 @@
+{
+    "formTemplate": "normal",
+    "head": {
+        "type": "element",
+        "elementType": "Header",
+        "elementProps": {
+            "canBack": true,
+            "titleElement": {
+                "type": "element",
+                "elementType": "FormTitle",
+                "elementProps": {
+                    "containerStyle": {
+                        "alignItems": "center",
+                        "justifyContent": "center"
+                    }
+                }
+            }
+        }
+    },
+    "foot": {
+        "type": "element",
+        "elementType": "SegementToolbar",
+        "elementProps": {
+        }
+    },
+    "items": ["detail"],
+    "controls": {
+        "detail": {
+            "control": "CalendarGrid",
+            "dateField": "LogDate",
+            "DayElement": {
+                "type": "element",
+                "elementType": "CalendarDay", 
+                "elementProps": {}
+            },
+            "rowElement": {
+                "type": "element",
+                "elementType": "CalendarRow", 
+                "elementProps": {}
+            },
+            "captionRowStyle": {
+                "height": 40
+            },
+            "weekRowStyle": {
+                "height": 40
+            }
+        }
+    }
+}

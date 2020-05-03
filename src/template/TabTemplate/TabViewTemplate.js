@@ -1,7 +1,7 @@
 import React from 'react';
 import { internationalWrap, getMappedComponentHOC } from 'yes'; // eslint-disable-line import/no-unresolved
-import { TabView } from 'yes-platform'; // eslint-disable-line import/no-unresolved
-// import TabView from './TabView';
+// import { TabView } from 'yes-platform'; // eslint-disable-line import/no-unresolved
+import TabView from './TabView';
 import CellLayoutTemplate from './CellLayoutTemplate';
 // import TabView from './TabView;
 const CellLayout = getMappedComponentHOC(CellLayoutTemplate);

@@ -9,7 +9,8 @@ import DynamicView from '../DynamicView';
 import Controls from '../config/control';
 import WorkitemView from '../WorkitemView';
 import FieldView from '../FieldView';
-import AwesomeFontIcon from 'react-native-vector-icons/FontAwesome';
+// import AwesomeFontIcon from 'react-native-vector-icons/FontAwesome';
+import IconFontIcon from '../font';
 import generateRouteComponent from '../util/generateRouteComponent';
 
 const defaultCardRoute = {
@@ -67,7 +68,7 @@ const buildTabNavigator = (tabConfig) => {
                 focused,
                 horizontal,
             }) => (
-                    <AwesomeFontIcon
+                    <IconFontIcon
                         name={tab.icon}
                         size={22}
                         style={{ color: focused ? '#008CD7' : '#aaa' }}
@@ -81,11 +82,16 @@ const buildTabNavigator = (tabConfig) => {
     const tabBarPosition = tabConfig.tabPosition || 'top';
     const indicatorStyle = {};
     if(tabBarPosition === 'bottom') {
-        indicatorStyle.display = 'none';
+        // indicatorStyle.display = 'none';
+        // top: 0,
+        Object.assign(indicatorStyle, {
+            top: 0,
+        })
     }
     return createMaterialTopTabNavigator(
         tabs, {
             headerMode: 'none',
+            swipeEnabled: false,
             tabBarOptions: {
                 labelStyle: {
                     fontSize: 14,
@@ -95,12 +101,16 @@ const buildTabNavigator = (tabConfig) => {
                     backgroundColor: tabConfig.indicatorColor || '#008CD7',
                     ...indicatorStyle,
                 },
+                upperCaseLabel: false,
                 activeBackgroundColor: tabConfig.activeBackgroundColor || 'white',
                 activeTintColor: tabConfig.activeTintColor || '#008CD7',
                 inactiveBackgroundColor: tabConfig.inactiveBackgroundColor || 'white',
                 inactiveTintColor: tabConfig.inactiveTintColor || '#aaa',
                 showLabel: tabConfig.showLabel,
-                showIcon: tabConfig.showIcon
+                showIcon: tabConfig.showIcon,
+                style: {
+                    backgroundColor: 'white',
+                }
             },
             tabBarPosition,
         }

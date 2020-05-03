@@ -34,7 +34,7 @@ export default class ListViewItem extends PureComponent {
     render() {
         return (
             <TouchableOpacity onPress={this.onPress} pressRetentionOffset={pressRetentionOffset}>
-                <View style={[styles.container, this.props.divider? styles.divider: {}, this.props.containerStyle]}>
+                <View style={[styles.container, this.props.divider ? styles.divider : {}, this.props.containerStyle]}>
                     {this.renderLeftElement()}
                     {this.renderCenterElement()}
                     {this.renderRightElement()}

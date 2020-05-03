@@ -7,7 +7,7 @@
 // import App from './app/scm'
 // import App from './cmcc'
 import App from './src';
-import { start } from 'yes-platform';
+import { start } from 'yes-web';
 import 'antd-mobile/dist/antd-mobile.css';
 
 export default () => {

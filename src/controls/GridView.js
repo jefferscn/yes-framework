@@ -5,12 +5,17 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { ListView, PullToRefresh } from 'antd-mobile';
-import { View, ActivityIndicator } from 'react-native';
-import { propTypes } from 'yes'; // eslint-disable-line
+import { View, ActivityIndicator, Text, StyleSheet, ScrollView } from 'react-native';
+// import { propTypes } from 'yes'; // eslint-disable-line
 import { GridRowWrap as gridRowWrap, DynamicControl, GridWrap } from 'yes';
 // import styles from '../../style';
 import ListViewItem from './ListViewItem';
+import ActionButton from './ActionButton';
+import { withDetail, ListComponents } from 'yes-comp-react-native-web';
 
+const {
+    ListText
+} = ListComponents;
 class AntdListView extends PureComponent {
     static propTypes = {
         yigoid: PropTypes.string,
@@ -30,6 +35,9 @@ class AntdListView extends PureComponent {
         divider: true,
     };
 
+    static contextTypes = {
+        createElement: PropTypes.func,
+    }
     componentWillReceiveProps(nextProps) {
         const data = nextProps.controlState.getIn(['dataModel', 'data']);
         if (data) {
@@ -77,12 +85,12 @@ class AntdListView extends PureComponent {
             this.props.tertiaryKey.forEach((item) => {
                 let itemtype = typeof item;
                 if (itemtype === 'string') {
-                    el.push(<DynamicControl layoutStyles={{ justifyContent: 'flex-start' }} isCustomLayout={this.props.isCustomLayout} textStyles={this.props.style.tertiaryText} yigoid={item} />);
+                    el.push(<ListText yigoid={item} />);
                 } else {
                     if (item.$$typeof) {
                         el.push(item);
                     } else {
-                        el.push(<DynamicControl layoutStyles={{ justifyContent: 'flex-start' }} isCustomLayout={this.props.isCustomLayout} textStyles={this.props.style.tertiaryText} {...item} />);
+                        el.push(<ListText {...item} />);
                     }
                 }
             });
@@ -98,12 +106,12 @@ class AntdListView extends PureComponent {
         }
         const itemtype = typeof (primaryKey);
         if (itemtype === 'string') {
-            el = <DynamicControl layoutStyles={{ justifyContent: 'flex-start' }} isCustomLayout={this.props.isCustomLayout} textStyles={this.props.style.primaryText} yigoid={primaryKey} />;
+            el = <ListText style={[styles.primaryText]} yigoid={primaryKey} />;
         } else {
             if (primaryKey.$$typeof) {
                 el = primaryKey;
             } else {
-                el = <DynamicControl layoutStyles={{ justifyContent: 'flex-start' }} isCustomLayout={this.props.isCustomLayout} textStyles={this.props.style.primaryText} {...primaryKey} />;
+                el = <ListText style={[styles.primaryText]} {...primaryKey} />;
             }
         }
         return <View style={[{ flexDirection: 'row' }, this.props.style.firstline]}>{el}</View>;
@@ -114,12 +122,12 @@ class AntdListView extends PureComponent {
             this.props.secondKey.forEach((item) => {
                 let itemtype = typeof item;
                 if (itemtype === 'string') {
-                    el.push(<DynamicControl layoutStyles={{ justifyContent: 'flex-start' }} isCustomLayout={this.props.isCustomLayout} textStyles={this.props.style.secondaryText} key={item} yigoid={item} />);
+                    el.push(<ListText style={[styles.secondaryText]} key={item} yigoid={item} />);
                 } else {
                     if (item.$$typeof) {
                         el.push(item);
                     } else {
-                        el.push(<DynamicControl layoutStyles={{ justifyContent: 'flex-start' }} isCustomLayout={this.props.isCustomLayout} textStyles={this.props.style.secondaryText} {...item} />);
+                        el.push(<ListText style={[styles.secondaryText]} {...item} />);
                     }
                 }
             });
@@ -155,42 +163,29 @@ class AntdListView extends PureComponent {
     // RowView = listRowWrap(View, this.props.yigoid)
     renderItem = (item, secionId, rowId, highlightRow) => {
         const NewListItem = this.NewListItem;
-        // const RowView = this.RowView;
-        // if (this.props.actions) {
-        //     return (<RowView style={[styles.flexcol, this.props.rowContainerStyle]}>
-        //         <ListItem
-        //             centerElement={this.centerComp}
-        //             rightElement={this.props.rightElement}
-        //             onPress={() => this.onClick(index)}
-        //             divider={this.props.divider}
-        //             rowIndex={index}
-        //             numberOfLines={3}
-        //             leftElement={this.props.leftElement}
-        //         />
-        //         {
-        //             this.generateActions()
-        //         }
-        //     </RowView>);
-        // }
         return (
             <NewListItem
                 centerElement={this.centerComp}
-                rightElement={this.props.rightElement}
+                rightElement={this.context.createElement(this.props.rightElement)}
                 containerStyle={this.props.rowStyle}
                 onPress={() => this.onClick(rowId)}
                 // divider={this.props.divider}
                 rowIndex={rowId}
                 showArrow={this.props.showArrow}
-                leftElement={this.props.leftElement}
+                leftElement={this.context.createElement(this.props.leftElement)}
             />
         );
     }
     onRefresh = () => {
         this.props.onRefresh && this.props.onRefresh();
     }
+    addRow = () => {
+        this.props.addNewRow && this.props.addNewRow();
+    }
     render() {
-        const { controlState, layoutStyles, style } = this.props;
-        if (controlState && controlState.get('isVirtual')) {
+        const { layoutStyles, style, isVirtual, showHead, headTitle, headExtra, editable } = this.props;
+        const extra = headExtra? this.context.createElement(headExtra) : null;
+        if (isVirtual) {
             return (
                 <View style={[layoutStyles]}>
                     <ActivityIndicator size="large" color="cadetblue" />
@@ -198,21 +193,62 @@ class AntdListView extends PureComponent {
             );
         }
         return (
-            <ListView
-                style={style}
-                initialListSize={20}
-                dataSource={this.state.dataSource}
-                contentContainerStyle={{ width: '100%' }}
-                renderRow={this.renderItem}
-                pageSize={4}
-                pullToRefresh={this.props.onRefresh ? <PullToRefresh
-                    refreshing={false}
-                    onRefresh={this.onRefresh}
-                /> : null}
-            />
-        );
+            <View style={[layoutStyles, styles.container]}>
+                {
+                    showHead ?
+                        <View style={[styles.head]}>
+                            <Text style={[styles.headTitle]}>{headTitle}</Text>
+                            <View>
+                            {extra}
+                            </View>
+                        </View> : null
+                }
+                <View style={{ flex: 1 }}>
+                    <ListView
+                        style={{flex:1}}
+                        initialListSize={20}
+                        dataSource={this.state.dataSource}
+                        renderRow={this.renderItem}
+                        pageSize={4}
+                    />
+                    {
+                        editable ? <ActionButton onPress={this.addRow} /> : null
+                    }
+                </View>
+            </View>
+        )
     }
 }
-AntdListView.propTypes = propTypes.List;
 
-export default GridWrap(AntdListView);
+const styles = StyleSheet.create({
+    container: {
+        flexDirection: 'column',
+        flex: 1,
+    },
+    head: {
+        flexDirection: 'row',
+        paddingLeft: 12,
+    },
+    headTitle: {
+        paddingTop:8,
+        paddingBottom: 8,
+        flex:1,
+        opacity: '80%',
+    },
+    list: {
+        flex:1,
+    },
+    primaryText: {
+        paddingTop: 8,
+        paddingLeft: 4,
+    },
+    secondaryText: {
+        paddingTop: 4,
+        paddingLeft:6,
+        paddingBottom: 4,
+        opacity: '60%',
+        fontSize: 12,
+    }
+})
+
+export default GridWrap(withDetail(AntdListView));

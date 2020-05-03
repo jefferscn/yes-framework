@@ -6,7 +6,6 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { ListView, PullToRefresh } from 'antd-mobile';
 import { View, ActivityIndicator } from 'react-native';
-import { propTypes } from 'yes'; // eslint-disable-line
 import { GridRowWrap as gridRowWrap, DynamicControl, GridWrap } from 'yes';
 // import styles from '../../style';
 import ListViewItem from './CellLayoutItem';
@@ -126,6 +125,5 @@ class AntdListView extends PureComponent {
         );
     }
 }
-AntdListView.propTypes = propTypes.List;
 
 export default GridWrap(AntdListView);

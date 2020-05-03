@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
-import { TableView, Section } from 'react-native-tableview-simple';
-import { Components } from 'yes-platform'; // eslint-disable-line import/no-unresolved
-import { DynamicControl, controlVisibleWrapper, notEmptyVisibleWrapper, equalVisibleWrapper } from 'yes'; // eslint-disable-line import/no-unresolved
-import internationalWrap from '../../controls/InternationalWrap';
+// import { TableView, Section } from 'react-native-tableview-simple';
+import { List } from 'antd-mobile';
+import { Components } from 'yes-comp-react-native-web'; // eslint-disable-line import/no-unresolved
+import { DynamicControl, controlVisibleWrapper, notEmptyVisibleWrapper, equalVisibleWrapper, internationalWrap } from 'yes'; // eslint-disable-line import/no-unresolved
+// import internationalWrap from '../../controls/InternationalWrap';
 
 const { ScrollView, Layout } = Components;
 const { CellLayout } = Layout;
@@ -28,9 +29,9 @@ const styles = {
     },
 };
 
-const RelatedSection = controlVisibleWrapper(Section);
-const NotEmptyRelatedSection = notEmptyVisibleWrapper(Section);
-const EqualSection = equalVisibleWrapper(Section);
+const RelatedSection = controlVisibleWrapper(List);
+const NotEmptyRelatedSection = notEmptyVisibleWrapper(List);
+const EqualSection = equalVisibleWrapper(List);
 const RelatedCell = controlVisibleWrapper(DynamicControl);
 const NotEmptyRelatedCell = notEmptyVisibleWrapper(DynamicControl);
 const EqualCell = equalVisibleWrapper(DynamicControl);
@@ -49,7 +50,7 @@ class CellLayoutTemplate extends Component {  // eslint-disable-line
     }
 
     renderSection(section) {
-        let S = Section;
+        let S = List;
         const extraProps = {};
         if (section.visibleNotEmpty) {
             S = NotEmptyRelatedSection;
@@ -66,7 +67,8 @@ class CellLayoutTemplate extends Component {  // eslint-disable-line
         }
 
         return (
-            <S {...extraProps} sectionPaddingTop={10} sectionPaddingBottom={0} header={this.props.formatMessage(section.caption)} hideSeparator>
+            <S {...extraProps} 
+                renderHeader={()=>this.props.formatMessage(section.caption)} hideSeparator>
                 {
                     section.items.map((item) => {
                         if (item.type === 'element') {
@@ -146,7 +148,7 @@ class CellLayoutTemplate extends Component {  // eslint-disable-line
         }
         return (
             <ScrollView>
-                <TableView>
+                <List>
                     {
                         this.props.items.map((section) =>
                             (
@@ -159,7 +161,7 @@ class CellLayoutTemplate extends Component {  // eslint-disable-line
                             )
                         )
                     }
-                </TableView>
+                </List>
             </ScrollView>
         );
     }

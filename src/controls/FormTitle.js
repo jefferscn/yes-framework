@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { FormInfo } from 'yes-platform'; // eslint-disable-line
+import { FormInfo } from 'yes-comp-react-native-web'; // eslint-disable-line
 
 class FormTitle extends PureComponent {
     render() {

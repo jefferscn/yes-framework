@@ -25,11 +25,12 @@ export default (DEBUG, PATH, PORT = 3000) => {
             filename: '[name].js',
             // publicPath: './generated/',
         },
+        mode: 'development',
         cache: DEBUG,
         // For options, see http://webpack.github.io/docs/configuration.html#devtool
         devtool: DEBUG ? 'source-map' : false,
         module: {
-            loaders: [
+            rules: [
                 // Load ES6/JSX
                 {
                     test: /\.jsx?$/,
@@ -55,6 +56,7 @@ export default (DEBUG, PATH, PORT = 3000) => {
                         path.resolve(__dirname, '../node_modules/react-native-reanimated'),
                         path.resolve(__dirname, '../node_modules/react-native-screens'),
                         path.resolve(__dirname, '../node_modules/yg-echarts/'),
+                        path.resolve(__dirname, '../node_modules/yes-core/'),
                         path.resolve(__dirname, '../src'),
                         path.resolve(__dirname, '../entry.js'),
                         path.resolve(__dirname, '../main.js'),
@@ -67,11 +69,11 @@ export default (DEBUG, PATH, PORT = 3000) => {
                         babelrc: false,
                         presets: [['@babel/preset-env', { "modules": "commonjs", }], '@babel/preset-react', '@babel/preset-flow'],
                         plugins: ['@babel/plugin-proposal-export-default-from',
-                            ['@babel/plugin-proposal-decorators', { "legacy": true}],
+                            ['@babel/plugin-proposal-decorators', { "legacy": true }],
                             ['@babel/plugin-proposal-class-properties', {
                                 "loose": true
                             }],
-                            'react-native-web',
+                            // 'react-native-web',
                             '@babel/plugin-proposal-export-namespace-from']
                     },
                 }, {
@@ -101,15 +103,15 @@ export default (DEBUG, PATH, PORT = 3000) => {
                 },
                 // Load fonts
                 { test: /\.woff(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'url-loader?limit=10000&mimetype=application/font-woff' },
-                {
-                    test: /\.json$/,
-                    loader: 'json-loader',
-                    exclude: [/control\.json/],
-                },
-                {
-                    test: /control\.json/,
-                    loader: 'control-loader',
-                },
+                // {
+                //     test: /\.json$/,
+                //     loader: 'json-loader',
+                //     exclude: [/control\.json/],
+                // },
+                // {
+                //     test: /control\.json/,
+                //     loader: 'control-loader',
+                // },
                 { test: /\.(ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'file-loader' },
                 // {
                 //     test: require.resolve('../js/lib/yes-web/src/platform/wechat/jweixin.js'),
@@ -117,6 +119,18 @@ export default (DEBUG, PATH, PORT = 3000) => {
                 // },
 
             ],
+        },
+        optimization: {
+            splitChunks: {
+                cacheGroups: {
+                    commons: {
+                        name: "vendor",
+                        chunks: "initial",
+                        minChunks: 2
+                    }
+                }
+            },
+            minimize: false,
         },
         plugins: DEBUG
             ? [
@@ -128,10 +142,10 @@ export default (DEBUG, PATH, PORT = 3000) => {
             : [
                 new webpack.DefinePlugin({ 'process.env.NODE_ENV': '"production"', __DEV__: false, __VERSION__: '"debug"' }),
                 // new webpack.optimize.DedupePlugin(),
-                new webpack.optimize.UglifyJsPlugin({
-                    compressor: { screw_ie8: true, keep_fnames: true, warnings: false },
-                    mangle: { screw_ie8: true, keep_fnames: true },
-                }),
+                // new webpack.optimize.UglifyJsPlugin({
+                //     compressor: { screw_ie8: true, keep_fnames: true, warnings: false },
+                //     mangle: { screw_ie8: true, keep_fnames: true },
+                // }),
                 // new webpack.optimize.OccurenceOrderPlugin(),
                 new webpack.optimize.AggressiveMergingPlugin(),
                 new HtmlWebpackPlugin({
@@ -144,25 +158,15 @@ export default (DEBUG, PATH, PORT = 3000) => {
                     analyzerMode: 'static',
                     reportFilename: './reports.html',
                     openAnalyzer: true,
-                }),
-                new webpack.optimize.CommonsChunkPlugin({
-                    name: 'vendor',
-                    children: true,
-                    // chunks: ['app'],
-                    minChunks: ({ resource }) => (
-                        resource &&
-                        resource.indexOf('node_modules') >= 0 &&
-                        resource.match(/\.js$/)
-                    ),
-                }),
-                new webpack.optimize.CommonsChunkPlugin({
-                    // filename: 'used-twice.js',
-                    async: 'used-twice',
-                    children: true,
-                    minChunks(module, count) {
-                        return count >= 2;
-                    },
-                }),
+                })
+                // new webpack.optimize.CommonsChunkPlugin({
+                //     // filename: 'used-twice.js',
+                //     async: 'used-twice',
+                //     children: true,
+                //     minChunks(module, count) {
+                //         return count >= 2;
+                //     },
+                // }),
                 // new webpack.optimize.UglifyJsPlugin({
                 //     sourceMap: true,
                 //     compress: {

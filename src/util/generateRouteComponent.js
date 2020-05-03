@@ -1,41 +1,40 @@
 import React, { Component } from 'react';
 import TemplateView from '../TemplateView';
 import { YIUI, cacheSystem } from 'yes-core';
-import { BillFormStore } from 'yes';
-import { Components, Util } from 'yes-platform'; // eslint-disable-line
-import confirm from 'yes-platform/dist/util/confirm';
+// import { Components, Util } from 'yes-platform'; // eslint-disable-line
+import confirm from 'yes-comp-react-native-web/dist/util/confirm';
 
-const { BillForm, OperationBar } = Components;
+// const { BillForm, OperationBar } = Components;
 
 export default (entry) => {
     return class RouteComponent extends Component {
-        static navigationOptions = ({ navigation }) => {
-            return {
-                headerTitle: entry.title,
-                tabBarLabel: entry.title,
-                headerRight: (
-                    entry.oid === 'new' ?
-                        ((navigation.state.params && navigation.state.params.oid) ?
-                            <BillForm
-                                formKey={entry.formKey}
-                                oid={(navigation.state.params && navigation.state.params.oid) || entry.oid || -1}
-                                status={entry.status || 'EDIT'}
-                            >
-                                <OperationBar />
-                            </BillForm> : null) :
-                        <BillForm
-                            formKey={entry.formKey}
-                            oid={entry.oid || -1}
-                            status={entry.status || 'EDIT'}
-                        >
-                            <OperationBar />
-                        </BillForm>
-                ),
-                headerStyle: {
-                    // backgroundColor: '#2196f3',
-                },
-            };
-        };
+        // static navigationOptions = ({ navigation }) => {
+        //     return {
+        //         headerTitle: entry.title,
+        //         tabBarLabel: entry.title,
+        //         headerRight: (
+        //             entry.oid === 'new' ?
+        //                 ((navigation.state.params && navigation.state.params.oid) ?
+        //                     <BillForm
+        //                         formKey={entry.formKey}
+        //                         oid={(navigation.state.params && navigation.state.params.oid) || entry.oid || -1}
+        //                         status={entry.status || 'EDIT'}
+        //                     >
+        //                         <OperationBar />
+        //                     </BillForm> : null) :
+        //                 <BillForm
+        //                     formKey={entry.formKey}
+        //                     oid={entry.oid || -1}
+        //                     status={entry.status || 'EDIT'}
+        //                 >
+        //                     <OperationBar />
+        //                 </BillForm>
+        //         ),
+        //         headerStyle: {
+        //             // backgroundColor: '#2196f3',
+        //         },
+        //     };
+        // };
 
         state = {
             oid: entry.oid,

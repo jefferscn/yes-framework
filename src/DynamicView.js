@@ -27,44 +27,29 @@ export default class RouteComponent extends Component {
 
     processNewForm = async (props) => {
         if (this.isNew(props)) {
-            const data = await YIUI.DocService.newDocument(props.navigation.state.params.metaKey);
-            if (!data) {
-                this.setState({
-                    withoutData: true,
-                });
-                return;
-            }
-            const currentForm = await BillformStore.getBillForm(`${props.navigation.state.params.metaKey}.new`);
-            if (currentForm) {
-                this.setState({
-                    withoutData: true,
-                });
-                return;
-            }
             const newOid = await YIUI.RemoteService.applyNewOID();
-            data.oid = newOid;
-            data.state = YIUI.DocType.NEW;
-            const paras = FormParas[this.props.navigation.state.params.metaKey];
-            const key = `${this.props.navigation.state.params.metaKey}.${newOid}`;
-            await cacheSystem.current.FormDataCache.put(key, {
-                key,
-                data,
-            });
-            const form = await BillformStore.createDummyForm(key);
-            form.form.paras.map = Object.assign(form.form.paras.map, paras.paras);
+            // data.oid = newOid;
+            // data.state = YIUI.DocType.NEW;
+            // const paras = FormParas[this.props.navigation.state.params.metaKey];
+            // const key = `${this.props.navigation.state.params.metaKey}.${newOid}`;
+            // const form = await BillformStore.createDummyForm(key);
+            // if (paras) {
+            //     form.form.paras.map = Object.assign(form.form.paras.map, paras.paras);
+            // }
             this.setState({
                 oid: newOid,
-                document: data,
+                // document: data,
             });
             // History.push(`card/YES/${entry.formKey}/${newOid}/NEW`);
-            props.navigation.setParams({
-                oid: newOid,
-            });
-        } else {
-            this.setState({
-                oid: props.navigation.state.params.id,
-            });
-        }
+            // props.navigation.setParams({
+            //     oid: newOid,
+            // });
+        } 
+        // else {
+        //     this.setState({
+        //         oid: props.navigation.state.params.id,
+        //     });
+        // }
     }
 
     isNew(props) {
@@ -72,9 +57,10 @@ export default class RouteComponent extends Component {
     }
 
     render() {
-        if (this.isNew(this.props) && !this.state.withoutData) { // 如果是新增单据，则需要在本控件中请求一个新的Document，放到cache中，以保持
-            return null;                // Navigation中引用的单据额一致
+        if(this.state.oid==='new') {
+            return null;
         }
+        const params = FormParas[this.props.navigation.state.params.metaKey];
         return (
             <TemplateView
                 formKey={this.props.navigation.state.params.metaKey}

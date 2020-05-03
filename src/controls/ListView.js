@@ -6,7 +6,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { ListView, PullToRefresh } from 'antd-mobile';
 import { View, ActivityIndicator, StyleSheet } from 'react-native';
-import { propTypes } from 'yes'; // eslint-disable-line
+// import { propTypes } from 'yes'; // eslint-disable-line
 import { ListRowWrap as listRowWrap, ListWrap, DynamicControl, GridWrap } from 'yes';
 // import styles from '../../style';
 import ListViewItem from './ListViewItem';
@@ -275,7 +275,7 @@ class AntdListView extends PureComponent {
         );
     }
 }
-AntdListView.propTypes = propTypes.List;
+// AntdListView.propTypes = propTypes.List;
 
 export const GridView = GridWrap(AntdListView);
 export default ListWrap(AntdListView);

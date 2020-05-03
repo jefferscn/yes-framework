@@ -1,13 +1,13 @@
 import path from 'path';
 import webpack from 'webpack';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
-import CompressionPlugin from 'compression-webpack-plugin';
+// import HtmlWebpackPlugin from 'html-webpack-plugin';
+// import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+// import CompressionPlugin from 'compression-webpack-plugin';
 // import baseConfig from './webpack.base.babel';
 import baseConfig from './webpack.config';
 
-const { optimize, ContextReplacementPlugin } = webpack;
-const { CommonsChunkPlugin } = optimize;
+// const { optimize, ContextReplacementPlugin } = webpack;
+// const { CommonsChunkPlugin } = optimize;
 // const { CommonsChunkPlugin } = optimize;
 export default baseConfig(false, './build');
 // export default baseConfig({

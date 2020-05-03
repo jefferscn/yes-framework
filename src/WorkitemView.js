@@ -1,42 +1,39 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Components } from 'yes-platform'; // eslint-disable-line
+import { Components } from 'yes-comp-react-native-web'; // eslint-disable-line
 import TemplateView from './TemplateView';
 import { YIUI, closeform } from 'yes-core';
 import { AppDispatcher, WorkitemWrap as workitemWrap } from 'yes';
 import { Modal } from 'antd-mobile';
-import { intlShape } from 'react-intl';
+import { internationalWrap } from 'yes-intf';
 
-const { DynamicBillForm, WorkflowOperationBar, FormInfo, LoadingComp } = Components;
+const { LoadingComp } = Components;
 
-const WorkitemBill = workitemWrap(DynamicBillForm, LoadingComp);
-export default class WorkitemView extends PureComponent {
-    static navigationOptions = ({ navigation }) => {
-        return {
-            headerTitle: <WorkitemBill hideLoading workitemId={navigation.state.params.wid} onlyOpen={navigation.state.params.onlyOpen} loadInfo={navigation.state.params.loadInfo}>
-                <FormInfo.FormCaption containerStyle={{ width: '100%' }} />
-            </WorkitemBill>,
-            // headerLeft: <View style={{ flexDirection: 'row' }}><HeaderBackButton /></View>,
-            // headerRight: (
-            //     <WorkitemBill
-            //         hideLoading
-            //         workitemId={navigation.state.params.wid}
-            //     >
-            //         <WorkflowOperationBar />
-            //     </WorkitemBill>
-            // ),
-            headerStyle: {
-                // backgroundColor: '#2196f3',
-            },
-        };
-    };
+// const WorkitemBill = workitemWrap(DynamicBillForm, LoadingComp);
+class WorkitemView extends PureComponent {
+    // static navigationOptions = ({ navigation }) => {
+    //     return {
+    //         headerTitle: <WorkitemBill hideLoading workitemId={navigation.state.params.wid} onlyOpen={navigation.state.params.onlyOpen} loadInfo={navigation.state.params.loadInfo}>
+    //             <FormInfo.FormCaption containerStyle={{ width: '100%' }} />
+    //         </WorkitemBill>,
+    //         // headerLeft: <View style={{ flexDirection: 'row' }}><HeaderBackButton /></View>,
+    //         // headerRight: (
+    //         //     <WorkitemBill
+    //         //         hideLoading
+    //         //         workitemId={navigation.state.params.wid}
+    //         //     >
+    //         //         <WorkflowOperationBar />
+    //         //     </WorkitemBill>
+    //         // ),
+    //         headerStyle: {
+    //             // backgroundColor: '#2196f3',
+    //         },
+    //     };
+    // };
 
     static propTypes = {
         navigation: PropTypes.object,
     };
-    static contextTypes = {
-        intl: intlShape,
-    }
 
     state = {
         loading: true,
@@ -44,7 +41,7 @@ export default class WorkitemView extends PureComponent {
 
     formatMessage = (msg) => {
         if (msg) {
-            return this.context.intl ? this.context.intl.formatMessage({ id: msg }) : msg;
+            return this.props.formatMessage? this.props.formatMessage(msg) : msg;
         }
         return msg;
     }
@@ -93,3 +90,5 @@ export default class WorkitemView extends PureComponent {
         />);
     }
 }
+
+export default internationalWrap(WorkitemView);

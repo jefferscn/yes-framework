@@ -43,3 +43,7 @@
 .am-modal-wrap {
     z-index: 9999!important;
 }
+
+.am-modal-mask {
+    z-index: 9999!important;
+}

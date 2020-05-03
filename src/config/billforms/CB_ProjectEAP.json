@@ -1,0 +1,110 @@
+{
+    "formTemplate": "guide",
+    "head": {
+        "type": "element",
+        "elementType": "Header",
+        "elementProps": {
+            "canBack": true,
+            "titleElement": {
+                "type": "element",
+                "elementType": "FormTitle",
+                "elementProps": {
+                    "containerStyle": {
+                        "alignItems": "center",
+                        "justifyContent": "center"
+                    }
+                }
+            }
+        }
+    },
+    "steps": [
+        {
+            "items": [
+                "Project",
+                "Borrower",
+                "Describe",
+                "IsTravel",
+                "IsPlaneApp",
+                "IsLoadMoney"
+            ]
+        },
+        {
+            "relation": "Grid5",
+            "item": {
+                "type": "element",
+                "elementType": "GridView",
+                "elementProps": {
+                    "yigoid": "Grid5",
+                    "showHead": true,
+                    "headTitle": "费用明细",
+                    "headExtra": {
+                        "type": "element",
+                        "elementType": "MoneyWithCurrency",
+                        "elementProps": {
+                            "currencyField": {
+                                "type": "element",
+                                "elementType": "SplitText",
+                                "elementProps": {
+                                    "yigoid": "CurrencyID",
+                                    "style": {
+                                        "display": "flex",
+                                        "justifyContent": "center",
+                                        "alignItems": "center",
+                                        "fontSize": 12,
+                                        "color": "green",
+                                        "paddingRight": 4
+                                    }
+                                }
+                            },
+                            "moneyField": "SumMoney",
+                            "containerStyle": {
+                                "flex": 1
+                            }
+                        }
+                    },
+                    "leftElement": {
+                        "type": "element",
+                        "elementType": "IconFont",
+                        "elementProps": {
+                            "name": "icon-expense",
+                            "style": {
+                                "display": "flex",
+                                "justifyContent": "center",
+                                "alignItems": "center",
+                                "fontSize": 22,
+                                "paddingLeft": 12
+                            }
+                        }
+                    },
+                    "rightElement": {
+                        "type": "element",
+                        "elementType": "MoneyWithCurrency",
+                        "elementProps": {
+                            "currencyField": {
+                                "type": "element",
+                                "elementType": "SplitText",
+                                "elementProps": {
+                                    "yigoid": "CurrencyID",
+                                    "style": {
+                                        "display": "flex",
+                                        "justifyContent": "center",
+                                        "alignItems": "center",
+                                        "fontSize": 12,
+                                        "color": "green",
+                                        "paddingRight": 4
+                                    }
+                                }
+                            },
+                            "moneyField": "indexmoney"
+                        }
+                    },
+                    "primaryKey": "budgetindex",
+                    "secondKey": [
+                        "remarkdtl"
+                    ]
+                }
+            }
+        }
+    ],
+    "controls": {}
+}

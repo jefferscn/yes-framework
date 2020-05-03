@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Button } from 'react-native-material-ui';
+// import { Button } from 'react-native-material-ui';
 // eslint-disable-next-line import/no-unresolved
-import { Platform, StyleSheet, View, TextInput, Text, Image } from 'react-native';
+import { Platform, StyleSheet, View, TextInput, Text, Image, Button } from 'react-native';
 import { propTypes, LoginWrap as loginWrap } from 'yes'; // eslint-disable-line
 
 const styles = StyleSheet.create({
@@ -181,7 +181,7 @@ class Login extends Component {
                                 primary
                                 text="登录"
                                 onPress={this.handleClickLogin}
-                            />
+                            >登录</Button>
                         </View>
                     </View>
                     <View
@@ -203,5 +203,5 @@ class Login extends Component {
         );
     }
 }
-Login.propTypes = propTypes.Login;
+// Login.propTypes = propTypes.Login;
 export default loginWrap(Login);

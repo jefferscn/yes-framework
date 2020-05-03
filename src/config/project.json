@@ -1,7 +1,9 @@
 {
     "sessionKey": "test",
-    "serverPath":"http://192.168.43.191:8089/yigo",
-    "serverPath_":"http://bpmtest.trinasolar.com/yigo/",
+    "serverPath_":"http://192.168.43.191:8089/yigo",
+    "serverPath__":"http://1.1.2.37:8089/erp/",
+    "serverPath":"http://1.1.2.37:8089/mcs/",
+    "serverPath___":"http://mcs.bokesoft.com:8083/mcs",
     "wechat": {
         "signurl": "http://localhost:3001/wechatsign/com.bokesoft.test"
     },

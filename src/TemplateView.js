@@ -4,6 +4,7 @@ import defaultTemplateMapping from './template/defaultTemplateMapping';
 import billform from './config/billforms';
 import PropTypes from 'prop-types';
 import CustomControls from './config/control.js';
+import { CustomBillForm } from 'yes-comp-react-native-web';
 
 export default class TemplateView extends PureComponent {
     static childContextTypes = {
@@ -90,13 +91,21 @@ export default class TemplateView extends PureComponent {
         const TemplateComponent = defaultTemplateMapping.get(extraProps.formTemplate);
 
         return (
-            <TemplateComponent
+            <CustomBillForm
                 formKey={formKey}
                 status={status || 'VIEW'}
                 oid={oid ? oid : -1} // eslint-disable-line
                 {...otherProps}
                 {...extraProps}
-            />
+            >
+                <TemplateComponent
+                    formKey={formKey}
+                    status={status || 'VIEW'}
+                    oid={oid ? oid : -1} // eslint-disable-line
+                    {...otherProps}
+                    {...extraProps}
+                />
+            </CustomBillForm>
         );
     }
 }
