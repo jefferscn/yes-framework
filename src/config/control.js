@@ -15,17 +15,19 @@ import Header from '../controls/Header';
 import FormTitle from '../controls/FormTitle';
 import Searchbar from '../controls/Searchbar';
 import ListView from '../controls/ListView';
+import ListText from '../controls/ListText';
 import GridView from '../controls/GridView';
 import Home1 from '../controls/Home1';
-import CalendarGrid from '../controls/CalendarGrid';
-import CalendarDay from '../controls/CalendarDay';
-import CalendarRow from '../controls/CalendarRow';
+// import CalendarGrid from '../controls/CalendarGrid';
+// import CalendarDay from '../controls/CalendarDay';
+// import CalendarRow from '../controls/CalendarRow';
 import SegementToolbar from '../controls/SegementToolbar';
 import IconFont from '../font';
 import MoneyWithCurrency from '../controls/MoneyWithCurrency';
 import SplitText from '../controls/SplitText';
 
-const { ListText } = ListComponents;
+// const { ListText } = ListComponents;
+import { controls } from '../project';
 // import Login from '../controls/Login';
 
 export default { 
@@ -46,13 +48,14 @@ export default {
     ListView,
     GridView,
     Home1,
-    CalendarGrid,
-    CalendarDay,
-    CalendarRow,
+    // CalendarGrid,
+    // CalendarDay,
+    // CalendarRow,
     SegementToolbar,
     Text,
     IconFont,
     ListText,
     MoneyWithCurrency,
     SplitText,
+    ...controls,
 };

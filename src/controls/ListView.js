@@ -21,9 +21,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         lineHeight: 24,
         paddingBottom: 6,
+        paddingTop: 12,
     },
     primaryText: {
-        fontSize: 17,
+        fontSize: 12,
         whiteSpace: 'nowrap',
         overflow: 'hidden',
         justifyContent: 'flex-start',
@@ -35,7 +36,7 @@ const styles = StyleSheet.create({
         paddingBottom: 6,
     },
     secondaryText: {
-        fontSize: 13,
+        fontSize: 11,
         color: 'rgba(0,0,0,0.5)',
     },
     tertiaryContainer: {
@@ -45,7 +46,7 @@ const styles = StyleSheet.create({
         paddingBottom: 6,
     },
     tertiaryText: {
-        fontSize: 11,
+        fontSize: 10,
         color: 'rgba(0,0,0,0.5)',
     }
 });
@@ -57,6 +58,9 @@ class AntdListView extends PureComponent {
         tertiaryKey: PropTypes.string,
         divider: PropTypes.bool,
     };
+    static contextTypes = {
+        createElement: PropTypes.func,
+    }
     // static contextTypes = {
     //     uiTheme: PropTypes.object.isRequired,
     // };
@@ -237,7 +241,7 @@ class AntdListView extends PureComponent {
         return (
             <NewListItem
                 centerElement={this.centerComp}
-                rightElement={this.props.rightElement}
+                rightElement={this.context.createElement(this.props.rightElement)}
                 containerStyle={this.props.rowStyle}
                 onPress={() => this.onClick(rowId)}
                 // divider={this.props.divider}

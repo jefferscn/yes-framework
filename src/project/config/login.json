@@ -1,0 +1,8 @@
+{
+    "type": "element",
+    "elementType": "Login",
+    "elementProps": {
+        "tooltip": "欢迎登录测试系统",
+        "companyName": "Copyright © XXXXX有限公司"
+    }
+}

@@ -20,11 +20,16 @@
     cursor: pointer;
 }
 
+.am-modal-wrap.sibling {
+    align-items: stretch;
+}
+
 .sibling .am-modal {
     flex: 1;
     align-items: stretch;
     display: flex;
     background: #0000;
+    flex-direction: column;
 }
 
 .sibling .am-modal-transparent .am-modal-content {
@@ -32,6 +37,7 @@
     display: flex;
     flex:1;
     background: #0000;
+    border-radius: 0;
 }
 .sibling .am-modal-transparent .am-modal-content .am-modal-body {
     padding: 0;

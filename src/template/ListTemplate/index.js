@@ -29,7 +29,7 @@ class ListTemplate extends PureComponent {
     }
 
     buildChildren() {
-        const { searchBar, list, head } = this.props;
+        const { searchBar, filterBlock, list, head } = this.props;
         // const header = this.context.createElement(head);
         return (
             <View style={{ flex: 1, backgroundColor: 'white' }}>
@@ -37,15 +37,7 @@ class ListTemplate extends PureComponent {
                     this.context.createElement(head)
                 }
                 {
-                    searchBar ? <Searchbar
-                        visible
-                        designPositionBase
-                        meta={searchBar}
-                        yigoid={searchBar.textField}
-                        textField={searchBar.textField}
-                        searchButton={searchBar.queryButton}
-                        placeholder={this.props.formatMessage('search taskid')}
-                    /> : null
+                    filterBlock? this.context.createElement(filterBlock) : null
                 }
                 <View style={{ flex: 1 }}>
                     <DynamicControl

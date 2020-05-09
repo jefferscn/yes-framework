@@ -33,6 +33,7 @@ class AntdListView extends PureComponent {
         style: {},
         showArrow: true,
         divider: true,
+        useBodyScroll: false,
     };
 
     static contextTypes = {
@@ -111,7 +112,12 @@ class AntdListView extends PureComponent {
             if (primaryKey.$$typeof) {
                 el = primaryKey;
             } else {
-                el = <ListText style={[styles.primaryText]} {...primaryKey} />;
+                const tmp = this.context.createElement(primaryKey);
+                if (tmp.$$typeof) {
+                    el = tmp;
+                } else {
+                    el = <ListText style={[styles.primaryText]} {...primaryKey} />;
+                }
             }
         }
         return <View style={[{ flexDirection: 'row' }, this.props.style.firstline]}>{el}</View>;
@@ -152,13 +158,14 @@ class AntdListView extends PureComponent {
         </View>
     );
 
-    centerComp = (
+    centerComp = !this.props.centerElement ? (
         <View style={[{ flex: 1 }, this.props.style.centerStyle]}>
             {this.generatePrimaryELement()}
             {this.generateSecondaryElement()}
             {this.generateTertiaryElement()}
         </View>
-    )
+    ) : this.context.createElement(this.props.centerElement)
+
     NewListItem = gridRowWrap(ListViewItem, ActivityIndicator, this.props.yigoid)
     // RowView = listRowWrap(View, this.props.yigoid)
     renderItem = (item, secionId, rowId, highlightRow) => {
@@ -173,6 +180,7 @@ class AntdListView extends PureComponent {
                 rowIndex={rowId}
                 showArrow={this.props.showArrow}
                 leftElement={this.context.createElement(this.props.leftElement)}
+                detailElement={this.context.createElement(this.props.detailElement)}
             />
         );
     }
@@ -183,8 +191,8 @@ class AntdListView extends PureComponent {
         this.props.addNewRow && this.props.addNewRow();
     }
     render() {
-        const { layoutStyles, style, isVirtual, showHead, headTitle, headExtra, editable } = this.props;
-        const extra = headExtra? this.context.createElement(headExtra) : null;
+        const { layoutStyles, style, isVirtual, showHead, headTitle, headExtra, editable, useBodyScroll } = this.props;
+        const extra = headExtra ? this.context.createElement(headExtra) : null;
         if (isVirtual) {
             return (
                 <View style={[layoutStyles]}>
@@ -199,14 +207,15 @@ class AntdListView extends PureComponent {
                         <View style={[styles.head]}>
                             <Text style={[styles.headTitle]}>{headTitle}</Text>
                             <View>
-                            {extra}
+                                {extra}
                             </View>
                         </View> : null
                 }
                 <View style={{ flex: 1 }}>
                     <ListView
-                        style={{flex:1}}
+                        style={{ flex: 1 }}
                         initialListSize={20}
+                        useBodyScroll={useBodyScroll}
                         dataSource={this.state.dataSource}
                         renderRow={this.renderItem}
                         pageSize={4}
@@ -223,6 +232,7 @@ class AntdListView extends PureComponent {
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'column',
+        alignItems: 'stretch',
         flex: 1,
     },
     head: {
@@ -230,13 +240,13 @@ const styles = StyleSheet.create({
         paddingLeft: 12,
     },
     headTitle: {
-        paddingTop:8,
+        paddingTop: 8,
         paddingBottom: 8,
-        flex:1,
+        flex: 1,
         opacity: '80%',
     },
     list: {
-        flex:1,
+        flex: 1,
     },
     primaryText: {
         paddingTop: 8,
@@ -244,7 +254,7 @@ const styles = StyleSheet.create({
     },
     secondaryText: {
         paddingTop: 4,
-        paddingLeft:6,
+        paddingLeft: 6,
         paddingBottom: 4,
         opacity: '60%',
         fontSize: 12,

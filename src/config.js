@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 // import { generateTabRouteConfig } from './util';
 import './template';
-import projectJSON from './config/project.json';
-import loginJSON from './config/login.json';
+// import projectJSON from './config/project.json';
+// import loginJSON from './config/login.json';
+import { ProjectCfg, RouteCfg, LoginCfg } from './config/index';
 import control from './config/control.js';
 import { ControlMappings, Switch, AuthenticatedRoute } from 'yes-comp-react-native-web';
 import { Util } from 'yes-web';
 import i18n from './i18n';
 import { LocaleProvider, Modal } from 'antd-mobile';
-import RouteConfig from './config/route.json';
+// import RouteConfig from './config/route.json';
 import buildRoute from './route';
 import PlatformProvider from './controls/providers';
 import BaiduProvider from './controls/providers/BaiduMapProvider';
@@ -28,8 +29,8 @@ Reflect  = undefined;
 FastClick.attach(document.body);
 injectFont(fontAwesome, 'FontAwesome');
 
-const { sessionKey, serverPath, appName, wechat, cordova, baidumap } = projectJSON;
-const { template, tooltip, companyName, bgImagePath, logoImagePath } = loginJSON;
+const { sessionKey, serverPath, appName, wechat, cordova, baidumap } = ProjectCfg;
+const { template, tooltip, companyName, bgImagePath, logoImagePath } = LoginCfg;
 
 ControlMappings.defaultControlMapping.reg('checkbox', Switch);
 let rootEl = null;
@@ -132,7 +133,7 @@ Util.confirm = function (title, msg, type) {
     });
 };
 
-const MainRouter = buildRoute(RouteConfig);
+const MainRouter = buildRoute(RouteCfg);
 
 const getAntLocale = () => {
     if (navigator.language === 'zh-CN') {
@@ -206,7 +207,7 @@ if (isCordova()) {
     };
 }
 
-const AuthRouter = AuthenticatedRoute(MainRouter, ()=><Element meta={loginJSON} />, 'root');
+const AuthRouter = AuthenticatedRoute(MainRouter, ()=><Element meta={LoginCfg} />, 'root');
 const NavigatorListenerWrapper = (props) =>
     (<LocaleProvider locale={getAntLocale()}>
         <TemplateProvider CustomControls={control}>

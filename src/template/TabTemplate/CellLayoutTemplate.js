@@ -16,6 +16,7 @@ const styles = {
         whiteSpace: 'pre-wrap',
         justifyContent: 'flex-end',
         display: 'flex',
+        fontSize: 12,
     },
     contentStyle: {
         maxWidth: 110,
@@ -67,8 +68,8 @@ class CellLayoutTemplate extends Component {  // eslint-disable-line
         }
 
         return (
-            <S {...extraProps} 
-                renderHeader={()=>this.props.formatMessage(section.caption)} hideSeparator>
+            <S {...extraProps}
+                renderHeader={() => this.props.formatMessage(section.caption)} hideSeparator>
                 {
                     section.items.map((item) => {
                         if (item.type === 'element') {
@@ -83,7 +84,7 @@ class CellLayoutTemplate extends Component {  // eslint-disable-line
                                 contentContainerStyle={{ justifyContent: 'flex-end', alignItems: 'center', textAlign: 'right' }}
                                 // hideWhenEmptyValue
                                 textStyles={{ textAlign: 'left' }}
-                                layoutStyles={{ minHeight: 44, textAlign: 'left', justifyContent: 'flex-start', alignItems: 'center' }}
+                                layoutStyles={{ minHeight: 30, textAlign: 'left', justifyContent: 'flex-start', alignItems: 'center' }}
                                 layout={this.getLayout(item, section.contentStyle)}
                                 {...this.context.getControlProps(item.key || item)}
                             />
@@ -129,7 +130,7 @@ class CellLayoutTemplate extends Component {  // eslint-disable-line
             showLabel={false}
             // hideWhenEmptyValue
             textStyles={{ textAlign: 'left' }}
-            layoutStyles={{ minHeight: 44, textAlign: 'left', justifyContent: 'flex-start', alignItems: 'center' }}
+            layoutStyles={{ minHeight: 30, textAlign: 'left', justifyContent: 'flex-start', alignItems: 'center' }}
             layout={this.getLayout(item)}
             {...this.context.getControlProps(item.key || item)}
         />);

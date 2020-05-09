@@ -5,7 +5,7 @@ import React from 'react';
 import { Text } from 'react-native';
 import { ControlWrap } from 'yes-intf';
 
-const SplitText = ({ displayValue, style, isVirtual, controlState, caption, showIndex = 0, splitStr = " " }) => {
+const SplitText = ({ displayValue, style, isVirtual, controlState, caption, showIndex = 0, splitStr = " ", emptyStr="空" }) => {
     let showStr = "";
     if (displayValue) {
         const splitArray = displayValue.split(splitStr);
@@ -16,7 +16,7 @@ const SplitText = ({ displayValue, style, isVirtual, controlState, caption, show
         }
     }
     return (<Text style={style}>
-        {showStr || "空"}
+        {showStr || emptyStr }
     </Text>);
 };
 

@@ -31,7 +31,27 @@ export default class ListViewItem extends PureComponent {
         this.props.onPress();
     }
 
+    renderDetail() {
+        return this.props.detailElement;
+    }
+
     render() {
+        if (this.props.detailElement) {
+            return (<View style={[this.props.divider ? styles.divider : {}]}>
+                <TouchableOpacity onPress={this.onPress} pressRetentionOffset={pressRetentionOffset}>
+                    <View style={[styles.container, this.props.containerStyle]}>
+                        {this.renderLeftElement()}
+                        {this.renderCenterElement()}
+                        {this.renderRightElement()}
+                        {this.renderArrow()}
+                        {this.renderExtra()}
+                    </View>
+                </TouchableOpacity>
+                {
+                    this.renderDetail()
+                }
+            </View>)
+        }
         return (
             <TouchableOpacity onPress={this.onPress} pressRetentionOffset={pressRetentionOffset}>
                 <View style={[styles.container, this.props.divider ? styles.divider : {}, this.props.containerStyle]}>

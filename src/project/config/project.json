@@ -1,9 +1,9 @@
 {
     "sessionKey": "test",
     "serverPath_":"http://192.168.43.191:8089/yigo",
-    "serverPath__":"http://1.1.2.37:8089/erp/",
+    "serverPath":"http://dev.bokesoft.com:18097/Yigo/",
     "serverPath___":"http://1.1.2.37:8089/mcs/",
-    "serverPath":"http://mcs.bokesoft.com:28098/erp",
+    "serverPath__":"http://mcs.bokesoft.com:28098/erp",
     "wechat": {
         "signurl": "http://localhost:3001/wechatsign/com.bokesoft.test"
     },

@@ -1,0 +1,262 @@
+{
+    "formTemplate": "normal",
+    "head": {
+        "type": "element",
+        "elementType": "Header",
+        "elementProps": {
+            "canBack": true,
+            "titleElement": {
+                "type": "element",
+                "elementType": "FormTitle",
+                "elementProps": {
+                    "containerStyle": {
+                        "alignItems": "center",
+                        "justifyContent": "center"
+                    }
+                }
+            }
+        }
+    },
+    "foot": {
+        "type": "element",
+        "elementType": "SegementToolbar",
+        "elementProps": {}
+    },
+    "items": [
+        "NO",
+        "BillDate",
+        "Status",
+        "CCID",
+        "PersonnelID",
+        "CostCompayCodeID",
+        "CostDept",
+        "Type",
+        "StartDate",
+        "EndDate",
+        "Region",
+        "ApplyMoney",
+        "HasCost",
+        "Balance",
+        "Explain",
+        "Grid1"
+    ],
+    "controls": {
+        "Grid1": {
+            "control": "GridView",
+            "showHead": true,
+            "headTitle": "费用明细",
+            "useBodyScroll": true,
+            "headExtra": {
+                "type": "element",
+                "elementType": "MoneyWithCurrency",
+                "elementProps": {
+                    "currencyField": {
+                        "type": "element",
+                        "elementType": "SplitText",
+                        "elementProps": {
+                            "yigoid": "CurrencyID",
+                            "style": {
+                                "display": "flex",
+                                "justifyContent": "center",
+                                "alignItems": "center",
+                                "fontSize": 12,
+                                "color": "green",
+                                "paddingRight": 4
+                            }
+                        }
+                    },
+                    "moneyField": "ApplyMoney",
+                    "containerStyle": {
+                        "flex": 1
+                    }
+                }
+            },
+            "rightElement": {
+                "type": "element",
+                "elementType": "MoneyWithCurrency",
+                "elementProps": {
+                    "currencyField": {
+                        "type": "element",
+                        "elementType": "SplitText",
+                        "elementProps": {
+                            "yigoid": "Currency",
+                            "style": {
+                                "display": "flex",
+                                "justifyContent": "center",
+                                "alignItems": "center",
+                                "fontSize": 12,
+                                "color": "green",
+                                "paddingRight": 4
+                            }
+                        }
+                    },
+                    "moneyField": "SumCost"
+                }
+            },
+            "centerElement": {
+                "type": "element",
+                "elementType": "FlexBox",
+                "elementProps": {
+                    "direction": "row",
+                    "style": {
+                        "flex": 1
+                    },
+                    "items": [
+                        {
+                            "type": "element",
+                            "elementType": "FromTo",
+                            "elementProps": {
+                                "fromId": {
+                                    "type": "element",
+                                    "elementType": "SplitText",
+                                    "elementProps": {
+                                        "yigoid": "StartRegion",
+                                        "showIndex": 1,
+                                        "emptyStr": "未填",
+                                        "style": {
+                                            "display": "flex",
+                                            "justifyContent": "center",
+                                            "alignItems": "center",
+                                            "fontSize": 12,
+                                            "paddingRight": 4
+                                        }
+                                    }
+                                },
+                                "toId": {
+                                    "type": "element",
+                                    "elementType": "SplitText",
+                                    "elementProps": {
+                                        "yigoid": "EndRegion",
+                                        "showIndex": 1,
+                                        "emptyStr": "未填",
+                                        "style": {
+                                            "display": "flex",
+                                            "justifyContent": "center",
+                                            "alignItems": "center",
+                                            "fontSize": 12,
+                                            "paddingRight": 4
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            "detailElement": {
+                "type": "element",
+                "elementType": "FlexBox",
+                "elementProps": {
+                    "direction": "row",
+                    "style": {
+                        "paddingLeft": 12,
+                        "alignItems": "center",
+                        "height": 30
+                    },
+                    "items": [
+                        {
+                            "type": "element",
+                            "elementType": "ListText",
+                            "elementProps": {
+                                "yigoid": "YGJTCost",
+                                "icon": {
+                                    "type": "element",
+                                    "elementType": "IconFont",
+                                    "elementProps": {
+                                        "name": "icon-jiaotonggongjiaochekanfangtuandabaxianxing",
+                                        "size": 20,
+                                        "color": "#008cd7",
+                                        "style": {
+                                            "paddingRight": 6
+                                        }
+                                    }
+                                },
+                                "style": {
+                                    "flex": 1,
+                                    "alignItems": "center",
+                                    "display": "flex"
+                                }
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "elementType": "ListText",
+                            "elementProps": {
+                                "yigoid": "YGZSCost",
+                                "icon": {
+                                    "type": "element",
+                                    "elementType": "IconFont",
+                                    "elementProps": {
+                                        "name": "icon-zhusu",
+                                        "size": 20,
+                                        "color": "#008cd7",
+                                        "style": {
+                                            "paddingRight": 6
+                                        }
+                                    }
+                                },
+                                "style": {
+                                    "flex": 1,
+                                    "alignItems": "center",
+                                    "display": "flex"
+                                }
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "elementType": "ListText",
+                            "elementProps": {
+                                "yigoid": "YGCYCost",
+                                "icon": {
+                                    "type": "element",
+                                    "elementType": "IconFont",
+                                    "elementProps": {
+                                        "name": "icon-canyin",
+                                        "size": 20,
+                                        "color": "#008cd7",
+                                        "style": {
+                                            "paddingRight": 6
+                                        }
+                                    }
+                                },
+                                "style": {
+                                    "flex": 1,
+                                    "alignItems": "center",
+                                    "display": "flex"
+                                }
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "elementType": "ListText",
+                            "elementProps": {
+                                "yigoid": "YGBZCost",
+                                "icon": {
+                                    "type": "element",
+                                    "elementType": "IconFont",
+                                    "elementProps": {
+                                        "name": "icon-buzhu",
+                                        "size": 20,
+                                        "color": "#008cd7",
+                                        "style": {
+                                            "paddingRight": 6
+                                        }
+                                    }
+                                },
+                                "style": {
+                                    "flex": 1,
+                                    "alignItems": "center",
+                                    "display": "flex"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            "primaryKey": "budgetindex",
+            "secondKey": [
+                "remarkdtl"
+            ]
+        }
+    }
+}

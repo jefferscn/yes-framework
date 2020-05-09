@@ -7,6 +7,8 @@ import PropTypes from 'prop-types';
 const styles = StyleSheet.create({
     header: {
         flexDirection: 'row',
+        borderBottomWidth: 1,
+        borderBottomColor: 'lightgrey',
     },
     absoluteTitle: {
         position: 'absolute',

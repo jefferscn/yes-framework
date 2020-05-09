@@ -25,7 +25,7 @@ export default class MoneyWithCurrency extends PureComponent {
         const { currencyField, moneyField, currencyStyle, moneyStyle, containerStyle } = this.props;
         let currencyElement = null;
         let moneyElement = null;
-        if(typeof currentField === 'string') {
+        if(typeof currencyField === 'string') {
             currencyElement = <ListText style={[styles.text, currencyStyle]} yigoid={currencyField} />;
         } else {
             currencyElement = this.context.createElement(currencyField);

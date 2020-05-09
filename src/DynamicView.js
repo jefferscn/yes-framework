@@ -44,7 +44,11 @@ export default class RouteComponent extends Component {
             // props.navigation.setParams({
             //     oid: newOid,
             // });
-        } 
+        } else {
+            this.setState({
+                oid: props.navigation.state.params.id,
+            })
+        }
         // else {
         //     this.setState({
         //         oid: props.navigation.state.params.id,

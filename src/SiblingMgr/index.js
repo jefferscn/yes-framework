@@ -7,29 +7,31 @@ import RootSiblings from 'react-native-root-siblings';
 import { ControlMappings } from 'yes-platform';
 import PropTypes from 'prop-types';
 
-let modalHandler = null;
+// let modalHandler = null;
+const modalStack = [];
 BackHandler.addPreEventListener(() => {
-    if (modalHandler) {
-        modalHandler.destroy();
-        modalHandler = null;
+    const cb = modalStack.shift();
+    if (cb) {
+        cb();
         return false;
     }
     return true;
 });
 
 const onModalClose = () => {
-    if (modalHandler) {
-        modalHandler.destroy();
-        modalHandler = null;
+    // if (modalHandler) {
+    //     modalHandler.destroy();
+    //     modalHandler = null;
+    // }
+    const cb = modalStack.shift();
+    if (cb) {
+        cb();
     }
 }
 
 const getMappedComponent = (tag) => {
     return ControlMappings.defaultControlMapping.get(tag);
 }
-// const Context = React.createContext({
-//     getMappedComponent
-// });
 class DummyApp extends PureComponent {
     static childContextTypes = {
         getMappedComponent: PropTypes.func,
@@ -43,12 +45,29 @@ class DummyApp extends PureComponent {
         return this.props.children;
     }
 }
-export function showModal(children) {
-    if (modalHandler) {
-        modalHandler.destroy();
-        modalHandler = null;
+
+function createCallback(mh) {
+    const fn = function () {
+        if (mh) {
+            mh.destroy();
+            const index = modalStack.indexOf(fn);
+            if(index<0) {
+                console.error("siblingmgr error!");
+            } else {
+                modalStack.splice(index, 1);
+            }
+            mh = null;
+        }
     }
-    modalHandler = new RootSiblings(
+    modalStack.push(fn);
+    return fn;
+}
+export function showModal(children) {
+    // if (modalHandler) {
+    //     modalHandler.destroy();
+    //     modalHandler = null;
+    // }
+    const modalHandler = new RootSiblings(
         <IntlProvider>
             <DummyApp>
                 {/* <ThemeContext.Provider value={getTheme({})}> */}
@@ -62,7 +81,7 @@ export function showModal(children) {
                 </Modal>
                 {/* </ThemeContext.Provider> */}
             </DummyApp>
-        </IntlProvider>)
-
+        </IntlProvider>);
+    return createCallback(modalHandler);
 }
 

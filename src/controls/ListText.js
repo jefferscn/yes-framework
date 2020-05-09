@@ -4,12 +4,14 @@
 import React from 'react';
 import { Text } from 'react-native';
 import { ControlWrap } from 'yes-intf';
+import Element from '../template/Element';
 
-const YText = ({displayValue, style, isVirtual, controlState, caption}) => {
-        return (<Text style={style}>
-            {displayValue || "空"}
-        </Text>);
-    };
+const YText = ({ displayValue, style, isVirtual, controlState, caption, icon }) => {
+    return (<Text style={style}>
+        {icon ? <Element meta={icon} /> : null}
+        {displayValue || "空"}
+    </Text>);
+};
 
 let result = ControlWrap(YText);
 // if (__STORYBOOK__) {
