@@ -56,7 +56,8 @@
                                 "yigoid": "BillDate_LV",
                                 "style": {
                                     "fontSize": 12,
-                                    "paddingTop": 12
+                                    "paddingTop": 12,
+                                    "textAlign": "right"
                                 }
                             }
                         },
@@ -64,7 +65,18 @@
                             "type": "element",
                             "elementType": "MoneyWithCurrency",
                             "elementProps": {
-                                "currencyField": "CurrencyID_LV",
+                                "currencyField": {
+                                    "type": "element",
+                                    "elementType": "SplitText",
+                                    "elementProps": {
+                                        "yigoid": "CurrencyID_LV",
+                                        "style": {
+                                            "fontSize": 12,
+                                            "paddingRight": 2,
+                                            "textAlign": "right"
+                                        }
+                                    }
+                                },
                                 "moneyField": "ApplyMoney_LV",
                                 "containerStyle": {
                                     "paddingBottom": 6,

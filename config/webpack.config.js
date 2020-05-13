@@ -10,6 +10,8 @@ export default (DEBUG, PATH, PORT = 3000) => {
                 'react-native': 'react-native-web',
                 'yes-platform': 'yes-web',
                 yes: 'yes-intf',
+                'yes-yiui-common': 'yes-core/dist/YIUI-common',
+                'yes-filtermap': 'yes-core/dist/filtermap',
             },
         },
         entry: {

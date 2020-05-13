@@ -24,12 +24,12 @@
                 "icon": "icon-dashboard",
                 "control": "Home"
             },{
-                "key": "Home2",
+                "key": "MyInfo",
                 "type": "control",
-                "path": "Home2",
+                "path": "MyInfo",
                 "label": "我的",
                 "icon": "icon-wode",
-                "control": "Home"
+                "control": "MyInfo"
             }
         ]
     }

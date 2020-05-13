@@ -18,11 +18,12 @@ export default class FlexBox extends PureComponent {
         createElement: PropTypes.func,
     }
     render() {
-        const { direction, style, items } = this.props;
+        const { direction, style, items, children } = this.props;
+        const itms = items || children;
         return (
             <View style={[direction==='column'?styles.column:styles.row, style]}>
                 {
-                    items.map(item=>this.context.createElement(item))
+                    itms.map(item=>this.context.createElement(item))
                 }
             </View>
         )

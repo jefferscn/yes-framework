@@ -10,6 +10,8 @@ import Home from '../controls/Home';
 import FilterBlock from '../controls/FilterBlock';
 import FlexBox from '../controls/FlexBox';
 import FromTo from '../controls/FromTo';
+import ImageCarouselGrid from '../controls/ImageCarouselGrid';
+import MyInfo from '../controls/MyInfo';
 // import GpsText from '../controls/GpsText';
 // import MapText from '../controls/MapText';
 // import Image from '../controls/Image';
@@ -38,10 +40,12 @@ export default {
     // TextGrid, 
     // HasDetailSign,
     // MultiControl,
-    Home,
     FilterBlock,
-    FromTo,
     FlexBox,
+    FromTo,
+    ImageCarouselGrid,
+    Home,
+    MyInfo,
     // GpsText,
     // MapText,
     // Image,

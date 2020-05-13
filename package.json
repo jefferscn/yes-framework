@@ -38,10 +38,10 @@
     "react-native-root-siblings": "^4.0.6",
     "react-native-screens": "^2.4.0",
     "yes-common": "^2.0.0",
-    "yes-comp-react-native-web": "^1.0.0",
-    "yes-core": "^3.0.0",
-    "yes-intf": "^3.0.0",
-    "yes-web": "^3.0.0"
+    "yes-comp-react-native-web": "^1.0.2",
+    "yes-core": "^3.0.1",
+    "yes-intf": "^3.0.2",
+    "yes-web": "^3.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",
@@ -58,6 +58,7 @@
     "babel-loader": "^8.0.6",
     "babel-plugin-react-native-web": "^0.11.7",
     "compression-webpack-plugin": "^3.1.0",
+    "cross-env": "^7.0.2",
     "css-loader": "^3.5.2",
     "file-loader": "^6.0.0",
     "gulp": "^4.0.2",

@@ -12,7 +12,18 @@ import FieldView from '../FieldView';
 // import AwesomeFontIcon from 'react-native-vector-icons/FontAwesome';
 import IconFontIcon from '../font';
 import generateRouteComponent from '../util/generateRouteComponent';
+import { generateKey } from '@react-navigation/core/lib/module/routers/KeyGenerator';
 
+function injectStackNavigator(navigator) {
+    const oldFunc = navigator.router.getActionForPathAndParams;
+    navigator.router.getActionForPathAndParams = function() {
+        const action = oldFunc.apply(this, arguments);
+        if(action && action.action){
+            action.action.key = action.action.key || generateKey();
+        }
+        return action;
+    }
+}
 const defaultCardRoute = {
     DynamicDetail: {
         screen: withNavigation(DynamicView),
@@ -181,6 +192,7 @@ export default (config) => {
             transparentCard: true,
         }
     )
+    injectStackNavigator(mainModalNavigator);
     const MainNavigator = createStackNavigator(
         {
             ...customRoute,
@@ -207,5 +219,6 @@ export default (config) => {
             transparentCard: true,
         },
     );
+    injectStackNavigator(MainNavigator);
     return createAppContainer(MainNavigator);
 }

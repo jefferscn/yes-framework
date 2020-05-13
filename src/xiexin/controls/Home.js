@@ -5,6 +5,13 @@ import IconFont from '../../font';
 import { Modal, NavBar, Icon } from 'antd-mobile';
 import { showModal, onModalClose } from '../../SiblingMgr';
 import { openForm } from '../../util/navigateUtil';
+import { CustomBillForm } from 'yes-comp-react-native-web';
+import GridView from '../../controls/GridView';
+import FlexBox from './FlexBox';
+import { ListComponents } from 'yes-comp-react-native-web';
+import ImageCarouselGrid from './ImageCarouselGrid';
+
+const { ListText } = ListComponents;
 
 const styles = StyleSheet.create({
     page: {
@@ -285,17 +292,50 @@ const list = [{
     favorite: true,
 }];
 
+class TodoList extends PureComponent {
+    render() {
+        return (<CustomBillForm formKey="ToDoListTotal" oid="-1" status="DEFAULT">
+            <GridView 
+                yigoid="Grid1"
+                showHead={false}
+                clickMode="dblclick"
+                userBodyScroll={true}
+                primaryKey={<FlexBox direction="row" style={{height:40,alignItems:'center',paddingLeft:16}}>
+                    <ListText yigoid="C"/>
+                    <Text>条</Text>
+                    <ListText yigoid="formname"/>
+                    <Text>等待处理</Text>
+                    </FlexBox>}
+            />
+        </CustomBillForm>);
+    }
+}
+class ImageCarousel extends PureComponent {
+    render() {
+        return (
+            <CustomBillForm formKey="FSSC_SlideShowList" oid="-1" status="DEFAULT">
+                <ImageCarouselGrid 
+                    style={{height:200}}
+                    yigoid="detail"
+                    imageColumn="ImgPath"
+                    textColumn="Description"
+                />
+            </CustomBillForm>
+        )
+    }
+}
 export default class Home extends PureComponent {
     render() {
         return (
             <View style={styles.page}>
-                <Image style={styles.headImg} source={img} />
+                <ImageCarousel />
                 <EntryList
                     list={list}
                     iconSize={50}
                     iconStyle={styles.icon}
                     entryStyle={styles.entryStyle}
                 />
+                <TodoList />
             </View>
         )
     }

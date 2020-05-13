@@ -76,8 +76,8 @@ class AntdListView extends PureComponent {
     }
 
     onClick = (rowIndex) => {
-        if (this.props.onClick) {
-            this.props.onClick(rowIndex);
+        if (this.props.onRowClick) {
+            this.props.onRowClick(rowIndex);
         }
     }
     generateTertiaryElement = () => {
