@@ -1,0 +1,28 @@
+{
+    "formTemplate": "normal",
+    "head": {
+        "type": "element",
+        "elementType": "Header",
+        "elementProps": {
+            "canBack": true,
+            "titleElement": {
+                "type": "element",
+                "elementType": "FormTitle",
+                "elementProps": {
+                    "containerStyle": {
+                        "alignItems": "center",
+                        "justifyContent": "center"
+                    }
+                }
+            }
+        }
+    },
+    "items": [
+        "Document_Number"
+    ],
+    "foot": {
+        "type": "element",
+        "elementType": "SegementToolbar",
+        "elementProps": {}
+    }
+}

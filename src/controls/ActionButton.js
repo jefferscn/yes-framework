@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
-import { View, StyleSheet } from 'react-native';
-import IconFont from '../font';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const styles = StyleSheet.create({
     container: {
@@ -21,10 +21,13 @@ const styles = StyleSheet.create({
 
 export default class ActionButton extends PureComponent {
     render() {
+        const { style } = this.props;
         return (
-            <View style={[styles.container]}>
-                <IconFont name='icon-icon_add' style={styles.icon} onPress={this.props.onPress} />
-            </View>
+            <TouchableOpacity onPress={this.props.onPress} >
+                <View style={[styles.container, style]}>
+                    <Icon name='plus' style={styles.icon} />
+                </View>
+            </TouchableOpacity>
         )
     }
 }

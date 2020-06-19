@@ -12,6 +12,21 @@ import FlexBox from '../controls/FlexBox';
 import FromTo from '../controls/FromTo';
 import ImageCarouselGrid from '../controls/ImageCarouselGrid';
 import MyInfo from '../controls/MyInfo';
+import CustomTabBar from '../controls/CustomTabBar';
+import DateRangeSelect from '../controls/DateRangeSelect';
+import PhoneLogin from '../controls/PhoneLogin';
+import Seperator from '../controls/Seperator';
+import { ChainDict } from 'yes-comp-react-native-web';
+import FSSC_InvoiceEntry from '../controls/FSSC_InvoiceEntry';
+import VisibleEqual from '../controls/VisibleEqual';
+import VisibleNotEmpty from '../controls/VisibleNotEmpty';
+import FSSC_HospitalityReimbursement from '../controls/FSSC_HospitalityReimbursement';
+import FSSC_ExpenseAccountBillImportV from '../controls/FSSC_ExpenseAccountBillImportV';
+import FSSC_TrainTicketBooks_modal from '../controls/FSSC_TrainTicketBooks_modal';
+import TreeDictRow from '../controls/TreeDictRow';
+import FeeTypeIcon from '../controls/FeeTypeIcon';
+import BooksTypeImage from '../controls/BooksTypeImage';
+import SourceTypeIcon from '../controls/SourceTypeIcon';
 // import GpsText from '../controls/GpsText';
 // import MapText from '../controls/MapText';
 // import Image from '../controls/Image';
@@ -34,18 +49,33 @@ import MyInfo from '../controls/MyInfo';
 // import Login from '../controls/Login';
 
 export default { 
+    CustomTabBar,
+    ChainDict,
+    DateRangeSelect,
     Login,
     // CellLayoutList, 
     // Timeline, 
     // TextGrid, 
     // HasDetailSign,
     // MultiControl,
+    FSSC_InvoiceEntry,
     FilterBlock,
     FlexBox,
     FromTo,
     ImageCarouselGrid,
     Home,
+    PhoneLogin,
     MyInfo,
+    Seperator,
+    VisibleEqual,
+    VisibleNotEmpty,
+    FSSC_HospitalityReimbursement,
+    FSSC_ExpenseAccountBillImportV,
+    FSSC_TrainTicketBooks_modal,
+    TreeDictRow,
+    BooksTypeImage,
+    FeeTypeIcon,
+    SourceTypeIcon,
     // GpsText,
     // MapText,
     // Image,

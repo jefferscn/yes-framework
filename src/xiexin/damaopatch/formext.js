@@ -186,28 +186,33 @@ const formExt = {
     fireClose: async function () {
         if (this.type != YIUI.Form_Type.Entity) {
             await this.unLock();
-            this.close();
+            await this.close();
             return true;
         }
 
         if (this.operationState == YIUI.Form_OperationState.Default || this.operationState == YIUI.Form_OperationState.Delete) {
             await this.unLock();
-            this.close();
+            await this.close();
             return true;
         }
 
         if (!this.confirmClose) {
             await this.unLock();
-            this.close();
+            await this.close();
             return true;
         }
     },
-    close: function () {
+    close: async function () {
+        var onClose = this.onClose;
+        if (onClose) {
+            var cxt = new View.Context(this);
+            await this.eval(onClose, cxt);
+        }
         var callback = this.getEvent(YIUI.FormEvent.Close);
         if (callback) {
             callback.doTask(this, null);
         }
-        HashHistory.goBack();
+        // HashHistory.goBack();
     },
 
     doOnLoad: async function () {
@@ -216,6 +221,7 @@ const formExt = {
         const loadScript = scriptCollection["load"];
         const cxt = new View.Context(this);
         const onLoad = this.onLoad;
+        const postShow = this.postShow;
 
         if (this.getOID() == -1 || this.operationState === YIUI.Form_OperationState.New) { // 非具体单据
             const data = await YIUI.DocService.newDocument(this.getFormKey(), this.paras, this.getParentForm());
@@ -240,11 +246,15 @@ const formExt = {
             const oid = this.getOID();
             doc.oid = oid;
             this.setDocument(doc);
-            if (loadScript && oid > 0) {
-                await this.eval(loadScript, cxt, null);
-            }
-            if (onLoad) {
-                await this.eval(onLoad, cxt);
+            if (this.type === YIUI.Form_Type.Entity) {
+                if (loadScript && oid > 0) {
+                    await this.eval(loadScript, cxt, null);
+                }
+            } else {
+                if (onLoad || postShow) {
+                    onLoad && await this.eval(onLoad, cxt);
+                    postShow && await this.eval(postShow, cxt);
+                }
             }
         }
     },
@@ -343,7 +353,8 @@ const formExt = {
             }
         }
         return key ? this.getComponent(key) : null;
-    }
+    },
+    isERPForm: true,
 };
 
 for (let fun in formExt) {

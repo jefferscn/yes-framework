@@ -85,6 +85,10 @@ const BaseFunsExt = (function () {
 
     funs.New = async function (name, cxt, args) {
         const formKey = args[0];
+        let mode = 'form';
+        if (args.length > 1) {
+            mode = args[1];
+        }
         const pForm = cxt.form;
         if (formKey === 'OA_ShowWeb') {//预览文件
             const paras = splitPara(args[2]);
@@ -123,12 +127,16 @@ const BaseFunsExt = (function () {
         const cacheOID = cacheDoc.oid;
         const formUniqueKey = `${formKey}.${cacheOID > 0 ? cacheOID : 'new'}`;
         let data = YIUI.DataUtil.toJSONDoc(cacheDoc);
-        await cacheSystem.current.FormDataCache.put(formUniqueKey, {
-            key: formUniqueKey,
-            data,
-            time: Date.now()
-        });
+        // await cacheSystem.current.FormDataCache.put(formUniqueKey, {
+        //     key: formUniqueKey,
+        //     doc,
+        //     time: Date.now()
+        // });
         BillFormStore.addForm(formUniqueKey, yesForm);
+        if (mode === 'modal') {
+            Util.showBillformInModal(formKey, data.oid, "NEW");
+            return;
+        }
         HashHistory.push(`card/YES/${formKey}/${data.oid}/NEW`);
     };
 
@@ -242,6 +250,10 @@ const BaseFunsExt = (function () {
 
         return true;
     };
+    funs.IsERPForm = function (name, cxt, args) {
+        var form = cxt.form;
+        return form.isERPForm;
+    }
     funs.DownloadAttachment = async function (name, cxt, args) {
         const form = cxt.form;
 
@@ -910,10 +922,7 @@ const BaseFunsExt = (function () {
         let newCxt = new View.Context(parentForm);
         return UI.BaseFuns.DealCondition(name, newCxt, [true]);
     };
-    funs.UIClose = async function (name, cxt, args) {
-        const form = cxt.form;
-        await form.fireClose();
-    };
+    funs.UIClose = View.FuncMap.get('Close');
 
     funs.UICloseDoNothing = async function (name, cxt, args) {
         const form = cxt.form;
@@ -1112,6 +1121,11 @@ const BaseFunsExt = (function () {
             YIUI.FormUIStatusMask.OPERATION | YIUI.FormUIStatusMask.CHECKRULE;
         form.resetUIStatus(MASKCHECK);
         return true;
+    };
+    funs.ResetEidtBillShow = function (name, cxt, args) {
+        var form = cxt.form;
+        form.setOperationState(YIUI.Form_OperationState.Default);
+        return BaseFunsExt.ShowData('ShowData', cxt, args);
     };
     funs.RefreshDicOperation = function (name, cxt, args) {
         let form = cxt.form;
@@ -2417,10 +2431,23 @@ const BaseFunsExt = (function () {
                 paraValue = paras.get(paraKey);
             }
             if (condPara.type == 206 && condPara.value) {
-                if (condPara.condSign == 9 || !(condPara.value instanceof YIUI.ItemData))
+                if (condPara.condSign == 9)
                     paraValue = YIUI.TypeConvertor.toSafeDataType(YIUI.DataType.STRING, condPara.value);
                 else {
-                    paraValue = condPara.value.getOID();
+                    if (condPara.value.length && condPara.value.length > 0) {
+                        var tmp;
+                        for (var index = 0; index < condPara.value.length; index++) {
+                            if (tmp) {
+                                tmp = tmp + ',' + condPara.value[index].oid;
+                            } else {
+                                tmp = condPara.value[index].oid;
+                            }
+                        }
+                        paraValue = tmp;
+                    }
+                    else {
+                        paraValue = condPara.value.getOID();
+                    }
                 }
             } else {
                 paraValue = condPara.value;
@@ -2709,8 +2736,8 @@ const BaseFunsExt = (function () {
         }
 
         var paras = form != null ? form.getParas() : null;
-        form.document.Form_OperationState=1;//改变单据的状态让单据可以保存
-        form.document.state=1;//改变单据的状态让单据可以保存
+        form.document.Form_OperationState = 1;//改变单据的状态让单据可以保存
+        form.document.state = 1;//改变单据的状态让单据可以保存
         var formDoc = form.getDocument();
         formDoc = YIUI.DataUtil.toJSONDoc(formDoc, true);
 
@@ -2818,19 +2845,19 @@ const BaseFunsExt = (function () {
     //     if (args.length > 2) {
     //     loadInfo = YIUI.TypeConvertor.toBoolean(args[2]);
     //     }
-        
+
     //     var tsParas;
     //     if (args.length > 3) {
     //     tsParas = args[3];
     //     }
-        
+
     //     if (tsParas) {
     //     tsParas = splitPara(tsParas);
     //     for (var key in tsParas) {
     //     form.setCallPara(key, form.eval(tsParas[key], cxt));
     //     }
     //     }
-        
+
     //     YIUI.BPMService.loadWorkitemInfo(WID).then(async function(info){
     //     if(!info){
     //     $.error("工作项不可用");

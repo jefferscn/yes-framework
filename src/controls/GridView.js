@@ -4,7 +4,7 @@
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { ListView, PullToRefresh } from 'antd-mobile';
+import { ListView, PullToRefresh, SwipeAction } from 'antd-mobile';
 import { View, ActivityIndicator, Text, StyleSheet, ScrollView } from 'react-native';
 // import { propTypes } from 'yes'; // eslint-disable-line
 import { GridRowWrap as gridRowWrap, DynamicControl, GridWrap } from 'yes';
@@ -34,6 +34,7 @@ class AntdListView extends PureComponent {
         showArrow: true,
         divider: true,
         useBodyScroll: false,
+        hideAction: false,
     };
 
     static contextTypes = {
@@ -76,8 +77,11 @@ class AntdListView extends PureComponent {
     }
 
     onClick = (rowIndex) => {
-        if (this.props.onRowClick) {
-            this.props.onRowClick(rowIndex);
+        // if (this.props.onRowClick) {
+        //     this.props.onRowClick(rowIndex);
+        // }
+        if (this.props.onClick) {
+            this.props.onClick(rowIndex);
         }
     }
     generateTertiaryElement = () => {
@@ -86,12 +90,13 @@ class AntdListView extends PureComponent {
             this.props.tertiaryKey.forEach((item) => {
                 let itemtype = typeof item;
                 if (itemtype === 'string') {
-                    el.push(<ListText yigoid={item} />);
+                    el.push(<ListText yigoid={item} style={[styles.secondaryText]} />);
                 } else {
-                    if (item.$$typeof) {
-                        el.push(item);
+                    const tmp = this.context.createElement(item);
+                    if (tmp.$$typeof) {
+                        el.push(tmp);
                     } else {
-                        el.push(<ListText {...item} />);
+                        el.push(<ListText {...tmp} />);
                     }
                 }
             });
@@ -130,10 +135,11 @@ class AntdListView extends PureComponent {
                 if (itemtype === 'string') {
                     el.push(<ListText style={[styles.secondaryText]} key={item} yigoid={item} />);
                 } else {
-                    if (item.$$typeof) {
-                        el.push(item);
+                    const tmp = this.context.createElement(item);
+                    if (tmp.$$typeof) {
+                        el.push(tmp);
                     } else {
-                        el.push(<ListText style={[styles.secondaryText]} {...item} />);
+                        el.push(<ListText style={[styles.secondaryText]} {...tmp} />);
                     }
                 }
             });
@@ -170,18 +176,30 @@ class AntdListView extends PureComponent {
     // RowView = listRowWrap(View, this.props.yigoid)
     renderItem = (item, secionId, rowId, highlightRow) => {
         const NewListItem = this.NewListItem;
+        const rightActions = [];
+        if (this.props.editable) {
+            rightActions.push({
+                text: 'Delete',
+                onPress: () => this.props.removeRow(rowId)
+            });
+        }
         return (
-            <NewListItem
-                centerElement={this.centerComp}
-                rightElement={this.context.createElement(this.props.rightElement)}
-                containerStyle={this.props.rowStyle}
-                onPress={() => this.onClick(rowId)}
-                // divider={this.props.divider}
-                rowIndex={rowId}
-                showArrow={this.props.showArrow}
-                leftElement={this.context.createElement(this.props.leftElement)}
-                detailElement={this.context.createElement(this.props.detailElement)}
-            />
+            // <SwipeAction
+            //     right={rightActions}
+            // >
+                <NewListItem
+                    centerElement={this.centerComp}
+                    rightElement={this.context.createElement(this.props.rightElement)}
+                    containerStyle={this.props.rowStyle}
+                    onPress={() => this.onClick(rowId)}
+                    divider={this.props.divider}
+                    dividerStyle={this.props.dividerStyle}
+                    rowIndex={rowId}
+                    showArrow={this.props.showArrow}
+                    leftElement={this.context.createElement(this.props.leftElement)}
+                    detailElement={this.context.createElement(this.props.detailElement)}
+                />
+            // </SwipeAction>
         );
     }
     onRefresh = () => {
@@ -191,14 +209,19 @@ class AntdListView extends PureComponent {
         this.props.addNewRow && this.props.addNewRow();
     }
     render() {
-        const { layoutStyles, style, isVirtual, showHead, headTitle, headExtra, editable, useBodyScroll } = this.props;
+        const { layoutStyles, style, isVirtual, showHead, onRefresh, refreshing, controlState,
+            headTitle, headExtra, editable, useBodyScroll, hideAction } = this.props;
         const extra = headExtra ? this.context.createElement(headExtra) : null;
+        const visible = controlState.get('visible');
         if (isVirtual) {
             return (
                 <View style={[layoutStyles]}>
                     <ActivityIndicator size="large" color="cadetblue" />
                 </View>
             );
+        }
+        if(!visible) {
+            return null;
         }
         return (
             <View style={[layoutStyles, styles.container]}>
@@ -213,15 +236,21 @@ class AntdListView extends PureComponent {
                 }
                 <View style={{ flex: 1 }}>
                     <ListView
-                        style={{ flex: 1 }}
+                        style={style}
                         initialListSize={20}
                         useBodyScroll={useBodyScroll}
                         dataSource={this.state.dataSource}
                         renderRow={this.renderItem}
                         pageSize={4}
+                        pullToRefresh={
+                            onRefresh? <PullToRefresh
+                                onRefresh={this.onRefresh}
+                                refreshing={refreshing}
+                            />: false
+                        }
                     />
                     {
-                        editable ? <ActionButton onPress={this.addRow} /> : null
+                        (editable && !hideAction) ? <ActionButton onPress={this.addRow} /> : null
                     }
                 </View>
             </View>
@@ -251,6 +280,7 @@ const styles = StyleSheet.create({
     primaryText: {
         paddingTop: 8,
         paddingLeft: 4,
+        fontSize: 12,
     },
     secondaryText: {
         paddingTop: 4,
@@ -258,6 +288,16 @@ const styles = StyleSheet.create({
         paddingBottom: 4,
         opacity: '60%',
         fontSize: 12,
+    },
+    tertiaryContainer: {
+        justifyContent: 'flex-start',
+        flexDirection: 'row',
+        lineHeight: 12,
+        paddingBottom: 6,
+    },
+    tertiaryText: {
+        fontSize: 10,
+        color: 'rgba(0,0,0,0.5)',
     }
 })
 

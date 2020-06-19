@@ -24,9 +24,10 @@ class Login extends Component {
         this.state = {
             user: '',
             password: '',
-            corp: '000',
+            corp:'000',
             userTextInputBottomBorderColor: '#8a8a8a',
             passwordTextInputBottomBorderColor: '#8a8a8a',
+            loginType: 'userAccount',
         };
         this.handleUserChange = this.handleUserChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
@@ -64,11 +65,16 @@ class Login extends Component {
     }
     handleClickLogin() {
         this.props.handleClickLogin(
-            `${this.state.corp}_${this.state.user}`,
+            `${this.state.corp}_${this.state.user}`, 
             this.state.password,
             {
                 OrgCode: this.state.corp,
             });
+    }
+    changeLoginType =(loginType)=> {
+        this.setState({
+            loginType,
+        })
     }
     render() {
         const userTextInputStyle = [styles.textinput, {
@@ -84,123 +90,111 @@ class Login extends Component {
                     flexGrow: 1,
                 }}
             >
-                {
-                    this.props.bgImage ? <Image
-                        style={{
-                            flex: 1,
-                            flexDirection: 'row',
-                            width: '100%',
-                        }}
-                        source={this.props.bgImage}
-                        resizeMode="cover"
-                    /> : null
-                }
-            <View
-                style={{
-                    flex: 1,
-                    // justifyContent: 'center',
-                    paddingLeft: 40,
-                    paddingRight: 40,
-                    backgroundColor: 'rgba(255,255,255,.8)',
-                    paddingTop: 36,
-                }}
-            >
-                <View
+                {this.state.loginType==='userAccount' ? <View
                     style={{
                         flex: 1,
-                        justifyContent: 'center',
+                        // justifyContent: 'center',
+                        paddingLeft: 40,
+                        paddingRight: 40,
+                        backgroundColor: 'rgba(255,255,255,.8)',
+                        paddingTop: 36,
                     }}
                 >
-                    {/* icon和tooltip*/}
                     <View
                         style={{
+                            flex: 1,
                             justifyContent: 'center',
-                            alignItems: 'center',
-                            paddingBottom: 40,
-                            flexShrink: 10,
                         }}
                     >
+                        {/* icon和tooltip*/}
                         <View
                             style={{
-                                flexDirection: 'row',
                                 justifyContent: 'center',
+                                alignItems: 'center',
+                                paddingBottom: 40,
+                                flexShrink: 10,
                             }}
                         >
-                            <Image
-                                source={this.props.logoImage}
+                            <View
                                 style={{
-                                    height: 50,
-                                    width: 50,
-                                    alignSelf: 'stretch',
+                                    flexDirection: 'row',
+                                    justifyContent: 'center',
                                 }}
-                            />
+                            >
+                                <Image
+                                    source={this.props.logoImage}
+                                    style={{
+                                        height: 50,
+                                        width: 50,
+                                        alignSelf: 'stretch',
+                                    }}
+                                />
+                            </View>
+                            <Text
+                                style={{
+                                    textAlign: 'center',
+                                    fontSize: 24,
+                                    margin: 18,
+                                }}
+                            >{this.props.tooltip}</Text>
                         </View>
-                        <Text
+                        {/* form*/}
+                        <View
                             style={{
-                                textAlign: 'center',
-                                fontSize: 24,
-                                margin: 18,
+                                flexShrink: 0,
                             }}
-                        >{this.props.tooltip}</Text>
+                        >
+                            <View>
+                                <TextInput
+                                    keyboardType="email-address"
+                                    autoCapitalize="none"
+                                    value={this.state.user}
+                                    autoCorrect={false}
+                                    style={userTextInputStyle}
+                                    placeholder="用户名"
+                                    onChangeText={this.handleUserChange}
+                                    onFocus={this.onUserFocus}
+                                    onBlur={this.onUserBlur}
+                                    underlineColorAndroid="transparent"
+                                />
+                            </View>
+                            <View>
+                                <TextInput
+                                    value={this.state.password}
+                                    secureTextEntry
+                                    keyboardType="numeric"
+                                    style={passwordTextInputStyle}
+                                    placeholder="密码"
+                                    onChangeText={this.handlePasswordChange}
+                                    onFocus={this.onPasswordFocus}
+                                    onBlur={this.onPasswordBlur}
+                                    underlineColorAndroid="transparent"
+                                />
+                            </View>
+                            <Button
+                                raised
+                                primary
+                                title="登录"
+                                onPress={this.handleClickLogin}
+                            >登录</Button>
+                        </View>
                     </View>
-                    {/* form*/}
                     <View
                         style={{
+                            paddingBottom: 36,
+                            paddingTop: 36,
                             flexShrink: 0,
                         }}
                     >
-                        <View>
-                            <TextInput
-                                keyboardType="email-address"
-                                autoCapitalize="none"
-                                value={this.state.user}
-                                autoCorrect={false}
-                                style={userTextInputStyle}
-                                placeholder="用户名"
-                                onChangeText={this.handleUserChange}
-                                onFocus={this.onUserFocus}
-                                onBlur={this.onUserBlur}
-                                underlineColorAndroid="transparent"
-                            />
-                        </View>
-                        <View>
-                            <TextInput
-                                value={this.state.password}
-                                secureTextEntry
-                                keyboardType="numeric"
-                                style={passwordTextInputStyle}
-                                placeholder="密码"
-                                onChangeText={this.handlePasswordChange}
-                                onFocus={this.onPasswordFocus}
-                                onBlur={this.onPasswordBlur}
-                                underlineColorAndroid="transparent"
-                            />
-                        </View>
-                        <Button
-                            raised
-                            primary
-                            text="登录"
-                            onPress={this.handleClickLogin}
-                            title="登录"
-                        >登录</Button>
+                        <Text
+                            style={{
+                                color: 'gray',
+                                textAlign: 'center',
+                            }}
+                        >{this.props.companyName}</Text>
                     </View>
-                </View>
-                <View
-                    style={{
-                        paddingBottom: 36,
-                        paddingTop: 36,
-                        flexShrink: 0,
-                    }}
-                >
-                    <Text
-                        style={{
-                            color: 'gray',
-                            textAlign: 'center',
-                        }}
-                    >{this.props.companyName}</Text>
-                </View>
+                </View>: null}
             </View>
-            </View >
         );
     }
 }

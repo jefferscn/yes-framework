@@ -1,8 +1,10 @@
 import React, { PureComponent } from 'react';
-import { Carousel } from 'antd-mobile';
+// import { Carousel } from 'antd-mobile';
+import Carousel from 'nuka-carousel';
 import { ListComponents } from 'yes-comp-react-native-web';
 import { View, StyleSheet } from 'react-native';
 import { GridRowWrap as gridRowWrap, GridWrap } from 'yes-intf';
+// import Carousel from 'react-m-carousel';
 
 const { ListImage, ListText } = ListComponents;
 
@@ -20,19 +22,24 @@ class ImageCarouselGrid extends PureComponent {
     render() {
         const { data, imageColumn, textColumn, style } = this.props;
         if(!data) {
-            return null;
+            return <View style={style} />;
         }
         return (
             <Carousel 
                 autoplay
-                infinite
-                frameOverflow="visible"
-                dots={false}
+                height={150}
+                wrapAround
+                initialSlideHeight={150}
+                withoutControls={true}
                 >
+            {/* <Carousel
+                loop
+                auto={3000}
+                > */}
                 {
                     data.map((item, index)=>{
                         return (
-                            <Row rowIndex={index}>
+                            <Row rowIndex={index} style={style}>
                                 <ListImage yigoid={imageColumn} style={style}/>
                                 <ListText style={styles.title} yigoid={textColumn} />
                             </Row>  

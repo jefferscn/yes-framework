@@ -3,7 +3,7 @@ import Immutable from 'immutable';
 
 
 YIUI.Control.prototype.setValue = async function (v, commit = true, fireEvent, ignoreChanged, editing, ignoreFireValueChanged) {
-    let value = (v !== null ? (v.value != null ? v.value : v) : null);
+    let value = (v != null ? (v.value != null ? v.value : v) : null);
     const state = this.getState();
     await this.setInnerValue(value);
     if (!Immutable.is(this.getState(), state)) {

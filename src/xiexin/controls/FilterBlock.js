@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
-import SegementCombobox from '../../controls/SegementCombobox';
-import IconFont from '../../font';
+// import SegementCombobox from '../../controls/SegementCombobox';
+import Element from '../../template/Element';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { View, StyleSheet, Button } from 'react-native';
 import { Modal } from 'antd-mobile';
 import PropTypes from 'prop-types';
@@ -28,20 +29,20 @@ class FilterButton extends PureComponent {
         })
     }
     onClearCondition = () => {
-        this.props.items.forEach((item)=>{
+        this.props.items.forEach((item) => {
             this.context.onValueChange(item, null);
         })
     }
     onQuery = () => {
         this.context.onControlClick(this.props.queryButton);
         this.setState({
-            showModal:false,
+            showModal: false,
         })
     }
     render() {
         const { style, items } = this.props;
-        return (<View style={[styles.filterButton, style]}>
-            <IconFont onPress={this.showModal} name="icon-filter" size="16" />
+        return (<View style={[styles.filterButton]}>
+            <Icon onPress={this.showModal} name="filter" size="16" />
             <Modal
                 popup
                 visible={this.state.showModal}
@@ -71,19 +72,36 @@ class FilterButton extends PureComponent {
 export default class FilterBlock extends PureComponent {
     static contextTypes = {
         onControlClick: PropTypes.func,
+        onValueChange: PropTypes.func,
     }
     static defaultProps = {
         hasMore: false,
     }
-    onComboboxChange = (yigoid, v) => {
+    onConditionChange = (yigoid, v) => {
         const { queryButton } = this.props;
         this.context.onControlClick(queryButton);
     }
+    async componentWillReceiveProps(props) {
+        if (props.formStatus === 'ok' && this.props.formStatus!=='ok') {
+            const { defaultValue, queryButton } = props;
+            if (defaultValue) {
+                for (let key in defaultValue) {
+                    await this.context.onValueChange(key, defaultValue[key]);
+                }
+                await this.context.onControlClick(queryButton);
+            }
+        }
+    }
     render() {
-        const { comboboxId, hasMore, moreItems, queryButton } = this.props;
+        const { filterItems, comboboxId, hasMore, moreItems, queryButton, style } = this.props;
         return (
-            <View style={[styles.container]}>
-                <SegementCombobox onChange={this.onComboboxChange} style={{ flex: 1 }} yigoid={comboboxId} />
+            <View style={[styles.container, style]}>
+                <View style={styles.filterContainer}>
+                    {
+                        filterItems.map(item => <Element onChange={this.onConditionChange} meta={item} />)
+                    }
+                </View>
+                {/* <SegementCombobox onChange={this.onComboboxChange} style={{ flex: 1 }} yigoid={comboboxId} /> */}
                 {
                     hasMore ? <View style={styles.seperator} /> : null
                 }
@@ -108,6 +126,10 @@ const styles = StyleSheet.create({
     },
     container: {
         flexDirection: 'row',
+    },
+    filterContainer: {
+        flexDirection: 'row',
+        flex: 1,
     },
     seperator: {
         width: 1,

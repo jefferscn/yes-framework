@@ -1,0 +1,180 @@
+{
+    "formTemplate": "list",
+    "head": {
+        "type": "element",
+        "elementType": "Header",
+        "elementProps": {
+            "canBack": true,
+            "titleElement": {
+                "type": "element",
+                "elementType": "FormTitle",
+                "elementProps": {
+                    "containerStyle": {
+                        "alignItems": "center",
+                        "justifyContent": "center"
+                    }
+                }
+            }
+        }
+    },
+    "action": {
+        "type": "element",
+        "elementType": "VisibleEqual",
+        "elementProps": {
+            "yigoid": "Status_NODB4Other",
+            "targetValue": "0",
+            "element": {
+                "type": "element",
+                "elementType": "OpenFormActionButton",
+                "elementProps": {
+                    "formKey": "FSSC_HospitalityReimbursement",
+                    "oid": "new",
+                    "status": "NEW",
+                    "style": {
+                        "right": "50%",
+                        "transform": "translateX(30px)"
+                    }
+                }
+            }
+        }
+    },
+    "filterBlock": {
+        "type": "element",
+        "elementType": "FilterBlock",
+        "elementProps": {
+            "defaultValue": {
+                "Status_NODB4Other": "0"
+            },
+            "filterItems": [
+                {
+                    "type": "element",
+                    "elementType": "SegementCombobox",
+                    "elementProps": {
+                        "yigoid": "Status_NODB4Other",
+                        "style": {
+                            "flex": 1
+                        }
+                    }
+                }
+            ],
+            "comboboxId": "Status_NODB4Other",
+            "hasMore": true,
+            "moreItems": [
+                "PersonnelID_NODB4Other"
+            ],
+            "queryButton": "Query"
+        }
+    },
+    "list": {
+        "type": "element",
+        "elementType": "ListView",
+        "elementProps": {
+            "yigoid": "list",
+            "primaryKey": "NO_LV",
+            "style": {
+                "marginLeft": 12,
+                "flex": 1
+            },
+            "secondKey": [
+                "ReimbursementPersonID"
+            ],
+            "tertiaryKey": [
+                "PaymentDeptID"
+            ],
+            "rightElement": {
+                "type": "element",
+                "elementType": "FlexBox",
+                "elementProps": {
+                    "direction": "column",
+                    "style": {
+                        "justifyContent": "space-between"
+                    },
+                    "items": [
+                        {
+                            "type": "element",
+                            "elementType": "SplitText",
+                            "elementProps": {
+                                "yigoid": "BillDate_LV",
+                                "style": {
+                                    "fontSize": 12,
+                                    "paddingTop": 12,
+                                    "textAlign": "right"
+                                }
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "elementType": "Text",
+                            "elementProps": {
+                                "yigoid": "Status",
+                                "layoutStyles": {
+                                    "paddingBottom": 6,
+                                    "alignItems": "flex-end",
+                                    "paddingRight": 0
+                                },
+                                "textStyles": {
+                                    "fontSize": 12,
+                                    "textAlign": "right"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            "divider": true
+        }
+    },
+    "controls": {
+        "list": {
+            "control": "ListView",
+            "primaryKey": "NO_LV",
+            "secondKey": [
+                "ReimbursementPersonID"
+            ],
+            "tertiaryKey": [
+                "PaymentDeptID"
+            ],
+            "rightElement": {
+                "type": "element",
+                "elementType": "FlexBox",
+                "elementProps": {
+                    "direction": "column",
+                    "style": {
+                        "justifyContent": "space-between"
+                    },
+                    "items": [
+                        {
+                            "type": "element",
+                            "elementType": "SplitText",
+                            "elementProps": {
+                                "yigoid": "BillDate_LV",
+                                "style": {
+                                    "fontSize": 12,
+                                    "paddingTop": 12,
+                                    "textAlign": "right"
+                                }
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "elementType": "Text",
+                            "elementProps": {
+                                "yigoid": "Status",
+                                "layoutStyles": {
+                                    "paddingBottom": 6,
+                                    "alignItems": "flex-end",
+                                    "paddingRight": 0
+                                },
+                                "textStyles": {
+                                    "fontSize": 12,
+                                    "textAlign": "right"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            "divider": true
+        }
+    }
+}

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { openForm, newForm } from '../util/navigateUtil';
+import { openForm, newForm } from '../../util/navigateUtil';
 import { internationalWrap } from 'yes-intf';
-import IconFont from '../font';
+import IconFont from '../../font';
 
 const styles = StyleSheet.create({
     Header: {
@@ -157,18 +157,24 @@ export default class Home extends Component {
     newForm = (entry) => {
         newForm(entry.formKey);
     }
+    openFeeApply =()=> {
+        openForm('CB_ProjectEAPView', -1, 'EDIT');
+    }
+    openReimburse = ()=> {
+        openForm('CB_ProjectGRView*1', -1, 'EDIT');
+    }
     render() {
         return (
             <View style={styles.view}>
                 <View style={styles.NavView}>
                     {/* <Image style={[StyleSheet.absoluteFill, styles.BackImage]} source={{ uri: HomeBackground }} /> */}
-                    <TouchableOpacity style={styles.NavItemContainer} onPress={this.openTodoList}>
+                    <TouchableOpacity style={styles.NavItemContainer} onPress={this.openFeeApply}>
                         <View style={styles.NavItem}>
                             <IconFont style={{ color: '#FF9500', fontSize: 29 }} name="icon-feiyongshenqing" />
                             <Text style={styles.Text}>{this.formatMessage("费用申请单")}</Text>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.NavItemContainer} onPress={this.openSendList}>
+                    <TouchableOpacity style={styles.NavItemContainer} onPress={this.openReimburse}>
                         <View style={styles.NavItem}>
                             <IconFont style={{ color: '#FF9500', fontSize: 29 }} name="icon-baoxiao" />
                             <Text style={styles.Text}>{this.formatMessage('报销单')}</Text>

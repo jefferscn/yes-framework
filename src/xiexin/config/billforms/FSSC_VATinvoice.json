@@ -1,0 +1,49 @@
+{
+    "formTemplate": "normal",
+    "head": {
+        "type": "element",
+        "elementType": "Header",
+        "elementProps": {
+            "canBack": true,
+            "titleElement": {
+                "type": "element",
+                "elementType": "FormTitle",
+                "elementProps": {
+                    "containerStyle": {
+                        "alignItems": "center",
+                        "justifyContent": "center"
+                    }
+                }
+            }
+        }
+    },
+    "foot": {
+        "type": "element",
+        "elementType": "SegementToolbar",
+        "elementProps": {
+            "ignoreItems": ["optKey1","New","Close"]
+        }
+    },
+    "items": [
+        "FSSC_Kind",
+        "FSSC_Code",
+        "FSSC_Number",
+        "Check_code",
+        "Seller",
+        "Seller_tax_id",
+        "Buyer",
+        "Buyer_tax_id",
+        "Service_Name",
+        "Pretax_amount",
+        "FSSC_Tax",
+        "FSSC_Total",
+        "Province",
+        "City",
+        "FSSC_Date",
+        "BillPictures",
+        "Remark"
+    ],
+    "controls": {
+ 
+    }
+}

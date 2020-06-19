@@ -17,10 +17,44 @@
             }
         }
     },
+    "action": {
+        "type": "element",
+        "elementType": "VisibleEqual",
+        "elementProps": {
+            "yigoid": "Status_NODB4Other",
+            "targetValue": "0",
+            "element": {
+                "type": "element",
+                "elementType": "OpenFormActionButton",
+                "elementProps": {
+                    "formKey": "FSSC_ExpenseAccountBill",
+                    "oid": "new",
+                    "status": "NEW",
+                    "style": {
+                        "right": "50%",
+                        "transform": "translateX(30px)"
+                    }
+                }
+            }
+        }
+    },
     "filterBlock": {
         "type": "element",
         "elementType": "FilterBlock",
         "elementProps": {
+            "defaultValue": {
+                "Status_NODB4Other": "0"
+            },
+            "filterItems": [{
+                "type": "element",
+                "elementType": "SegementCombobox",
+                "elementProps": {
+                    "yigoid": "Status_NODB4Other",
+                    "style" : {
+                        "flex": 1
+                    }
+                }
+            }],
             "comboboxId": "Status_NODB4Other",
             "hasMore": true,
             "moreItems": [
@@ -29,11 +63,16 @@
             "queryButton": "Query"
         }
     },
-    "list": "list",
-    "controls": {
-        "list": {
-            "control": "ListView",
+    "list": {
+        "type": "element",
+        "elementType": "ListView",
+        "elementProps": {
+            "yigoid": "list",
             "primaryKey": "NO",
+            "style": {
+                "flex":1,
+                "marginLeft": 12
+            },
             "secondKey": [
                 "PersonnelID"
             ],

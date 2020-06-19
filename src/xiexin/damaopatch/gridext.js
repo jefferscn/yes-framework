@@ -496,13 +496,13 @@ YIUI.Grid.prototype.getRowBookmark = function (rowIndex) {
     return bkmk;
 }
 
-YIUI.Grid.prototype.load = function (construct) {
+YIUI.Grid.prototype.load = async function (construct) {
     var form = YIUI.FormStack.getForm(this.ofFormID);
 
     YIUI.SubDetailUtil.clearSubDetailData(form, this);
 
     var show = new YIUI.ShowGridData(form, this);
-    show.load(construct);
+    await show.load(construct);
 
     // 如果有列变化,在此处refresh
     form.getUIProcess().resetComponentStatus(this);

@@ -39,7 +39,7 @@ class MyInfo extends PureComponent {
                 <CustomBillForm formKey="FSSC_PersonMsg" oid="-1" status="EDIT">
                     <View style={styles.personalCard}>
                         <View style={styles.avatar}>
-                            <Image yigoid="Photo" />
+                            <Image avatar yigoid="Photo" />
                         </View>
                         <View style={styles.cardContent}>
                             <ListText yigoid="Name" />

@@ -27,6 +27,7 @@ class Login extends Component {
             corp:'000',
             userTextInputBottomBorderColor: '#8a8a8a',
             passwordTextInputBottomBorderColor: '#8a8a8a',
+            loginType: 'userAccount',
         };
         this.handleUserChange = this.handleUserChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
@@ -70,6 +71,11 @@ class Login extends Component {
                 OrgCode: this.state.corp,
             });
     }
+    changeLoginType =(loginType)=> {
+        this.setState({
+            loginType,
+        })
+    }
     render() {
         const userTextInputStyle = [styles.textinput, {
             borderBottomColor: this.state.userTextInputBottomBorderColor,
@@ -95,7 +101,7 @@ class Login extends Component {
                 >
                 </Image>
 
-                <View
+                {this.state.loginType==='userAccount' ? <View
                     style={{
                         flex: 1,
                         // justifyContent: 'center',
@@ -198,7 +204,10 @@ class Login extends Component {
                             }}
                         >{this.props.companyName}</Text>
                     </View>
-                </View>
+                </View>: null}
+                {
+                    this.state.loginType==='phone'?<View></View>:null
+                }
             </View>
         );
     }

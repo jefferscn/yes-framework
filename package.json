@@ -34,13 +34,17 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
+    "nuka-carousel": "^4.7.0",
     "rc-bmap": "^1.0.5",
+    "react-m-carousel": "^2.0.3",
     "react-native-root-siblings": "^4.0.6",
     "react-native-screens": "^2.4.0",
+    "react-viewer": "^3.2.1",
+    "react-wx-images-viewer": "^1.0.6",
     "yes-common": "^2.0.0",
     "yes-comp-react-native-web": "^1.0.2",
-    "yes-core": "^3.0.1",
-    "yes-intf": "^3.0.2",
+    "yes-core": "^3.0.2",
+    "yes-intf": "^3.0.6",
     "yes-web": "^3.0.1"
   },
   "devDependencies": {
@@ -61,6 +65,7 @@
     "cross-env": "^7.0.2",
     "css-loader": "^3.5.2",
     "file-loader": "^6.0.0",
+    "filemanager-webpack-plugin": "^2.0.5",
     "gulp": "^4.0.2",
     "gulp-changed": "^4.0.2",
     "gulp-load-plugins": "^2.0.3",

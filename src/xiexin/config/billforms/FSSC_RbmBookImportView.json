@@ -1,0 +1,79 @@
+{
+    "formTemplate": "modal",
+    "content": {
+        "type": "element",
+        "elementType": "GridView",
+        "elementProps": {
+            "yigoid": "Grid1",
+            "showHead": true,
+            "headTitle": "账本明细",
+            "useBodyScroll": true,
+            "hideAction": true,
+            "clickMode": "select",
+            "primaryKey": "AccountBill",
+            "secondKey": ["FSSC_FeeType"],
+            "tertiaryKey": ["cell12"],
+            "leftElement": {
+                "type": "element",
+                "elementType": "GridSelect",
+                "elementProps": {
+                    "yigoid": "SELECT"
+                }
+            },
+            "rightElement": {
+                "type": "element",
+                "elementType": "FlexBox",
+                "elementProps": {
+                    "direction": "column",
+                    "style": {
+                        "justifyContent": "space-between"
+                    },
+                    "items": [
+                        {
+                            "type": "element",
+                            "elementType": "SplitText",
+                            "elementProps": {
+                                "yigoid": "ExpenseDate",
+                                "style": {
+                                    "fontSize": 12,
+                                    "paddingTop": 12,
+                                    "textAlign": "right"
+                                }
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "elementType": "MoneyWithCurrency",
+                            "elementProps": {
+                                "currencyField": {
+                                    "type": "element",
+                                    "elementType": "SplitText",
+                                    "elementProps": {
+                                        "yigoid": "CurrencyID",
+                                        "style": {
+                                            "fontSize": 12,
+                                            "paddingRight": 2,
+                                            "textAlign": "right"
+                                        }
+                                    }
+                                },
+                                "moneyField": "TotalMoney",
+                                "containerStyle": {
+                                    "paddingBottom": 6,
+                                    "justifyContent": "flex-end",
+                                    "paddingRight": 0
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "popup": true,
+    "maskClosable": true,
+    "actions": [{
+        "text": "导入",
+        "yigoid": "Button1"
+    }]
+}

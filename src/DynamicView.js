@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import TemplateView from './TemplateView';
 import { YIUI, cacheSystem } from 'yes-core';
 import { BillformStore } from 'yes';
-import FormParas from './FormPara';
+import { FormPara } from './config/index';
 
 export default class RouteComponent extends Component {
     state = {
@@ -64,12 +64,17 @@ export default class RouteComponent extends Component {
         if(this.state.oid==='new') {
             return null;
         }
-        const params = FormParas[this.props.navigation.state.params.metaKey];
+        const parent = this.props.navigation.state.params.parent;
+        const metaKey = this.props.navigation.state.params.metaKey
+        const params = FormPara ? FormPara[metaKey] : null;
+        const [formKey] = metaKey.split('*');
         return (
             <TemplateView
-                formKey={this.props.navigation.state.params.metaKey}
+                formKey={formKey}
                 oid={this.state.oid || -1}
                 document={this.state.document}
+                parent={parent}
+                params={params}
                 status={this.props.navigation.state.params.status || 'EDIT'}
             />
         );

@@ -1,5 +1,5 @@
 {
-    "formTemplate": "guide",
+    "formTemplate": "normal",
     "head": {
         "type": "element",
         "elementType": "Header",
@@ -17,94 +17,88 @@
             }
         }
     },
-    "steps": [
-        {
-            "items": [
-                "Project",
-                "Borrower",
-                "Describe",
-                "IsTravel",
-                "IsPlaneApp",
-                "IsLoadMoney"
+    "foot": {
+        "type": "element",
+        "elementType": "SegementToolbar",
+        "elementProps": {
+            "ignoreItems": [
+                "optKey1",
+                "New",
+                "Close"
             ]
-        },
-        {
-            "relation": "Grid5",
-            "item": {
+        }
+    },
+    "action": {
+        "type": "element",
+        "elementType": "VisibleRelated",
+        "elementProps": {
+            "yigoid": "Grid5",
+            "element": {
                 "type": "element",
-                "elementType": "GridView",
+                "elementType": "GridActionButton",
                 "elementProps": {
                     "yigoid": "Grid5",
-                    "showHead": true,
-                    "headTitle": "费用明细",
-                    "headExtra": {
+                    "style": {
+                        "right": "50%",
+                        "transform": "translateX(30px)"
+                    }
+                }
+            }
+        }
+    },
+    "items": [
+        "Borrower",
+        "DeptID",
+        "Project",
+        "ProjectWBSID",
+        "IsTravel",
+        "Describe",
+        "SumMoney",
+        "Grid5"
+    ],
+    "controls": {
+        "Grid5": {
+            "control": "GridView",
+            "showHead": true,
+            "headTitle": "费用明细",
+            "useBodyScroll": true,
+            "style": {
+                "flex": 1
+            },
+            "hideAction": true,
+            "headExtra": {
+                "type": "element",
+                "elementType": "MoneyWithCurrency",
+                "elementProps": {
+                    "currencyField": {
                         "type": "element",
-                        "elementType": "MoneyWithCurrency",
+                        "elementType": "SplitText",
                         "elementProps": {
-                            "currencyField": {
-                                "type": "element",
-                                "elementType": "SplitText",
-                                "elementProps": {
-                                    "yigoid": "CurrencyID",
-                                    "style": {
-                                        "display": "flex",
-                                        "justifyContent": "center",
-                                        "alignItems": "center",
-                                        "fontSize": 12,
-                                        "color": "green",
-                                        "paddingRight": 4
-                                    }
-                                }
-                            },
-                            "moneyField": "SumMoney",
-                            "containerStyle": {
-                                "flex": 1
-                            }
-                        }
-                    },
-                    "leftElement": {
-                        "type": "element",
-                        "elementType": "IconFont",
-                        "elementProps": {
-                            "name": "icon-expense",
+                            "yigoid": "CurrencyID",
                             "style": {
                                 "display": "flex",
                                 "justifyContent": "center",
                                 "alignItems": "center",
-                                "fontSize": 22,
-                                "paddingLeft": 12
+                                "fontSize": 12,
+                                "color": "green",
+                                "paddingRight": 4
                             }
                         }
                     },
-                    "rightElement": {
-                        "type": "element",
-                        "elementType": "MoneyWithCurrency",
-                        "elementProps": {
-                            "currencyField": {
-                                "type": "element",
-                                "elementType": "SplitText",
-                                "elementProps": {
-                                    "yigoid": "CurrencyID",
-                                    "style": {
-                                        "display": "flex",
-                                        "justifyContent": "center",
-                                        "alignItems": "center",
-                                        "fontSize": 12,
-                                        "color": "green",
-                                        "paddingRight": 4
-                                    }
-                                }
-                            },
-                            "moneyField": "indexmoney"
-                        }
-                    },
-                    "primaryKey": "budgetindex",
-                    "secondKey": [
-                        "remarkdtl"
-                    ]
+                    "moneyField": "SumMoney",
+                    "containerStyle": {
+                        "flex": 1
+                    }
                 }
-            }
+            },
+            "primaryKey": "budgetindex",
+            "secondKey": [
+                "remarkdtl"
+            ],
+            "tertiaryKey": [
+                "period",
+                "indexmoney"
+            ]
         }
-    ],
-    "controls": {}
+    }
 }

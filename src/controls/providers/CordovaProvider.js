@@ -9,6 +9,7 @@ export default class CordovaProvider extends Component {
         getPicture: PropTypes.func,
         getPosition: PropTypes.func,
         getCurrentAddress: PropTypes.func,
+        getTopPadding: PropTypes.func,
     }
 
     static contentTypes = {
@@ -20,7 +21,15 @@ export default class CordovaProvider extends Component {
             getPicture: this.getPicture,
             getPosition: this.getPosition,
             getCurrentAddress: this.getCurrentAddress,
+            getTopPadding: this.getTopPadding,
         };
+    }
+
+    getTopPadding = ()=> {
+        if(device.platform.toLowerCase()==='android') {
+            return this.props.overlayWebview ? 20 : 0;
+        }
+        return 20;
     }
 
     getPosition = () => {
@@ -68,9 +77,12 @@ export default class CordovaProvider extends Component {
     getPicture = (cameraDirection = Camera.Direction.BACK, quality = 50, targetWidth = 500, ) => {
         return new Promise((resolve, reject) => {
             const onFileSelect = (imageURI) => {
-                if (imageURI.startsWith('content://')) {
-
-                } else {
+                // if (imageURI.startsWith('content://')) {
+                //     resolveLocalFileSystemURL(imageURI,
+                //         (fileEntry)=>{
+                //         },
+                //         (e)=>console.log(e))
+                // } else {
                     window.resolveLocalFileSystemURL(imageURI, (fileEntry) => {
                         fileEntry.file((file) => {
                             const reader = new FileReader();
@@ -78,7 +90,7 @@ export default class CordovaProvider extends Component {
                                 const theFile = new Blob([e.target.result], { type: 'image/jpeg' });
                                 resolve({
                                     file: theFile,
-                                    name: file.name,
+                                    name: fileEntry.name,
                                 });
                             };
                             reader.readAsArrayBuffer(file);
@@ -88,7 +100,7 @@ export default class CordovaProvider extends Component {
                     }, (e) => {
                         reject(e);
                     });
-                }
+                // }
             };
             const onSelectFileError = (message) => {
                 reject(message);
@@ -110,8 +122,8 @@ export default class CordovaProvider extends Component {
                     if (device.platform == 'iOS') {
                         cameraOptions['correctOrientation'] = true;
                     };
-                    if (camera.targetWidth) {
-                        delete galleryOptions.targetWidth;
+                    if (!targetWidth) {
+                        delete cameraOptions.targetWidth;
                     }
                     cameraOptions['sourceType'] = Camera.PictureSourceType.PHOTOLIBRARY;
                     navigator.camera.getPicture(onFileSelect, onSelectFileError, cameraOptions);
@@ -135,6 +147,12 @@ export default class CordovaProvider extends Component {
                 reject('cancel');
             });
         });
+    }
+    
+    componentDidMount() {
+        if(this.props.overlayWebview) {
+            StatusBar.overlaysWebView(true);
+        }
     }
 
     BUTTONS = ['拍照', '相册', '取消'];

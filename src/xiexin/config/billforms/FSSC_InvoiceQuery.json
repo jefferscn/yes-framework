@@ -1,0 +1,143 @@
+{
+    "formTemplate": "list",
+    "head": {
+        "type": "element",
+        "elementType": "Header",
+        "elementProps": {
+            "canBack": true,
+            "titleElement": {
+                "type": "element",
+                "elementType": "FormTitle",
+                "elementProps": {
+                    "containerStyle": {
+                        "alignItems": "center",
+                        "justifyContent": "center"
+                    }
+                }
+            }
+        }
+    },
+    "filterBlock": {
+        "type": "element",
+        "elementType": "FilterBlock",
+        "elementProps": {
+            "filterItems": [
+                {
+                    "type": "element",
+                    "elementType": "PopoverCombobox",
+                    "elementProps": {
+                        "yigoid": "SelectType",
+                        "style": {
+                            "flex": 1
+                        }
+                    }
+                },
+                {
+                    "type": "element",
+                    "elementType": "Seperator",
+                    "elementProps": {
+                        "type": "row"
+                    }
+                },
+                {
+                    "type": "element",
+                    "elementType": "PopoverCombobox",
+                    "elementProps": {
+                        "yigoid": "InvoiceType",
+                        "style": {
+                            "flex": 1
+                        }
+                    }
+                },
+                {
+                    "type": "element",
+                    "elementType": "Seperator",
+                    "elementProps": {
+                        "type": "row"
+                    }
+                },
+                {
+                    "type": "element",
+                    "elementType": "DateRangeSelect",
+                    "elementProps": {
+                        "startDateField": "StartDate",
+                        "endDateField": "EndDate"
+                    }
+                }
+            ],
+            "style": {
+                "height": 45,
+                "borderBottomWidth": 1,
+                "borderBottomColor": "lightgrey"
+            },
+            "hasMore": false,
+            "queryButton": "Query"
+        }
+    },
+    "action": {
+        "type": "element",
+        "elementType": "OpenFormActionButton",
+        "elementProps": {
+            "formKey": "FSSC_InvoiceEntry",
+            "modal": true,
+            "oid": "-1",
+            "style": {
+                "right": "50%",
+                "transform": "translateX(30px)"
+            }
+        }
+    },
+    "list": {
+        "type": "element",
+        "elementType": "GridView",
+        "elementProps": {
+            "yigoid": "Grid1",
+            "hideAction": true,
+            "primaryKey": "FSSC_Number",
+            "secondKey": [
+                "InvoiceType2"
+            ],
+            "style": {
+                "marginLeft": 12,
+                "flex": 1
+            },
+            "tertiaryKey": [
+                "EntryMethod2"
+            ],
+            "rightElement": {
+                "type": "element",
+                "elementType": "FlexBox",
+                "elementProps": {
+                    "direction": "column",
+                    "style": {
+                        "justifyContent": "space-between"
+                    },
+                    "items": [
+                        {
+                            "type": "element",
+                            "elementType": "SplitText",
+                            "elementProps": {
+                                "yigoid": "FSSC_Date",
+                                "style": {
+                                    "fontSize": 12,
+                                    "paddingTop": 12,
+                                    "textAlign": "right"
+                                }
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "elementType": "Text",
+                            "elementprops": {
+                                "yigoid": "FSSC_Total"
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "controls": {
+        
+    }
+}

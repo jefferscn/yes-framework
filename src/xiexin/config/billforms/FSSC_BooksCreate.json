@@ -1,0 +1,26 @@
+{
+    "formTemplate": "modal",
+    "content": {
+        "type": "element",
+        "elementType": "ChainDict",
+        "elementProps": {
+            "yigoid": "FeeTypeID",
+            "inline": true,
+            "imgElement": {
+                "type": "element",
+                "elementType": "FeeTypeIcon",
+                "elementProps": {
+                }
+            }
+        }
+    },
+    "style": {
+        "height": 500
+    },
+    "autoClose": true,
+    "popup": true,
+    "actions": [{
+        "text": "新建账本",
+        "yigoid": "NewBooks"
+    }]
+}

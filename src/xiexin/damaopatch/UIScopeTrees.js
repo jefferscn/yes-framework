@@ -1,11 +1,10 @@
 import { YIUI, View, Svr, DataDef, cacheSystem, UI } from 'yes-core';
-import { BillformStore as BillFormStore } from 'yes';
+import { BillformStore as BillFormStore, AppDispatcher } from 'yes';
 import { History as HashHistory } from 'yes-platform';
 import { HashMap } from 'yes-yiui-common';
 import { FilterMap } from 'yes-filtermap';
 import { lodash as $ } from 'yes-common';
 import BaseFunsExt from './basefunext';
-
 
 View.UIScopeTrees = new function () {
     //严格模式
@@ -261,23 +260,32 @@ View.UIScopeTrees = new function () {
         if (form.document && form.document.state == DataDef.D_New) {
             form.setOperationState(YIUI.Form_OperationState.New);
         }
-        if (docDirtyFieldValue.isFullData) {
-            const doc = YIUI.DataUtil.fromJSONDoc(docDirtyFieldValue.documentJson);
-            form.setDocument(doc);
-        } else {
-            const dirtyFieldValues = docDirtyFieldValue.dirtyFieldValues;
-            if (dirtyFieldValues) {
-                for (let i = 0; i < dirtyFieldValues.length; i++) {
-                    let fieldKey = dirtyFieldValues[i].key;
-                    let bookmark = dirtyFieldValues[i].bookmark;
-                    let value = dirtyFieldValues[i].value;
-                    await this.setValueNoChange(form, fieldKey, bookmark, value);
+        AppDispatcher.dispatch({
+            type: 'STOPEVENT',
+        })
+        try {
+            if (docDirtyFieldValue.isFullData) {
+                const doc = YIUI.DataUtil.fromJSONDoc(docDirtyFieldValue.documentJson);
+                form.setDocument(doc);
+            } else {
+                const dirtyFieldValues = docDirtyFieldValue.dirtyFieldValues;
+                if (dirtyFieldValues) {
+                    for (let i = 0; i < dirtyFieldValues.length; i++) {
+                        let fieldKey = dirtyFieldValues[i].key;
+                        let bookmark = dirtyFieldValues[i].bookmark;
+                        let value = dirtyFieldValues[i].value;
+                        await this.setValueNoChange(form, fieldKey, bookmark, value);
+                    }
                 }
+                // this.processOneRichDocumentResult_emptyRowDirtyValues(docDirtyFieldValue, form, undefined, true);
+                await this.processOneRichDocumentResult_dirtyDataTable(form, docDirtyFieldValue);
             }
-            // this.processOneRichDocumentResult_emptyRowDirtyValues(docDirtyFieldValue, form, undefined, true);
-            this.processOneRichDocumentResult_dirtyDataTable(form, docDirtyFieldValue);
+            this.processUICommands(form, docDirtyFieldValue);
+        } finally{
+            AppDispatcher.dispatch({
+                type: 'ENABLEEVENT',
+            });
         }
-        this.processUICommands(form, docDirtyFieldValue);
         // var returnMessage = docDirtyFieldValue.returnMessage;
         // if (returnMessage != undefined) {
         //     Confirm(returnMessage);
@@ -381,7 +389,7 @@ View.UIScopeTrees = new function () {
         }
         return rowIndex;
     };
-    this.processOneRichDocumentResult_dirtyDataTable = function (form, docDirtyFieldValue) {
+    this.processOneRichDocumentResult_dirtyDataTable = async function (form, docDirtyFieldValue) {
         const dirtyDataTables = docDirtyFieldValue.dirtyDataTables;
         if (dirtyDataTables) {
             for (let i = 0; i < dirtyDataTables.length; i++) {
@@ -407,11 +415,11 @@ View.UIScopeTrees = new function () {
                     grid.rootGroupBkmk = [];
                     // grid.getPageInfo().currentPage = 1;
                     if (grid.load) {
-                        grid.load(true, true);
+                        await grid.load(true, true);
                     } else {
                         YIUI.SubDetailUtil.clearSubDetailData(form, grid);
                         var show = new YIUI.ShowGridData(form, grid);
-                        show.load(true);
+                        await show.load(true);
                         form.getUIProcess().resetComponentStatus(grid);
                     }
                 }
@@ -560,100 +568,100 @@ View.UIScopeTrees = new function () {
         form.showDocument();
         return true;
     };
-// 打开新的界面并对界面赋值
-this.newFormShow = async function (form, content) {
-    const self = this;
-    const formKey = content.formKey,
-        docData = content.doc,
-        paras = content.para,
-        alert = content.alert,
-        doc = YIUI.DataUtil.fromJSONDoc(docData);
-    const _newFormShow = async function () {
-        // const container = form.getContainer();
-        // const target = YIUI.FormTarget.NEWTAB;
-        self.setCallParasFromParaJson(form, paras);
-        form.setCallPara('SysUseExistsDocument', true);
-        // const data = docData;
-        // const formUniqueKey = `${formKey}.${data.oid}`;
-        // data.key = formUniqueKey;
-        // let formStatus = 'DEFAULT';
-        // if (data.state == DataDef.D_New) {
-        //     formStatus = 'NEW';
-        // }
-        // else if (data.state == DataDef.D_Modified) {
-        //     formStatus = 'EDIT';
-        // }
-        // await cacheSystem.current.FormDataCache.put(formUniqueKey, {
-        //     key: formUniqueKey,
-        //     data,
-        //     time:Date.now()
-        // });
+    // 打开新的界面并对界面赋值
+    this.newFormShow = async function (form, content) {
+        const self = this;
+        const formKey = content.formKey,
+            docData = content.doc,
+            paras = content.para,
+            alert = content.alert,
+            doc = YIUI.DataUtil.fromJSONDoc(docData);
+        const _newFormShow = async function () {
+            // const container = form.getContainer();
+            // const target = YIUI.FormTarget.NEWTAB;
+            self.setCallParasFromParaJson(form, paras);
+            form.setCallPara('SysUseExistsDocument', true);
+            // const data = docData;
+            // const formUniqueKey = `${formKey}.${data.oid}`;
+            // data.key = formUniqueKey;
+            // let formStatus = 'DEFAULT';
+            // if (data.state == DataDef.D_New) {
+            //     formStatus = 'NEW';
+            // }
+            // else if (data.state == DataDef.D_Modified) {
+            //     formStatus = 'EDIT';
+            // }
+            // await cacheSystem.current.FormDataCache.put(formUniqueKey, {
+            //     key: formUniqueKey,
+            //     data,
+            //     time:Date.now()
+            // });
 
-        const pForm = form;
-        const billForm = await BillFormStore.createDummyForm(formKey + '.-1', true);
-        billForm.form.pFormID = pForm.formID;
-        const yesForm=billForm.form;
-        await YIUI.FormParasUtil.processCallParas(pForm, yesForm);
-        // const newForm = await cacheSystem.current.FormCache.get(formKey);
-        // const yesForm = YIUI.FormBuilder.build(newForm, 'newtab', pForm.formID);
-        // yesForm.initViewDataMonitor();
-        // await YIUI.FormParasUtil.processCallParas(pForm, yesForm);
+            const pForm = form;
+            const billForm = await BillFormStore.createDummyForm(formKey + '.-1', true);
+            billForm.form.pFormID = pForm.formID;
+            const yesForm = billForm.form;
+            await YIUI.FormParasUtil.processCallParas(pForm, yesForm);
+            // const newForm = await cacheSystem.current.FormCache.get(formKey);
+            // const yesForm = YIUI.FormBuilder.build(newForm, 'newtab', pForm.formID);
+            // yesForm.initViewDataMonitor();
+            // await YIUI.FormParasUtil.processCallParas(pForm, yesForm);
 
-        const defaultOID = doc.oid;
-        yesForm.setDocument(doc);
-        yesForm.attachmentOID = defaultOID;
+            const defaultOID = doc.oid;
+            yesForm.setDocument(doc);
+            yesForm.attachmentOID = defaultOID;
 
-        let cacheDoc = yesForm.getDocument();
-        if (cacheDoc.oid <= 0) {
-            cacheDoc.oid = defaultOID;
-        }
-        const cacheOID = cacheDoc.oid;
-        const formUniqueKey = `${formKey}.${cacheOID > 0 ? cacheOID : 'new'}`;
-        let data = YIUI.DataUtil.toJSONDoc(cacheDoc);
-        await cacheSystem.current.FormDataCache.put(formUniqueKey, {
-            key: formUniqueKey,
-            data,
-            time: Date.now()
-        });
-        let formStatus = 'DEFAULT';
-        if (data.state == DataDef.D_New) {
-            formStatus = 'NEW';
-        } else if (data.state == DataDef.D_Modified) {
-            formStatus = 'EDIT';
-        }
-        BillFormStore.addForm(formUniqueKey, yesForm);
-        HashHistory.push(`card/YES/${formKey}/${cacheOID}/${formStatus}`);
+            let cacheDoc = yesForm.getDocument();
+            if (cacheDoc.oid <= 0) {
+                cacheDoc.oid = defaultOID;
+            }
+            const cacheOID = cacheDoc.oid;
+            const formUniqueKey = `${formKey}.${cacheOID > 0 ? cacheOID : 'new'}`;
+            let data = YIUI.DataUtil.toJSONDoc(cacheDoc);
+            await cacheSystem.current.FormDataCache.put(formUniqueKey, {
+                key: formUniqueKey,
+                data,
+                time: Date.now()
+            });
+            let formStatus = 'DEFAULT';
+            if (data.state == DataDef.D_New) {
+                formStatus = 'NEW';
+            } else if (data.state == DataDef.D_Modified) {
+                formStatus = 'EDIT';
+            }
+            BillFormStore.addForm(formUniqueKey, yesForm);
+            HashHistory.push(`card/YES/${formKey}/${cacheOID}/${formStatus}`);
 
 
-        // let emptyForm =  YIUI.FormBuilder.builder(formKey);
-        // builder.setContainer(container);
-        // builder.setTarget(target);
-        // builder.setParentForm(form);
-        // builder.setOperationState(doc.state);//YIUI.Form_OperationState.Default
+            // let emptyForm =  YIUI.FormBuilder.builder(formKey);
+            // builder.setContainer(container);
+            // builder.setTarget(target);
+            // builder.setParentForm(form);
+            // builder.setOperationState(doc.state);//YIUI.Form_OperationState.Default
 
-        // builder.newEmpty().then(function (emptyForm) {
-        //     YIUI.FormParasUtil.processCallParas(form, emptyForm);
-        //     View.UIScopeTrees.updateFormParas(emptyForm, para);
+            // builder.newEmpty().then(function (emptyForm) {
+            //     YIUI.FormParasUtil.processCallParas(form, emptyForm);
+            //     View.UIScopeTrees.updateFormParas(emptyForm, para);
 
-        //     builder.builder(emptyForm, doc, true).then(function (emptyForm) {
-        //         emptyForm.setDocument(doc);
-        //         emptyForm.showDocument();
-        //     });
-        // });
-    };
-    // var _confirmAndShow = async function () {
-    //     const result = await Confirm.current('确认', alert, YIUI.Dialog_MsgType.DEFAULT);
-    //     if (result) {
-    //         await _newFormShow();
-    //     }
-    // };
-    // if (alert) {
+            //     builder.builder(emptyForm, doc, true).then(function (emptyForm) {
+            //         emptyForm.setDocument(doc);
+            //         emptyForm.showDocument();
+            //     });
+            // });
+        };
+        // var _confirmAndShow = async function () {
+        //     const result = await Confirm.current('确认', alert, YIUI.Dialog_MsgType.DEFAULT);
+        //     if (result) {
+        //         await _newFormShow();
+        //     }
+        // };
+        // if (alert) {
         // await _confirmAndShow();
-    // } else {
+        // } else {
         await _newFormShow();
-    // }
+        // }
 
-};
+    };
 
 
 };

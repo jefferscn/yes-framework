@@ -79,7 +79,7 @@ class SegementCombobox extends PureComponent {
                         title={item.get('caption')}
                         value={item.get('value')}
                         onPress={this.onValueChange}
-                        selected={value===item.get('value')}
+                        selected={value===""? false: value==item.get('value')}
                     />)
                 }
             </View>

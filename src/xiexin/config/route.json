@@ -7,6 +7,14 @@
         "isRoot": false 
     },
     {
+        "key": "test",
+        "type": "billform",
+        "formKey": "SRM_OFFERView",
+        "oid": -1,
+        "status": "DEFAULT",
+        "isRoot": true
+    },
+    {
         "key": "Tab",
         "type": "tab",
         "path": "Tabs",
@@ -21,7 +29,7 @@
                 "type": "control",
                 "path": "Home1",
                 "label": "首页",
-                "icon": "icon-dashboard",
+                "icon": "icon-shouye",
                 "control": "Home"
             },{
                 "key": "MyInfo",

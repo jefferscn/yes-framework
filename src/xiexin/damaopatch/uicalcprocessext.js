@@ -125,7 +125,7 @@ YIUI.UICalcProcess = YIUI.extend(YIUI.UICalcProcess, {
         let formKey = this.form.formKey,
             formScope = await View.UIScopeTrees.get(formKey);
         const scope = formScope[comp.key];
-        if (scope) {
+        if (scope && scope.includeERPMidFunction && this.form.isERPForm) {
             let result = await this.richDocumentValueChanged(comp.key, scope, !scope.valueChangedIncludeOnlyUIFunction);
             await View.UIScopeTrees.processRichDocumentResult(this.form, result);
             if (scope.valueChangedIncludeOnlyUIFunction) {

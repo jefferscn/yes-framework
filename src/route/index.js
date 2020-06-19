@@ -3,8 +3,10 @@ import {
     createAppContainer,
     createStackNavigator,
     createMaterialTopTabNavigator,
+    createBottomTabNavigator,
     withNavigation,
 } from 'react-navigation';
+import Element from '../template/Element';
 import DynamicView from '../DynamicView';
 import Controls from '../config/control';
 import WorkitemView from '../WorkitemView';
@@ -16,9 +18,9 @@ import { generateKey } from '@react-navigation/core/lib/module/routers/KeyGenera
 
 function injectStackNavigator(navigator) {
     const oldFunc = navigator.router.getActionForPathAndParams;
-    navigator.router.getActionForPathAndParams = function() {
+    navigator.router.getActionForPathAndParams = function () {
         const action = oldFunc.apply(this, arguments);
-        if(action && action.action){
+        if (action && action.action) {
             action.action.key = action.action.key || generateKey();
         }
         return action;
@@ -32,6 +34,10 @@ const defaultCardRoute = {
     DynamicDetail1: {
         screen: withNavigation(DynamicView),
         path: 'YES/:metaKey/:id/:status',
+    },
+    DynamicDetail2: {
+        screen: withNavigation(DynamicView),
+        path: 'YES/:metaKey/:id/:status/:parent',
     },
     Workitem: {
         screen: withNavigation(WorkitemView),
@@ -92,15 +98,20 @@ const buildTabNavigator = (tabConfig) => {
     // if (!tabConfig.tabPosition || tabConfig.tabPosition === "top") {
     const tabBarPosition = tabConfig.tabPosition || 'top';
     const indicatorStyle = {};
-    if(tabBarPosition === 'bottom') {
+    if (tabBarPosition === 'bottom') {
         // indicatorStyle.display = 'none';
         // top: 0,
         Object.assign(indicatorStyle, {
             top: 0,
         })
     }
-    return createMaterialTopTabNavigator(
-        tabs, {
+    const navigatorProps = {};
+    if (tabConfig.tabbarElement) {
+        navigatorProps.tabBarComponent = (props) => <Element {...props} meta={tabConfig.tabbarElement} />
+    }
+    if (tabBarPosition === 'bottom') {
+        return createBottomTabNavigator(
+            tabs, {
             headerMode: 'none',
             swipeEnabled: false,
             tabBarOptions: {
@@ -124,8 +135,36 @@ const buildTabNavigator = (tabConfig) => {
                 }
             },
             tabBarPosition,
-        }
-    );
+            ...navigatorProps
+        });
+    }
+    return createMaterialTopTabNavigator(
+        tabs, {
+        headerMode: 'none',
+        swipeEnabled: false,
+        tabBarOptions: {
+            labelStyle: {
+                fontSize: 14,
+                margin: 0,
+            },
+            indicatorStyle: {
+                backgroundColor: tabConfig.indicatorColor || '#008CD7',
+                ...indicatorStyle,
+            },
+            upperCaseLabel: false,
+            activeBackgroundColor: tabConfig.activeBackgroundColor || 'white',
+            activeTintColor: tabConfig.activeTintColor || '#008CD7',
+            inactiveBackgroundColor: tabConfig.inactiveBackgroundColor || 'white',
+            inactiveTintColor: tabConfig.inactiveTintColor || '#aaa',
+            showLabel: tabConfig.showLabel,
+            showIcon: tabConfig.showIcon,
+            style: {
+                backgroundColor: 'white',
+            }
+        },
+        tabBarPosition,
+        ...navigatorProps
+    });
 };
 
 const buildYIGOBillformScreen = (config) => {
@@ -158,10 +197,11 @@ const buildScreen = (config) => {
 export default (config) => {
     const customRoute = {};
     let initialRouteName = null;
-    console.log(config)
+    // console.log(config)
     for (let r of config) {
         let route = {};
-        route.screen = buildScreen(r);
+        const Screen = buildScreen(r);
+        route.screen = Screen;
         route.path = r.path;
         customRoute[r.key] = route;
         if (r.isRoot) {

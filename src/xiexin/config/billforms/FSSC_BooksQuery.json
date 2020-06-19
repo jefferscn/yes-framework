@@ -1,0 +1,237 @@
+{
+    "formTemplate": "list",
+    "refresh": {
+        "type": "button",
+        "buttonId": "Query"
+    },
+    "head": {
+        "type": "element",
+        "elementType": "Header",
+        "elementProps": {
+            "canBack": true,
+            "titleElement": {
+                "type": "element",
+                "elementType": "FormTitle",
+                "elementProps": {
+                    "containerStyle": {
+                        "alignItems": "center",
+                        "justifyContent": "center"
+                    }
+                }
+            }
+        }
+    },
+    "filterBlock": {
+        "type": "element",
+        "elementType": "FilterBlock",
+        "elementProps": {
+            "filterItems": [
+                {
+                    "type": "element",
+                    "elementType": "PopoverCombobox",
+                    "elementProps": {
+                        "yigoid": "Type",
+                        "placeholder": "类型",
+                        "style": {
+                            "flex": 1
+                        }
+                    }
+                },
+                {
+                    "type": "element",
+                    "elementType": "PopoverCombobox",
+                    "elementProps": {
+                        "yigoid": "IsLinked",
+                        "placeholder": "状态",
+                        "style": {
+                            "flex": 1
+                        }
+                    }
+                },
+                {
+                    "type": "element",
+                    "elementType": "Seperator",
+                    "elementProps": {
+                        "type": "row"
+                    }
+                },
+                {
+                    "type": "element",
+                    "elementType": "DateRangeSelect",
+                    "elementProps": {
+                        "startDateField": "StartDate",
+                        "endDateField": "EndDate",
+                        "placeholder": "期间"
+                    }
+                }
+            ],
+            "style": {
+                "height": 45,
+                "borderBottomWidth": 1,
+                "borderBottomColor": "lightgrey"
+            },
+            "hasMore": false,
+            "queryButton": "Query"
+        }
+    },
+    "action": {
+        "type": "element",
+        "elementType": "OpenFormActionButton",
+        "elementProps": {
+            "formKey": "FSSC_BooksCreate",
+            "modal": true,
+            "oid": "-1",
+            "style": {
+                "right": "50%",
+                "transform": "translateX(30px)"
+            }
+        }
+    },
+    "list": {
+        "type": "element",
+        "elementType": "GridView",
+        "elementProps": {
+            "yigoid": "Grid1",
+            "hideAction": true,
+            "primaryKey": "BooksNO",
+            "clickMode": "button",
+            "clickYigoId": "BooksNO",
+            "secondKey": [
+                "DeptID2"
+            ],
+            "style": {
+                "marginLeft": 12,
+                "flex": 1
+            },
+            "tertiaryKey": [
+                "PersonnelID2",
+                {
+                    "type": "element",
+                    "elementType": "CheckboxLabel",
+                    "elementProps": {
+                        "yigoid": "isreimbursement",
+                        "trueLabel": "已报销",
+                        "style": {
+                            "color": "orangered",
+                            "fontSize" : 12,
+                            "display" : "flex",
+                            "alignItems": "center",
+                            "paddingLeft": 12
+                        }
+                    }
+                }
+            ],
+            "leftElement": {
+                "type": "element",
+                "elementType": "BooksTypeImage",
+                "elementProps": {
+                    "yigoid": "BooksType",
+                    "style": {
+                        "paddingRight": 8,
+                        "justifyContent": "center"
+                    }
+                }
+            },
+            "rightElement": {
+                "type": "element",
+                "elementType": "FlexBox",
+                "elementProps": {
+                    "direction": "column",
+                    "style": {
+                        "justifyContent": "space-between",
+                        "paddingRight": 8
+                    },
+                    "items": [
+                        {
+                            "type": "element",
+                            "elementType": "SplitText",
+                            "elementProps": {
+                                "yigoid": "BooksDate",
+                                "style": {
+                                    "fontSize": 12,
+                                    "paddingTop": 8,
+                                    "textAlign": "right"
+                                }
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "elementType": "ListText",
+                            "elementProps": {
+                                "yigoid": "TotalMoney",
+                                "style": {
+                                    "textAlign": "right",
+                                    "paddingBottom": 4
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "controls": {
+        "list": {
+            "control": "ListView",
+            "primaryKey": "NO",
+            "secondKey": [
+                "PersonnelID"
+            ],
+            "tertiaryKey": [
+                "DeptID_LV"
+            ],
+            "style": {
+                "marginLeft": 12
+            },
+            "rightElement": {
+                "type": "element",
+                "elementType": "FlexBox",
+                "elementProps": {
+                    "direction": "column",
+                    "style": {
+                        "justifyContent": "space-between"
+                    },
+                    "items": [
+                        {
+                            "type": "element",
+                            "elementType": "SplitText",
+                            "elementProps": {
+                                "yigoid": "BillDate_LV",
+                                "style": {
+                                    "fontSize": 12,
+                                    "paddingTop": 12,
+                                    "textAlign": "right"
+                                }
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "elementType": "MoneyWithCurrency",
+                            "elementProps": {
+                                "currencyField": {
+                                    "type": "element",
+                                    "elementType": "SplitText",
+                                    "elementProps": {
+                                        "yigoid": "CurrencyID_LV",
+                                        "style": {
+                                            "fontSize": 12,
+                                            "paddingRight": 2,
+                                            "textAlign": "right"
+                                        }
+                                    }
+                                },
+                                "moneyField": "ApplyMoney_LV",
+                                "containerStyle": {
+                                    "paddingBottom": 6,
+                                    "justifyContent": "flex-end",
+                                    "paddingRight": 0
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            "divider": true
+        }
+    }
+}

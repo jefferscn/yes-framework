@@ -20,6 +20,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         display: 'flex',
         alignItems: 'center',
+    },
+    text: {
+        paddingLeft: 12,
+        backgroundColor: 'lightgrey',
+        textAlign: 'left',
     }
 })
 class Calendar extends PureComponent {
@@ -252,7 +257,7 @@ class CalendarGrid extends PureComponent {
         return (
             <View>
                 <View>
-                    <Text>{`${year}-${month}`}</Text> 
+                    <Text style={styles.text}>{`${year || '年'}-${month +1 || '月'}`}</Text> 
                 </View>
                 <Calendar
                     format={this.props.formatMessage}
@@ -266,13 +271,14 @@ class CalendarGrid extends PureComponent {
                     {...this.props}
                 />
                 <View>
+                    {this.state.day ?<Text style={styles.text}>{`${this.state.day.day}日`}</Text> : null}
                     {
                         this.state.events? this.state.events.map((event) => {
                             return this.renderRow(event.rowIndex);
                         }): null
                     }
                     {
-                        editable?<Button onPress={this.addNewRow}></Button>: null
+                        (editable && this.state.day) ?<Button title="新增" onPress={this.addNewRow}>新增</Button>: null
                     }
                 </View>
             </View>

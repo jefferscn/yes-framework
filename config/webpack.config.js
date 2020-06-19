@@ -1,7 +1,9 @@
 import path from 'path';
 import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import FileManagerPlugin from 'filemanager-webpack-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+
 export default (DEBUG, PATH, PORT = 3000) => {
     return ({
         resolve: {
@@ -16,7 +18,8 @@ export default (DEBUG, PATH, PORT = 3000) => {
         },
         entry: {
             app: (/*DEBUG ? [`webpack-dev-server/client?http://localhost:${PORT}`] : */[]).concat([
-                'whatwg-fetch',
+                // 'whatwg-fetch',
+                './src/util/fakeFetch',
                 '@babel/polyfill',
                 './main',
             ]),
@@ -27,7 +30,7 @@ export default (DEBUG, PATH, PORT = 3000) => {
             filename: '[name].js',
             // publicPath: './generated/',
         },
-        mode: 'development',
+        mode: DEBUG? 'development' : 'production',
         cache: DEBUG,
         // For options, see http://webpack.github.io/docs/configuration.html#devtool
         devtool: DEBUG ? 'source-map' : false,
@@ -57,8 +60,10 @@ export default (DEBUG, PATH, PORT = 3000) => {
                         path.resolve(__dirname, '../node_modules/react-native-gesture-handler'),
                         path.resolve(__dirname, '../node_modules/react-native-reanimated'),
                         path.resolve(__dirname, '../node_modules/react-native-screens'),
+                        path.resolve(__dirname, '../node_modules/yes-comp-react-native-web'),
                         path.resolve(__dirname, '../node_modules/yg-echarts/'),
                         path.resolve(__dirname, '../node_modules/yes-core/'),
+                        path.resolve(__dirname, '../node_modules/yes-intf/'),
                         path.resolve(__dirname, '../src'),
                         path.resolve(__dirname, '../entry.js'),
                         path.resolve(__dirname, '../main.js'),
@@ -139,7 +144,17 @@ export default (DEBUG, PATH, PORT = 3000) => {
                 new webpack.DefinePlugin({ 'process.env.NODE_ENV': '"development"', __DEV__: true, __VERSION__: '"debug"' }),
                 new HtmlWebpackPlugin({
                     template: './index.html',
-                }),
+                }),new BundleAnalyzerPlugin({
+                    analyzerMode: 'static',
+                    reportFilename: './reports.html',
+                    openAnalyzer: true,
+                }),new FileManagerPlugin({
+                    onEnd: {
+                        archive:[
+                            {source: './build', destination: './build/debug.zip'}
+                        ]
+                    }
+                })
             ]
             : [
                 new webpack.DefinePlugin({ 'process.env.NODE_ENV': '"production"', __DEV__: false, __VERSION__: '"debug"' }),
@@ -155,11 +170,12 @@ export default (DEBUG, PATH, PORT = 3000) => {
                     // chunksSortMode: 'manual',
                     // chunks: ['initializationLoading', 'vendor'],
 
-                }),
-                new BundleAnalyzerPlugin({
-                    analyzerMode: 'static',
-                    reportFilename: './reports.html',
-                    openAnalyzer: true,
+                }),new FileManagerPlugin({
+                    onEnd: {
+                        archive:[
+                            {source: './build', destination: './build/release.zip'}
+                        ]
+                    }
                 })
                 // new webpack.optimize.CommonsChunkPlugin({
                 //     // filename: 'used-twice.js',
@@ -175,6 +191,6 @@ export default (DEBUG, PATH, PORT = 3000) => {
                 //         warnings: false,
                 //     },
                 // }),
-            ],
+            ]
     });
 };

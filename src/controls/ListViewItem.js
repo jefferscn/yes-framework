@@ -37,7 +37,7 @@ export default class ListViewItem extends PureComponent {
 
     render() {
         if (this.props.detailElement) {
-            return (<View style={[this.props.divider ? styles.divider : {}]}>
+            return (<View style={[this.props.divider ? [styles.divider, this.props.dividerStyle] : {}]}>
                 <TouchableOpacity onPress={this.onPress} pressRetentionOffset={pressRetentionOffset}>
                     <View style={[styles.container, this.props.containerStyle]}>
                         {this.renderLeftElement()}
@@ -54,7 +54,7 @@ export default class ListViewItem extends PureComponent {
         }
         return (
             <TouchableOpacity onPress={this.onPress} pressRetentionOffset={pressRetentionOffset}>
-                <View style={[styles.container, this.props.divider ? styles.divider : {}, this.props.containerStyle]}>
+                <View style={[styles.container, this.props.divider ? [styles.divider, this.props.dividerStyle] : {}, this.props.containerStyle]}>
                     {this.renderLeftElement()}
                     {this.renderCenterElement()}
                     {this.renderRightElement()}
@@ -69,6 +69,7 @@ export default class ListViewItem extends PureComponent {
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
+        alignItems: 'stretch',
     },
     divider: {
         borderBottomWidth: 1,

@@ -6,6 +6,6 @@ export default class Element extends PureComponent {
         createElement: PropTypes.func,
     }
     render() {
-        return this.context.createElement(this.props.meta);
+        return this.context.createElement(this.props.meta, this.props);
     }
 }

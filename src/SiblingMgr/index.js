@@ -1,33 +1,32 @@
 import React, { PureComponent } from 'react';
 // import { getTheme, ThemeContext } from 'react-native-material-ui';
-import { Modal } from 'antd-mobile';
-import { IntlProvider } from 'react-intl';
 import { BackHandler } from 'yes';
 import RootSiblings from 'react-native-root-siblings';
-import { ControlMappings } from 'yes-platform';
+import { ControlMappings } from 'yes-comp-react-native-web';
+import { History } from 'yes-web';
 import PropTypes from 'prop-types';
+import { YIGOEnvProvider } from 'yes-intf';
+import AppWrapper from '../AppWrapper';
+import i18n from '../i18n';
 
 // let modalHandler = null;
-const modalStack = [];
-BackHandler.addPreEventListener(() => {
-    const cb = modalStack.shift();
-    if (cb) {
-        cb();
-        return false;
+let siblingKey = 0;
+const getLocaleMessages = () => {
+    if (navigator.language.startsWith('zh')) {
+        return i18n['zh-CN'];
     }
-    return true;
-});
-
-const onModalClose = () => {
-    // if (modalHandler) {
-    //     modalHandler.destroy();
-    //     modalHandler = null;
-    // }
-    const cb = modalStack.shift();
-    if (cb) {
-        cb();
-    }
+    return i18n['en-US'];
 }
+
+const modalStack = [];
+// BackHandler.addPreEventListener(() => {
+//     const cb = modalStack[modalStack.length-1];
+//     if (cb) {
+//         cb();
+//         return false;
+//     }
+//     return true;
+// });
 
 const getMappedComponent = (tag) => {
     return ControlMappings.defaultControlMapping.get(tag);
@@ -51,7 +50,7 @@ function createCallback(mh) {
         if (mh) {
             mh.destroy();
             const index = modalStack.indexOf(fn);
-            if(index<0) {
+            if (index < 0) {
                 console.error("siblingmgr error!");
             } else {
                 modalStack.splice(index, 1);
@@ -62,26 +61,41 @@ function createCallback(mh) {
     modalStack.push(fn);
     return fn;
 }
-export function showModal(children) {
-    // if (modalHandler) {
-    //     modalHandler.destroy();
-    //     modalHandler = null;
-    // }
+export function showModal(children, fullScreen) {
+    const closeModal = ()=> {
+        backHandler();
+        callback();
+    }
     const modalHandler = new RootSiblings(
-        <IntlProvider>
-            <DummyApp>
+        <YIGOEnvProvider
+            locale={getLocaleMessages()}
+            controlMapping={ControlMappings.defaultControlMapping}
+            >
+            <AppWrapper>
                 {/* <ThemeContext.Provider value={getTheme({})}> */}
-                <Modal
+                {/* <Modal
                     wrapClassName='sibling'
                     transparent
                     visible
                     onClose={onModalClose}
-                >
-                    {children}
-                </Modal>
+                > */}
+                {
+                    React.cloneElement(children,{
+                        onClose: closeModal 
+                    })
+                }
+                {/* </Modal> */}
                 {/* </ThemeContext.Provider> */}
-            </DummyApp>
-        </IntlProvider>);
-    return createCallback(modalHandler);
+            </AppWrapper>
+        </YIGOEnvProvider>);
+    History.push(`#Sibling_${siblingKey++}`);
+    const callback = createCallback(modalHandler);
+    const backHandler = BackHandler.addPreEventListener(() => {
+        backHandler();
+        callback();
+    });
+    return ()=> {
+        backHandler();
+        callback();
+    };
 }
-

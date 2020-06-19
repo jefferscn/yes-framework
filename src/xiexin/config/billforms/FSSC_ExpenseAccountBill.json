@@ -20,7 +20,24 @@
     "foot": {
         "type": "element",
         "elementType": "SegementToolbar",
-        "elementProps": {}
+        "elementProps": {
+            "ignoreItems": [
+                "optKey1",
+                "New",
+                "Close"
+            ]
+        }
+    },
+    "action": {
+        "type": "element",
+        "elementType": "GridActionButton",
+        "elementProps": {
+            "yigoid": "Grid1",
+            "style": {
+                "right": "50%",
+                "transform": "translateX(30px)"
+            }
+        }
     },
     "items": [
         "NO",
@@ -41,11 +58,20 @@
         "Grid1"
     ],
     "controls": {
+        "Region": {
+            "rowElement": {
+                "type": "element",
+                "elementType": "TreeDictRow",
+                "elementProps": {
+                }
+            }
+        },
         "Grid1": {
             "control": "GridView",
             "showHead": true,
             "headTitle": "费用明细",
             "useBodyScroll": true,
+            "hideAction": true,
             "headExtra": {
                 "type": "element",
                 "elementType": "MoneyWithCurrency",
@@ -163,7 +189,7 @@
                                     "type": "element",
                                     "elementType": "IconFont",
                                     "elementProps": {
-                                        "name": "icon-jiaotonggongjiaochekanfangtuandabaxianxing",
+                                        "name": "icon-jiaotong",
                                         "size": 20,
                                         "color": "#008cd7",
                                         "style": {
@@ -187,7 +213,7 @@
                                     "type": "element",
                                     "elementType": "IconFont",
                                     "elementProps": {
-                                        "name": "icon-zhusu",
+                                        "name": "icon-jiudian",
                                         "size": 20,
                                         "color": "#008cd7",
                                         "style": {
@@ -235,7 +261,7 @@
                                     "type": "element",
                                     "elementType": "IconFont",
                                     "elementProps": {
-                                        "name": "icon-buzhu",
+                                        "name": "icon-x-",
                                         "size": 20,
                                         "color": "#008cd7",
                                         "style": {

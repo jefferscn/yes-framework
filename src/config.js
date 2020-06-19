@@ -3,16 +3,15 @@ import React, { Component } from 'react';
 import './template';
 // import projectJSON from './config/project.json';
 // import loginJSON from './config/login.json';
-import { ProjectCfg, RouteCfg, LoginCfg } from './config/index';
+import { ProjectCfg, RouteCfg, LoginCfg, ModalCfg } from './config/index';
 import control from './config/control.js';
 import { ControlMappings, Switch, AuthenticatedRoute } from 'yes-comp-react-native-web';
 import { Util } from 'yes-web';
+import { util as projectUtil } from './project';
 import i18n from './i18n';
 import { LocaleProvider, Modal } from 'antd-mobile';
 // import RouteConfig from './config/route.json';
 import buildRoute from './route';
-import PlatformProvider from './controls/providers';
-import BaiduProvider from './controls/providers/BaiduMapProvider';
 // import './yigopatch';
 import './patch/antd-mobile.css';
 import enUS from 'antd-mobile/lib/locale-provider/en_US';
@@ -23,11 +22,20 @@ import Element from './template/Element';
 import { injectFont } from 'yes-web/dist/webutil';
 import fontAwesome from 'react-native-vector-icons/Fonts/FontAwesome.ttf';
 import FastClick from 'fastclick';
-import './util/fakeFetch';
-Reflect  = undefined;
+import TemplateView from './TemplateView';
+import AppWrapper from './AppWrapper';
+import { openForm } from './util/navigateUtil';
+import { History } from 'yes-web';
+
+window.his = History;
+
+// import './util/fakeFetch';
+Reflect = undefined;
 
 FastClick.attach(document.body);
 injectFont(fontAwesome, 'FontAwesome');
+
+projectUtil.showModal = showModal;
 
 const { sessionKey, serverPath, appName, wechat, cordova, baidumap } = ProjectCfg;
 const { template, tooltip, companyName, bgImagePath, logoImagePath } = LoginCfg;
@@ -73,14 +81,19 @@ Util.alert = (title, msg) => {
     }]);
 };
 
-Util.showBillformInModal = (formKey, oid = -1, status = 'EDIT') => {
-    showModal(
-        <TemplateView
-            formKey={formKey}
-            oid={oid}
-            status={status}
-        />
-    )
+Util.showBillformInModal = (formKey, oid = -1, status = 'EDIT', parentId) => {
+    if (ModalCfg && ModalCfg.includes(formKey)) {
+        showModal(
+            <TemplateView
+                formKey={formKey}
+                oid={oid}
+                status={status}
+                showType="modal"
+            />
+        );
+        return ;
+    }
+    openForm(formKey, oid, status);
 }
 
 Util.confirm = function (title, msg, type) {
@@ -135,89 +148,102 @@ Util.confirm = function (title, msg, type) {
 
 const MainRouter = buildRoute(RouteCfg);
 
-const getAntLocale = () => {
-    if (navigator.language === 'zh-CN') {
-        return null;
-    }
-    return enUS;
-}
+// const getAntLocale = () => {
+//     if (navigator.language.startsWith('zh')) {
+//         return null;
+//     }
+//     return enUS;
+// }
 
 const onNavigationStateChange = (prevState, nextState, action) => {
     console.log(action);
 };
 
-let Provider = ({ children }) => {
-    if (baidumap) {
-        return (
-            <BaiduProvider>
-                {children}
-            </BaiduProvider>
-        );
-    }
-    return children;
-};
+// let Provider = ({ children }) => {
+//     if (baidumap) {
+//         return (
+//             <BaiduProvider>
+//                 {children}
+//             </BaiduProvider>
+//         );
+//     }
+//     return children;
+// };
 
-// wechat
-function isWeixin() {
-    var ua = navigator.userAgent.toLowerCase();
-    if (ua.match(/MicroMessenger/i) == "micromessenger") {
-        return true;
-    } else {
-        return false;
-    }
-}
+// // wechat
+// function isWeixin() {
+//     var ua = navigator.userAgent.toLowerCase();
+//     if (ua.match(/MicroMessenger/i) == "micromessenger") {
+//         return true;
+//     } else {
+//         return false;
+//     }
+// }
 
-if (isWeixin() && wechat) {
-    Provider = ({ children }) => {
-        if (baidumap) {
-            return (<BaiduProvider>
-                <PlatformProvider.Wechat {...wechat} >
-                    {children}
-                </PlatformProvider.Wechat>
-            </BaiduProvider>);
-        }
-        return (
-            <PlatformProvider.Wechat {...wechat} >
-                {children}
-            </PlatformProvider.Wechat>
-        );
-    };
-}
+// if (isWeixin() && wechat) {
+//     Provider = ({ children }) => {
+//         if (baidumap) {
+//             return (<BaiduProvider>
+//                 <PlatformProvider.Wechat {...wechat} >
+//                     {children}
+//                 </PlatformProvider.Wechat>
+//             </BaiduProvider>);
+//         }
+//         return (
+//             <PlatformProvider.Wechat {...wechat} >
+//                 {children}
+//             </PlatformProvider.Wechat>
+//         );
+//     };
+// }
 
-// cordova
-function isCordova() {
-    return window.cordova;
-}
+// // cordova
+// function isCordova() {
+//     return window.cordova;
+// }
 
-if (isCordova()) {
-    const cordovaProps = cordova || {};
-    Provider = ({ children }) => {
-        if (baidumap) {
-            return (<BaiduProvider {...baidumap}>
-                <PlatformProvider.Cordova {...cordovaProps}>
-                    {children}
-                </PlatformProvider.Cordova>
-            </BaiduProvider>);
-        }
-        return (
-            <PlatformProvider.Cordova {...cordovaProps}>
-                {children}
-            </PlatformProvider.Cordova>
-        );
-    };
-}
+// if (isCordova()) {
+//     const cordovaProps = cordova || {};
+//     Provider = ({ children }) => {
+//         if (baidumap) {
+//             return (<BaiduProvider {...baidumap}>
+//                 <PlatformProvider.Cordova {...cordovaProps}>
+//                     {children}
+//                 </PlatformProvider.Cordova>
+//             </BaiduProvider>);
+//         }
+//         return (
+//             <PlatformProvider.Cordova {...cordovaProps}>
+//                 {children}
+//             </PlatformProvider.Cordova>
+//         );
+//     };
+// }
 
-const AuthRouter = AuthenticatedRoute(MainRouter, ()=><Element meta={LoginCfg} />, 'root');
+// if (!isCordova() && !isWeixin()) {
+//     Provider = ({ children }) => {
+//         if (baidumap) {
+//             return (<BaiduProvider {...baidumap}>
+//                 <PlatformProvider.Browser>
+//                     {children}
+//                 </PlatformProvider.Browser>
+//             </BaiduProvider>);
+//         }
+//         return (
+//             <PlatformProvider.Browser>
+//                 {children}
+//             </PlatformProvider.Browser>
+//         );
+//     };
+// }
+
+const AuthRouter = AuthenticatedRoute(MainRouter, () => <Element meta={LoginCfg} />, 'root');
 const NavigatorListenerWrapper = (props) =>
-    (<LocaleProvider locale={getAntLocale()}>
-        <TemplateProvider CustomControls={control}>
-            <Provider>
-                <AuthRouter
-                    onNavigationStateChange={onNavigationStateChange}
-                    {...props} />
-            </Provider>
-        </TemplateProvider>
-    </LocaleProvider>);
+    (<AppWrapper>
+        <AuthRouter
+            onNavigationStateChange={onNavigationStateChange}
+            {...props} />
+    </AppWrapper>);
 // 
 // AppDispatcher.register((action) => {
 //     switch (action.type) {

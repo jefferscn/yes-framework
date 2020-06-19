@@ -30,12 +30,22 @@ const styles = StyleSheet.create({
 });
 class SegementToolbar extends PureComponent {
     getItems(props) {
-        return props.controlState.get('items');
-        // return props.controlState.get('items').filter((value) => {
-        //     const tag = value.get('tag');
-        //     const key = value.get('key');
-        //     return tag === 'bpm' || tag === 'loadworkitem' ||  key === 'StartInstance' || key === 'RollBack' || key==='Transit'||key === 'OPTApproveT_DZ';
-        // });
+        const { ignoreItems, showItems } = props;
+        const totalItems = props.controlState.get('items');
+        return totalItems.filter((value) => {
+            const tag = value.get('tag');
+            const key = value.get('key');
+            if(ignoreItems && ignoreItems.includes(key)) {
+                return false;
+            }
+            if(showItems) {
+                if(showItems.includes(key)) {
+                    return truek
+                }
+                return false;
+            }
+            return true;
+        });
     }
 
     onMoreMenuPressed = (index) => {

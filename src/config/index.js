@@ -1,1 +1,1 @@
-export { ProjectCfg, RouteCfg, LoginCfg } from '../project';
+export { ProjectCfg, RouteCfg, LoginCfg, ModalCfg, FormPara } from '../project';

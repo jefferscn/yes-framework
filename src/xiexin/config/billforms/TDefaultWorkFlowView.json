@@ -1,0 +1,89 @@
+{
+    "formTemplate": "list",
+    "head": {
+        "type": "element",
+        "elementType": "Header",
+        "elementProps": {
+            "canBack": true,
+            "titleElement": {
+                "type": "element",
+                "elementType": "FormTitle",
+                "elementProps": {
+                    "containerStyle": {
+                        "alignItems": "center",
+                        "justifyContent": "center"
+                    }
+                }
+            }
+        }
+    },
+    "list": {
+        "type": "element",
+        "elementType": "GridView",
+        "elementProps": {
+            "yigoid": "Grid1",
+            "primaryKey": "Explain",
+            "hideAction": true,
+            "clickMode": "dblclick",
+            "style": {
+                "marginLeft": 12,
+                "flex": 1
+            },
+            "secondKey": [
+                "No"
+            ],
+            "tertiaryKey": [
+                "Creator"
+            ],
+            "rightElement": {
+                "type": "element",
+                "elementType": "FlexBox",
+                "elementProps": {
+                    "direction": "column",
+                    "style": {
+                        "justifyContent": "space-between"
+                    },
+                    "items": [
+                        {
+                            "type": "element",
+                            "elementType": "SplitText",
+                            "elementProps": {
+                                "yigoid": "BillDate",
+                                "style": {
+                                    "fontSize": 12,
+                                    "paddingTop": 12,
+                                    "textAlign": "right"
+                                }
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "elementType": "MoneyWithCurrency",
+                            "elementProps": {
+                                "currencyField": {
+                                    "type": "element",
+                                    "elementType": "SplitText",
+                                    "elementProps": {
+                                        "yigoid": "Currency",
+                                        "style": {
+                                            "fontSize": 12,
+                                            "paddingRight": 2,
+                                            "textAlign": "right"
+                                        }
+                                    }
+                                },
+                                "moneyField": "Money",
+                                "containerStyle": {
+                                    "paddingBottom": 6,
+                                    "justifyContent": "flex-end",
+                                    "paddingRight": 0
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            "divider": true
+        }
+    }
+}

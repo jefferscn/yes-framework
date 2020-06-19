@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { GridRowWrap } from 'yes-intf';
 import ListText from '../../controls/ListText';
-import IconFont from '../font';
+import IconFont from '../../font';
 import VisibleEuqal from '../../controls/VisibleEqual';
 import PropTypes from 'prop-types';
 

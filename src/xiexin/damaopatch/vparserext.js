@@ -66,7 +66,8 @@ View.EvalEnv.prototype.evalMacro = async function (cxt, envScope, name, macro, a
     const formScopes = await View.UIScopeTrees.get(formKey);
     const scope = formScopes['.macro.' + name];
     console.log(`Scope ${formKey}.macro.${name} = ${scope}`);
-    if (scope && !scope.includeOnlyUIFunction) {
+    if(scope && scope.includeERPMidFunction && !scope.includeOnlyUIFunction && form.isERPForm) {
+    // if (scope && !scope.includeOnlyUIFunction) {
         var doc = form.getDocument();
         form.refreshParas();
         var parameters = form.getParas();
@@ -129,6 +130,9 @@ View.EvalEnv.prototype.evalMacro = async function (cxt, envScope, name, macro, a
 View.tanserDataToComponentType = function (comp, oldValue) {
     var value = oldValue;
     switch (comp.cellType || comp.type) {
+        case YIUI.CONTROLTYPE.DATEPICKER:
+            value = YIUI.TypeConvertor.toDate(oldValue);
+            break;
         case YIUI.CONTROLTYPE.NUMBEREDITOR:
             value = YIUI.TypeConvertor.toDecimal(oldValue);
             break;

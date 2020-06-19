@@ -20,6 +20,8 @@
 import CalendarGrid from '../controls/CalendarGrid';
 import CalendarDay from '../controls/CalendarDay';
 import CalendarRow from '../controls/CalendarRow';
+import ProjectWorkHourFill from '../controls/CB_ProjectWorkHourFill';
+import Home from '../controls/Home';
 // import SegementToolbar from '../controls/SegementToolbar';
 // import IconFont from '../font';
 // import MoneyWithCurrency from '../controls/MoneyWithCurrency';
@@ -49,6 +51,8 @@ export default {
     CalendarGrid,
     CalendarDay,
     CalendarRow,
+    Home,
+    ProjectWorkHourFill,
     // SegementToolbar,
     // Text,
     // IconFont,

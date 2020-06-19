@@ -1,43 +1,79 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { View, Text, Modal, StyleSheet } from 'react-native';
-import { Dialog, DialogDefaultActions } from 'react-native-material-ui';
+import React, { PureComponent } from 'react';
+import { View, Text } from 'react-native';
+import { Modal } from 'antd-mobile';
 import defaultTemplateMapping from '../defaultTemplateMapping';
-import CellLayoutTemplate from '../TabTemplate/CellLayoutTemplate';
-import { DynamicBillForm } from 'yes-platform';
-import internationalWrap from '../../controls/InternationalWrap';
-import { getMappedComponentHOC } from 'yes'; // eslint-disable-line import/no-unresolved
+import PropTypes from 'prop-types';
+import Element from '../Element';
 
-class ModalTemplateForm extends DynamicBillForm {
-    onActionPress = (action) => {
-        const act = this.props.actions.find((item) => this.props.formatMessage(item.caption) === action);
-        this.onControlClick(act.key);
+class ModalTemplateForm extends PureComponent {
+    static contextTypes = {
+        onControlClick: PropTypes.func,
     }
-
-    buildChildren() {
-        const actions = this.props.actions.map((item) => this.props.formatMessage(item.caption));
+    static defaultProps = {
+        popup: false,
+        animationType: 'slide-up',
+        autoClose: false,
+    }
+    state = {
+        modalVisible: true,
+    }
+    onActionPress = (action) => {
+        // const act = this.props.actions.find((item) => this.props.formatMessage(item.caption) === action);
+        this.context.onControlClick(action);
+        if (this.props.autoClose) {
+            this.setState({
+                modalVisible: false,
+            })
+        }
+    }
+    onClose = () => {
+        this.props.onClose && this.props.onClose();
+    }
+    render() {
+        // const actions = this.props.actions.map((item) => this.props.formatMessage(item.caption));
+        const { title, content, popup, animationType, actions, formStatus, style } = this.props;
+        const acts = actions.map((action) => {
+            return {
+                text: action.text,
+                onPress: () => this.onActionPress(action.yigoid),
+            }
+        })
         return (
-            <View style={{ flex: 1, justifyContent: 'center', paddingLeft: 24, paddingRight: 24 }}>
-                <Dialog fullWidth style={{ container: { width: '100%' } }}>
-                    <Dialog.Title><Text>{this.props.formatMessage(this.props.title)}</Text></Dialog.Title>
-                    <Dialog.Content>
-                        <CellLayoutTemplate
-                            items={this.props.items}
-                            {...this.props}
-                        />
-                    </Dialog.Content>
-                    <Dialog.Actions>
-                        <DialogDefaultActions
-                            actions={actions}
-                            onActionPress={this.onActionPress}
-                        />
-                    </Dialog.Actions>
-                </Dialog>
-            </View>
+            <Modal
+                visible={this.state.modalVisible}
+                popup={popup}
+                animationType={animationType}
+                transparent
+                maskClosable={true}
+                onClose={this.onClose}
+                title={title}
+                footer={acts}
+                // wrapProps={{ onTouchStart: this.onWrapTouchStart }}
+                afterClose={this.onClose}
+            >
+                {formStatus === 'ok' ?
+                    <View style={[{ maxHeight: 500 }, style]}><Element meta={content} /></View> : null}
+            </Modal>
+            // <View style={{ flex: 1, justifyContent: 'center', paddingLeft: 24, paddingRight: 24 }}>
+            //     <Dialog fullWidth style={{ container: { width: '100%' } }}>
+            //         <Dialog.Title><Text>{this.props.formatMessage(this.props.title)}</Text></Dialog.Title>
+            //         <Dialog.Content>
+            //             <CellLayoutTemplate
+            //                 items={this.props.items}
+            //                 {...this.props}
+            //             />
+            //         </Dialog.Content>
+            //         <Dialog.Actions>
+            //             <DialogDefaultActions
+            //                 actions={actions}
+            //                 onActionPress={this.onActionPress}
+            //             />
+            //         </Dialog.Actions>
+            //     </Dialog>
+            // </View>
         );
     }
 }
 
-const WrappedModalTemplate = getMappedComponentHOC(internationalWrap(ModalTemplateForm));
-defaultTemplateMapping.reg('modal', WrappedModalTemplate);
-export default WrappedModalTemplate;
+defaultTemplateMapping.reg('modal', ModalTemplateForm);
+export default ModalTemplateForm;

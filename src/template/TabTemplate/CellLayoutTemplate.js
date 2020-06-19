@@ -121,6 +121,9 @@ class CellLayoutTemplate extends Component {  // eslint-disable-line
             extraProps.relatedId = item.visibleEqual.yigoid;
             extraProps.value = item.visibleEqual.value;
         }
+        if (item.type === 'element') {
+            return this.context.createElement(item);
+        }
         return (<S
             {...extraProps}
             key={item.key || item}

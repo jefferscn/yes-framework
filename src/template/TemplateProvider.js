@@ -12,10 +12,14 @@ export default class TemplateProvider extends PureComponent {
         };
     }
 
-    createElement = (obj) => {
+    createElement = (obj, props) => {
         if (obj && obj.type === 'element') {
             const C = this.props.CustomControls[obj.elementType];
-            return <C {...obj.elementProps} />;
+            if(!C) {
+                console.log(`ElementType ${obj.elementType} missing!`);
+                return null;
+            }
+            return <C {...obj.elementProps} {...props} />;
         }
         return obj;
     }
