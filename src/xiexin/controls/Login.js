@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 // import { Button } from 'react-native-material-ui';
 // eslint-disable-next-line import/no-unresolved
-import { Platform, StyleSheet, View, TextInput, Text, Image, Button } from 'react-native';
-import { propTypes, LoginWrap as loginWrap } from 'yes'; // eslint-disable-line
+import { Platform, StyleSheet, View, TextInput, Text, Image, Button, ImageBackground } from 'react-native';
+import { LoginWrap as loginWrap } from 'yes'; // eslint-disable-line
+import Icon from 'react-native-vector-icons/FontAwesome';
+import LoginBG from '../res/login_bg.png';
 
 const styles = StyleSheet.create({
     textinput: {
@@ -11,7 +13,62 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: '#8a8a8a',
         marginBottom: 20,
+        paddingLeft: 50,
     },
+    main: {
+        flexDirection: 'column',
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'stretch',
+    },
+    main_1: {
+        flexBasis: '38%',
+    },
+    main_2: {
+        flex: 1,
+        backgroundColor: 'white',
+    },
+    login: {
+        position: 'absolute',
+        width: '100%',
+        padding: 20,
+        top: -100,
+    },
+    logininner: {
+        paddingTop: 40,
+        paddingRight: 20,
+        paddingBottom: 80,
+        paddingLeft: 20,
+        borderRadius: 10,
+        backgroundColor: 'white',
+        boxShadow: '0 5px 5px #888888',
+    },
+    icon: {
+        position: 'absolute',
+        fontSize: 20,
+        left: 12,
+        top: 10,
+        color: 'skyblue',
+    },
+    loginText: {
+        paddingBottom: 40,
+        paddingLeft: 20,
+        fontSize: 24,
+        fontWeight: 'bold',
+    },
+    button: {
+        borderRadius: 20,
+        margin: 20,
+        overflow: 'hidden',
+    },
+    sysText: {
+        position: 'absolute',
+        top: -150,
+        color: 'white',
+        fontSize: 24,
+        width: '100%',
+        textAlign: 'center',
+    }
 });
 if (Platform.OS === 'web') {
     styles.textinput = [styles.textinput, {
@@ -24,7 +81,7 @@ class Login extends Component {
         this.state = {
             user: '',
             password: '',
-            corp:'000',
+            corp: '000',
             userTextInputBottomBorderColor: '#8a8a8a',
             passwordTextInputBottomBorderColor: '#8a8a8a',
             loginType: 'userAccount',
@@ -65,13 +122,13 @@ class Login extends Component {
     }
     handleClickLogin() {
         this.props.handleClickLogin(
-            `${this.state.corp}_${this.state.user}`, 
+            `${this.state.corp}_${this.state.user}`,
             this.state.password,
             {
                 OrgCode: this.state.corp,
             });
     }
-    changeLoginType =(loginType)=> {
+    changeLoginType = (loginType) => {
         this.setState({
             loginType,
         })
@@ -84,13 +141,68 @@ class Login extends Component {
             borderBottomColor: this.state.passwordTextInputBottomBorderColor,
         }];
         return (
+            <View style={styles.main}>
+                <View style={styles.main_1}>
+                    <ImageBackground style={{flex:1}} source={LoginBG} />
+                </View>
+                <View style={styles.main_2}>
+                    <Text style={styles.sysText}>欢迎登录</Text>
+                    <View style={styles.login}>
+                        <View style={styles.logininner}>
+                            <View>
+                                <Text style={styles.loginText}>登录</Text>
+                            </View>
+                            <View>
+                                <TextInput
+                                    keyboardType="email-address"
+                                    autoCapitalize="none"
+                                    value={this.state.user}
+                                    autoCorrect={false}
+                                    style={userTextInputStyle}
+                                    placeholder="用户名"
+                                    onChangeText={this.handleUserChange}
+                                    onFocus={this.onUserFocus}
+                                    onBlur={this.onUserBlur}
+                                    underlineColorAndroid="transparent"
+                                />
+                                <Icon name="user-circle" style={styles.icon} />
+                            </View>
+                            <View>
+                                <TextInput
+                                    value={this.state.password}
+                                    secureTextEntry
+                                    keyboardType="numeric"
+                                    style={passwordTextInputStyle}
+                                    placeholder="密码"
+                                    onChangeText={this.handlePasswordChange}
+                                    onFocus={this.onPasswordFocus}
+                                    onBlur={this.onPasswordBlur}
+                                    underlineColorAndroid="transparent"
+                                />
+                                <Icon name="lock" style={styles.icon} />
+                            </View>
+                            <View style={styles.button}>
+                                <Button
+                                    raised
+                                    primary
+                                    style={styles.button}
+                                    title="登录"
+                                    onPress={this.handleClickLogin}
+                                >登录</Button>
+                            </View>
+                        </View>
+                    </View>
+                </View>
+            </View>
+        )
+        return (
             <View
                 style={{
                     flex: 1,
                     flexGrow: 1,
                 }}
             >
-                {this.state.loginType==='userAccount' ? <View
+                {this.state.loginType === 'userAccount' ? <View
                     style={{
                         flex: 1,
                         // justifyContent: 'center',
@@ -193,7 +305,7 @@ class Login extends Component {
                             }}
                         >{this.props.companyName}</Text>
                     </View>
-                </View>: null}
+                </View> : null}
             </View>
         );
     }

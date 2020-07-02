@@ -64,6 +64,7 @@ export default (DEBUG, PATH, PORT = 3000) => {
                         path.resolve(__dirname, '../node_modules/yg-echarts/'),
                         path.resolve(__dirname, '../node_modules/yes-core/'),
                         path.resolve(__dirname, '../node_modules/yes-intf/'),
+                        path.resolve(__dirname, '../node_modules/idb/'),
                         path.resolve(__dirname, '../src'),
                         path.resolve(__dirname, '../entry.js'),
                         path.resolve(__dirname, '../main.js'),

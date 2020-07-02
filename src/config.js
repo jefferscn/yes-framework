@@ -81,7 +81,7 @@ Util.alert = (title, msg) => {
     }]);
 };
 
-Util.showBillformInModal = (formKey, oid = -1, status = 'EDIT', parentId) => {
+Util.showBillformInModal = (formKey, oid = -1, status = 'EDIT', params) => {
     if (ModalCfg && ModalCfg.includes(formKey)) {
         showModal(
             <TemplateView
@@ -89,6 +89,7 @@ Util.showBillformInModal = (formKey, oid = -1, status = 'EDIT', parentId) => {
                 oid={oid}
                 status={status}
                 showType="modal"
+                params={params}
             />
         );
         return ;

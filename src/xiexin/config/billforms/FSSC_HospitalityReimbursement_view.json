@@ -54,7 +54,6 @@
         "elementProps": {
             "ignoreItems": [
                 "ShowWFLog",
-                "showInvoice",
                 "New",
                 "Close"
             ]

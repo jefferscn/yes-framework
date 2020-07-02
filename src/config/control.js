@@ -16,7 +16,6 @@ import Searchbar from '../controls/Searchbar';
 import ListView from '../controls/ListView';
 import ListText from '../controls/ListText';
 import GridView from '../controls/GridView';
-import Home1 from '../controls/Home1';
 // import CalendarGrid from '../controls/CalendarGrid';
 // import CalendarDay from '../controls/CalendarDay';
 // import CalendarRow from '../controls/CalendarRow';
@@ -35,6 +34,7 @@ import AttachmentList from '../controls/AttachmentList';
 import CheckboxLabel from '../controls/CheckboxLabel';
 import FilterBlock from '../controls/FilterBlock';
 import FlexBox from '../controls/FlexBox';
+import AttachmentAction from '../controls/AttachmentAction';
 import VisibleRelated from '../controls/VisibleRelated';
 
 // const { ListText } = ListComponents;
@@ -59,7 +59,6 @@ export default {
     Searchbar,
     ListView,
     GridView,
-    Home1,
     // CalendarGrid,
     // CalendarDay,
     // CalendarRow,
@@ -81,5 +80,6 @@ export default {
     FilterBlock,
     FlexBox,
     VisibleRelated,
+    AttachmentAction,
     ...controls,
 };

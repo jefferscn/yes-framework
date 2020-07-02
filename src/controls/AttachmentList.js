@@ -1,27 +1,70 @@
 import React, { PureComponent } from 'react';
-import { GridWrap, GridRowWrap, ControlWrap } from 'yes-intf';
-import { Image, StyleSheet, TouchableWithoutFeedback } from 'react-native';
+import { GridWrap, GridRowWrap, ControlWrap, BackHandler } from 'yes-intf';
+import { Image, StyleSheet, TouchableWithoutFeedback, View, Text } from 'react-native';
 import PropTypes from 'prop-types';
+import WxImageViewer from 'react-wx-images-viewer';
+// import AttachmentAction from './AttachmentAction';
+import { Svr } from 'yes-core';
+import Element from '../template/Element';
+import { History } from 'yes-web';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const styles = StyleSheet.create({
-
+    image: {
+        flex: 1,
+    },
+    container: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        paddingLeft: 12,
+    },
+    title: {
+        paddingLeft: 16,
+        paddingTop: 8,
+        paddingBottom: 8,
+    },
+    noattach: {
+        backgroundColor: 'white',
+        height: 40,
+        padding: 16,
+        alignItems: 'center',
+        justifyContent: 'center',
+        display: 'flex',
+    },
+    item: {
+        width: '25%',
+        paddingRight: 12,
+        paddingBottom: 12,
+        height: 100,
+    },
+    icon: {
+        position: 'absolute',
+        right: 20,
+        top: 10,
+    }
 });
 
 @ControlWrap
 class AttachmentFile extends PureComponent {
-    isImage = ()=> {
+    static contextTypes = {
+        getBillForm: PropTypes.func,
+    }
+    isImage = () => {
         const { fileType } = this.props;
-        return fileType==='jpg' || fileType==='png';
+        return fileType === 'jpg' || fileType === 'png';
     }
     render() {
-        const { displayValue, fileType } = this.props;
-        if(this.isImage()) {
+        const { displayValue, fileType, style } = this.props;
+        if (this.isImage()) {
+            const billform = this.context.getBillForm();
+            const formKey = billform.form.formKey;
+            const url = `${Svr.SvrMgr.AttachURL}?path=${displayValue}&formKey=${formKey}&service=DownloadImage&mode=2`;
             return (
-                <Image src={displayValue} />
+                <Image source={url} style={[styles.image, style]} />
             )
         }
         return (
-            <View>
+            <View style={{flex:1}}>
                 <Text>{fileType}</Text>
             </View>
         )
@@ -35,18 +78,21 @@ class AttachmentItem extends PureComponent {
         fileType: null,
         url: null
     }
-    onRemove = ()=> {
-
+    onRemove = () => {
+        this.props.remove && this.props.remove();
+    }
+    onPress = () => {
+        this.props.onPress && this.props.onPress(this.props.rowIndex);
     }
     render() {
-        const { removable, onPress, imageUrl, fileType } = this.props;
+        const { removable, fileUrl, fileType, style } = this.props;
         return (
-            <TouchableWithoutFeedback onPress={onPress}>
-                <View>
-                    <AttachmentFile fileType={fileType}  yigoid={imageUrl} />
-                    {removable?<TouchableWithoutFeedback onPress={this.onRemove}>
-
-                    </TouchableWithoutFeedback>: null}
+            <TouchableWithoutFeedback onPress={this.onPress}>
+                <View style={[styles.item,style]}>
+                    <AttachmentFile fileType={fileType} yigoid={fileUrl} />
+                    {removable ? <TouchableWithoutFeedback onPress={this.onRemove}>
+                        <Icon name="times" size={20} style={styles.icon} />
+                    </TouchableWithoutFeedback> : null}
                 </View>
             </TouchableWithoutFeedback>
         )
@@ -56,32 +102,109 @@ class AttachmentItem extends PureComponent {
 class AttachmentList extends PureComponent {
     static contextTypes = {
         getOwner: PropTypes.func,
+        getBillForm: PropTypes.func,
     }
     static defualtProps = {
         removable: true,
     }
+    state = {
+        showPreview: false,
+    }
+    onViewerClose = () => {
+        if (this.props.inline) {
+            this.props.onRequestClose && this.props.onRequestClose();
+            return;
+        }
+        this.setState({
+            showPreview: false,
+        });
+        this.backHandler && this.backHandler();
+    }
+    onViewerOpen = (index) => {
+        this.setState({
+            showPreview: true,
+            index,
+        });
+        History.push(`#AttachmentList_modal`);
+        this.backHandler = BackHandler.addPreEventListener(() => {
+            // this.backHandler();
+            this.onViewerClose();
+        })
+    }
     render() {
-        const { data, fileName, filePath, isVirtual, containerStyle, removable, editable } = this.props;
+        const { data, fileName, filePath, isVirtual, title,
+            containerStyle, removable, editable, inline
+        } = this.props;
         const grid = this.context.getOwner();
-        if(!grid) {
+        if (!grid) {
             return null;
         }
-        const fileNameIndex = grid.getCellIndexByKey(fileName);
-        return (
-            <View style={[styles.container, containerStyle]}>
-                {
-                    data.map((item, index) => {
-                        const fn = item.getIn([index, 'data', fileNameIndex, 0]);
-                        const fnArray = fn.split(',');
-                        const fileType = fnArray.length>1 ? fnArray[fnArray.length-1]: null;
-                        return (<AttachmentItem
-                            rowIndex={index}
-                            removable={removable && editable}
-                            fileType = {fileType}
-                            fileUrl = {filePath}
-                        />);
-                    })
+        const actionMeta = {
+            type: 'element',
+            elementType: 'AttachmentAction',
+            elementProps: {
+                style: {
+                    width: 85,
+                    display: 'inline-block',
                 }
+            }
+        };
+        const billform = this.context.getBillForm();
+        const formKey = billform.form.formKey;
+        const filePathIndex = grid.getCellIndexByKey(filePath);
+        const fileNameIndex = grid.getCellIndexByKey(fileName);
+        const files = data.map((item) => {
+            const path = item.getIn(['data', filePathIndex, 0]);
+            return `${Svr.SvrMgr.AttachURL}?path=${path}&formKey=${formKey}&service=DownloadImage&mode=2`
+        }).toJSON();
+        if (inline) {
+            if (files.length > 0) {
+                return (<WxImageViewer
+                    onClose={this.onViewerClose}
+                    zIndex={1000}
+                    urls={files}
+                    index={0}
+                />);
+            }
+            return (
+                <TouchableWithoutFeedback onPress={this.onViewerClose}>
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                        <Text style={styles.noattach}>没有附件,点击关闭</Text>
+                    </View>
+                </TouchableWithoutFeedback>
+            );
+        }
+        return (
+            <View>
+                {title ? <View >
+                    <Text style={[styles.title]} >{title}</Text>
+                </View> : null}
+                <View style={[styles.container, containerStyle]}>
+                    {
+                        data.map((item, index) => {
+                            const fn = item.getIn(['data', fileNameIndex, 0]);
+                            const fnArray = fn.split('.');
+                            const fileType = fnArray.length > 1 ? fnArray[fnArray.length - 1] : null;
+                            return (<AttachmentItem
+                                rowIndex={index}
+                                removable={removable && editable}
+                                fileType={fileType}
+                                fileUrl={filePath}
+                                onPress={this.onViewerOpen}
+                            />);
+                        })
+                    }
+                    {
+                        this.state.showPreview ? <WxImageViewer
+                            onClose={this.onViewerClose}
+                            zIndex={1000}
+                            urls={files}
+                            index={this.state.index} /> : null
+                    }
+                    {
+                        editable ? <Element meta={actionMeta} /> : null
+                    }
+                </View>
             </View>
         )
     }

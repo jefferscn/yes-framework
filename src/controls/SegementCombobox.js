@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
     },
     segementComboboxItemSelected: {
         color: "#800080",
+        fontWeight: 'bold',
     },
     segementComboboxItemSelected1: {
         backgroundColor: "#800080",

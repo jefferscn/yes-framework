@@ -75,7 +75,9 @@
     display: flex;
     flex-direction: column;
 }
-
+.transparent .am-modal-content {
+    background: transparent;
+}
 .fullscreen .am-modal-content {
     display: flex;
     flex: 1;
@@ -90,4 +92,9 @@
 
 .pulltorefresh {
     overflow: auto;
+}
+
+.wx-image-viewer .viewer-cover{
+    /* background: transparent; */
+    opacity: 0.5;
 }

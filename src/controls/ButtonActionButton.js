@@ -4,23 +4,24 @@ import PropTypes from 'prop-types';
 import { ActionSheet } from 'antd-mobile';
 import { History } from 'yes-web';
 import { BackHandler } from 'yes-intf';
+import VisibleRelated from './VisibleRelated';
 
 export default class ButtonActionButton extends PureComponent {
     static contextTypes = {
         onControlClick: PropTypes.func,
     }
-    onButtonClick = (index)=> {
+    onButtonClick = (index) => {
         const { buttonKey } = this.props;
         const item = buttonKey[index];
         this.backHandler();
-        if(item) {
+        if (item) {
             this.context.onControlClick(item.key);
         }
     }
     controlClick = () => {
         const { buttonKey } = this.props;
         if (Array.isArray(buttonKey)) {
-            const items = buttonKey.map(item=>item.text);
+            const items = buttonKey.map(item => item.text);
             items.push('取消');
             ActionSheet.showActionSheetWithOptions({
                 options: items,
@@ -39,9 +40,14 @@ export default class ButtonActionButton extends PureComponent {
         this.context.onControlClick(buttonKey);
     }
     render() {
-        const { style } = this.props;
-        return (
+        const { style, buttonKey } = this.props;
+        if (Array.isArray(buttonKey)) {
+            return (
+                <ActionButton onPress={this.controlClick} style={style} />
+            )
+        }
+        return <VisibleRelated yigoid={buttonKey}>
             <ActionButton onPress={this.controlClick} style={style} />
-        )
+        </VisibleRelated>
     }
 }

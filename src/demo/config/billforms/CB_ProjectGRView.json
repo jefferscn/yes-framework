@@ -21,7 +21,7 @@
         "type": "element",
         "elementType": "OpenFormActionButton",
         "elementProps": {
-            "formKey": "CP_ProjectGR",
+            "formKey": "CB_ProjectGR*1",
             "oid": "new",
             "status": "NEW",
             "style": {

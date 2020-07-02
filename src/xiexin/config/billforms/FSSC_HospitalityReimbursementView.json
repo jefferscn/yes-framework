@@ -72,7 +72,6 @@
             "yigoid": "list",
             "primaryKey": "NO_LV",
             "style": {
-                "marginLeft": 12,
                 "flex": 1
             },
             "secondKey": [
@@ -81,6 +80,13 @@
             "tertiaryKey": [
                 "PaymentDeptID"
             ],
+            "RowElement": {
+                "type": "element",
+                "elementType": "CardListItem",
+                "elementProps": {
+                    
+                }
+            },
             "rightElement": {
                 "type": "element",
                 "elementType": "FlexBox",

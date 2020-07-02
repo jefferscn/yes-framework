@@ -7,7 +7,7 @@ import Login from '../controls/Login';
 // import HasDetailSign from '../controls/HasDetailSign';
 // import MultiControl from '../controls/MultiControl';
 import Home from '../controls/Home';
-import FilterBlock from '../controls/FilterBlock';
+// import FilterBlock from '../controls/FilterBlock';
 import FlexBox from '../controls/FlexBox';
 import FromTo from '../controls/FromTo';
 import ImageCarouselGrid from '../controls/ImageCarouselGrid';
@@ -27,6 +27,8 @@ import TreeDictRow from '../controls/TreeDictRow';
 import FeeTypeIcon from '../controls/FeeTypeIcon';
 import BooksTypeImage from '../controls/BooksTypeImage';
 import SourceTypeIcon from '../controls/SourceTypeIcon';
+import CardListItem from '../controls/CardListItem';
+import FSSC_ShowInvoiceReport from '../controls/FSSC_ShowInvoiceReport';
 // import GpsText from '../controls/GpsText';
 // import MapText from '../controls/MapText';
 // import Image from '../controls/Image';
@@ -59,7 +61,7 @@ export default {
     // HasDetailSign,
     // MultiControl,
     FSSC_InvoiceEntry,
-    FilterBlock,
+    // FilterBlock,
     FlexBox,
     FromTo,
     ImageCarouselGrid,
@@ -76,6 +78,8 @@ export default {
     BooksTypeImage,
     FeeTypeIcon,
     SourceTypeIcon,
+    CardListItem,
+    FSSC_ShowInvoiceReport,
     // GpsText,
     // MapText,
     // Image,

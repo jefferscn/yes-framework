@@ -234,7 +234,7 @@ class AntdListView extends PureComponent {
                             </View>
                         </View> : null
                 }
-                <View style={{ flex: 1 }}>
+                {/* <View style={{ flex: 1 }}> */}
                     <ListView
                         style={style}
                         initialListSize={20}
@@ -249,10 +249,10 @@ class AntdListView extends PureComponent {
                             />: false
                         }
                     />
-                    {
+                    {/* {
                         (editable && !hideAction) ? <ActionButton onPress={this.addRow} /> : null
-                    }
-                </View>
+                    } */}
+                {/* </View> */}
             </View>
         )
     }

@@ -22,6 +22,7 @@ import CalendarDay from '../controls/CalendarDay';
 import CalendarRow from '../controls/CalendarRow';
 import ProjectWorkHourFill from '../controls/CB_ProjectWorkHourFill';
 import Home from '../controls/Home';
+import Home1 from '../controls/Home1';
 // import SegementToolbar from '../controls/SegementToolbar';
 // import IconFont from '../font';
 // import MoneyWithCurrency from '../controls/MoneyWithCurrency';
@@ -52,6 +53,7 @@ export default {
     CalendarDay,
     CalendarRow,
     Home,
+    Home1,
     ProjectWorkHourFill,
     // SegementToolbar,
     // Text,

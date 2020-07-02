@@ -126,6 +126,7 @@ const styles = StyleSheet.create({
     },
     container: {
         flexDirection: 'row',
+        boxShadow: 'inset 1px -4px 4px lightgrey',
     },
     filterContainer: {
         flexDirection: 'row',

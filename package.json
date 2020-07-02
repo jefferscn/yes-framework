@@ -39,6 +39,7 @@
     "react-m-carousel": "^2.0.3",
     "react-native-root-siblings": "^4.0.6",
     "react-native-screens": "^2.4.0",
+    "react-native-web": "0.0.0-d33e107ba",
     "react-viewer": "^3.2.1",
     "react-wx-images-viewer": "^1.0.6",
     "yes-common": "^2.0.0",

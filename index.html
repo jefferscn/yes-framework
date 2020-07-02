@@ -28,12 +28,34 @@
             overflow: hidden;
             display: flex;
         }
+
+        .noselect {
+
+            -webkit-touch-callout: none;
+            /* iOS Safari */
+
+            -webkit-user-select: none;
+            /* Chrome/Safari/Opera */
+
+            -khtml-user-select: none;
+            /* Konqueror */
+
+            -moz-user-select: none;
+            /* Firefox */
+
+            -ms-user-select: none;
+            /* Internet Explorer/Edge */
+
+            user-select: none;
+            /* Non-prefixed version, currently not supported by any browser */
+
+        }
     </style>
     <script type="text/javascript" src="cordova.js"></script>
     <!--css引用-->
 </head>
 
-<body class="um-vp" ontouchstart>
+<body class="um-vp noselect" ontouchstart>
     <div id="app" class="page-container flexbox"></div>
     <div id="modal"></div>
 </body>

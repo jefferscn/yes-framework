@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { CustomBillForm } from 'yes-comp-react-native-web';
-import { View } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import CardCarouselGrid from './CarouselGrid';
 
 class Home1 extends PureComponent {

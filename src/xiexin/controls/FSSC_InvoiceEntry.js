@@ -69,7 +69,7 @@ export default class InvoiceEntry extends PureComponent {
             const oid = billform.form.getOID();
             const file = await this.context.getPicture(0, 60, 1000);
             const result = await this.context.uploadImage(formKey, oid, file.file, file.name);
-            await this.context.onValueChange("Invoice", result);
+            await this.context.onValueChange("HeadPath", result);
             await this.context.onControlClick("InvoiceIndentity");
         }
         if (v == 3) {//import from database
@@ -110,7 +110,7 @@ export default class InvoiceEntry extends PureComponent {
                 // afterClose={this.onClose}
             >
                 <ComboBox
-                    yigoid="SelectType"
+                    yigoid="SelectType_NODB4Other"
                     inline
                     imgElement={<SourceTypeIcon style={{paddingRight: 8}}/>}
                     onChange={this.onSelectTypeChange}
@@ -145,7 +145,7 @@ export default class InvoiceEntry extends PureComponent {
                                 type: 'element',
                                 elementType: 'ChainDict',
                                 elementProps: {
-                                    yigoid: 'FeeTypeID',
+                                    yigoid: 'FeeTypeID_NODB4Other',
                                     layoutStyles: {
                                         paddingRight: 12,
                                         paddingleft: 12,
@@ -166,7 +166,7 @@ export default class InvoiceEntry extends PureComponent {
                                 <CheckboxLabel style={styles.label} falseLabel="费用类型不符" yigoid="IsCompliance" />,
                                 <CheckboxLabel style={styles.label} trueLabel="已引用" yigoid="IsUsed" />,
                             ]}
-                            rightElement={<ListImage yigoid="cell7" style={{ width: 60, height: 40 }} />}
+                            rightElement={<ListImage yigoid="cell7" containerStyle={{justifyContent: 'center'}} style={{ width: 60, height: 40 }} />}
                             showArrow={false}
                             leftElement={
                                 <GridSelect yigoid="select" />

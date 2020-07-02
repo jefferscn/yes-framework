@@ -55,7 +55,8 @@
         "HasCost",
         "Balance",
         "Explain",
-        "Grid1"
+        "Grid1",
+        "AttachmentGrid"
     ],
     "controls": {
         "Region": {
@@ -65,6 +66,13 @@
                 "elementProps": {
                 }
             }
+        },
+        "AttachmentGrid": {
+            "control": "AttachmentList",
+            "fileName": "UploadName",
+            "filePath": "Path",
+            "title": "附件",
+            "removable": true
         },
         "Grid1": {
             "control": "GridView",

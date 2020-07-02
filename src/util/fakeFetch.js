@@ -14,6 +14,6 @@ window.fetch = function () {
     } catch (ex) {
         console.log(ex);
     }
-    request.headers && (request.headers['X-YIGO-Source'] = 'h5');
+    // request.headers && (request.headers['X-YIGO-Source'] = 'h5');
     return originFetch.apply(this, arguments);
 }

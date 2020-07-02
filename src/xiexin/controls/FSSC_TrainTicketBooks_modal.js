@@ -11,7 +11,7 @@ export default class FSSC_TrainTicketBooks extends PureComponent {
             wrapClassName="fullscreen"
             maskClosable={false}
         >
-            <NormalTemplate {...meta} />
+            <NormalTemplate {...meta} {...this.props} />
         </Modal>);
     }
 }

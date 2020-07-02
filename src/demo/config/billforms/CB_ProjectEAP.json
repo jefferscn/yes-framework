@@ -54,7 +54,42 @@
         "IsTravel",
         "Describe",
         "SumMoney",
-        "Grid5"
+        "Grid5",
+        {
+            "isGroup": true,
+            "caption": "出差内容",
+            "visibleRelation": "SplitPanel2",
+            "items": [
+                "remark2",
+                "remark3",
+                "jtgj",
+                "jtgjtxt"
+            ]
+        },
+        {
+            "isGroup": true,
+            "caption": "酒店/旅馆",
+            "visibleRelation": "SplitPanel2",
+            "items": [
+                "TheMonthPeriod",
+                "roomNum",
+                "roomprice",
+                "daysNum",
+                "roomsMoney"
+            ]
+        },
+        {
+            "isGroup": true,
+            "caption": "往返交通",
+            "visibleRelation": "SplitPanel2",
+            "items": [
+                "TheMonthPeriod",
+                "roomNum",
+                "roomprice",
+                "daysNum",
+                "roomsMoney"
+            ]
+        }
     ],
     "controls": {
         "Grid5": {
