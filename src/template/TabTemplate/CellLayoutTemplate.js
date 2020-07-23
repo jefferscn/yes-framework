@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 // import { TableView, Section } from 'react-native-tableview-simple';
 import { List } from 'antd-mobile';
 import { Components } from 'yes-comp-react-native-web'; // eslint-disable-line import/no-unresolved
@@ -140,6 +140,7 @@ class CellLayoutTemplate extends Component {  // eslint-disable-line
     }
 
     render() {
+        const { style } = this.props;
         if (this.props.isGrid) {
             return (<View style={{ flex: 1 }}>
                 <DynamicControl
@@ -151,8 +152,8 @@ class CellLayoutTemplate extends Component {  // eslint-disable-line
             </View>);
         }
         return (
-            <ScrollView>
-                <List>
+            // <ScrollView>
+                <List style={StyleSheet.flatten(style)}>
                     {
                         this.props.items.map((section) =>
                             (
@@ -166,7 +167,7 @@ class CellLayoutTemplate extends Component {  // eslint-disable-line
                         )
                     }
                 </List>
-            </ScrollView>
+            // </ScrollView>
         );
     }
 }

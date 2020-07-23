@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { ActionSheet } from 'antd-mobile';
 import { History } from 'yes-platform';
 import { BackHandler } from 'yes';
+import Compressor from 'compressorjs';
+import path from 'path';
 
 export default class CordovaProvider extends Component {
     static childContextTypes = {
@@ -25,8 +27,8 @@ export default class CordovaProvider extends Component {
         };
     }
 
-    getTopPadding = ()=> {
-        if(device.platform.toLowerCase()==='android') {
+    getTopPadding = () => {
+        if (device.platform.toLowerCase() === 'android') {
             return this.props.overlayWebview ? 20 : 0;
         }
         return 20;
@@ -68,13 +70,13 @@ export default class CordovaProvider extends Component {
         });
     }
 
-    getCurrentAddress= async () => {
+    getCurrentAddress = async () => {
         const position = await this.getPosition();
         const address = await this.contenxt.getPositionString({ lng: position.longitude, lat: position.latitude });
         return address;
     }
 
-    getPicture = (cameraDirection = Camera.Direction.BACK, quality = 50, targetWidth = 500, ) => {
+    getPicture = (cameraDirection = Camera.Direction.BACK, quality = 50, targetWidth = 1000,) => {
         return new Promise((resolve, reject) => {
             const onFileSelect = (imageURI) => {
                 // if (imageURI.startsWith('content://')) {
@@ -83,27 +85,56 @@ export default class CordovaProvider extends Component {
                 //         },
                 //         (e)=>console.log(e))
                 // } else {
-                    window.resolveLocalFileSystemURL(imageURI, (fileEntry) => {
-                        fileEntry.file((file) => {
-                            const reader = new FileReader();
-                            reader.onloadend = function (e) {
-                                const theFile = new Blob([e.target.result], { type: 'image/jpeg' });
-                                resolve({
-                                    file: theFile,
-                                    name: fileEntry.name,
+                ActionSheet.close();
+                this.backHandler();
+                window.resolveLocalFileSystemURL(imageURI, (fileEntry) => {
+                    fileEntry.file((file) => {
+                        //file.localURL
+                        const reader = new FileReader();
+                        reader.onloadend = function (e) {
+                            const fileName = path.basename(file.localURL);
+                            let mimeType = file.type;
+                            if (!mimeType) {
+                                const extName = path.extname(file.localURL).toLowerCase();
+                                if (extName === '.jpg' || extName === '.jpeg') {
+                                    mimeType = "image/jpeg";
+                                }
+                                if (extName === '.png') {
+                                    mimeType = "image/png"
+                                }
+                            }
+                            const theFile = new Blob([e.target.result], { type: mimeType });
+                            try {
+                                new Compressor(theFile, {
+                                    quality: quality / 100,
+                                    maxWidth: targetWidth,
+                                    success(result) {
+                                        resolve({
+                                            file: result,
+                                            name: fileName,
+                                        });
+                                    },
+                                    error(err) {
+                                        reject(err);
+                                    }
                                 });
-                            };
-                            reader.readAsArrayBuffer(file);
-                        }, (e) => {
-                            reject(e);
-                        });
+                            } catch (ex) {
+                                reject(ex.message);
+                            }
+                        };
+                        reader.readAsArrayBuffer(file);
                     }, (e) => {
                         reject(e);
                     });
+                }, (e) => {
+                    reject(e);
+                });
                 // }
             };
             const onSelectFileError = (message) => {
-                reject(message);
+                ActionSheet.close();
+                this.backHandler();
+                reject('usercancel');
             };
             const onActionSheetPress = (index) => {
                 const cameraOptions = {
@@ -144,14 +175,28 @@ export default class CordovaProvider extends Component {
             this.backHandler = BackHandler.addPreEventListener(() => {
                 ActionSheet.close();
                 this.backHandler();
-                reject('cancel');
+                reject('usercancel');
             });
         });
     }
-    
+
     componentDidMount() {
-        if(this.props.overlayWebview) {
+        if (this.props.overlayWebview) {
             StatusBar.overlaysWebView(true);
+        }
+        if (this.props.statusbarStyle) {
+            switch (this.props.statusbarStyle) {
+                case 'black':
+                    StatusBar.styleLightContent();
+                    break;
+                default:
+                    StatusBar.styleDefault();
+            }
+        }
+        if (device.platform == 'iOS') {
+            document.body.classList.add('ios');
+        } else {
+            document.body.classList.add('android');
         }
     }
 

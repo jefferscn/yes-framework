@@ -1,5 +1,6 @@
 {
-    "formTemplate": "normal",
+    "formTemplate": "custom",
+    "control": "FSSC_ExpenseAccountBill",
     "head": {
         "type": "element",
         "elementType": "Header",

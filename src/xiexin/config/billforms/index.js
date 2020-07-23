@@ -17,25 +17,51 @@ import FSSC_RepayGetLoanList  from './FSSC_RepayGetLoanList.json';
 import FSSC_TrainTicketBooks from './FSSC_TrainTicketBooks.json';
 import FSSC_TrainTicketBooks_modal from './FSSC_TrainTicketBooks_modal.json';
 import FSSC_ShowInvoiceReport from './FSSC_ShowInvoiceReport.json';
+import FSSC_AirTicketBooks from './FSSC_AirTicketBooks.json';
+import FSSC_TaxiBooks from './FSSC_TaxiBooks.json';
+import FSSC_OnlineItineraryBooks from './FSSC_OnlineItineraryBooks.json';
+import FSSC_CoachBooks from './FSSC_CoachBooks.json';
+import FSSC_CommunicationBooks from './FSSC_CommunicationBooks.json';
+import FSSC_TravelReimbursement from './FSSC_TravelReimbursement.json';
+import FSSC_SubsidyReimbursement from './FSSC_SubsidyReimbursement.json';
+import FSSC_GeneralReimbursement from './FSSC_GeneralReimbursement.json';
+import FSSC_CateringBooks from './FSSC_CateringBooks.json';
+import FSSC_ShipTicketBooks from './FSSC_ShipTicketBooks.json';
+import FSSC_TravelAllowanceBooks from './FSSC_TravelAllowanceBooks.json';
+import FSSC_GeneralBooks from './FSSC_GeneralBooks.json';
+import FSSC_WFLog from './FSSC_WFLog.json';
 
 export default {
     default: defaultForm,
     FSSC_ExpenseAccountBillView,
     FSSC_ExpenseAccountBill,
     FSSC_BooksQuery,
-    FSSC_BooksCreate,
+    FSSC_BooksCreate_modal: FSSC_BooksCreate,
     FSSC_HotelBooks,
-    FSSC_InvoiceEntry,
+    FSSC_InvoiceEntry_modal: FSSC_InvoiceEntry,
     SRM_OFFERView,
     FSSC_InvoiceQuery,
     FSSC_HospitalityReimbursement,
-    FSSC_ExpenseAccountBillImportV,
-    FSSC_RbmBookImportView,
+    FSSC_ExpenseAccountBillImportV_modal: FSSC_ExpenseAccountBillImportV,
+    FSSC_RbmBookImportView_modal: FSSC_RbmBookImportView,
     TDefaultWorkFlowView,
     FSSC_VATinvoice,
-    FSSC_RepayGetLoanList,
+    FSSC_RepayGetLoanList_modal: FSSC_RepayGetLoanList,
     FSSC_TrainTicketBooks,
     FSSC_TrainTicketBooks_modal,
-    FSSC_ShowInvoiceReport,
+    FSSC_ShowInvoiceReport_modal: FSSC_ShowInvoiceReport,
     FSSC_AllReimbursementView,
+    FSSC_AirTicketBooks,
+    FSSC_TaxiBooks,
+    FSSC_OnlineItineraryBooks,
+    FSSC_CoachBooks,
+    FSSC_CommunicationBooks,
+    FSSC_TravelReimbursement,
+    FSSC_SubsidyReimbursement,
+    FSSC_GeneralReimbursement,
+    FSSC_CateringBooks,
+    FSSC_ShipTicketBooks,
+    FSSC_TravelAllowanceBooks,
+    FSSC_GeneralBooks,
+    FSSC_WFLog_modal: FSSC_WFLog,
 };

@@ -1,8 +1,10 @@
 import React, { PureComponent } from 'react';
 import { ComboboxWrap } from 'yes-intf';
 import { Popover } from 'antd-mobile';
-import { View, StyleSheet, TouchableWithoutFeedback, Text } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Popup from 'rmc-picker/es/Popup';
+import { PickerView } from 'antd-mobile';
 
 const { Item } = Popover;
 
@@ -11,11 +13,13 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         height: 48,
         backgroundColor: 'white',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     item: {
         flex: 1,
         justifyContent: 'flex-end',
-        paddingLeft:16,
+        paddingLeft: 16,
         paddingRight: 16,
         alignItems: 'center',
     },
@@ -32,56 +36,103 @@ const styles = StyleSheet.create({
         marginTop: 10,
         marginBottom: 10,
     },
-    segementCombobox: {
+    content: {
         flexDirection: 'row',
     },
-    segementComboboxItem: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+    text: {
+        fontSize: 11,
     },
-    segementComboboxText: {
-        paddingTop: 12,
-        paddingBottom: 10,
-    },
-    indicator: {
-        width: 28,
-        paddingTop: 5,
-    },
-    segementComboboxItemSelected: {
-        color: "#800080",
-    },
-    segementComboboxItemSelected1: {
-        backgroundColor: "#800080",
-    },
-
-});
-
-class PopoverCombobox extends PureComponent {
-    onValueChange = (v) => {
-       this.props.onChange  && this.props.onChange(v.props.value);
-       this.props.onChangePopupState(false);
+    icon: {
+        paddingLeft: 7,
     }
-    onVisibleChange=(visible)=> {
-        this.props.onChangePopupState && this.props.onChangePopupState(visible);
+});
+class PickerView1 extends PureComponent {
+    state = {
+        value: this.props.value,
+    }
+    getValue = () => {
+        return this.state.value;
+    }
+    onChange = (v)=> {
+        this.setState({
+            value: v,
+        });
     }
     render() {
-        const { showPopup, items, displayValue, placeholder } = this.props;
         return (
-            <Popover
-                visible={showPopup}
-                onVisibleChange={this.onVisibleChange}
-                onSelect={this.onValueChange}
-                placement="bottom"
-                overlay={
-                    items.map((item)=><Item key={item.get('value')} value={item.get('value')}>{item.get('caption')}</Item>)
-                }
-            >
-                <View style={[styles.item, styles.segementCombobox]}>
-                    <Text style={styles.text}>{displayValue || placeholder || ""}</Text>
-                    <Icon name="angle-down" size={16} />
-                </View>
-            </Popover>
+            <PickerView {...this.props} onChange={this.onChange} value={this.state.value} />
+        )
+    }
+}
+class PopoverCombobox extends PureComponent {
+    static defaultProps = {
+        type: 'popover',
+    }
+    onValueChange = (v) => {
+        this.props.onChange && this.props.onChange(v[0]);
+        this.props.onChangePopupState(false);
+    }
+    closeModal = ()=> {
+        this.props.onChangePopupState(false);
+    }
+    showModal = ()=> {
+        this.props.onChangePopupState(true);
+    }
+    render() {
+        const { showPopup, items, displayValue, placeholder, type, value, style, openTextStyle, openIconStyle } = this.props;
+        if (type === 'popover') {
+            return (
+                <Popover
+                    visible={showPopup}
+                    onVisibleChange={this.onVisibleChange}
+                    onSelect={this.onValueChange}
+                    placement="bottom"
+                    overlay={
+                        items.map((item) => <Item key={item.get('value')} value={item.get('value')}>{item.get('caption')}</Item>)
+                    }
+                >
+                    <View style={[styles.item, styles.segementCombobox]}>
+                        <Text style={styles.text}>{displayValue || placeholder || ""}</Text>
+                        <Icon name="angle-down" size={16} />
+                    </View>
+                </Popover>
+            );
+        }
+        const data = items.map((item) => {
+            return {
+                value: '' + item.get('value'),
+                label: item.get('caption')
+            }
+        });
+        const picker = (
+            <PickerView1
+                data={data}
+                cols={1}
+                cascade={false}
+                value={['' + value]}
+                title={this.props.caption}
+            />
+        );
+        return (
+            <View style={[styles.container, style]}>
+                <TouchableOpacity onPress={this.showModal}>
+                    <View style={styles.content}>
+                        <Text style={[styles.text, this.props.showPopup? openTextStyle: null ]}>{displayValue || placeholder}</Text>
+                        <Icon style={[styles.icon, this.props.showPopup? openIconStyle: null]} name={this.props.showPopup? "angle-up": "angle-down"} size={16} />
+                    </View>
+                </TouchableOpacity>
+                <Popup
+                    // wrapStyle={{color: 'red'}}
+                    className="ioslikepopup"
+                    picker={picker}
+                    visible={showPopup}
+                    placeholder="选择月份"
+                    onOk={this.onValueChange}
+                    onDismiss={this.closeModal}
+                    okText="确定"
+                    dismissText="取消"
+                />
+            </View>
         );
     }
 }

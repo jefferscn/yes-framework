@@ -1,0 +1,171 @@
+{
+    "formTemplate": "normal",
+    "head": {
+        "type": "element",
+        "elementType": "Header",
+        "elementProps": {
+            "canBack": true,
+            "titleElement": {
+                "type": "element",
+                "elementType": "FormTitle",
+                "elementProps": {
+                    "containerStyle": {
+                        "alignItems": "center",
+                        "justifyContent": "center"
+                    }
+                }
+            }
+        }
+    },
+    "items": [
+        "ReimbursementPersonID",
+        "Cause",
+        "PaymentMethod",
+        "ProjectID",
+        {
+            "isGroup": true,
+            "caption": "出差申请单",
+            "items": [
+                "ApplicationFormCode",
+                "RegionID",
+                "ApplicationDate",
+                {
+                    "type": "element",
+                    "elementType": "Button",
+                    "elementProps": {
+                        "yigoid": "Button1"
+                    }
+                }
+            ]
+        },
+        "Grid2",
+        {
+            "type": "element",
+            "elementType": "Button",
+            "elementProps": {
+                "yigoid": "Button4"
+            }
+        },
+        "AttachmentGrid",
+        "detail"
+    ],
+    "foot": {
+        "type": "element",
+        "elementType": "SegementToolbar",
+        "elementProps": {
+            "ignoreItems": [
+                "ShowWFLog",
+                "New",
+                "Close"
+            ]
+        }
+    },
+    "action": {
+        "type": "element",
+        "elementType": "VisibleFormEditable",
+        "elementProps": {
+            "element": {
+                "type": "element",
+                "elementType": "ButtonActionButton",
+                "elementProps": {
+                    "buttonKey": [
+                        {
+                            "text": "导入账本",
+                            "key": "Button3"
+                        },
+                        {
+                            "text": "新建账本",
+                            "key": "Button2"
+                        }
+                    ],
+                    "style": {
+                        "right": "50%",
+                        "transform": "translateX(30px)"
+                    }
+                }
+            }
+        }
+    },
+    "controls": {
+        "Grid2": {
+            "control": "GridView",
+            "showHead": true,
+            "headTitle": "关联借款单",
+            "useBodyScroll": true,
+            "hideAction": true,
+            "primaryKey": "cell5",
+            "secondKey": [
+                "celkl9"
+            ]
+        },
+        "AttachmentGrid": {
+            "control": "AttachmentList",
+            "fileName": "UploadName",
+            "filePath": "Path",
+            "title": "附件",
+            "removable": true
+        },
+        "detail": {
+            "control": "GridView",
+            "showHead": true,
+            "headTitle": "账本明细",
+            "useBodyScroll": true,
+            "hideAction": true,
+            "primaryKey": "IndexID_D",
+            "secondKey": [
+                "FeeType"
+            ],
+            "tertiaryKey": [
+                "SourcesOfBooks"
+            ],
+            "rightElement": {
+                "type": "element",
+                "elementType": "FlexBox",
+                "elementProps": {
+                    "direction": "column",
+                    "style": {
+                        "justifyContent": "space-between"
+                    },
+                    "items": [
+                        {
+                            "type": "element",
+                            "elementType": "SplitText",
+                            "elementProps": {
+                                "yigoid": "BookDate",
+                                "style": {
+                                    "fontSize": 12,
+                                    "paddingTop": 12,
+                                    "textAlign": "right"
+                                }
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "elementType": "MoneyWithCurrency",
+                            "elementProps": {
+                                "currencyField": {
+                                    "type": "element",
+                                    "elementType": "SplitText",
+                                    "elementProps": {
+                                        "yigoid": "CurrencyID_D",
+                                        "style": {
+                                            "fontSize": 12,
+                                            "paddingRight": 2,
+                                            "textAlign": "right"
+                                        }
+                                    }
+                                },
+                                "moneyField": "OriginalAmount",
+                                "containerStyle": {
+                                    "paddingBottom": 6,
+                                    "justifyContent": "flex-end",
+                                    "paddingRight": 0
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}

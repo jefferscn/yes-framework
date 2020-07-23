@@ -34,6 +34,9 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
+    "compressorjs": "^1.0.6",
+    "idb": "^5.0.2",
+    "image-compressor.js": "^1.1.4",
     "nuka-carousel": "^4.7.0",
     "rc-bmap": "^1.0.5",
     "react-m-carousel": "^2.0.3",
@@ -44,7 +47,7 @@
     "react-wx-images-viewer": "^1.0.6",
     "yes-common": "^2.0.0",
     "yes-comp-react-native-web": "^1.0.2",
-    "yes-core": "^3.0.2",
+    "yes-core": "^3.0.4",
     "yes-intf": "^3.0.6",
     "yes-web": "^3.0.1"
   },

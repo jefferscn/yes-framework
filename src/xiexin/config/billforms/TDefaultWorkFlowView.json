@@ -22,18 +22,65 @@
         "elementType": "GridView",
         "elementProps": {
             "yigoid": "Grid1",
-            "primaryKey": "Explain",
+            "primaryKey": {
+                "type": "element",
+                "elementType": "ListText",
+                "elementProps": {
+                    "yigoid": "BillDate",
+                    "style": {
+                        "fontSize": 9,
+                        "paddingTop": 12,
+                        "paddingLeft": 10
+                    }
+                }
+            },
+            "rowContainer": {
+                "type": "element",
+                "elementType": "BKContainer",
+                "elementProps": {
+                    "yigoid": "No"
+                }
+            },
+            "divider": false,
             "hideAction": true,
+            "showArrow": false,
             "clickMode": "dblclick",
             "style": {
-                "marginLeft": 12,
                 "flex": 1
             },
+            "rowStyle": {
+                "borderRadius": 5,
+                "backgroundColor": "aqua"
+            },
             "secondKey": [
-                "No"
+                {
+                    "type": "element",
+                    "elementType": "ListText",
+                    "elementProps": {
+                        "yigoid": "Explain",
+                        "style": {
+                            "fontSize": 10,
+                            "paddingTop": 12,
+                            "paddingLeft": 10
+                        }
+                    }
+                }
             ],
             "tertiaryKey": [
-                "Creator"
+                {
+                    "type": "element",
+                    "elementType": "ListText",
+                    "elementProps": {
+                        "yigoid": "Creator",
+                        "style": {
+                            "fontSize": 12,
+                            "fontWeight": "bold",
+                            "paddingTop": 12,
+                            "paddingLeft": 10,
+                            "paddingBottom": 15
+                        }
+                    }
+                }
             ],
             "rightElement": {
                 "type": "element",
@@ -46,14 +93,35 @@
                     "items": [
                         {
                             "type": "element",
-                            "elementType": "SplitText",
+                            "elementType": "FlexBox",
                             "elementProps": {
-                                "yigoid": "BillDate",
-                                "style": {
-                                    "fontSize": 12,
-                                    "paddingTop": 12,
-                                    "textAlign": "right"
-                                }
+                                "direction": "row",
+                                "items": [
+                                    {
+                                        "type": "element",
+                                        "elementType": "ListText",
+                                        "elementProps": {
+                                            "yigoid": "No",
+                                            "style": {
+                                                "fontSize": 9,
+                                                "paddingTop": 12,
+                                                "textAlign": "right"
+                                            }
+                                        }
+                                    },{
+                                        "type": "element",
+                                        "elementType": "AwesomeFontIcon",
+                                        "elementProps": {
+                                            "name": "angle-right",
+                                            "size": 9,
+                                            "style": {
+                                                "paddingTop": 12,
+                                                "paddingLeft": 7.5,
+                                                "paddingRight": 10
+                                            }
+                                        }
+                                    }
+                                ]
                             }
                         },
                         {
@@ -66,24 +134,35 @@
                                     "elementProps": {
                                         "yigoid": "Currency",
                                         "style": {
-                                            "fontSize": 12,
-                                            "paddingRight": 2,
-                                            "textAlign": "right"
+                                            "fontSize": 10,
+                                            "paddingRight": 10.5,
+                                            "textAlign": "right",
+                                            "display": "flex",
+                                            "alignItems": "center"
                                         }
                                     }
                                 },
-                                "moneyField": "Money",
+                                "moneyField": {
+                                    "type": "element",
+                                    "elementType": "SplitText",
+                                    "elementProps": {
+                                        "yigoid": "Money",
+                                        "style": {
+                                            "lineHeight": "unset",
+                                            "fontWeight": "bold"
+                                        }
+                                    }
+                                },
                                 "containerStyle": {
-                                    "paddingBottom": 6,
+                                    "paddingBottom": 16.5,
                                     "justifyContent": "flex-end",
-                                    "paddingRight": 0
+                                    "paddingRight": 11.5
                                 }
                             }
                         }
                     ]
                 }
-            },
-            "divider": true
+            }
         }
     }
 }

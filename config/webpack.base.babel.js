@@ -7,7 +7,7 @@ import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 export default (DEBUG, PATH, PORT = 3000) => {
     return ({
         resolve: {
-            extensions: ['.web.js', '.js'],
+            extensions: ['.web.js', '.js', '.jsx'],
             alias: {
                 'react-native': 'react-native-web',
                 'yes-platform': 'yes-web',
@@ -61,6 +61,7 @@ export default (DEBUG, PATH, PORT = 3000) => {
                         path.resolve(__dirname, '../node_modules/react-native-reanimated'),
                         path.resolve(__dirname, '../node_modules/react-native-screens'),
                         path.resolve(__dirname, '../node_modules/yes-comp-react-native-web'),
+                        path.resolve(__dirname, '../node_modules/react-wx-images-viewer'),
                         path.resolve(__dirname, '../node_modules/yg-echarts/'),
                         path.resolve(__dirname, '../node_modules/yes-core/'),
                         path.resolve(__dirname, '../node_modules/yes-intf/'),

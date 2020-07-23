@@ -7,6 +7,7 @@ import { Timeline, TextGrid, ComboBox, Button } from 'yes-comp-react-native-web'
 import HasDetailSign from '../controls/HasDetailSign';
 import MultiControl from '../controls/MultiControl';
 import GpsText from '../controls/GpsText';
+import AwesomeFontIcon from 'react-native-vector-icons/FontAwesome';
 import MapText from '../controls/MapText';
 import Image from '../controls/Image';
 import CellLayoutGridView from '../controls/CellLayoutGridView';
@@ -81,5 +82,6 @@ export default {
     FlexBox,
     VisibleRelated,
     AttachmentAction,
+    AwesomeFontIcon,
     ...controls,
 };

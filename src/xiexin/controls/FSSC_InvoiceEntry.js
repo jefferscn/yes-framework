@@ -3,14 +3,15 @@ import { Modal, NavBar, Icon } from 'antd-mobile';
 import PropTypes from 'prop-types';
 import GridView from '../../controls/GridView';
 import { ComboBox, ListComponents } from 'yes-comp-react-native-web';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, ActivityIndicator, Text } from 'react-native';
 import GridSelect from '../../controls/GridSelect';
 import SegementButtons from '../../controls/SegementButtons';
 import CheckboxLabel from '../../controls/CheckboxLabel';
 import FilterBlock from './FilterBlock';
-import { BackHandler } from 'yes-intf';
+import { BackHandler, Util } from 'yes-intf';
 import Header from '../../controls/Header';
 import SourceTypeIcon from './SourceTypeIcon';
+import { ActionSheet } from 'antd-mobile';
 
 const { ListImage } = ListComponents;
 
@@ -30,16 +31,18 @@ export default class InvoiceEntry extends PureComponent {
         uploadImage: PropTypes.func,
         onValueChange: PropTypes.func,
         onControlClick: PropTypes.func,
+        getContextComponent: PropTypes.func,
     }
     state = {
         step: 1,
         modalVisible: true,
+        selectType: null,
     }
     componentWillUnmount() {
-        this.backHandler && this.backHandler(); 
+        this.backHandler && this.backHandler();
     }
-    stepBack = ()=> {
-        this.backHandler && this.backHandler(); 
+    stepBack = () => {
+        this.backHandler && this.backHandler();
         this.setState({
             step: 1,
             modalVisible: true,
@@ -52,32 +55,68 @@ export default class InvoiceEntry extends PureComponent {
         this.props.onClose && this.props.onClose();
     }
     onSelectTypeChange = async (yigoid, v) => {
-        console.log(v);
+        this.backHandler && this.backHandler();
         this.backHandler = BackHandler.addPreEventListener(() => {
             this.stepBack();
+            this.backHandler =null;
         });
+        this.setState({
+            selectType: v,
+        })
         if (v == 2) {//picture
             const billform = this.context.getBillForm();
             if (!billform) {
                 return;
             }
-            this.setState({
-                modalVisible: false,
-                step: 2,
-            });
             const formKey = billform.form.formKey;
             const oid = billform.form.getOID();
-            const file = await this.context.getPicture(0, 60, 1000);
-            const result = await this.context.uploadImage(formKey, oid, file.file, file.name);
-            await this.context.onValueChange("HeadPath", result);
-            await this.context.onControlClick("InvoiceIndentity");
+            this.setState({
+                modalVisible: false,
+            });
+            let file = null;
+            try {
+                file = await this.context.getPicture(0, 60, 1000);
+            } catch (ex) {
+                if (ex !== 'usercancel') {
+                    Util.alert('错误', ex.messsage);
+                }
+                this.setState({
+                    step: 1,
+                    modalVisible: true,
+                });
+                return;
+            }
+            // const file = await this.context.getPicture(0, 60, 1000);
+            Util.safeExec(async () => {
+                try {
+                    const result = await this.context.uploadImage(formKey, oid, file.file, file.name);
+                    this.setState({
+                        step: 2,
+                    });
+                    await this.context.onValueChange("HeadPath", result);
+                    await this.context.onControlClick("InvoiceIndentity");
+                } catch (ex) {
+                    Util.alert('错误', ex.messsage);
+                    this.setState({
+                        step: 1,
+                        modalVisible: true,
+                    });
+                }
+            })
         }
         if (v == 3) {//import from database
             this.setState({
                 modalVisible: false,
                 step: 2,
             });
-            await this.context.onControlClick("Query");
+            //这里需要判断当前的InvoiceType是否为空
+            const invoiceType = this.context.getContextComponent('FeeType_NODB4Other');
+            if(invoiceType) {
+                if(!invoiceType.isNull()) {
+                    await this.context.onControlClick("Query");
+                }
+            }
+            // await this.context.onControlClick("Query");
         }
         if (v == 1) {//manual input`
             this.setState({
@@ -93,6 +132,7 @@ export default class InvoiceEntry extends PureComponent {
         });
     }
     render() {
+        const { formStatus } = this.props;
         if (this.state.step === 1) {
             return (<Modal
                 visible={this.state.modalVisible}
@@ -106,22 +146,24 @@ export default class InvoiceEntry extends PureComponent {
                     text: '取消',
                     onPress: this.onCancel,
                 }]}
-                // wrapProps={{ onTouchStart: this.onWrapTouchStart }}
-                // afterClose={this.onClose}
+            // wrapProps={{ onTouchStart: this.onWrapTouchStart }}
+            // afterClose={this.onClose}
             >
-                <ComboBox
-                    yigoid="SelectType_NODB4Other"
-                    inline
-                    imgElement={<SourceTypeIcon style={{paddingRight: 8}}/>}
-                    onChange={this.onSelectTypeChange}
-                    itemStyle={{
-                        height: 45,
-                        borderBottomWidth: 1,
-                        borderBottomColor: 'lightgrey',
-                        justifyContent: "center",
-                        alignItems: "center"
-                    }}
-                />
+                {formStatus === 'ok' ?
+                    <ComboBox
+                        yigoid="SelectType_NODB4Other"
+                        inline
+                        imgElement={<SourceTypeIcon style={{ paddingRight: 8 }} />}
+                        onChange={this.onSelectTypeChange}
+                        hideSelect
+                        itemStyle={{
+                            height: 45,
+                            borderBottomWidth: 1,
+                            borderBottomColor: 'lightgrey',
+                            justifyContent: "center",
+                            alignItems: "center"
+                        }}
+                    /> : <ActivityIndicator size="large" />}
             </Modal>);
         }
         if (this.state.step === 2) {//需要显示一个发票列表
@@ -136,11 +178,12 @@ export default class InvoiceEntry extends PureComponent {
                 >
                     <View style={{ flex: 1 }}>
                         <Header
-                            canBack = {true}
+                            canBack={true}
                             title={"发票列表"}
                             backHandler={this.stepBack}
                         />
                         <FilterBlock
+                            queryButton={this.state.selectType == "3" ? "Query" : null}
                             filterItems={[{
                                 type: 'element',
                                 elementType: 'ChainDict',
@@ -161,12 +204,12 @@ export default class InvoiceEntry extends PureComponent {
                             hideAction={true}
                             primaryKey={"cell1"}
                             secondKey={["cell4"]}
-                            tertiaryKey={["cell2", 
-                                "cell8", 
+                            tertiaryKey={["cell2",
+                                "cell8",
                                 <CheckboxLabel style={styles.label} falseLabel="费用类型不符" yigoid="IsCompliance" />,
                                 <CheckboxLabel style={styles.label} trueLabel="已引用" yigoid="IsUsed" />,
                             ]}
-                            rightElement={<ListImage yigoid="cell7" containerStyle={{justifyContent: 'center'}} style={{ width: 60, height: 40 }} />}
+                            rightElement={<ListImage yigoid="cell7" containerStyle={{ justifyContent: 'center' }} style={{ width: 60, height: 40 }} />}
                             showArrow={false}
                             leftElement={
                                 <GridSelect yigoid="select" />
@@ -185,7 +228,7 @@ export default class InvoiceEntry extends PureComponent {
                     </View>
                 </Modal>);
         }
-        if(this.state.step==3) {
+        if (this.state.step == 3) {
             return (<Modal
                 visible={this.state.modalVisible}
                 popup={true}
@@ -193,7 +236,7 @@ export default class InvoiceEntry extends PureComponent {
                 transparent
                 maskClosable={false}
                 // onClose={this.onClose}
-                title="发票类型"
+                title="提示信息"
                 footer={[{
                     text: '取消',
                     onPress: this.onCancel,
@@ -201,8 +244,11 @@ export default class InvoiceEntry extends PureComponent {
                 // wrapProps={{ onTouchStart: this.onWrapTouchStart }}
                 afterClose={this.onClose}
             >
-                <ComboBox
-                    yigoid="InvoiceType"
+                <View>
+                    <Text>暂不支持</Text>
+                </View>
+                {/* <ComboBox
+                    yigoid="InvoiceType_NODB4Other"
                     inline
                     onChange={this.onInvoiceTypeChange}
                     itemStyle={{
@@ -212,7 +258,7 @@ export default class InvoiceEntry extends PureComponent {
                         justifyContent: "center",
                         alignItems: "center"
                     }}
-                />
+                /> */}
             </Modal>);
         }
         return null;

@@ -41,9 +41,9 @@ function init() {
     }
 }
 
-function uninit() {
+async function uninit() {
     if (registrationID) {
-        unregister(registrationID, 'jpush');
+        await unregister(registrationID, 'jpush');
     }
 }
 

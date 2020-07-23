@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, Text } from 'react-native';
+import { View, ActivityIndicator } from 'react-native';
 import { Modal } from 'antd-mobile';
 import defaultTemplateMapping from '../defaultTemplateMapping';
 import PropTypes from 'prop-types';
@@ -32,12 +32,12 @@ class ModalTemplateForm extends PureComponent {
     render() {
         // const actions = this.props.actions.map((item) => this.props.formatMessage(item.caption));
         const { title, content, popup, animationType, actions, formStatus, style } = this.props;
-        const acts = actions.map((action) => {
+        const acts = actions ? actions.map((action) => {
             return {
                 text: action.text,
                 onPress: () => this.onActionPress(action.yigoid),
             }
-        })
+        }): undefined;
         return (
             <Modal
                 visible={this.state.modalVisible}
@@ -52,7 +52,9 @@ class ModalTemplateForm extends PureComponent {
                 afterClose={this.onClose}
             >
                 {formStatus === 'ok' ?
-                    <View style={[{ maxHeight: 500 }, style]}><Element meta={content} /></View> : null}
+                    <View style={[{ maxHeight: 500 }, style]}><Element meta={content} /></View> :
+                    <ActivityIndicator size="large" />
+                }
             </Modal>
             // <View style={{ flex: 1, justifyContent: 'center', paddingLeft: 24, paddingRight: 24 }}>
             //     <Dialog fullWidth style={{ container: { width: '100%' } }}>

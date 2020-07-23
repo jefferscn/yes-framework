@@ -30,7 +30,9 @@ class FilterButton extends PureComponent {
     }
     onClearCondition = () => {
         this.props.items.forEach((item) => {
-            this.context.onValueChange(item, null);
+            if (typeof item === 'string') {
+                this.context.onValueChange(item, null);
+            }
         })
     }
     onQuery = () => {
@@ -79,10 +81,12 @@ export default class FilterBlock extends PureComponent {
     }
     onConditionChange = (yigoid, v) => {
         const { queryButton } = this.props;
-        this.context.onControlClick(queryButton);
+        if (queryButton) {
+            this.context.onControlClick(queryButton);
+        }
     }
     async componentWillReceiveProps(props) {
-        if (props.formStatus === 'ok' && this.props.formStatus!=='ok') {
+        if (props.formStatus === 'ok' && this.props.formStatus !== 'ok') {
             const { defaultValue, queryButton } = props;
             if (defaultValue) {
                 for (let key in defaultValue) {
@@ -126,7 +130,7 @@ const styles = StyleSheet.create({
     },
     container: {
         flexDirection: 'row',
-        boxShadow: 'inset 1px -4px 4px lightgrey',
+        // boxShadow: 'inset 1px -4px 4px lightgrey',
     },
     filterContainer: {
         flexDirection: 'row',

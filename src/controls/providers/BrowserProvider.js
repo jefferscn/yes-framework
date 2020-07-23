@@ -2,25 +2,25 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, ImagePicker } from 'antd-mobile';
 import { showModal } from '../../SiblingMgr';
-import { History } from 'yes-web';
+import Compressor from 'compressorjs';
 
 class ImageSelect extends PureComponent {
-    onClose = ()=> {
+    onClose = () => {
         this.props.onClose && this.props.onClose();
     }
     render() {
         return (<Modal
-                    popup
-                    transitionName={'slide-up'}
-                    afterClose={this.onClose}
-                >
-                    <ImagePicker
-                        length="1"
-                        files={[]}
-                        onChange={onFileChange}
-                        onFail={onFail}
-                />
-                </Modal>);
+            popup
+            transitionName={'slide-up'}
+            afterClose={this.onClose}
+        >
+            <ImagePicker
+                length="1"
+                files={[]}
+                onChange={onFileChange}
+                onFail={onFail}
+            />
+        </Modal>);
     }
 }
 export default class BrowserProvider extends PureComponent {
@@ -37,21 +37,34 @@ export default class BrowserProvider extends PureComponent {
         };
     }
 
-    getPicture = () => {
+    getPicture = (cameraDirection, quality = 50, targetWidth = 1000,) => {
         return new Promise((resolve, reject) => {
-            const onFileChange = (files)=> {
-                if(files.length===0) {
+            const onFileChange = (files) => {
+                if (files.length === 0) {
                     reject('empty');
                     closeModal();
                     return;
                 }
-                resolve({
-                    file: files[0].file,
-                    name: files[0].file.name,
+                new Compressor(files[0].file, {
+                    quality: quality / 100,
+                    maxWidth: targetWidth,
+                    success(result) {
+                        resolve({
+                            file: result,
+                            name: result.name,
+                        });
+                    },
+                    error(err) {
+                        reject(err);
+                    }
                 });
+                // resolve({
+                //     file: files[0].file,
+                //     name: files[0].file.name,
+                // });
                 closeModal();
             }
-            const onFail = (ex)=> {
+            const onFail = (ex) => {
                 reject(ex);
             }
             const closeModal = showModal(
@@ -66,7 +79,7 @@ export default class BrowserProvider extends PureComponent {
                         files={[]}
                         onChange={onFileChange}
                         onFail={onFail}
-                />
+                    />
                 </Modal>)
 
         })

@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import {
-    View, StyleSheet, Text,
+    View, StyleSheet, Text, ScrollView,
     TouchableHighlight, PanResponder, LayoutAnimation,
     Dimensions
 } from 'react-native';
@@ -20,6 +20,7 @@ import BooksTypeImage from './BooksTypeImage';
 import BadgeText from '../../controls/BadgeText'
 import { allList, selectedList, saveSelectedList } from '../res/entrylist';
 import AwesomeFontIcon from 'react-native-vector-icons/FontAwesome';
+import Header from '../../controls/Header';
 
 const { ListText } = ListComponents;
 
@@ -482,14 +483,15 @@ class EntryListManager extends PureComponent {
     }
     render() {
         return (<View style={{ flex: 1, backgroundColor: '#e9e9e9' }}>
-            <NavBar
+            {/* <NavBar
                 className={(this.context.getTopPadding && this.context.getTopPadding()) ? 'toppadding' : null}
                 mode="light"
                 icon={<Icon type="left" />}
                 onLeftClick={this.props.onClose}
             >
                 全部应用
-                    </NavBar>
+                    </NavBar> */}
+            <Header headerStyle={{ backgroundColor: 'white' }} title="全部应用" canBack backHandler={this.props.onClose} />
             <FavoriteLine
                 changeEditStatus={this.changeEditStatus}
                 list={this.state.selectedList}
@@ -536,7 +538,7 @@ class EntryList extends PureComponent {
         text: '更多',
         category: 'system',
         favorite: true,
-        color: '#FFB74D'
+        color: '#FD9B00'
     }
     onEntryPress = (entry) => {
         if (entry.key === 'more') {//用户点击更多
@@ -633,6 +635,9 @@ class ImageCarousel extends PureComponent {
         return (
             <CustomBillForm formKey="FSSC_SlideShowList" oid="-1" status="DEFAULT">
                 <ImageCarouselGrid
+                    needThumbnail={false}
+                    w={1000}
+                    h={400}
                     style={{ height: 150, width: '100%' }}
                     yigoid="detail"
                     imageColumn="ImgPath"
@@ -650,16 +655,18 @@ export default class Home extends PureComponent {
         return (
             <View style={styles.page}>
                 <ImageCarousel />
-                <EntryList
-                    list={allList}
-                    selectedList={selectedList}
-                    onChange={this.onChange}
-                    iconSize={34}
-                    iconStyle={styles.icon}
-                    entryStyle={styles.entryStyle}
-                />
-                <WhiteSpace size="md" />
-                <TodoList />
+                <ScrollView style={styles.page}>
+                    <EntryList
+                        list={allList}
+                        selectedList={selectedList}
+                        onChange={this.onChange}
+                        iconSize={34}
+                        iconStyle={styles.icon}
+                        entryStyle={styles.entryStyle}
+                    />
+                    <WhiteSpace size="md" />
+                    <TodoList />
+                </ScrollView>
             </View>
         )
     }

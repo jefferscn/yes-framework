@@ -36,31 +36,79 @@ export default class ListViewItem extends PureComponent {
     }
 
     render() {
+        const { containerView } = this.props;
+        let container = null;
+
         if (this.props.detailElement) {
+            if (containerView) {
+                container = React.cloneElement(containerView, {
+                    style: [styles.container, this.props.containerStyle]
+                }, [
+                    this.renderLeftElement(),
+                    this.renderCenterElement(),
+                    this.renderRightElement(),
+                    this.renderArrow(),
+                    this.renderExtra(),
+                ]);
+            } else {
+                container = (<View style={[styles.container, this.props.containerStyle]}>
+                    {this.renderLeftElement()}
+                    {this.renderCenterElement()}
+                    {this.renderRightElement()}
+                    {this.renderArrow()}
+                    {this.renderExtra()}
+                </View>);
+
+            }
             return (<View style={[this.props.divider ? [styles.divider, this.props.dividerStyle] : {}]}>
                 <TouchableOpacity onPress={this.onPress} pressRetentionOffset={pressRetentionOffset}>
-                    <View style={[styles.container, this.props.containerStyle]}>
+                    {
+                        container
+                    }
+                    {/* <View style={[styles.container, this.props.containerStyle]}>
                         {this.renderLeftElement()}
                         {this.renderCenterElement()}
                         {this.renderRightElement()}
                         {this.renderArrow()}
                         {this.renderExtra()}
-                    </View>
+                    </View> */}
                 </TouchableOpacity>
                 {
                     this.renderDetail()
                 }
             </View>)
         }
+        if (containerView) {
+            container = React.cloneElement(containerView, {
+                style: [styles.container, this.props.divider ? [styles.divider, this.props.dividerStyle] : {}, this.props.containerStyle]
+            }, [
+                this.renderLeftElement(),
+                this.renderCenterElement(),
+                this.renderRightElement(),
+                this.renderArrow(),
+                this.renderExtra(),
+            ]);
+        } else {
+            container = (<View style={[styles.container, this.props.divider ? [styles.divider, this.props.dividerStyle] : {}, this.props.containerStyle]}>
+                {this.renderLeftElement()}
+                {this.renderCenterElement()}
+                {this.renderRightElement()}
+                {this.renderArrow()}
+                {this.renderExtra()}
+            </View>);
+        }
         return (
             <TouchableOpacity onPress={this.onPress} pressRetentionOffset={pressRetentionOffset}>
-                <View style={[styles.container, this.props.divider ? [styles.divider, this.props.dividerStyle] : {}, this.props.containerStyle]}>
+                {
+                    container
+                }
+                {/* <View style={[styles.container, this.props.divider ? [styles.divider, this.props.dividerStyle] : {}, this.props.containerStyle]}>
                     {this.renderLeftElement()}
                     {this.renderCenterElement()}
                     {this.renderRightElement()}
                     {this.renderArrow()}
                     {this.renderExtra()}
-                </View>
+                </View> */}
             </TouchableOpacity>
         );
     }

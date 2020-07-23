@@ -27,13 +27,37 @@
                 "type": "element",
                 "elementType": "OpenFormActionButton",
                 "elementProps": {
-                    "formKey": "FSSC_HospitalityReimbursement",
-                    "oid": "new",
-                    "status": "NEW",
                     "style": {
                         "right": "50%",
                         "transform": "translateX(30px)"
-                    }
+                    },
+                    "multiple": true,
+                    "items": [
+                        {
+                            "formKey": "FSSC_HospitalityReimbursement",
+                            "oid": "new",
+                            "text": "招待费",
+                            "status": "NEW"
+                        },
+                        {
+                            "formKey": "FSSC_TravelReimbursement",
+                            "oid": "new",
+                            "text": "差旅费",
+                            "status": "NEW"
+                        },
+                        {
+                            "formKey": "FSSC_SubsidyReimbursement",
+                            "oid": "new",
+                            "text": "补贴",
+                            "status": "NEW"
+                        },
+                        {
+                            "formKey": "FSSC_GeneralReimbursement",
+                            "oid": "new",
+                            "text": "通用",
+                            "status": "NEW"
+                        }
+                    ]
                 }
             }
         }
@@ -60,7 +84,35 @@
             "comboboxId": "Status_NODB4Other",
             "hasMore": true,
             "moreItems": [
-                "PersonnelID_NODB4Other"
+                "FormKey_NODB4Other",
+                {
+                    "type": "element",
+                    "elementType": "AntdListItem",
+                    "elementProps": {
+                        "title": "期间",
+                        "className": "celllayout",
+                        "extra": {
+                            "type": "element",
+                            "elementType": "DateRangeSelect",
+                            "elementProps": {
+                                "style": {
+                                    "paddingLeft": 15,
+                                    "alignItems": "flex-start"
+                                },
+                                "showIcon": false,
+                                "startDateField": "BillDate_NODB4Other",
+                                "endDateField": "BillDate_Comp2_NODB4Other",
+                                "placeholder": "期间",
+                                "openIconStyle": {
+                                    "color": "#3D8AD0"
+                                },
+                                "openTextStyle": {
+                                    "color": "#3D8AD0"
+                                }
+                            }
+                        }
+                    }
+                }
             ],
             "queryButton": "Query"
         }
@@ -83,9 +135,7 @@
             "RowElement": {
                 "type": "element",
                 "elementType": "CardListItem",
-                "elementProps": {
-                    
-                }
+                "elementProps": {}
             },
             "rightElement": {
                 "type": "element",

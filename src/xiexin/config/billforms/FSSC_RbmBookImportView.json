@@ -6,13 +6,33 @@
         "elementProps": {
             "yigoid": "Grid1",
             "showHead": true,
+            "removeable": false,
             "headTitle": "账本明细",
             "useBodyScroll": true,
             "hideAction": true,
             "clickMode": "select",
             "primaryKey": "AccountBill",
-            "secondKey": ["FSSC_FeeType"],
-            "tertiaryKey": ["cell12"],
+            "secondKey": [
+                "FSSC_FeeType",
+                {
+                    "type": "element",
+                    "elementType": "ListText",
+                    "elementProps": {
+                        "yigoid": "NoCheckedReason",
+                        "emptyStr": "",
+                        "style" : {
+                            "fontSize": 11,
+                            "color": "red",
+                            "display": "flex",
+                            "paddingLeft": 12,
+                            "alignItems":"center"
+                        }
+                    }
+                }
+            ],
+            "tertiaryKey": [
+                "cell12"
+            ],
             "leftElement": {
                 "type": "element",
                 "elementType": "GridSelect",
@@ -72,8 +92,10 @@
     },
     "popup": true,
     "maskClosable": true,
-    "actions": [{
-        "text": "导入",
-        "yigoid": "Button1"
-    }]
+    "actions": [
+        {
+            "text": "导入",
+            "yigoid": "Button1"
+        }
+    ]
 }

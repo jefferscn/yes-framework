@@ -33,6 +33,9 @@ const styles = StyleSheet.create({
     icon: {
         width: 24,
         textAlign: 'center',
+    },
+    lightMode: {
+        color: 'white',
     }
 });
 
@@ -40,6 +43,7 @@ class Header extends PureComponent {
     static defaultProps = {
         titleMode: 'flex',//flex=使用 flex布局，absolute=使用absolute布局
         canBack: true,
+        mode: 'dark',
     }
     static contextTypes = {
         createElement: PropTypes.func,
@@ -50,7 +54,7 @@ class Header extends PureComponent {
             return this.props.leftElement;
         }
         if (this.props.canBack) {
-            return <HeadBackButton onPress={this.props.backHandler}/>;
+            return <HeadBackButton iconStyle={this.props.mode==='light'?styles.lightMode: null} onPress={this.props.backHandler}/>;
         }
         return null;
     }
@@ -59,7 +63,12 @@ class Header extends PureComponent {
             return this.context.createElement(this.props.titleElement);
         }
         if (this.props.title) {
-            return <HeadTitle style={[this.props.titleMode === 'flex' ? styles.flexTitle : styles.absoluteTitle, this.props.titleStyle]} title={this.props.title} />;
+            return <HeadTitle style={[this.props.titleMode === 'flex' ? styles.flexTitle : styles.absoluteTitle, 
+                this.props.titleStyle]} title={this.props.title}
+                textStyle={[
+                    this.props.mode==='light'? styles.lightMode: null,
+                ]}
+                 />;
         }
         return null;
     }
@@ -92,11 +101,11 @@ class Header extends PureComponent {
 
 class HeaderBackButton extends PureComponent {
     render() {
-        const { onPress } = this.props;
+        const { onPress, style, iconStyle } = this.props;
         return (
             <TouchableOpacity onPress = {onPress} >
-                <View style={styles.headerBack}>
-                    <Icon style={styles.icon} size={24} name="angle-left" />
+                <View style={[styles.headerBack, style]}>
+                    <Icon style={[styles.icon, iconStyle]} size={24} name="angle-left" />
                 </View>
             </TouchableOpacity>
         )
@@ -118,7 +127,7 @@ class HeadBackButton extends PureComponent {
     }
     render() {
         return (
-            <HeaderBackButton onPress={this.onPress} />
+            <HeaderBackButton {...this.props} onPress={this.onPress} />
         )
     }
 }
@@ -129,7 +138,9 @@ class HeadTitle extends PureComponent {
     }
     render() {
         return (
-            <View style={[styles.title, this.props.style]}><Text>{this.props.title}</Text></View>
+            <View style={[styles.title, this.props.style]}>
+                <Text style={this.props.textStyle}>{this.props.title}</Text>
+            </View>
         )
     }
 }

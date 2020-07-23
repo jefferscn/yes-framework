@@ -226,6 +226,9 @@ const formExt = {
         if (this.getOID() == -1 || this.operationState === YIUI.Form_OperationState.New) { // 非具体单据
             const data = await YIUI.DocService.newDocument(this.getFormKey(), this.paras, this.getParentForm());
             const doc = YIUI.DataUtil.fromJSONDoc(data);
+            if (this.type === YIUI.Form_Type.Entity) {
+                this.setOID(doc.oid);
+            }
             this.setDocument(doc);
             if (onLoad) {
                 await this.eval(onLoad, cxt);

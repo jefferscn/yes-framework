@@ -23,10 +23,10 @@ export default class ActionButton extends PureComponent {
     render() {
         const { style } = this.props;
         return (
-            <TouchableOpacity onPress={this.props.onPress} >
-                <View style={[styles.container, style]}>
+            <TouchableOpacity style={[styles.container, style]} onPress={this.props.onPress} >
+                {/* <View style={[styles.container, style]}> */}
                     <Icon name='plus' style={styles.icon} />
-                </View>
+                {/* </View> */}
             </TouchableOpacity>
         )
     }

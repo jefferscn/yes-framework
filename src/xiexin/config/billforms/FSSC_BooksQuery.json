@@ -9,6 +9,9 @@
         "elementType": "Header",
         "elementProps": {
             "canBack": true,
+            "headerStyle": {
+                "borderBottomWidth": 0
+            },
             "titleElement": {
                 "type": "element",
                 "elementType": "FormTitle",
@@ -30,8 +33,15 @@
                     "type": "element",
                     "elementType": "PopoverCombobox",
                     "elementProps": {
-                        "yigoid": "Type",
+                        "type": "popup",
+                        "yigoid": "Type_NODB4Other",
                         "placeholder": "类型",
+                        "layoutStyles": {
+                            "justifyContent": "center"
+                        },
+                        "textStyles": {
+                            "fontSize": 11
+                        },
                         "style": {
                             "flex": 1
                         }
@@ -41,8 +51,15 @@
                     "type": "element",
                     "elementType": "PopoverCombobox",
                     "elementProps": {
-                        "yigoid": "IsLinked",
+                        "type": "popup",
+                        "yigoid": "IsLinked_NODB4Other",
                         "placeholder": "状态",
+                        "layoutStyles": {
+                            "justifyContent": "center"
+                        },
+                        "textStyles": {
+                            "fontSize": 11
+                        },
                         "style": {
                             "flex": 1
                         }
@@ -50,25 +67,28 @@
                 },
                 {
                     "type": "element",
-                    "elementType": "Seperator",
-                    "elementProps": {
-                        "type": "row"
-                    }
-                },
-                {
-                    "type": "element",
                     "elementType": "DateRangeSelect",
                     "elementProps": {
-                        "startDateField": "StartDate",
-                        "endDateField": "EndDate",
-                        "placeholder": "期间"
+                        "startDateField": "StartDate_NODB4Other",
+                        "endDateField": "EndDate_NODB4Other",
+                        "placeholder": "期间",
+                        "value": "last week",
+                        "style": {
+                            "flex": 1,
+                            "alignItems": "center",
+                            "justifyContent": "center"
+                        },
+                        "openIconStyle": {
+                            "color": "#3D8AD0"
+                        },
+                        "openTextStyle": {
+                            "color": "#3D8AD0"
+                        }
                     }
                 }
             ],
             "style": {
-                "height": 45,
-                "borderBottomWidth": 1,
-                "borderBottomColor": "lightgrey"
+                "height": 45
             },
             "hasMore": false,
             "queryButton": "Query"
@@ -96,6 +116,7 @@
             "primaryKey": "BooksNO",
             "clickMode": "button",
             "clickYigoId": "BooksNO",
+            "removeable": false,
             "secondKey": [
                 "DeptID2"
             ],
@@ -139,7 +160,8 @@
                     "direction": "column",
                     "style": {
                         "justifyContent": "space-between",
-                        "paddingRight": 8
+                        "paddingRight": 8,
+                        "marginLeft": 8
                     },
                     "items": [
                         {

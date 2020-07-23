@@ -29,6 +29,13 @@ import BooksTypeImage from '../controls/BooksTypeImage';
 import SourceTypeIcon from '../controls/SourceTypeIcon';
 import CardListItem from '../controls/CardListItem';
 import FSSC_ShowInvoiceReport from '../controls/FSSC_ShowInvoiceReport';
+import BKContainer from '../controls/BKContainer';
+import Setting from '../controls/Setting';
+import BottomTabBar from '../controls/BottomTabBar';
+import TabCenterIcon from '../controls/TabCenterIcon';
+import WorkflowList from '../controls/WorkflowList';
+import FSSC_ExpenseAccountBill from '../controls/FSSC_ExpenseAccountBill';
+import AntdListItem from '../controls/AntdListItem';
 // import GpsText from '../controls/GpsText';
 // import MapText from '../controls/MapText';
 // import Image from '../controls/Image';
@@ -80,6 +87,13 @@ export default {
     SourceTypeIcon,
     CardListItem,
     FSSC_ShowInvoiceReport,
+    BKContainer,
+    BottomTabBar,
+    Setting,
+    TabCenterIcon,
+    WorkflowList,
+    FSSC_ExpenseAccountBill,
+    AntdListItem,
     // GpsText,
     // MapText,
     // Image,

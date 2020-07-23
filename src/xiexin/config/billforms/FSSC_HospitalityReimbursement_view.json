@@ -1,5 +1,17 @@
 {
     "formTemplate": "normal",
+    "items1": [
+        {
+            "type": "element",
+            "elementType": "FlexBox",
+            "elementProps": {
+                "direction": "column",
+                "style": {
+
+                }
+            }
+        }
+    ],
     "head": {
         "type": "element",
         "elementType": "Header",
@@ -46,6 +58,7 @@
                 "yigoid": "Button4"
             }
         },
+        "AttachmentGrid",
         "detail"
     ],
     "foot": {
@@ -53,7 +66,6 @@
         "elementType": "SegementToolbar",
         "elementProps": {
             "ignoreItems": [
-                "ShowWFLog",
                 "New",
                 "Close"
             ]
@@ -92,10 +104,17 @@
             "headTitle": "关联借款单",
             "useBodyScroll": true,
             "hideAction": true,
-            "primaryKey": "cell5",
+            "primaryKey": "LoanBillNO",
             "secondKey": [
-                "celkl9"
+                "RemainAmount","ReversalAmount"
             ]
+        },
+        "AttachmentGrid": {
+            "control": "AttachmentList",
+            "fileName": "UploadName",
+            "filePath": "Path",
+            "title": "附件",
+            "removable": true
         },
         "detail": {
             "control": "GridView",

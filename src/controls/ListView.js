@@ -5,7 +5,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { ListView, PullToRefresh } from 'antd-mobile';
-import { View, ActivityIndicator, StyleSheet } from 'react-native';
+import { View, ActivityIndicator, StyleSheet, Text } from 'react-native';
 // import { propTypes } from 'yes'; // eslint-disable-line
 import { ListRowWrap as listRowWrap, ListWrap, DynamicControl, GridWrap } from 'yes';
 import { ListComponents } from 'yes-comp-react-native-web';
@@ -13,6 +13,7 @@ import { ListComponents } from 'yes-comp-react-native-web';
 import ListViewItem from './ListViewItem';
 
 const { ListText } = ListComponents;
+
 class AntdListView extends PureComponent {
     static propTypes = {
         yigoid: PropTypes.string,
@@ -205,6 +206,12 @@ class AntdListView extends PureComponent {
             });
         }
     }
+    renderFoot = () => {
+        return !this.props.hasMore ?
+            (<View style={styles.foot}>
+                <Text>没有更多数据</Text>
+            </View>) : null;
+    }
     render() {
         const { controlState, layoutStyles, style, useBodyScroll } = this.props;
         if (controlState && controlState.get('isVirtual')) {
@@ -226,6 +233,7 @@ class AntdListView extends PureComponent {
                 contentContainerStyle={{
                     backgroundColor: 'lightgray',
                 }}
+                renderFooter={this.renderFoot}
                 // pullToRefresh
                 pullToRefresh={this.props.onRefresh ? <PullToRefresh
                     refreshing={false}
@@ -277,7 +285,13 @@ const styles = StyleSheet.create({
     tertiaryText: {
         fontSize: 10,
         color: 'rgba(0,0,0,0.5)',
-    }
+    },
+    foot: {
+        height: 36,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'white',
+    } 
 });
 
 // export const GridView = GridWrap(AntdListView);

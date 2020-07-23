@@ -1,9 +1,9 @@
 {
-    "sessionKey": "test",
-    "serverPath_":"http://192.168.43.191:8089/yigo",
-    "serverPath":"http://dev.bokesoft.com:18097/fssc",
-    "serverPath____":"http://dev.bokesoft.com:52222/yigo",
-    "serverPath__":"http://172.24.0.149:8888/yigo/",
+    "sessionKey": "xiexin",
+    "serverPath": "http://dev.bokesoft.com:18097/fssc",
+    "serverPath_": "http://45.119.60.194:9676/",
+    "serverPath____": "http://dev.bokesoft.com:52222/yigo",
+    "serverPath__": "http://172.24.0.149:8888/yigo/",
     "wechat": {
         "signurl": "http://localhost:3001/wechatsign/com.bokesoft.test"
     },
@@ -15,6 +15,7 @@
         "apiKey": "ZMI5WqsClmocGngGEklykT56"
     },
     "cordova": {
-        "overlayWebview": true
+        "overlayWebview": true,
+        "statusbarStyle": "default"
     }
 }

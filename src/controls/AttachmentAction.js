@@ -1,10 +1,29 @@
 import React, { PureComponent } from 'react';
 import { ImagePicker } from 'antd-mobile';
-import { attachmentActionWrap } from 'yes-intf';
+import { attachmentActionWrap, Util } from 'yes-intf';
+import Compressor from 'compressorjs';
 
 class AttachmentAction extends PureComponent {
-    onAddImage = (files)=> {
-        this.props.addAttachment(files[0].file);
+    onAddImage = (files) => {
+        Util.safeExec(async () => {
+            const compress = new Promise((resolve, reject) => {
+                new Compressor(files[0].file, {
+                    quality: 100,
+                    maxWidth: 1000,
+                    success(result) {
+                        resolve({
+                            file: result,
+                            name: files[0].file.name,
+                        });
+                    },
+                    error(err) {
+                        reject(err);
+                    }
+                });
+            });
+            const f = await compress;
+            await this.props.addAttachment(f.file);
+        });
     }
     render() {
         const { style } = this.props;

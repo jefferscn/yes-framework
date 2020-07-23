@@ -5,3 +5,4 @@ import './NormalTemplate';
 import './CustomTemplate';
 import './ListTemplate';
 import './GuideTemplate';
+import './AutoTemplate';

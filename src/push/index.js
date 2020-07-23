@@ -16,15 +16,16 @@ const _init = ()=> {
     }
 };
 
-const _uninit = ()=> {
+const _uninit = async ()=> {
     if(ProjectConfig.baidupush && ProjectConfig.baidupush.apiKey) {
-        baidupush.uninit();
-        return;
+        await baidupush.uninit();
     }
     if(ProjectConfig.jpush) {
-        jpush.uninit();
-        return;
+        await jpush.uninit();
     }
+    AppDispatcher.dispatch({
+        type: 'LOGOUT',
+    });
 };
 
 export const init = () => {
@@ -33,7 +34,7 @@ export const init = () => {
             case 'LOGINED'://登录之后需要注册deviceId
                 _init();
                 break;
-            case 'LOGOUTED'://登出之后需要注销deviceId
+            case 'XIEXINLOGOUT'://登出之后需要注销deviceId
                 _uninit();
                 break;
         }

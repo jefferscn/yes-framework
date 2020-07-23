@@ -26,6 +26,7 @@ function injectStackNavigator(navigator) {
         return action;
     }
 }
+
 const defaultCardRoute = {
     DynamicDetail: {
         screen: withNavigation(DynamicView),
@@ -79,20 +80,22 @@ const buildTabNavigator = (tabConfig) => {
     const tabs = {};
     for (let tab of tabConfig.tabs) {
         const page = buildScreen(tab);
-        page.navigationOptions = ({ navigation }) => ({
-            tabBarIcon: tab.icon ? ({
-                tintColor,
-                focused,
-                horizontal,
-            }) => (
-                    <IconFontIcon
-                        name={tab.icon}
-                        size={22}
-                        style={{ color: focused ? '#008CD7' : '#aaa' }}
-                    />
-                ) : null,
-            tabBarLabel: tab.label,
-        });
+        if (!page.navigationOptions) {
+            page.navigationOptions = ({ navigation }) => ({
+                tabBarIcon: tab.icon ? ({
+                    tintColor,
+                    focused,
+                    horizontal,
+                }) => (
+                        <IconFontIcon
+                            name={tab.icon}
+                            size={22}
+                            style={{ color: focused ? '#008CD7' : '#aaa' }}
+                        />
+                    ) : null,
+                tabBarLabel: tab.label,
+            });
+        }
         tabs[tab.key] = page;
     }
     // if (!tabConfig.tabPosition || tabConfig.tabPosition === "top") {
@@ -189,6 +192,12 @@ const buildScreen = (config) => {
             return buildTabNavigator(config);
         case 'billform':
             return buildYIGOBillformScreen(config);
+        case 'button':
+            const result = () => null;
+            result.navigationOptions = {
+                tabBarButtonComponent: Controls[config.tabControl],
+            }
+            return result;
         default:
             return buildControlScreen(config);
     }

@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { GridWrap, GridRowWrap, ControlWrap, BackHandler } from 'yes-intf';
+import { GridWrap, GridRowWrap, ControlWrap, BackHandler, Util } from 'yes-intf';
 import { Image, StyleSheet, TouchableWithoutFeedback, View, Text } from 'react-native';
 import PropTypes from 'prop-types';
 import WxImageViewer from 'react-wx-images-viewer';
@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
         paddingLeft: 16,
         paddingTop: 8,
         paddingBottom: 8,
+        height: 35,
     },
     noattach: {
         backgroundColor: 'white',
@@ -49,16 +50,22 @@ class AttachmentFile extends PureComponent {
     static contextTypes = {
         getBillForm: PropTypes.func,
     }
+    buildThumbnail = (url)=> {
+        if(Util.buildThumbnailUrl) {
+            return Util.buildThumbnailUrl(url,100,100);
+        }
+        return url
+    }
     isImage = () => {
         const { fileType } = this.props;
-        return fileType === 'jpg' || fileType === 'png';
+        return fileType === 'jpg' || fileType === 'png' || fileType==='jpeg';
     }
     render() {
         const { displayValue, fileType, style } = this.props;
         if (this.isImage()) {
             const billform = this.context.getBillForm();
             const formKey = billform.form.formKey;
-            const url = `${Svr.SvrMgr.AttachURL}?path=${displayValue}&formKey=${formKey}&service=DownloadImage&mode=2`;
+            const url = this.buildThumbnail(`${Svr.SvrMgr.AttachURL}?path=${displayValue}&formKey=${formKey}&service=DownloadImage&mode=2`);
             return (
                 <Image source={url} style={[styles.image, style]} />
             )
@@ -169,13 +176,13 @@ class AttachmentList extends PureComponent {
             return (
                 <TouchableWithoutFeedback onPress={this.onViewerClose}>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                        <Text style={styles.noattach}>没有附件,点击关闭</Text>
+                        <Text style={styles.noattach}>{billform.form.formLoaded? '没有附件,点击关闭' : '数据加载中...'}</Text>
                     </View>
                 </TouchableWithoutFeedback>
             );
         }
         return (
-            <View>
+            <View style={this.props.style}>
                 {title ? <View >
                     <Text style={[styles.title]} >{title}</Text>
                 </View> : null}

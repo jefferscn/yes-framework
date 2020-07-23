@@ -8,6 +8,7 @@
             "showHead": true,
             "headTitle": "借款单",
             "hideAction": true,
+            "useBodyScroll": true,
             "clickMode": "select",
             "primaryKey": "LoanBillCode",
             "secondKey": ["LoanBillDate"],

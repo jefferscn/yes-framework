@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react';
-import { View, StyleSheet, TouchableHighlight } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import { ListComponents } from 'yes-comp-react-native-web';
 import { ListRowWrap } from 'yes-intf';
-import zhaodaiImg from '../res/zhaodai.png';
+import TicketNameBadge from './TicketNameBadge';
+
 const pressRetentionOffset = { top: 1, left: 1, right: 1, bottom: 1 };
 
 const { ListText } = ListComponents;
@@ -52,21 +53,16 @@ const styles = StyleSheet.create({
 class CardListItem extends PureComponent {
     render() {
         return (
-            <TouchableHighlight style={styles.container} onPress={this.props.onPress} pressRetentionOffset={pressRetentionOffset}>
+            <TouchableOpacity style={styles.container} onPress={this.props.onPress} pressRetentionOffset={pressRetentionOffset}>
                 <View style={styles.inner}>
                     <ListText style={styles.text1} yigoid="NO_LV" />
                     <ListText style={styles.text2} yigoid="BillDate_LV" />
                     <ListText style={styles.text3} yigoid="PaymentDeptID" />
                     <ListText style={styles.text4} yigoid="ReimbursementPersonID" />
                     <ListText style={styles.text5} yigoid="ReimbursementAmount" />
-                    <img style={{
-                        position: 'absolute',
-                        right: -5,
-                        top: -5,
-                        height: 40, width: 40
-                    }} src={zhaodaiImg} />
+                    <TicketNameBadge yigoid="FormKey_LV" />
                 </View>
-            </TouchableHighlight>
+            </TouchableOpacity>
         )
     }
 }

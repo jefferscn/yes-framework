@@ -1,5 +1,5 @@
-.am-list-extra {
-    flex-basis: 70%!important;
+.am-list-item .am-list-extra {
+    flex-basis: 70%;
 }
 
 .am-modal-wrap.fullscreen {
@@ -27,4 +27,12 @@
 .slider-slide {
     height: 150px!important;
     width: 100%!important;
+}
+
+.am-list-body::before {
+    height: 0px!important;
+}
+
+.am-list-body::after{
+    height: 0px!important;
 }

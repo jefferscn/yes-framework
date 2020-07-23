@@ -8,7 +8,8 @@ import './datatypeext';
 YIUI.DataUtil = $.extend(YIUI.DataUtil, {
     applyNewOID: async function () {
         const paras = {
-            service: 'ApplyNewOID'
+            service: 'ApplyNewOID',
+            random: Math.random(),
         };
         const result = await Svr.Request.getData(paras);
         const oid = result.OID;

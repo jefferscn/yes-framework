@@ -77,14 +77,14 @@ export let selectedList  =  [
         favorite: true,
         formKey: 'FSSC_ExpenseAccountBillView',
         oid: '-1',
-        color: '#BBDEFB'
+        color: '#008DF5'
     }, {
         key: 'jiekuandan',
         icon: 'icon-jiekuandan',
         text: '借款单',
         category: '单据类型',
         favorite: true,
-        color: '#90CAF9'
+        color: '#F5A623'
     }, {
         key: 'baoxiaodan',
         icon: 'icon-wodebaoxiaodan',
@@ -102,7 +102,7 @@ export let selectedList  =  [
         formKey: 'FSSC_BooksQuery',
         oid: "-1",
         favorite: true,
-        color: '#42A5F5'
+        color: '#49B7D9'
     }, {
         key: 'fapiao',
         icon: 'icon-fapiao',
@@ -112,7 +112,7 @@ export let selectedList  =  [
         oid: "-1",
         modal: true,
         favorite: true,
-        color: '#2196F3'
+        color: '#FF5337'
     }, {
         key: 'shanglv',
         icon: 'icon-ly',
@@ -121,7 +121,7 @@ export let selectedList  =  [
         type: 'thirdpart',
         service: 'CityTourPhoneLoginService',
         favorite: true,
-        color: '#1976D2'
+        color: '#35BEFB'
     }
 ];
 

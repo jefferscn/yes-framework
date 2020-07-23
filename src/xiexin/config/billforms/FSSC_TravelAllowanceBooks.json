@@ -1,0 +1,53 @@
+{
+    "formTemplate": "normal",
+    "head": {
+        "type": "element",
+        "elementType": "Header",
+        "elementProps": {
+            "canBack": true,
+            "titleElement": {
+                "type": "element",
+                "elementType": "FormTitle",
+                "elementProps": {
+                    "containerStyle": {
+                        "alignItems": "center",
+                        "justifyContent": "center"
+                    }
+                }
+            }
+        }
+    },
+    "action": {
+        "type": "element",
+        "elementType": "ButtonActionButton",
+        "elementProps": {
+            "buttonKey": "EnteyInvoice",
+            "style": {
+                "right": "50%",
+                "transform": "translateX(30px)"
+            }
+        }
+    },
+    "items": [
+        "FeeTypeID",
+        "ExpenseDate",
+        "PersonnelID",
+        "IsEnterprisesPay",
+        "StartDate",
+        "EndDate",
+        "WorkingStandard",
+        "WorkingDays",
+        "RestStandard",
+        "RestDays",
+        "CurrencyID",
+        "Reason"
+    ],
+    "foot": {
+        "type": "element",
+        "elementType": "SegementToolbar",
+        "elementProps": {}
+    },
+    "controls": {
+        
+    }
+}

@@ -59,7 +59,10 @@ export default class CalenarDay extends Component {
         }
         const owner = this.context.getOwner();
         for (let i = 0; i < events.length; i++) {
-            var v = owner.getValueByKey(events[i].rowIndex);
+            var v = owner.getValueByKey(events[i].rowIndex, 'confirmStatus');
+            if(!v) {
+                return 0;
+            }
             if (v !== "2") {
                 return v;
             }

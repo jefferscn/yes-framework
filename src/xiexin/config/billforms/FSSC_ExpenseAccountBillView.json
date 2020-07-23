@@ -70,8 +70,7 @@
             "yigoid": "list",
             "primaryKey": "NO",
             "style": {
-                "flex":1,
-                "marginLeft": 12
+                "flex":1
             },
             "secondKey": [
                 "PersonnelID"

@@ -4,7 +4,7 @@
         "type": "control",
         "path": "Home",
         "control": "Home",
-        "isRoot": false 
+        "isRoot": false
     },
     {
         "key": "test",
@@ -13,6 +13,13 @@
         "oid": -1,
         "status": "DEFAULT",
         "isRoot": true
+    },
+    {
+        "key": "setting",
+        "type": "control",
+        "path": "Setting",
+        "control": "Setting",
+        "isRoot": false
     },
     {
         "key": "Tab",
@@ -24,20 +31,33 @@
         "tabPosition": "bottom",
         "activeTintColor": "#008CD7",
         "inactiveTintColor": "black",
-        "tabs": [{
+        "tabbarElement": {
+            "type": "element",
+            "elementType": "BottomTabBar",
+            "elementProps": {}
+        },
+        "tabs": [
+            {
                 "key": "Home1",
                 "type": "control",
                 "path": "Home1",
                 "label": "首页",
                 "icon": "icon-shouye",
                 "control": "Home"
-            },{
+            },
+            {
                 "key": "MyInfo",
                 "type": "control",
                 "path": "MyInfo",
                 "label": "我的",
                 "icon": "icon-wode",
                 "control": "MyInfo"
+            },
+            {
+                "key": "GlobalAdd",
+                "type": "button",
+                "path": "GlobalAdd",
+                "tabControl": "TabCenterIcon"
             }
         ]
     }

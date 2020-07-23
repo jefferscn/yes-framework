@@ -49,6 +49,8 @@
             "headTitle": "发票明细",
             "useBodyScroll": true,
             "hideAction": true,
+            "removeType": "column",
+            "removeColumn": "DeleteDtl",
             "headExtra": {
                 "type": "element",
                 "elementType": "MoneyWithCurrency",

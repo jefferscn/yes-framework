@@ -6,6 +6,10 @@ import CustomControls from './config/control.js';
 import { CustomBillForm } from 'yes-comp-react-native-web';
 import { AppDispatcher } from 'yes-intf';
 import { closeForm } from 'yes-core';
+import ModalWrap from './template/ModalWrap';
+import Header from './controls/Header';
+import { View, Text } from 'react-native';
+import FormTitle from './controls/FormTitle';
 
 export default class TemplateView extends PureComponent {
     static childContextTypes = {
@@ -21,14 +25,6 @@ export default class TemplateView extends PureComponent {
             // createElement: this.createElement,
         };
     }
-
-    // createElement(obj, props) {
-    //     if (obj && obj.type === 'element') {
-    //         const C = CustomControls[obj.elementType];
-    //         return <C {...obj.elementProps} {...props} />;
-    //     }
-    //     return obj;
-    // }
 
     getControlProps = (yigoid) => {
         const { formKey } = this.props;
@@ -87,6 +83,7 @@ export default class TemplateView extends PureComponent {
     render() {
         const { formKey, status, oid, meta, showType, onClose, ...otherProps } = this.props;
         let extraProps = meta;
+        let hasJson = false;
         // 支持反向模版
         if (!extraProps) {
             extraProps = billform.default;
@@ -102,14 +99,41 @@ export default class TemplateView extends PureComponent {
                 const fKey2 = `${formKey}_${showType}`;
                 if (billform[fKey1]) {
                     extraProps = Object.assign({}, extraProps, billform[fKey1]);
+                    hasJson = true;
                 }
                 if (billform[fKey2]) {
                     extraProps = Object.assign({}, extraProps, billform[fKey2]);
+                    hasJson = true;
                 }
             }
         }
-        const TemplateComponent = defaultTemplateMapping.get(extraProps.formTemplate);
-
+        if (extraProps.formTemplate === 'dynamic') {//不支持，直接弹出提示
+            return (<CustomBillForm
+                formKey={formKey}
+                status={status || 'VIEW'}
+                oid={oid ? oid : -1} // eslint-disable-line
+                onClose={this.onClose}
+                {...otherProps}
+                {...extraProps}
+            >
+                <View style={{ flex: 1 }}>
+                    <Header canBack
+                        titleElement={
+                            <FormTitle containerStyle={{
+                                    "alignItems": "center",
+                                    "justifyContent": "center"
+                            }} />
+                        } />
+                    <View style={{flex:1, justifyContent: 'center', alignItems: 'center'}}>
+                        <Text>暂不支持</Text>
+                    </View>
+                </View>
+            </CustomBillForm>)
+        }
+        let TemplateComponent = defaultTemplateMapping.get(extraProps.formTemplate);
+        if (showType === 'modal' && !hasJson) {
+            TemplateComponent = ModalWrap(TemplateComponent);
+        }
         return (
             <CustomBillForm
                 formKey={formKey}

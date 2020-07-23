@@ -19,6 +19,9 @@ const styles = StyleSheet.create({
     }
 })
 class ImageCarouselGrid extends PureComponent {
+    static defaultProps = {
+        needThumbnail: false,
+    }
     render() {
         const { data, imageColumn, textColumn, style } = this.props;
         if(!data) {
@@ -40,7 +43,12 @@ class ImageCarouselGrid extends PureComponent {
                     data.map((item, index)=>{
                         return (
                             <Row rowIndex={index} style={style}>
-                                <ListImage yigoid={imageColumn} style={style}/>
+                                <ListImage 
+                                    needThumbnail={this.props.needThumbnail} 
+                                    w = {this.props.w}
+                                    h = {this.props.h}
+                                    yigoid={imageColumn} 
+                                    style={style}/>
                                 <ListText style={styles.title} yigoid={textColumn} />
                             </Row>  
                         );

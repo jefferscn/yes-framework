@@ -7,10 +7,10 @@ import PropTypes from 'prop-types';
 import { ListView, PullToRefresh, SwipeAction } from 'antd-mobile';
 import { View, ActivityIndicator, Text, StyleSheet, ScrollView } from 'react-native';
 // import { propTypes } from 'yes'; // eslint-disable-line
-import { GridRowWrap as gridRowWrap, DynamicControl, GridWrap } from 'yes';
+import { GridRowWrap as gridRowWrap, DynamicControl, GridWrap, MetaBillFormWrap } from 'yes';
 // import styles from '../../style';
 import ListViewItem from './ListViewItem';
-import ActionButton from './ActionButton';
+// import ActionButton from './ActionButton';
 import { withDetail, ListComponents } from 'yes-comp-react-native-web';
 
 const {
@@ -35,10 +35,13 @@ class AntdListView extends PureComponent {
         divider: true,
         useBodyScroll: false,
         hideAction: false,
+        removeable: true,
+        removeType: 'normal',
     };
 
     static contextTypes = {
         createElement: PropTypes.func,
+        getOwner: PropTypes.func,
     }
     componentWillReceiveProps(nextProps) {
         const data = nextProps.controlState.getIn(['dataModel', 'data']);
@@ -125,7 +128,7 @@ class AntdListView extends PureComponent {
                 }
             }
         }
-        return <View style={[{ flexDirection: 'row' }, this.props.style.firstline]}>{el}</View>;
+        return <View style={[{ flexDirection: 'row', overflow: 'hidden' }, this.props.style.firstline]}>{el}</View>;
     }
     generateSecondaryElement = () => {
         const el = [];
@@ -164,6 +167,18 @@ class AntdListView extends PureComponent {
         </View>
     );
 
+    removeRow = (rowId) => {
+        if(this.props.removeType==='normal') {
+            this.props.removeRow(rowId);
+        }
+        if(this.props.removeType==='column') {
+            const owner = this.context.getOwner();
+            if(owner) {
+                owner.doOnCellClick(rowId, this.props.removeColumn);
+            }
+        }
+    }
+
     centerComp = !this.props.centerElement ? (
         <View style={[{ flex: 1 }, this.props.style.centerStyle]}>
             {this.generatePrimaryELement()}
@@ -175,21 +190,31 @@ class AntdListView extends PureComponent {
     NewListItem = gridRowWrap(ListViewItem, ActivityIndicator, this.props.yigoid)
     // RowView = listRowWrap(View, this.props.yigoid)
     renderItem = (item, secionId, rowId, highlightRow) => {
-        const NewListItem = this.NewListItem;
-        const rightActions = [];
-        if (this.props.editable) {
-            rightActions.push({
-                text: 'Delete',
-                onPress: () => this.props.removeRow(rowId)
+        if (this.props.RowElement) {
+            const rowElement = this.context.createElement(this.props.RowElement);
+            return React.cloneElement(rowElement, {
+                rowIndex: rowId,
+                onPress: () => this.onClick(rowId)
             });
         }
-        return (
-            // <SwipeAction
-            //     right={rightActions}
-            // >
+        const NewListItem = this.NewListItem;
+        const rightActions = [];
+        if ((this.props.status === 1 || this.props.status === 2) && this.props.removeable) {
+            rightActions.push({
+                text: '删除',
+                style: {
+                    backgroundColor: '#aaa',
+                    color: 'white',
+                },
+                onPress: () => this.removeRow(rowId)
+            });
+            return (<SwipeAction
+                right={rightActions}
+            >
                 <NewListItem
                     centerElement={this.centerComp}
                     rightElement={this.context.createElement(this.props.rightElement)}
+                    containerView={this.context.createElement(this.props.rowContainer)}
                     containerStyle={this.props.rowStyle}
                     onPress={() => this.onClick(rowId)}
                     divider={this.props.divider}
@@ -199,7 +224,22 @@ class AntdListView extends PureComponent {
                     leftElement={this.context.createElement(this.props.leftElement)}
                     detailElement={this.context.createElement(this.props.detailElement)}
                 />
-            // </SwipeAction>
+            </SwipeAction>);
+        }
+        return (
+            <NewListItem
+                centerElement={this.centerComp}
+                rightElement={this.context.createElement(this.props.rightElement)}
+                containerView={this.context.createElement(this.props.rowContainer)}
+                containerStyle={this.props.rowStyle}
+                onPress={() => this.onClick(rowId)}
+                divider={this.props.divider}
+                dividerStyle={this.props.dividerStyle}
+                rowIndex={rowId}
+                showArrow={this.props.showArrow}
+                leftElement={this.context.createElement(this.props.leftElement)}
+                detailElement={this.context.createElement(this.props.detailElement)}
+            />
         );
     }
     onRefresh = () => {
@@ -220,7 +260,7 @@ class AntdListView extends PureComponent {
                 </View>
             );
         }
-        if(!visible) {
+        if (!visible) {
             return null;
         }
         return (
@@ -235,21 +275,22 @@ class AntdListView extends PureComponent {
                         </View> : null
                 }
                 {/* <View style={{ flex: 1 }}> */}
-                    <ListView
-                        style={style}
-                        initialListSize={20}
-                        useBodyScroll={useBodyScroll}
-                        dataSource={this.state.dataSource}
-                        renderRow={this.renderItem}
-                        pageSize={4}
-                        pullToRefresh={
-                            onRefresh? <PullToRefresh
-                                onRefresh={this.onRefresh}
-                                refreshing={refreshing}
-                            />: false
-                        }
-                    />
-                    {/* {
+                <ListView
+                    style={style}
+                    initialListSize={20}
+                    useBodyScroll={useBodyScroll}
+                    dataSource={this.state.dataSource}
+                    contentContainerStyle={{ width: '100%' }}
+                    renderRow={this.renderItem}
+                    pageSize={4}
+                    pullToRefresh={
+                        onRefresh ? <PullToRefresh
+                            onRefresh={this.onRefresh}
+                            refreshing={refreshing}
+                        /> : false
+                    }
+                />
+                {/* {
                         (editable && !hideAction) ? <ActionButton onPress={this.addRow} /> : null
                     } */}
                 {/* </View> */}
@@ -263,10 +304,13 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         alignItems: 'stretch',
         flex: 1,
+        flexBasis: 'auto',
+        // overflow: 'hidden',
     },
     head: {
         flexDirection: 'row',
         paddingLeft: 12,
+        height: 35,
     },
     headTitle: {
         paddingTop: 8,
@@ -301,4 +345,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default GridWrap(withDetail(AntdListView));
+export default MetaBillFormWrap(GridWrap(withDetail(AntdListView)));
