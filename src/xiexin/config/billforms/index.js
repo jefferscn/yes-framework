@@ -8,7 +8,7 @@ import FSSC_InvoiceEntry from './FSSC_InvoiceEntry.json';
 import SRM_OFFERView from './SRM_OFFERView.json';
 import FSSC_InvoiceQuery from './FSSC_InvoiceQuery.json';
 import FSSC_AllReimbursementView from './FSSC_HospitalityReimbursementView.json';
-import FSSC_HospitalityReimbursement from './FSSC_HospitalityReimbursement_view.json';
+import FSSC_HospitalityReimbursement from './FSSC_HospitalityReimbursement.json';
 import FSSC_ExpenseAccountBillImportV from './FSSC_ExpenseAccountBillImportV.json';
 import FSSC_RbmBookImportView from './FSSC_RbmBookImportView.json';
 import TDefaultWorkFlowView from './TDefaultWorkFlowView.json';
@@ -30,6 +30,7 @@ import FSSC_ShipTicketBooks from './FSSC_ShipTicketBooks.json';
 import FSSC_TravelAllowanceBooks from './FSSC_TravelAllowanceBooks.json';
 import FSSC_GeneralBooks from './FSSC_GeneralBooks.json';
 import FSSC_WFLog from './FSSC_WFLog.json';
+import FSSC_PersonMsg from './FSSC_PersonMsg.json';
 
 export default {
     default: defaultForm,
@@ -56,12 +57,13 @@ export default {
     FSSC_OnlineItineraryBooks,
     FSSC_CoachBooks,
     FSSC_CommunicationBooks,
-    FSSC_TravelReimbursement,
-    FSSC_SubsidyReimbursement,
-    FSSC_GeneralReimbursement,
+    FSSC_TravelReimbursement: FSSC_HospitalityReimbursement,
+    FSSC_SubsidyReimbursement: FSSC_HospitalityReimbursement,
+    FSSC_GeneralReimbursement: FSSC_HospitalityReimbursement,
     FSSC_CateringBooks,
     FSSC_ShipTicketBooks,
     FSSC_TravelAllowanceBooks,
     FSSC_GeneralBooks,
     FSSC_WFLog_modal: FSSC_WFLog,
+    FSSC_PersonMsg,
 };

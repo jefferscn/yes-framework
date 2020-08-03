@@ -37,6 +37,7 @@ import FilterBlock from '../controls/FilterBlock';
 import FlexBox from '../controls/FlexBox';
 import AttachmentAction from '../controls/AttachmentAction';
 import VisibleRelated from '../controls/VisibleRelated';
+import CellLayoutTemplate from '../template/TabTemplate/CellLayoutTemplate';
 
 // const { ListText } = ListComponents;
 import { controls } from '../project';
@@ -83,5 +84,6 @@ export default {
     VisibleRelated,
     AttachmentAction,
     AwesomeFontIcon,
+    CellLayoutTemplate,
     ...controls,
 };

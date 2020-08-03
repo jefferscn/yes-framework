@@ -36,3 +36,8 @@
 .am-list-body::after{
     height: 0px!important;
 }
+
+.am-swipe .am-swipe-actions-right {
+    right: 1;
+    top: 1;
+}

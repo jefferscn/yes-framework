@@ -1,9 +1,11 @@
 import React, { PureComponent } from 'react';
 import Header from '../../controls/Header';
-import { View, StyleSheet, Button } from 'react-native';
+import { View, StyleSheet, Button, ActivityIndicator } from 'react-native';
 import { List } from 'antd-mobile';
 import { AppDispatcher } from 'yes-intf';
+import AppStatusWrap from '../../controls/AppStatusWrap';
 import { History } from 'yes-web';
+import Update from '../../controls/Update';
 
 const Item = List.Item;
 const styles = StyleSheet.create({
@@ -14,7 +16,28 @@ const styles = StyleSheet.create({
     content: {
         flex: 1
     }
-})
+});
+
+@AppStatusWrap
+class VersionCheckItem extends PureComponent {
+    componentWillMount() {
+        this.props.updateVersion();
+    }
+    render() {
+        const { fetching, currentVersion, latestVersion, canUpdate, url, title, platform } = this.props;
+        let extra = null;
+        if(fetching) {
+            extra = <ActivityIndicator size="small" />;
+        } else {
+            if(canUpdate) {
+                extra = <Update title="可更新" platform={platform} url={url} /*{...this.props}*/ />
+            }
+        }
+        return (<Item extra={extra} >
+            {title}
+        </Item>);
+    }
+}
 export default class Setting extends PureComponent {
     doLogout = () => {
         History.push('/');
@@ -29,8 +52,11 @@ export default class Setting extends PureComponent {
                 <View style={styles.content}>
                     <List>
                         <Item arrow="horizontal" onClick={() => { }}>
-                            清除缓存    
+                            清除缓存
                         </Item>
+                        <VersionCheckItem 
+                            title="检测更新"
+                        />
                     </List>
                 </View>
                 <Button

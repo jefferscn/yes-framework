@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import TotalAdd from './TotalAdd';
+import Util from '../util';
 
 const styles = StyleSheet.create({
     outer: {
@@ -23,7 +25,9 @@ const styles = StyleSheet.create({
 });
 export default class TabCenterIcon extends PureComponent {
     onPress = () => {
-
+        Util.showModal(
+            <TotalAdd />
+        )
     }
     render() {
         return <TouchableOpacity onPress={this.onPress} style={styles.outer}>

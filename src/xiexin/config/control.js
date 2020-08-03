@@ -36,6 +36,8 @@ import TabCenterIcon from '../controls/TabCenterIcon';
 import WorkflowList from '../controls/WorkflowList';
 import FSSC_ExpenseAccountBill from '../controls/FSSC_ExpenseAccountBill';
 import AntdListItem from '../controls/AntdListItem';
+import FSSC_PersonMsg from '../controls/FSSC_PersonMsg';
+import Card from '../controls/Card';
 // import GpsText from '../controls/GpsText';
 // import MapText from '../controls/MapText';
 // import Image from '../controls/Image';
@@ -94,6 +96,8 @@ export default {
     WorkflowList,
     FSSC_ExpenseAccountBill,
     AntdListItem,
+    FSSC_PersonMsg,
+    Card,
     // GpsText,
     // MapText,
     // Image,

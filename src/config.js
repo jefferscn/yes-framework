@@ -3,10 +3,10 @@ import React, { Component } from 'react';
 import './template';
 // import projectJSON from './config/project.json';
 // import loginJSON from './config/login.json';
-import { BackHandler } from 'yes';
+import { BackHandler, AppDispatcher } from 'yes';
 import { ProjectCfg, RouteCfg, LoginCfg, ModalCfg } from './config/index';
 import control from './config/control.js';
-import { ControlMappings, Switch, AuthenticatedRoute } from 'yes-comp-react-native-web';
+import { ControlMappings, AuthenticatedRoute } from 'yes-comp-react-native-web';
 import { Util } from 'yes-web';
 import { util as projectUtil } from './project';
 import i18n from './i18n';
@@ -25,6 +25,7 @@ import TemplateView from './TemplateView';
 import AppWrapper from './AppWrapper';
 import { openForm } from './util/navigateUtil';
 import { History } from 'yes-web';
+import Switch from './controls/Switch';
 import MonthPicker from './controls/MonthPicker';
 
 window.his = History;
@@ -174,6 +175,14 @@ const NavigatorListenerWrapper = (props) =>
             {...props} />
     </AppWrapper>);
 
+AppDispatcher.register((action)=>{
+    switch(action.type) {
+        case 'LOGOUTED': 
+            // history.go(0);
+            console.log('logouted');
+            break;
+    }
+})
 initPush();
 
 appOptions.messages = getLocaleMessages();

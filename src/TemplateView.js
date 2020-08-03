@@ -26,6 +26,40 @@ export default class TemplateView extends PureComponent {
         };
     }
 
+    constructor(args) {
+        super(args);
+        const { formKey, meta, showType } = this.props;
+        let extraProps = meta;
+        let hasJson = false;
+        // 支持反向模版
+        if (!extraProps) {
+            extraProps = billform.default;
+            const [fKey, tKey] = formKey.split('|');
+            if (billform[fKey]) {
+                extraProps = Object.assign({}, extraProps, billform[fKey]);
+            }
+            if (billform[formKey]) {
+                extraProps = Object.assign({}, extraProps, billform[formKey]);
+            }
+            if (showType) {
+                const fKey1 = `${fKey}_${showType}`;
+                const fKey2 = `${formKey}_${showType}`;
+                if (billform[fKey1]) {
+                    extraProps = Object.assign({}, extraProps, billform[fKey1]);
+                    hasJson = true;
+                }
+                if (billform[fKey2]) {
+                    extraProps = Object.assign({}, extraProps, billform[fKey2]);
+                    hasJson = true;
+                }
+            }
+        }
+        this.state = {
+            extraProps,
+            hasJson,
+        }
+    }
+
     getControlProps = (yigoid) => {
         const { formKey } = this.props;
         const [fKey, tKey] = formKey.split('|');
@@ -75,38 +109,43 @@ export default class TemplateView extends PureComponent {
     onClose = (form) => {
         console.log('form.onClose')
         if (form) {
-            AppDispatcher.dispatch(closeForm(form.form.uniqueId));
+            if (!this.state.extraProps.keepAlive) {
+                setTimeout(() => {
+                    AppDispatcher.dispatch(closeForm(form.form.uniqueId));
+                });
+            }
             this.props.onClose && this.props.onClose();
         }
     }
 
     render() {
         const { formKey, status, oid, meta, showType, onClose, ...otherProps } = this.props;
-        let extraProps = meta;
-        let hasJson = false;
-        // 支持反向模版
-        if (!extraProps) {
-            extraProps = billform.default;
-            const [fKey, tKey] = formKey.split('|');
-            if (billform[fKey]) {
-                extraProps = Object.assign({}, extraProps, billform[fKey]);
-            }
-            if (billform[formKey]) {
-                extraProps = Object.assign({}, extraProps, billform[formKey]);
-            }
-            if (showType) {
-                const fKey1 = `${fKey}_${showType}`;
-                const fKey2 = `${formKey}_${showType}`;
-                if (billform[fKey1]) {
-                    extraProps = Object.assign({}, extraProps, billform[fKey1]);
-                    hasJson = true;
-                }
-                if (billform[fKey2]) {
-                    extraProps = Object.assign({}, extraProps, billform[fKey2]);
-                    hasJson = true;
-                }
-            }
-        }
+        let { extraProps, hasJson } = this.state;
+        // let extraProps = meta;
+        // let hasJson = false;
+        // // 支持反向模版
+        // if (!extraProps) {
+        //     extraProps = billform.default;
+        //     const [fKey, tKey] = formKey.split('|');
+        //     if (billform[fKey]) {
+        //         extraProps = Object.assign({}, extraProps, billform[fKey]);
+        //     }
+        //     if (billform[formKey]) {
+        //         extraProps = Object.assign({}, extraProps, billform[formKey]);
+        //     }
+        //     if (showType) {
+        //         const fKey1 = `${fKey}_${showType}`;
+        //         const fKey2 = `${formKey}_${showType}`;
+        //         if (billform[fKey1]) {
+        //             extraProps = Object.assign({}, extraProps, billform[fKey1]);
+        //             hasJson = true;
+        //         }
+        //         if (billform[fKey2]) {
+        //             extraProps = Object.assign({}, extraProps, billform[fKey2]);
+        //             hasJson = true;
+        //         }
+        //     }
+        // }
         if (extraProps.formTemplate === 'dynamic') {//不支持，直接弹出提示
             return (<CustomBillForm
                 formKey={formKey}
@@ -120,11 +159,11 @@ export default class TemplateView extends PureComponent {
                     <Header canBack
                         titleElement={
                             <FormTitle containerStyle={{
-                                    "alignItems": "center",
-                                    "justifyContent": "center"
+                                "alignItems": "center",
+                                "justifyContent": "center"
                             }} />
                         } />
-                    <View style={{flex:1, justifyContent: 'center', alignItems: 'center'}}>
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                         <Text>暂不支持</Text>
                     </View>
                 </View>

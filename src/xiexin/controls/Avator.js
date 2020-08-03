@@ -13,10 +13,14 @@ const styles = StyleSheet.create({
 class Avator extends PureComponent {
     static defaultProps = {
         size: 60,
+        mode: 'personnel',
     }
     getAvatorUrl = ()=> {
-        const { value } = this.props;
-        return `${Svr.SvrMgr.ServerURL}/getHeadImg?personnelOID=${value}`;
+        const { value, mode } = this.props;
+        if(mode==='personnel') {
+            return `${Svr.SvrMgr.ServerURL}/getHeadImg?personnelOID=${value}`;
+        }
+        return `${Svr.SvrMgr.ServerURL}/getHeadImg?operatorOID=${value}`;
     }
     render() {
         const { size, value } = this.props;

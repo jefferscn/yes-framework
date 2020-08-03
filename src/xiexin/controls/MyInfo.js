@@ -4,8 +4,9 @@ import wode from '../res/wode.png';
 import { StyleSheet, ScrollView, View, ImageBackground, TouchableOpacity, Text } from 'react-native';
 import AwesomeFontIcon from 'react-native-vector-icons/FontAwesome';
 import { History } from 'yes-web';
+import ListText from '../../controls/ListText';
+import SplitText from '../../controls/SplitText';
 
-const { ListImage, ListText } = ListComponents;
 const styles = StyleSheet.create({
     image: {
         position: 'absolute',
@@ -21,6 +22,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         paddingTop: 20,
+        paddingRight: 16,
     },
     cardImage: {
 
@@ -45,6 +47,19 @@ const styles = StyleSheet.create({
     text: {
         color: 'white',
     },
+    textBig: {
+        fontSize: 18,
+    },
+    textMiddle: {
+        fontSize: 12,
+    },
+    textSmall: {
+        fontSize: 8,
+    },
+    textName: {
+        paddingTop: 20,
+        paddingBottom: 20,
+    },
     funcText: {
         color: 'rgba(51,51,51,1)',
         paddingLeft: 28,
@@ -61,6 +76,10 @@ const styles = StyleSheet.create({
     seperator: {
         height: 20,
         backgroundColor: '#F7F7F7',
+    },
+    row: {
+        flexDirection: 'row',
+        alignItems: 'center',
     }
 });
 
@@ -78,6 +97,12 @@ const functionList = [
     {
         label: '订单信息',
         component: '',
+        icon: 'cog',
+    },
+    {
+        label: '个人信息',
+        component: '',
+        path: 'card/YES/FSSC_PersonMsg/-1/DEFAULT',
         icon: 'cog',
     },
     {
@@ -104,7 +129,7 @@ const functionList = [
 ]
 
 class MyFunction extends PureComponent {
-    onPress = ()=> {
+    onPress = () => {
         const { path } = this.props;
         History.push(path);
     }
@@ -121,10 +146,10 @@ class MyFunction extends PureComponent {
     }
 }
 
-const Seperator = ()=> 
-        <View style={styles.seperator}>
+const Seperator = () =>
+    <View style={styles.seperator}>
 
-        </View>;
+    </View>;
 class MyInfo extends PureComponent {
     render() {
         return (
@@ -132,19 +157,34 @@ class MyInfo extends PureComponent {
                 <ImageBackground style={styles.image} source={wode} />
                 <CustomBillForm formKey="FSSC_PersonMsg" oid="-1" status="EDIT">
                     <View style={styles.personalCard}>
-                        <View style={styles.avatar}>
-                            <Image avatar yigoid="Photo" />
-                        </View>
                         <View style={styles.cardContent}>
-                            <ListText yigoid="Name" style={styles.text} />
-                            <ListText yigoid="PositionID" style={styles.text} />
+                            <Text style={[styles.textBig, styles.text]}>welcome</Text>
+                            <ListText yigoid="Name" style={[styles.textBig, styles.text, styles.textName]} />
+                            <View style={[styles.row, { alignItems: 'center'}]}>
+                                <ListText yigoid="DeptID" style={[styles.text, styles.textMiddle]} />
+                                <Text style={styles.text}> • </Text>
+                                <SplitText showIndex={1} yigoid="TitleID" style={[styles.text, styles.textMiddle]} />
+                            </View>
+                            <View style={[styles.row,{paddingTop: 6}]}>
+                                <View style={styles.row}>
+                                    <Text style={[styles.text, styles.textSmall]}>手机号:</Text>
+                                    <ListText style={[styles.text, styles.textSmall]} emptyStr="未设置" yigoid="MobileNo" />
+                                </View>
+                                <View style={[styles.row, {paddingLeft: 8}]}>
+                                    <Text style={[styles.text, styles.textSmall]}>邮箱:</Text>
+                                    <ListText style={[styles.text, styles.textSmall]} emptyStr="未设置" yigoid="Email" />
+                                </View>
+                            </View>
+                        </View>
+                        <View style={styles.avatar}>
+                            <Image avatar yigoid="Photo" imageStyle={styles.avatar}/>
                         </View>
                     </View>
                 </CustomBillForm>
                 <ScrollView style={styles.funcionList}>
                     {
-                        functionList.map((item)=> {
-                            if(item.seperator) {
+                        functionList.map((item) => {
+                            if (item.seperator) {
                                 return <Seperator />
                             }
                             return <MyFunction {...item} />

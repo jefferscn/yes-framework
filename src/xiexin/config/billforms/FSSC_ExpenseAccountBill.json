@@ -23,7 +23,6 @@
         "elementType": "SegementToolbar",
         "elementProps": {
             "ignoreItems": [
-                "optKey1",
                 "New",
                 "Close"
             ]

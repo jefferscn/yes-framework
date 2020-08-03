@@ -110,7 +110,7 @@ export default class InvoiceEntry extends PureComponent {
                 step: 2,
             });
             //这里需要判断当前的InvoiceType是否为空
-            const invoiceType = this.context.getContextComponent('FeeType_NODB4Other');
+            const invoiceType = this.context.getContextComponent('FeeTypeID_NODB4Other');
             if(invoiceType) {
                 if(!invoiceType.isNull()) {
                     await this.context.onControlClick("Query");
@@ -132,7 +132,10 @@ export default class InvoiceEntry extends PureComponent {
         });
     }
     render() {
-        const { formStatus } = this.props;
+        const { formStatus, errorMsg } = this.props;
+        // if(formStatus==='error') {
+        //     return null;
+        // }
         if (this.state.step === 1) {
             return (<Modal
                 visible={this.state.modalVisible}
@@ -163,7 +166,7 @@ export default class InvoiceEntry extends PureComponent {
                             justifyContent: "center",
                             alignItems: "center"
                         }}
-                    /> : <ActivityIndicator size="large" />}
+                    /> : (formStatus==='error'? <View><Text>{errorMsg.message}</Text></View>: <ActivityIndicator size="large" />)}
             </Modal>);
         }
         if (this.state.step === 2) {//需要显示一个发票列表
@@ -193,6 +196,9 @@ export default class InvoiceEntry extends PureComponent {
                                         paddingRight: 12,
                                         paddingleft: 12,
                                         height: 32,
+                                    },
+                                    textStyles: {
+                                        justifyContent: 'flex-end',
                                     }
                                 }
                             }]}

@@ -1,5 +1,6 @@
 {
     "formTemplate": "modal",
+    "keepAlive": true,
     "content": {
         "type": "element",
         "elementType": "ChainDict",

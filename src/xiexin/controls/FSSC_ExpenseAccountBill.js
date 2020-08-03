@@ -260,7 +260,7 @@ const styles = StyleSheet.create({
     },
     topBackground: {
         position: 'absolute',
-        top: 0,
+        top: -1,
         left: 0,
         right: 0,
         height: 200,
@@ -335,6 +335,18 @@ const styles = StyleSheet.create({
         border: '2px solid #CCA34D',
         borderRightColor: 'transparent',
         borderTopColor: 'transparent',
+    },
+    cellTitle: {
+        justifyContent: 'flex-start',
+        fontSize: 15,
+        color: '#121F28',
+    },
+    layoutStyle: {
+        justifyContent: 'flex-end',
+    },
+    textStyle: {
+        textAlign: 'right',
+        justifyContent: 'flex-end',
     }
 });
 
@@ -448,10 +460,10 @@ export default class ExpendAccountBill extends PureComponent {
                     title={"出差申请单"}
                     mode="light"
                 />
-                <ScrollView>
+                <ScrollView style={{paddingBottom: 20}}>
                     <ExpenseAccountBillCard />
-                    <CellLayoutTemplate style={styles.card} items={['Explain']} />
-                    <CellLayoutTemplate style={styles.card} items={['NO', 'Type', 'Region', 'StartDate', 'EndDate']} />
+                    <CellLayoutTemplate textStyle={styles.textStyle} layoutStyle={styles.layoutStyle} titleStyle={styles.cellTitle} style={styles.card} items={['Explain']} />
+                    <CellLayoutTemplate textStyle={styles.textStyle} layoutStyle={styles.layoutStyle} titleStyle={styles.cellTitle} style={styles.card} items={['NO', 'Type', 'Region', 'StartDate', 'EndDate']} />
                     <AttachmentList style={[styles.card]} yigoid="AttachmentGrid" fileName="UploadName" filePath="Path" removable title="附件" />
                     <GridView layoutStyles={styles.card} yigoid="Grid1" {...gridMeta} />
                 </ScrollView>
@@ -460,7 +472,6 @@ export default class ExpendAccountBill extends PureComponent {
                 }
                 <SegementToolbar
                     ignoreItems={[
-                        "optKey1",
                         "New",
                         "Close"
                     ]}

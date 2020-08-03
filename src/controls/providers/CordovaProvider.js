@@ -12,6 +12,9 @@ export default class CordovaProvider extends Component {
         getPosition: PropTypes.func,
         getCurrentAddress: PropTypes.func,
         getTopPadding: PropTypes.func,
+        getVersion: PropTypes.func,
+        getPlatform: PropTypes.func,
+        checkLatestVersion: PropTypes.func,
     }
 
     static contentTypes = {
@@ -24,7 +27,31 @@ export default class CordovaProvider extends Component {
             getPosition: this.getPosition,
             getCurrentAddress: this.getCurrentAddress,
             getTopPadding: this.getTopPadding,
+            getVersion: this.getVersion,
+            checkLatestVersion: this.checkLatestVersion,
+            getPlatform: this.getPlatform,
         };
+    }
+
+    getPlatform = ()=> {
+        const platform = device.platform.toLowerCase();
+        return platform;
+    }
+
+    checkLatestVersion = async () => {
+        const packageName = await cordova.getAppVersion.getPackageName();
+        const platform = device.platform.toLowerCase();
+        var checkUpdateUrl = `https://dev.bokesoft.com/erpmobile/checkupdate/${packageName}`;
+        const response = await fetch(checkUpdateUrl, {
+            method: 'GET',
+        });
+        const result = await response.json();
+        const platformData = result[platform];
+        return platformData;
+    }
+
+    getVersion = async () => {
+        return await cordova.getAppVersion.getVersionNumber();
     }
 
     getTopPadding = () => {
@@ -197,6 +224,16 @@ export default class CordovaProvider extends Component {
             document.body.classList.add('ios');
         } else {
             document.body.classList.add('android');
+        }
+
+        if (device.platform.toLowerCase() === 'android') {
+            //如果是Andnroid需要模拟一个键盘的div
+            window.addEventListener('native.keyboardshow', (e) => {
+                document.getElementById('keyboard').style.height = e.keyboardHeight;
+            });
+            window.addEventListener('native.keyboardhide', (e) => {
+                document.getElementById('keyboard').style.height = 0;
+            });
         }
     }
 

@@ -28,6 +28,16 @@ const styles = {
     accessoryStyle: {
         paddingLeft: 15,
     },
+    defaultLayout: {
+        minHeight: 30, 
+        textAlign: 'left', 
+        justifyContent: 'flex-start', 
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    defaultText: {
+        textAlign: 'left',
+    }
 };
 
 const RelatedSection = controlVisibleWrapper(List);
@@ -96,8 +106,17 @@ class CellLayoutTemplate extends Component {  // eslint-disable-line
     }
 
     getLayout(item, contentStyle) {
+        const { titleStyle } = this.props;
+        if (this.props.getLayout) {
+            return this.props.getLayout(item);
+        }
         if (!item.layoutType || item.layoutType === 'cell') {
-            return <CellLayout contentStyle={[styles.contentStyle, contentStyle]} titleStyle={styles.textStyle} divider title={item.caption ? this.props.formatMessage(item.caption) : ''} style={styles.accessoryStyle} />;
+            return <CellLayout
+                contentStyle={[styles.contentStyle, contentStyle]}
+                titleStyle={[styles.textStyle, titleStyle]}
+                divider title={item.caption ? this.props.formatMessage(item.caption) : ''}
+                style={styles.accessoryStyle}
+            />;
         }
         if (!item.layoutType || item.layoutType === 'control') {
             return null;
@@ -106,6 +125,7 @@ class CellLayoutTemplate extends Component {  // eslint-disable-line
     }
 
     renderItem = (item) => {
+        const { layoutStyle, textStyle } = this.props;
         let S = DynamicControl;
         const extraProps = {};
         if (item.visibleNotEmpty) {
@@ -124,6 +144,9 @@ class CellLayoutTemplate extends Component {  // eslint-disable-line
         if (item.type === 'element') {
             return this.context.createElement(item);
         }
+        if (typeof item === 'object') {
+            Object.assign(extraProps, item);
+        }
         return (<S
             {...extraProps}
             key={item.key || item}
@@ -132,8 +155,8 @@ class CellLayoutTemplate extends Component {  // eslint-disable-line
             contentContainerStyle={{ justifyContent: 'flex-end', alignItems: 'center', textAlign: 'right' }}
             showLabel={false}
             // hideWhenEmptyValue
-            textStyles={{ textAlign: 'left' }}
-            layoutStyles={{ minHeight: 30, textAlign: 'left', justifyContent: 'flex-start', alignItems: 'center' }}
+            textStyles={[{ textAlign: 'left' }, textStyle, item.textStyle]}
+            layoutStyles={[styles.defaultLayout, layoutStyle, item.layoutStyle]}
             layout={this.getLayout(item)}
             {...this.context.getControlProps(item.key || item)}
         />);
@@ -153,20 +176,20 @@ class CellLayoutTemplate extends Component {  // eslint-disable-line
         }
         return (
             // <ScrollView>
-                <List style={StyleSheet.flatten(style)}>
-                    {
-                        this.props.items.map((section) =>
-                            (
-                                section.isGroup ? this.renderSection(section) :
-                                    section.items ?
-                                        section.items.map((item) => {
-                                            return this.renderItem(item);
-                                        }
-                                        ) : this.renderItem(section)
-                            )
+            <List style={StyleSheet.flatten(style)}>
+                {
+                    this.props.items.map((section) =>
+                        (
+                            section.isGroup ? this.renderSection(section) :
+                                section.items ?
+                                    section.items.map((item) => {
+                                        return this.renderItem(item);
+                                    }
+                                    ) : this.renderItem(section)
                         )
-                    }
-                </List>
+                    )
+                }
+            </List>
             // </ScrollView>
         );
     }

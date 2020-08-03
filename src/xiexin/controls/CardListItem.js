@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
         // border: '1px solid gray',
         padding: 5,
         backgroundColor: 'white',
-        overflow: 'hidden',
+        overflow: 'visible',
         boxShadow: '1px 1px 5px #888888',
         flex: 1,
     },

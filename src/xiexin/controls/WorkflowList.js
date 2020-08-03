@@ -8,6 +8,7 @@ import { Text, TextArea, ListComponents, Image } from 'yes-comp-react-native-web
 import SplitText from '../../controls/SplitText';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PropTypes from 'prop-types';
+import Avator from './Avator';
 
 const { ListText } = ListComponents;
 
@@ -15,7 +16,8 @@ const styles = StyleSheet.create({
     ListItemContainer: {
         flexDirection: 'row',
         // height: 60,
-        padding: 16,
+        paddingTop: 16,
+        paddingBottom: 16,
         alignItems: 'flex-start',
     },
     avatorContainer: {
@@ -26,13 +28,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     operatorLayout: {
-        paddingLeft: 10,
+        paddingLeft: 15,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
     },
     text: {
-        fontSize: 13,
+        fontSize: 11,
         color: '#000000',
         paddingLeft: 5,
         display: 'flex',
@@ -40,7 +42,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     text1: {
-        fontSize: 13,
+        fontSize: 11,
         color: '#000000',
         paddingLeft: 5,
         display: 'flex',
@@ -69,12 +71,13 @@ const styles = StyleSheet.create({
         color: '#B2B2B2',
         fontSize: 10,
         textAlign: 'right',
+        flex:1,
     },
     linkup: {
         position: 'absolute',
         width: 1,
         height: 16,
-        left: 40,
+        left: 25,
         top: 0,
         borderWidth: 1,
         borderStyle: 'dashed',
@@ -83,7 +86,7 @@ const styles = StyleSheet.create({
     linkdown: {
         position: 'absolute',
         width: 1,
-        left: 40,
+        left: 25,
         top: 64,
         bottom: 0,
         borderWidth: 1,
@@ -98,7 +101,6 @@ const styles = StyleSheet.create({
     workitem: {
         justifyContent: 'left',
         paddingLeft: 15,
-        paddingBottom: 5,
         fontWeight: 'bold',
     },
     arrow: {
@@ -129,7 +131,8 @@ class WorkflowListItem extends PureComponent {
             <TouchableWithoutFeedback style={styles.ListItemContainer} onPress={this.toggleCommet}>
                 <View style={styles.ListItemContainer} >
                     <View style={styles.avatorContainer}>
-                        <Image avator layoutStyles={styles.alignCenter} yigoid="l_operatorID" />
+                        <Avator yigoid="l_operatorID" size={50} mode="operator" />
+                        {/* <Image avator layoutStyles={styles.alignCenter} yigoid="l_operatorID" /> */}
                     </View>
                     <View style={{ flexDirection: 'column', flex: 1 }}>
                         <View style={styles.firstline}>
@@ -141,7 +144,7 @@ class WorkflowListItem extends PureComponent {
                             {this.props.rowIndex === 0 ? <RawText style={styles.text}>发起申请</RawText> : <ListText layoutStyles={styles.textLayout} style={styles.text1} yigoid="l_auditResult" />}
                             <ListText style={styles.time} yigoid="l_finishTime" />
                         </View>
-                        {this.state.showCommet ? <NewTextArea autoHeight textStyles={{backgroundColor:'lightgray'}} relatedId="l_userInfo" yigoid="l_userInfo" /> : null}
+                        {this.state.showCommet ? <NewTextArea autoHeight textStyles={{fontSize: 14,backgroundColor:'lightgray'}} relatedId="l_userInfo" yigoid="l_userInfo" /> : null}
                     </View>
                     {this.props.rowIndex === 0 ? null : <View style={styles.linkdown} />}
                     {this.props.rowIndex < this.props.size - 1 ? <View style={styles.linkup} /> : null}

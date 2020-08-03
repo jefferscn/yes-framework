@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 // import { getTheme, ThemeContext } from 'react-native-material-ui';
-import { BackHandler } from 'yes';
+import { BackHandler, AppDispatcher } from 'yes';
 import RootSiblings from 'react-native-root-siblings';
 import { ControlMappings } from 'yes-comp-react-native-web';
 import { History } from 'yes-web';
@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import { YIGOEnvProvider } from 'yes-intf';
 import AppWrapper from '../AppWrapper';
 import i18n from '../i18n';
+import global from 'global';
 
 // let modalHandler = null;
 let siblingKey = 0;
@@ -19,6 +20,15 @@ const getLocaleMessages = () => {
 }
 
 const modalStack = [];
+global.modalStack = modalStack;
+AppDispatcher.register((action)=>{
+    switch(action.type) {
+        case 'LOGOUTED':
+            modalStack.forEach((item)=> {
+                item();
+            });
+    }
+})
 // BackHandler.addPreEventListener(() => {
 //     const cb = modalStack[modalStack.length-1];
 //     if (cb) {
@@ -61,6 +71,7 @@ function createCallback(mh) {
     modalStack.push(fn);
     return fn;
 }
+
 export function showModal(children, fullScreen) {
     const closeModal = ()=> {
         backHandler();

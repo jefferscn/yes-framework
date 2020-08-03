@@ -1,14 +1,10 @@
 import React, { PureComponent } from 'react';
 import { ScrollView, View, StyleSheet, Text, ActivityIndicator } from 'react-native';
-import { Components, withDetail } from 'yes-comp-react-native-web'; // eslint-disable-line import/no-unresolved
-import { getMappedComponentHOC, GridWrap } from 'yes'; // eslint-disable-line import/no-unresolved
+import { getMappedComponentHOC } from 'yes'; // eslint-disable-line import/no-unresolved
 import defaultTemplateMapping from '../defaultTemplateMapping';
 import CellLayoutTemplate from '../TabTemplate/CellLayoutTemplate';
 import PropTypes from 'prop-types';
-// import ActionButton from '../../controls/ActionButton';
-import GridActionButton from './GridActionButton'
 
-const { CustomBillForm, LoadingComp } = Components;
 const styles = StyleSheet.create({
     container: {
         flexGrow: 1,
@@ -22,16 +18,6 @@ const styles = StyleSheet.create({
         paddingRight: 16,
     }
 });
-// @GridWrap
-// @withDetail
-// class GridActionButton extends PureComponent {
-//     render() {
-//         const { editable, style } = this.props;
-//         return editable ? (
-//             <ActionButton onPress={this.props.addNewRow} style={style} />
-//         ) : null
-//     }
-// }
 
 class NormalTemplate extends PureComponent {
     static contextTypes = {
@@ -88,7 +74,6 @@ class NormalTemplate extends PureComponent {
             </View>
         </View>);
     }
-    // return <LoadingComp icon="loading" show>加载中...</LoadingComp>; // eslint-disable-line react/jsx-no-undef, max-len
 }
 const WrappedNormalTemplate = getMappedComponentHOC(NormalTemplate);
 defaultTemplateMapping.reg('normal', WrappedNormalTemplate);
