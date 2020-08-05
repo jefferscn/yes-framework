@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import FontIcon from '../../font';
+import FontIcon from 'yes-framework/font';
 
 class SourceTypeIcon extends PureComponent {
     getIconSetting = ()=> {

@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
-import FontIcon from '../../font';
+import FontIcon from 'yes-framework/font';
 import { ControlWrap } from 'yes-intf';
 
 const styles = StyleSheet.create({

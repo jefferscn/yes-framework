@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react';
-import Header from '../../controls/Header';
+import Header from 'yes-framework/controls/Header';
 import { View, StyleSheet, Button, ActivityIndicator } from 'react-native';
 import { List } from 'antd-mobile';
 import { AppDispatcher } from 'yes-intf';
-import AppStatusWrap from '../../controls/AppStatusWrap';
+import AppStatusWrap from 'yes-framework/controls/AppStatusWrap';
 import { History } from 'yes-web';
-import Update from '../../controls/Update';
+import Update from 'yes-framework/controls/Update';
 
 const Item = List.Item;
 const styles = StyleSheet.create({

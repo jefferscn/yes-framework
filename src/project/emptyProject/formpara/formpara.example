@@ -1,0 +1,12 @@
+{
+    "CB_ProjectGRView*1": {
+        "IsPlaneTicket1": 0,
+        "ReimburseType": 1,
+        "BXType": 0
+    },
+    "CB_ProjectGR*1": {
+        "IsPlaneTicket1": 0,
+        "ReimburseType": 1,
+        "BXType": 0
+    }
+}

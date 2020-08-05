@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react';
 import { Platform, StyleSheet, View, TextInput, Text, Image, Button, TouchableHighlight } from 'react-native';
 import { propTypes, LoginWrap as loginWrap } from 'yes'; // eslint-disable-line
 import projectCfg from '../config/project.json';
-import { originFetch } from '../../util/fakeFetch';
+import { originFetch } from 'yes-framework/util/fakeFetch';
 
 const styles = StyleSheet.create({
     textinput: {

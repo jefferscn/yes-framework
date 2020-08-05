@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { ControlWrap } from 'yes-intf';
-import FontIcon from '../../font';
+import FontIcon from 'yes-framework/font';
 import { View } from 'react-native';
 
 class BooksTypeImage extends PureComponent {

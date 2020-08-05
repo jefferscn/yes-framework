@@ -1,17 +1,16 @@
 import React, { PureComponent } from 'react';
 import { Modal, NavBar, Icon } from 'antd-mobile';
 import PropTypes from 'prop-types';
-import GridView from '../../controls/GridView';
+import GridView from 'yes-framework/controls/GridView';
 import { ComboBox, ListComponents } from 'yes-comp-react-native-web';
 import { View, StyleSheet, ActivityIndicator, Text } from 'react-native';
-import GridSelect from '../../controls/GridSelect';
-import SegementButtons from '../../controls/SegementButtons';
-import CheckboxLabel from '../../controls/CheckboxLabel';
-import FilterBlock from './FilterBlock';
+import GridSelect from 'yes-framework/controls/GridSelect';
+import SegementButtons from 'yes-framework/controls/SegementButtons';
+import CheckboxLabel from 'yes-framework/controls/CheckboxLabel';
+import FilterBlock from 'yes-framework/controls/FilterBlock';
 import { BackHandler, Util } from 'yes-intf';
-import Header from '../../controls/Header';
+import Header from 'yes-framework/controls/Header';
 import SourceTypeIcon from './SourceTypeIcon';
-import { ActionSheet } from 'antd-mobile';
 
 const { ListImage } = ListComponents;
 

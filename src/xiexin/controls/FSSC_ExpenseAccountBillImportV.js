@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Modal } from 'antd-mobile';
 import PropTypes from 'prop-types';
-import GridView from '../../controls/GridView';
+import GridView from 'yes-framework/controls/GridView';
 
 export default class ExpenseAccountBillImport extends PureComponent {
     static contextTypes = {

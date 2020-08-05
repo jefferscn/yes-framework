@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { View, StyleSheet, Text, ImageBackground, ScrollView, TouchableWithoutFeedback } from 'react-native';
 import { ControlWrap } from 'yes-intf';
-import ListText from '../../controls/ListText';
+import ListText from 'yes-framework/controls/ListText';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PropTypes from 'prop-types';
 

@@ -11,6 +11,7 @@ export default (DEBUG, PATH, PORT = 3000) => {
             alias: {
                 'react-native': 'react-native-web',
                 'yes-platform': 'yes-web',
+                'yes-framework': './src',
                 yes: 'yes-intf',
                 'yes-yiui-common': 'yes-core/dist/YIUI-common',
                 'yes-filtermap': 'yes-core/dist/filtermap',

@@ -13,6 +13,7 @@ YIGO配置
 
     使用GridCarousel控件来实现
 
+再js代码中直接使用
 ```javascript
     <ImageCarouselGrid
         needThumbnail={false}
@@ -24,6 +25,8 @@ YIGO配置
         textColumn="Description"
     />
 ```
+
+再单据配置文件中使用
 
 ```javascript 
     "type": "element",
@@ -42,10 +45,9 @@ YIGO配置
 ```
 
 控件属性
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 |名称    |描述      |默认值    |
-|------|----------|------------|
+|--------|----------|----------|
 | needThumbnail   |是否使用缩略图         | false      |
 |w   |  宽度     | 1000    |
 |h   |  高度     | 1000    |

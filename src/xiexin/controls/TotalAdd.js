@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Modal } from 'antd-mobile';
-import XiexinIcon from '../../font';
-import { openForm, openModal } from '../../util/navigateUtil';
+import XiexinIcon from 'yes-framework/font';
+import { openForm, openModal } from 'yes-framework/util/navigateUtil';
 
 const styles = StyleSheet.create({
     entrycontainer: {

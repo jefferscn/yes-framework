@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 // import SegementCombobox from '../../controls/SegementCombobox';
 import Element from '../template/Element';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { View, StyleSheet, Button } from 'react-native';
+import { View, StyleSheet, Button, TouchableOpacity } from 'react-native';
 import { Modal } from 'antd-mobile';
 import PropTypes from 'prop-types';
 import CellLayoutTemplate from '../template/TabTemplate/CellLayoutTemplate';
@@ -44,7 +44,9 @@ class FilterButton extends PureComponent {
     render() {
         const { style, items } = this.props;
         return (<View style={[styles.filterButton]}>
-            <Icon onPress={this.showModal} name="filter" size="16" />
+            <TouchableOpacity onPress={this.showModal} style={styles.iconWrap}>
+                <Icon onPress={this.showModal} name="filter" size="16" />
+            </TouchableOpacity>
             <Modal
                 popup
                 visible={this.state.showModal}
@@ -151,6 +153,12 @@ const styles = StyleSheet.create({
         width: 50,
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    iconWrap: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%',
     },
     condition: {
         padding: 16,

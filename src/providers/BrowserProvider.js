@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, ImagePicker } from 'antd-mobile';
-import { showModal } from '../../SiblingMgr';
+import { showModal } from '../SiblingMgr';
 import Compressor from 'compressorjs';
 
 class ImageSelect extends PureComponent {

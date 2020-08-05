@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import { Card } from './FSSC_HospitalityReimbursement';
-import Header from '../../controls/Header';
+import Header from 'yes-framework/controls/Header';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
-import CellLayoutTemplate from '../../template/TabTemplate/CellLayoutTemplate';
+import CellLayoutTemplate from 'yes-framework/template/TabTemplate/CellLayoutTemplate';
 
 const styles = StyleSheet.create({
     title: {

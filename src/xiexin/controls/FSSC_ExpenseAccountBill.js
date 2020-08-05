@@ -1,15 +1,15 @@
 import React, { PureComponent } from 'react';
 import { View, ScrollView, Text, StyleSheet, ImageBackground } from 'react-native';
 import PropTypes from 'prop-types';
-import Header from '../../controls/Header';
-import ListText from '../../controls/ListText';
+import Header from 'yes-framework/controls/Header';
+import ListText from 'yes-framework/controls/ListText';
 import Avator from './Avator';
 import ExpenseImage from '../res/expense.png';
-import SplitText from '../../controls/SplitText';
-import CellLayoutTemplate from '../../template/TabTemplate/CellLayoutTemplate';
-import AttachmentList from '../../controls/AttachmentList';
-import GridView from '../../controls/GridView';
-import SegementToolbar from '../../controls/SegementToolbar';
+import SplitText from 'yes-framework/controls/SplitText';
+import CellLayoutTemplate from 'yes-framework/template/TabTemplate/CellLayoutTemplate';
+import AttachmentList from 'yes-framework/controls/AttachmentList';
+import GridView from 'yes-framework/controls/GridView';
+import SegementToolbar from 'yes-framework/controls/SegementToolbar';
 import { Modal } from 'antd-mobile';
 import { History } from 'yes-web';
 

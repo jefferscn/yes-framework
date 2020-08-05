@@ -4,8 +4,8 @@ import wode from '../res/wode.png';
 import { StyleSheet, ScrollView, View, ImageBackground, TouchableOpacity, Text } from 'react-native';
 import AwesomeFontIcon from 'react-native-vector-icons/FontAwesome';
 import { History } from 'yes-web';
-import ListText from '../../controls/ListText';
-import SplitText from '../../controls/SplitText';
+import ListText from 'yes-framework/controls/ListText';
+import SplitText from 'yes-framework/controls/SplitText';
 
 const styles = StyleSheet.create({
     image: {

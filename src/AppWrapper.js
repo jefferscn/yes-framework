@@ -1,6 +1,6 @@
 import React from 'react';
-import PlatformProvider from './controls/providers';
-import BaiduProvider from './controls/providers/BaiduMapProvider';
+import PlatformProvider from './providers';
+import BaiduProvider from './providers/BaiduMapProvider';
 import { ProjectCfg } from './config/index';
 import enUS from 'antd-mobile/lib/locale-provider/en_US';
 import { LocaleProvider } from 'antd-mobile';

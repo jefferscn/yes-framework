@@ -3,21 +3,21 @@ import { View, StyleSheet, Text, ImageBackground, ScrollView, TouchableWithoutFe
 import { ControlWrap } from 'yes-intf';
 import { Modal } from 'antd-mobile';
 import zhaodai_bg from '../res/zhaodai_bg.png';
-import Header from '../../controls/Header';
-import CellLayoutTemplate from '../../template/TabTemplate/CellLayoutTemplate';
-import ListText from '../../controls/ListText';
+import Header from 'yes-framework/controls/Header';
+import CellLayoutTemplate from 'yes-framework/template/TabTemplate/CellLayoutTemplate';
+import ListText from 'yes-framework/controls/ListText';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PropTypes from 'prop-types';
-import XieinIcon from '../../font';
-import SegementToolbar from '../../controls/SegementToolbar';
-import AttachmentList from '../../controls/AttachmentList';
+import XieinIcon from 'yes-framework/font';
+import SegementToolbar from 'yes-framework/controls/SegementToolbar';
+import AttachmentList from 'yes-framework/controls/AttachmentList';
 import GridSummary from './GridSummary';
-import GridView from '../../controls/GridView';
-import MoneyWithCurrency from '../../controls/MoneyWithCurrency';
-import SplitText from '../../controls/SplitText';
+import GridView from 'yes-framework/controls/GridView';
+import MoneyWithCurrency from 'yes-framework/controls/MoneyWithCurrency';
+import SplitText from 'yes-framework/controls/SplitText';
 import Util from '../util';
-import VisibleRelated from '../../controls/VisibleRelated';
-import FormTitle from '../../controls/FormTitle';
+import VisibleRelated from 'yes-framework/controls/VisibleRelated';
+import FormTitle from 'yes-framework/controls/FormTitle';
 
 const styles = StyleSheet.create({
     container: {

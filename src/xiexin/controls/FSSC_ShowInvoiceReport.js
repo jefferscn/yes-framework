@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Modal } from 'antd-mobile';
 import { View, Text, StyleSheet, TouchableWithoutFeedback } from 'react-native';
-import AttachmentList from '../../controls/AttachmentList';
+import AttachmentList from 'yes-framework/controls/AttachmentList';
 
 const styles = StyleSheet.create({
     error: {

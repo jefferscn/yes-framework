@@ -1,0 +1,18 @@
+{
+    "sessionKey": "test",
+    "serverPath_":"http://localhost:8080/yigo",
+    "serverPath":"http://mcs.bokesoft.com:28098/mcs/",
+    "wechat": {
+        "signurl": "http://localhost:3001/wechatsign/com.bokesoft.test"
+    },
+    "baidumap": {
+        "ak": "fSDn0wEEkKVVunWlh1GqyMoU"
+    },
+    "jpush": false,
+    "baidupush_": {
+        "apiKey": "ZMI5WqsClmocGngGEklykT56"
+    },
+    "cordova": {
+        "overlayWebview": true
+    }
+}

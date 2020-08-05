@@ -4,23 +4,23 @@ import {
     TouchableHighlight, PanResponder, LayoutAnimation,
     Dimensions
 } from 'react-native';
-import IconFont from '../../font';
-import { NavBar, Icon, Modal, WhiteSpace } from 'antd-mobile';
-// import { showModal } from '../../SiblingMgr';
+import IconFont from 'yes-framework/font';
+import { Modal, WhiteSpace } from 'antd-mobile';
+// import { showModal } from 'yes-framework/SiblingMgr';
 import util from '../util';
-import { openForm, openModal } from '../../util/navigateUtil';
+import { openForm, openModal } from 'yes-framework/util/navigateUtil';
 import { CustomBillForm } from 'yes-comp-react-native-web';
-import GridView from '../../controls/GridView';
-import FlexBox from './FlexBox';
+import GridView from 'yes-framework/controls/GridView';
+import FlexBox from 'yes-framework/controls/FlexBox';
 import { ListComponents } from 'yes-comp-react-native-web';
 import PropTypes from 'prop-types';
-import ImageCarouselGrid from './ImageCarouselGrid';
+import ImageCarouselGrid from 'yes-framework/controls/ImageCarouselGrid';
 import { Svr } from 'yes-core';
 import BooksTypeImage from './BooksTypeImage';
-import BadgeText from '../../controls/BadgeText'
+import BadgeText from 'yes-framework/controls/BadgeText'
 import { allList, selectedList, saveSelectedList } from '../res/entrylist';
 import AwesomeFontIcon from 'react-native-vector-icons/FontAwesome';
-import Header from '../../controls/Header';
+import Header from 'yes-framework/controls/Header';
 
 const { ListText } = ListComponents;
 

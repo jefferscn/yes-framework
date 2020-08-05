@@ -1,13 +1,11 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Popover } from 'antd-mobile';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { MetaBillFormWrap } from 'yes-intf';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import moment from 'moment';
 import Popup from 'rmc-picker/es/Popup';
 import { PickerView } from 'antd-mobile';
-import { ScreenStackHeaderRightView } from 'react-native-screens';
 
 const styles = StyleSheet.create({
     container: {

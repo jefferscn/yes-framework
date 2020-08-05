@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import Element from '../../template/Element';
+import Element from 'yes-framework/template/Element';
 import { ControlWrap } from 'yes-intf';
 
 class VisibleEmpty extends PureComponent {
