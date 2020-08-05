@@ -31,7 +31,7 @@ import MonthPicker from './controls/MonthPicker';
 window.his = History;
 
 // import './util/fakeFetch';
-Reflect = undefined;
+// Reflect = undefined;
 
 FastClick.attach(document.body);
 injectFont(fontAwesome, 'FontAwesome');
