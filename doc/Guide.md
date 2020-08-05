@@ -14,6 +14,10 @@ YIGO服务器端改动
 
     git clone -b update https://github.com/jefferscn/yes-framework.git
 
+    cd yes-framework
+
+    npm install
+
 2. 创建项目目录
 
     src/project/emptyProject这个目录中是一个空项目，复制到src目录下任意位置，建议就直接放到src目录下，目录名字随意，然后修改src/project/index.js文件，引入新建的项目目录

@@ -41,6 +41,7 @@
     "rc-bmap": "^1.0.5",
     "react-m-carousel": "^2.0.3",
     "react-native-root-siblings": "^4.0.6",
+    "react-native-vector-icons": "6.6.0",
     "react-native-screens": "^2.4.0",
     "react-native-web": "0.0.0-d33e107ba",
     "react-viewer": "^3.2.1",
