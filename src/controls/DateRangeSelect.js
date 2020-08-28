@@ -91,6 +91,7 @@ export default class DateRangeSelect extends PureComponent {
     componentWillReceiveProps(props) {
         // if(props.formStatus==='ok' && this.props.formStatus!=='ok') {
         if (this.state.value) {
+            if(props.status>0 && this.props.status===0)
             this.requestChange(this.state.value);
         } else {
             const startDate = this.context.getContextComponent(this.props.startDateField);

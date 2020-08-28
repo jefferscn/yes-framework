@@ -68,7 +68,10 @@
             "ignoreItems": [
                 "New",
                 "Close"
-            ]
+            ],
+            "captionMapping": {
+                "发送PDF文件至邮箱": "封面打印"
+            }
         }
     },
     "action": {

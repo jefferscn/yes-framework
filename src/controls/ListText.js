@@ -6,8 +6,12 @@ import { Text } from 'react-native';
 import { ControlWrap } from 'yes-intf';
 import Element from '../template/Element';
 
-const YText = ({ displayValue, style, isVirtual, controlState, caption, icon, emptyStr = "空" }) => {
-    return (<Text style={style}>
+const YText = ({ displayValue, value, style, isVirtual, controlState, caption, icon, styleMapping, emptyStr = "空" }) => {
+    let extraStyle = null;
+    if(styleMapping) {
+        extraStyle = styleMapping(value);
+    }
+    return (<Text style={[style, extraStyle]}>
         {icon ? <Element meta={icon} /> : null}
         {displayValue || emptyStr}
     </Text>);

@@ -38,6 +38,10 @@
             }
         }
     },
+    "refresh": {
+        "type": "button",
+        "buttonId": "Query"
+    },
     "filterBlock": {
         "type": "element",
         "elementType": "FilterBlock",
@@ -52,13 +56,17 @@
                     "yigoid": "Status_NODB4Other",
                     "style" : {
                         "flex": 1
+                    },
+                    "titleMapping": {
+                        "审批未通过": "未通过"
                     }
                 }
             }],
             "comboboxId": "Status_NODB4Other",
             "hasMore": true,
             "moreItems": [
-                "PersonnelID_NODB4Other"
+                "PersonnelID_NODB4Other",
+                "NO_NODB4Other"
             ],
             "queryButton": "Query"
         }

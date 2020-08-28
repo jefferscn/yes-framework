@@ -3,8 +3,9 @@ import { FormInfo } from 'yes-comp-react-native-web'; // eslint-disable-line
 
 class FormTitle extends PureComponent {
     render() {
+        const { style } = this.props;
         return (
-            <FormInfo.FormCaption containerStyle = {this.props.containerStyle} style={{ fontSize: 20 }} />
+            <FormInfo.FormCaption containerStyle = {this.props.containerStyle} style={[{ fontSize: 20 }, style]} />
         );
     }
 }

@@ -216,7 +216,7 @@ class AntdListView extends PureComponent {
         const { controlState, layoutStyles, style, useBodyScroll } = this.props;
         if (controlState && controlState.get('isVirtual')) {
             return (
-                <View style={[layoutStyles]}>
+                <View style={[styles.center, style]}>
                     <ActivityIndicator size="large" color="cadetblue" />
                 </View>
             );
@@ -224,7 +224,6 @@ class AntdListView extends PureComponent {
         return (
             <ListView
                 style={style}
-                contentContainerStyle={{ width: '100%' }}
                 dataSource={this.state.dataSource}
                 useBodyScroll={useBodyScroll}
                 renderRow={this.renderItem}
@@ -232,6 +231,7 @@ class AntdListView extends PureComponent {
                 onEndReached={this.onEndReached}
                 contentContainerStyle={{
                     backgroundColor: 'lightgray',
+                    width: '100%',
                 }}
                 renderFooter={this.renderFoot}
                 // pullToRefresh
@@ -245,6 +245,10 @@ class AntdListView extends PureComponent {
 }
 // AntdListView.propTypes = propTypes.List;
 const styles = StyleSheet.create({
+    center: {
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     container: {
         flexDirection: 'column',
         alignItems: 'stretch',

@@ -92,18 +92,23 @@ Util.alert = (title, msg) => {
     }]);
 };
 
-Util.showBillformInModal = (formKey, oid = -1, status = 'EDIT', params) => {
-    if (ModalCfg && ModalCfg.includes(formKey)) {
+Util.showBillformInModal = (formKey, oid = -1, status = 'EDIT', params, showType) => {
+    let modalKey = formKey;
+    if (showType) {
+        modalKey = `${formKey}_${showType}`;
+    }
+    if (ModalCfg && ModalCfg.includes(modalKey)) {
         showModal(
             <TemplateView
                 formKey={formKey}
                 oid={oid}
                 status={status}
-                showType="modal"
+                modalWrap={true}
+                showType={showType || "modal"}
                 params={params}
             />
         );
-        return ;
+        return;
     }
     openForm(formKey, oid, status);
 }
@@ -131,12 +136,12 @@ Util.confirm = function (title, msg, type) {
         }
         if (type === 'YES_NO') {
             actions.push({
-                text: formatMessage('是'),
-                onPress: pressYes,
-            });
-            actions.push({
                 text: formatMessage('否'),
                 onPress: pressNo,
+            });
+            actions.push({
+                text: formatMessage('是'),
+                onPress: pressYes,
             });
         }
         if (type === 'YES_NO_CANCEL') {
@@ -158,13 +163,20 @@ Util.confirm = function (title, msg, type) {
     });
 };
 
-Util.buildThumbnailUrl = (url, w, h, q=1) => {
+Util.buildThumbnailUrl = (url, w, h, q = 1) => {
     return `${url}&w=${w}&h=${h}&q=${q}`;
 }
 const MainRouter = buildRoute(RouteCfg);
 
-const onNavigationStateChange = (prevState, nextState, action) => {
-    console.log(action);
+const onNavigationStateChange = (prevState, currentState) => {
+    const getCurrentRouteName = (navigationState) => {
+        if (!navigationState) return null;
+        const route = navigationState.routes[navigationState.index];
+        if (route.routes) return getCurrentRouteName(route);
+        return route.routeName;
+    };
+    let currentRoute = getCurrentRouteName(currentState);
+    console.log(currentRoute);
 };
 
 const AuthRouter = AuthenticatedRoute(MainRouter, () => <Element meta={LoginCfg} />, 'root');
@@ -175,9 +187,9 @@ const NavigatorListenerWrapper = (props) =>
             {...props} />
     </AppWrapper>);
 
-AppDispatcher.register((action)=>{
-    switch(action.type) {
-        case 'LOGOUTED': 
+AppDispatcher.register((action) => {
+    switch (action.type) {
+        case 'LOGOUTED':
             // history.go(0);
             console.log('logouted');
             break;

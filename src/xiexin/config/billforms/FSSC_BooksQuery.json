@@ -193,67 +193,6 @@
         }
     },
     "controls": {
-        "list": {
-            "control": "ListView",
-            "primaryKey": "NO",
-            "secondKey": [
-                "PersonnelID"
-            ],
-            "tertiaryKey": [
-                "DeptID_LV"
-            ],
-            "style": {
-                "marginLeft": 12
-            },
-            "rightElement": {
-                "type": "element",
-                "elementType": "FlexBox",
-                "elementProps": {
-                    "direction": "column",
-                    "style": {
-                        "justifyContent": "space-between"
-                    },
-                    "items": [
-                        {
-                            "type": "element",
-                            "elementType": "SplitText",
-                            "elementProps": {
-                                "yigoid": "BillDate_LV",
-                                "style": {
-                                    "fontSize": 12,
-                                    "paddingTop": 12,
-                                    "textAlign": "right"
-                                }
-                            }
-                        },
-                        {
-                            "type": "element",
-                            "elementType": "MoneyWithCurrency",
-                            "elementProps": {
-                                "currencyField": {
-                                    "type": "element",
-                                    "elementType": "SplitText",
-                                    "elementProps": {
-                                        "yigoid": "CurrencyID_LV",
-                                        "style": {
-                                            "fontSize": 12,
-                                            "paddingRight": 2,
-                                            "textAlign": "right"
-                                        }
-                                    }
-                                },
-                                "moneyField": "ApplyMoney_LV",
-                                "containerStyle": {
-                                    "paddingBottom": 6,
-                                    "justifyContent": "flex-end",
-                                    "paddingRight": 0
-                                }
-                            }
-                        }
-                    ]
-                }
-            },
-            "divider": true
-        }
+     
     }
 }

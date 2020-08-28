@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Modal } from 'antd-mobile';
+import { View } from 'react-native';
 import PropTypes from 'prop-types';
 import GridView from 'yes-framework/controls/GridView';
 
@@ -14,7 +15,7 @@ export default class ExpenseAccountBillImport extends PureComponent {
     onClose = () => {
         this.props.onClose && this.props.onClose();
     }
-    onCancel= () => {
+    onCancel = () => {
         this.props.onClose && this.props.onClose();
     }
     render() {
@@ -30,19 +31,21 @@ export default class ExpenseAccountBillImport extends PureComponent {
                 text: '取消',
                 onPress: this.onCancel,
             }]}
-            // wrapProps={{ onTouchStart: this.onWrapTouchStart }}
-            // afterClose={this.onClose}
+        // wrapProps={{ onTouchStart: this.onWrapTouchStart }}
+        // afterClose={this.onClose}
         >
-            <GridView
-                yigoid="Grid1"
-                useBodyScroll={true}
-                showArrow={false}
-                primaryKey="NO_LV"
-                secondKey={["Region"]}
-                clickMode="dblclick"
-                hideAction={true}
-                tertiaryKey={["PersonnelID_LV"]}
-            />
+            <View style={[{ maxHeight: 300 }]}>
+                <GridView
+                    yigoid="Grid1"
+                    useBodyScroll={true}
+                    showArrow={false}
+                    primaryKey="NO_LV"
+                    secondKey={["Region"]}
+                    clickMode="dblclick"
+                    hideAction={true}
+                    tertiaryKey={["PersonnelID_LV"]}
+                />
+            </View>
         </Modal>);
     }
 }

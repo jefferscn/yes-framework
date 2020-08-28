@@ -205,6 +205,7 @@ class AttachmentList extends PureComponent {
                         this.state.showPreview ? <WxImageViewer
                             onClose={this.onViewerClose}
                             zIndex={1000}
+                            crossorigin="use-credentials"
                             urls={files}
                             index={this.state.index} /> : null
                     }

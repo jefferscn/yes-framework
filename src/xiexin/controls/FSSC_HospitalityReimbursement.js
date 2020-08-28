@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, StyleSheet, Text, ImageBackground, ScrollView, TouchableWithoutFeedback } from 'react-native';
+import { View, StyleSheet, Text, ImageBackground, ScrollView, TouchableWithoutFeedback, ActivityIndicator } from 'react-native';
 import { ControlWrap } from 'yes-intf';
 import { Modal } from 'antd-mobile';
 import zhaodai_bg from '../res/zhaodai_bg.png';
@@ -145,6 +145,16 @@ const styles = StyleSheet.create({
     currentMain: {
         flex: 1,
         paddingRight: 0,
+    },
+    mask: {
+        position: 'absolute',
+        height: '100%',
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 1,
+        backgroundColor: 'rgba(245,245,245,0.5)',
     }
 });
 
@@ -430,7 +440,7 @@ export default class HospitalityReimbursement extends PureComponent {
         return <ColumnLabelLayout showArrow={item.arrow} textStyle={item.textStyle} />
     }
     render() {
-        const { pageStyle, error, errorMsg } = this.props;
+        const { pageStyle, error, errorMsg, formStatus } = this.props;
         let actionButton = this.context.createElement(actionMeta);
         return (
             <View style={[styles.page, pageStyle]}>
@@ -463,7 +473,11 @@ export default class HospitalityReimbursement extends PureComponent {
                     }} />}
                     mode="dark"
                 />
-                <ScrollView style={{ paddingBottom: 20 }}>
+                <ScrollView style={{ paddingBottom: 20 }}>                    
+                    {
+                        formStatus != 'ok' ?
+                            <View style={styles.mask}><ActivityIndicator /></View> : null
+                    }
                     <Card background={zhaodai_bg} style={styles.firstCard}>
                         <View style={styles.row}>
                             <Text style={[styles.lightText, styles.font12]}>单据日期: </Text>
@@ -474,7 +488,7 @@ export default class HospitalityReimbursement extends PureComponent {
                                 }
                                 // moneyField="ReimbursementAmount"
                                 moneyField={
-                                    <ListText style={[styles.bigMoney, styles.lightText]} yigoid="ReimbursementAmount" emptyStr="0" />
+                                    <ListText style={[styles.bigMoney, styles.lightText]} yigoid="ActualPaymentAmount" emptyStr="0" />
                                 }
                                 containerStyle={styles.currentMain}
                                 moneyStyle={[styles.bigMoney, styles.lightText]} />
@@ -484,7 +498,7 @@ export default class HospitalityReimbursement extends PureComponent {
                                 <Text style={[styles.lightText, styles.font12]}>单据编号:</Text>
                                 <ListText emptyStr="" style={[styles.lightText, styles.font12, { paddingTop: 5 }]} yigoid="NO" />
                             </View>
-                            <Text style={[styles.moneyLabel, styles.lightText]}>支付金额</Text>
+                            <Text style={[styles.moneyLabel, styles.lightText]}>实际付款金额</Text>
                         </View>
                     </Card>
                     <Card style={[styles.firstCard, { overflow: 'visible' }]} bookmark="Status">
@@ -611,6 +625,10 @@ export default class HospitalityReimbursement extends PureComponent {
                     actionButton
                 }
                 <SegementToolbar
+                    captionMapping={{
+                        "发送PDF文件至邮箱": "封面打印",
+                        "撤销已提交审批": "撤销"
+                    }}
                     ignoreItems={[
                         "New",
                         "Close"

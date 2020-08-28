@@ -19,12 +19,19 @@
     },
     "action": {
         "type": "element",
-        "elementType": "ButtonActionButton",
+        "elementType": "VisibleRelatedDisabled",
         "elementProps": {
-            "buttonKey": "EnteyInvoice",
-            "style": {
-                "right": "50%",
-                "transform": "translateX(30px)"
+            "yigoid": "EnteyInvoice",
+            "element": {
+                "type": "element",
+                "elementType": "ButtonActionButton",
+                "elementProps": {
+                    "buttonKey": "EnteyInvoice",
+                    "style": {
+                        "right": "50%",
+                        "transform": "translateX(30px)"
+                    }
+                }
             }
         }
     },
@@ -40,7 +47,17 @@
     "foot": {
         "type": "element",
         "elementType": "SegementToolbar",
-        "elementProps": {}
+        "elementProps": {
+
+            "ignoreItems": [
+                "New",
+                "Close"
+            ],
+            "captionMapping": {
+                "发送PDF文件至邮箱": "封面打印",
+                "撤销已提交审批": "撤销"
+            }
+        }
     },
     "controls": {
         "Grid1": {

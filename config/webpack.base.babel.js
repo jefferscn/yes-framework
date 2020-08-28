@@ -31,7 +31,7 @@ export default (DEBUG, PATH, PORT = 3000) => {
             filename: '[name].js',
             // publicPath: './generated/',
         },
-        mode: DEBUG? 'development' : 'production',
+        mode: DEBUG ? 'development' : 'production',
         cache: DEBUG,
         // For options, see http://webpack.github.io/docs/configuration.html#devtool
         devtool: DEBUG ? 'source-map' : false,
@@ -65,6 +65,7 @@ export default (DEBUG, PATH, PORT = 3000) => {
                         path.resolve(__dirname, '../node_modules/react-wx-images-viewer'),
                         path.resolve(__dirname, '../node_modules/yg-echarts/'),
                         path.resolve(__dirname, '../node_modules/yes-core/'),
+                        path.resolve(__dirname, '../node_modules/react-navigation-is-focused-hoc/'),
                         path.resolve(__dirname, '../node_modules/yes-intf/'),
                         path.resolve(__dirname, '../node_modules/idb/'),
                         path.resolve(__dirname, '../src'),
@@ -77,7 +78,7 @@ export default (DEBUG, PATH, PORT = 3000) => {
                     loader: 'babel-loader',
                     query: {
                         babelrc: false,
-                        presets: [['@babel/preset-env', { "modules": "commonjs", }], '@babel/preset-react', '@babel/preset-flow'],
+                        presets: [['@babel/preset-env', { "modules": "commonjs" }], '@babel/preset-react', '@babel/preset-flow'],
                         plugins: ['@babel/plugin-proposal-export-default-from',
                             ['@babel/plugin-proposal-decorators', { "legacy": true }],
                             ['@babel/plugin-proposal-class-properties', {
@@ -86,6 +87,10 @@ export default (DEBUG, PATH, PORT = 3000) => {
                             // 'react-native-web',
                             '@babel/plugin-proposal-export-namespace-from']
                     },
+                }, {
+                    test: /\.js$/,
+                    enforce: 'pre',
+                    use: ['source-map-loader'],
                 }, {
                     test: /\.scss$/,
                     loaders: [

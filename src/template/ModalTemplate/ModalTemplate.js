@@ -1,9 +1,13 @@
 import React, { PureComponent } from 'react';
-import { View, ActivityIndicator } from 'react-native';
+import { View, ActivityIndicator, Dimensions } from 'react-native';
 import { Modal } from 'antd-mobile';
 import defaultTemplateMapping from '../defaultTemplateMapping';
 import PropTypes from 'prop-types';
 import Element from '../Element';
+
+const { width, height } = Dimensions.get('window');
+
+const maxHeight = height * 0.7;
 
 class ModalTemplateForm extends PureComponent {
     static contextTypes = {
@@ -52,7 +56,7 @@ class ModalTemplateForm extends PureComponent {
                 afterClose={this.onClose}
             >
                 {formStatus === 'ok' ?
-                    <View style={[{ maxHeight: 500 }, style]}><Element meta={content} /></View> :
+                    <View style={[{ maxHeight: maxHeight}, style]}><Element meta={content} /></View> :
                     <ActivityIndicator size="large" />
                 }
             </Modal>

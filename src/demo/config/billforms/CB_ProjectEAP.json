@@ -1,5 +1,5 @@
 {
-    "formTemplate": "normal",
+    "formTemplate": "auto",
     "head": {
         "type": "element",
         "elementType": "Header",
@@ -15,17 +15,6 @@
                     }
                 }
             }
-        }
-    },
-    "foot": {
-        "type": "element",
-        "elementType": "SegementToolbar",
-        "elementProps": {
-            "ignoreItems": [
-                "optKey1",
-                "New",
-                "Close"
-            ]
         }
     },
     "action": {
@@ -47,93 +36,249 @@
         }
     },
     "items": [
-        "Borrower",
-        "DeptID",
-        "Project",
-        "ProjectWBSID",
-        "IsTravel",
-        "Describe",
-        "SumMoney",
-        "Grid5",
         {
-            "isGroup": true,
-            "caption": "出差内容",
-            "visibleRelation": "SplitPanel2",
-            "items": [
-                "remark2",
-                "remark3",
-                "jtgj",
-                "jtgjtxt"
-            ]
-        },
-        {
-            "isGroup": true,
-            "caption": "酒店/旅馆",
-            "visibleRelation": "SplitPanel2",
-            "items": [
-                "TheMonthPeriod",
-                "roomNum",
-                "roomprice",
-                "daysNum",
-                "roomsMoney"
-            ]
-        },
-        {
-            "isGroup": true,
-            "caption": "往返交通",
-            "visibleRelation": "SplitPanel2",
-            "items": [
-                "TheMonthPeriod",
-                "roomNum",
-                "roomprice",
-                "daysNum",
-                "roomsMoney"
-            ]
-        }
-    ],
-    "controls": {
-        "Grid5": {
-            "control": "GridView",
-            "showHead": true,
-            "headTitle": "费用明细",
-            "useBodyScroll": true,
-            "style": {
-                "flex": 1
-            },
-            "hideAction": true,
-            "headExtra": {
-                "type": "element",
-                "elementType": "MoneyWithCurrency",
-                "elementProps": {
-                    "currencyField": {
-                        "type": "element",
-                        "elementType": "SplitText",
-                        "elementProps": {
-                            "yigoid": "CurrencyID",
-                            "style": {
-                                "display": "flex",
-                                "justifyContent": "center",
-                                "alignItems": "center",
-                                "fontSize": 12,
-                                "color": "green",
-                                "paddingRight": 4
-                            }
-                        }
-                    },
-                    "moneyField": "SumMoney",
-                    "containerStyle": {
-                        "flex": 1
+            "type": "element",
+            "elementType": "Card",
+            "elementProps": {
+                "collapseable": false,
+                "headIcon": "",
+                "title": "基本信息",
+                "bookmark": "Status",
+                "style": {
+                    "overflow": "visible"
+                },
+                "headStyle": {
+                    "height": 80
+                },
+                "content": {
+                    "type": "element",
+                    "elementType": "CellLayoutTemplate",
+                    "elementProps": {
+                        "textStyle": {
+                            "textAlign": "right",
+                            "justifyContent": "flex-end"
+                        },
+                        "titleStyle": {
+                            "justifyContent": "flex-start",
+                            "fontSize": "15",
+                            "color": "#666666"
+                        },
+                        "layoutStyle": {
+                            "justifyContent": "flex-end"
+                        },
+                        "items": [
+                            "Borrower",
+                            "DeptID",
+                            "Project",
+                            "ProjectWBSID",
+                            "IsTravel",
+                            "Describe",
+                            "SumMoney"
+                        ]
                     }
                 }
-            },
-            "primaryKey": "budgetindex",
-            "secondKey": [
-                "remarkdtl"
-            ],
-            "tertiaryKey": [
-                "period",
-                "indexmoney"
-            ]
+            }
+        },
+        {
+            "type": "element",
+            "elementType": "Card",
+            "elementProps": {
+                "collapseable": true,
+                "headIcon": "",
+                "title": "出差内容",
+                "expanded": true,
+                "wrapElement": {
+                    "type": "element",
+                    "elementType": "VisibleRelated",
+                    "elementProps": {
+                        "yigoid": "SplitPanel2"
+                    }
+                },
+                "content": {
+                    "type": "element",
+                    "elementType": "CellLayoutTemplate",
+                    "elementProps": {
+                        "textStyle": {
+                            "textAlign": "right",
+                            "justifyContent": "flex-end"
+                        },
+                        "titleStyle": {
+                            "justifyContent": "flex-start",
+                            "fontSize": "15",
+                            "color": "#666666"
+                        },
+                        "layoutStyle": {
+                            "justifyContent": "flex-end"
+                        },
+                        "items": [
+                            "remark2",
+                            "remark3",
+                            "jtgj",
+                            "jtgjtxt"
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "type": "element",
+            "elementType": "Card",
+            "elementProps": {
+                "collapseable": true,
+                "headIcon": "",
+                "title": "酒店/旅馆",
+                "expanded": true,
+                "wrapElement": {
+                    "type": "element",
+                    "elementType": "VisibleRelated",
+                    "elementProps": {
+                        "yigoid": "SplitPanel2"
+                    }
+                },
+                "content": {
+                    "type": "element",
+                    "elementType": "CellLayoutTemplate",
+                    "elementProps": {
+                        "textStyle": {
+                            "textAlign": "right",
+                            "justifyContent": "flex-end"
+                        },
+                        "titleStyle": {
+                            "justifyContent": "flex-start",
+                            "fontSize": "15",
+                            "color": "#666666"
+                        },
+                        "layoutStyle": {
+                            "justifyContent": "flex-end"
+                        },
+                        "items": [
+                            "TheMonthPeriod",
+                            "roomNum",
+                            "roomprice",
+                            "daysNum",
+                            "roomsMoney"
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "type": "element",
+            "elementType": "Card",
+            "elementProps": {
+                "collapseable": true,
+                "headIcon": "",
+                "title": "往返交通",
+                "expanded": true,
+                "wrapElement": {
+                    "type": "element",
+                    "elementType": "VisibleRelated",
+                    "elementProps": {
+                        "yigoid": "SplitPanel2"
+                    }
+                },
+                "content": {
+                    "type": "element",
+                    "elementType": "CellLayoutTemplate",
+                    "elementProps": {
+                        "textStyle": {
+                            "textAlign": "right",
+                            "justifyContent": "flex-end"
+                        },
+                        "titleStyle": {
+                            "justifyContent": "flex-start",
+                            "fontSize": "15",
+                            "color": "#666666"
+                        },
+                        "layoutStyle": {
+                            "justifyContent": "flex-end"
+                        },
+                        "items": [
+                            "TheMonthPeriod",
+                            "roomNum",
+                            "roomprice",
+                            "daysNum",
+                            "roomsMoney"
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "type": "element",
+            "elementType": "Card",
+            "elementProps": {
+                "collapseable": true,
+                "headIcon": "",
+                "title": "费用明细",
+                "expanded": true,
+                "wrapElement": {
+                    "type": "element",
+                    "elementType": "VisibleRelated",
+                    "elementProps": {
+                        "yigoid": "Grid5"
+                    }
+                },
+                "content": {
+                    "type": "element",
+                    "elementType": "GridView",
+                    "elementProps": {
+                        "yigoid": "Grid5",
+                        "useBodyScroll": true,
+                        "style": {
+                            "flex": 1
+                        },
+                        "hideAction": true,
+                        "headExtra": {
+                            "type": "element",
+                            "elementType": "MoneyWithCurrency",
+                            "elementProps": {
+                                "currencyField": {
+                                    "type": "element",
+                                    "elementType": "SplitText",
+                                    "elementProps": {
+                                        "yigoid": "CurrencyID",
+                                        "style": {
+                                            "display": "flex",
+                                            "justifyContent": "center",
+                                            "alignItems": "center",
+                                            "fontSize": 12,
+                                            "color": "green",
+                                            "paddingRight": 4
+                                        }
+                                    }
+                                },
+                                "moneyField": "SumMoney",
+                                "containerStyle": {
+                                    "flex": 1
+                                }
+                            }
+                        },
+                        "primaryKey": "budgetindex",
+                        "secondKey": [
+                            "remarkdtl"
+                        ],
+                        "tertiaryKey": [
+                            "period",
+                            "indexmoney"
+                        ]   
+                    }
+                }
+            }
+        }
+    ],
+    "foot": {
+        "type": "element",
+        "elementType": "SegementToolbar",
+        "elementProps": {}
+    },
+    "controls": {
+        "jtgj": {
+            "control": "PopoverCombobox",
+            "placeholder": "点击选择",
+            "textStyle": {
+                "fontSize": 14
+            }
         }
     }
 }

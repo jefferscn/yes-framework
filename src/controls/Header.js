@@ -28,7 +28,8 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start',
     },
     headerBack: {
-        margin: 13
+        margin: 13,
+        zIndex: 1,
     },
     icon: {
         width: 24,
@@ -38,6 +39,8 @@ const styles = StyleSheet.create({
         color: 'white',
     }
 });
+
+
 
 class Header extends PureComponent {
     static defaultProps = {
@@ -54,7 +57,7 @@ class Header extends PureComponent {
             return this.props.leftElement;
         }
         if (this.props.canBack) {
-            return <HeadBackButton iconStyle={this.props.mode==='light'?styles.lightMode: null} onPress={this.props.backHandler}/>;
+            return <HeadBackButton iconStyle={this.props.mode === 'light' ? styles.lightMode : null} onPress={this.props.backHandler} />;
         }
         return null;
     }
@@ -63,12 +66,12 @@ class Header extends PureComponent {
             return this.context.createElement(this.props.titleElement);
         }
         if (this.props.title) {
-            return <HeadTitle style={[this.props.titleMode === 'flex' ? styles.flexTitle : styles.absoluteTitle, 
-                this.props.titleStyle]} title={this.props.title}
+            return <HeadTitle style={[this.props.titleMode === 'flex' ? styles.flexTitle : styles.absoluteTitle,
+            this.props.titleStyle]} title={this.props.title}
                 textStyle={[
-                    this.props.mode==='light'? styles.lightMode: null,
+                    this.props.mode === 'light' ? styles.lightMode : null,
                 ]}
-                 />;
+            />;
         }
         return null;
     }
@@ -79,9 +82,9 @@ class Header extends PureComponent {
         }
         return null;
     }
-    getPaddingStyle = ()=> {
+    getPaddingStyle = () => {
         let topPadding = 0;
-        if(this.context.getTopPadding) {
+        if (this.context.getTopPadding) {
             topPadding = this.context.getTopPadding();
         }
         return {
@@ -103,7 +106,7 @@ class HeaderBackButton extends PureComponent {
     render() {
         const { onPress, style, iconStyle } = this.props;
         return (
-            <TouchableOpacity onPress = {onPress} >
+            <TouchableOpacity style={{zIndex: 1}} onPress={onPress} >
                 <View style={[styles.headerBack, style]}>
                     <Icon style={[styles.icon, iconStyle]} size={24} name="angle-left" />
                 </View>
@@ -119,7 +122,7 @@ class HeadBackButton extends PureComponent {
     }
     onPress = () => {
         // this.props.navigation.goBack(null);
-        if(this.props.onPress) {
+        if (this.props.onPress) {
             this.props.onPress();
             return;
         }

@@ -229,10 +229,12 @@ export default class CordovaProvider extends Component {
         if (device.platform.toLowerCase() === 'android') {
             //如果是Andnroid需要模拟一个键盘的div
             window.addEventListener('native.keyboardshow', (e) => {
-                document.getElementById('keyboard').style.height = e.keyboardHeight;
+                document.body.style.height = document.body.clientHeight - e.keyboardHeight;
+                // document.getElementById('keyboard').style.height = e.keyboardHeight;
             });
             window.addEventListener('native.keyboardhide', (e) => {
-                document.getElementById('keyboard').style.height = 0;
+                document.body.style.height = 'auto';
+                // document.getElementById('keyboard').style.height = 0;
             });
         }
     }

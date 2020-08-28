@@ -1,0 +1,140 @@
+{
+    "formTemplate": "auto",
+    "action": {
+        "type": "element",
+        "elementType": "GridActionButton",
+        "elementProps": {
+            "yigoid": "Grid2",
+            "style": {
+                "right": "50%",
+                "transform": "translateX(30px)"
+            }
+        }
+    },
+    "items": [
+        {
+            "type": "element",
+            "elementType": "Card",
+            "elementProps": {
+                "collapseable": false,
+                "headIcon": "",
+                "title": "基本信息",
+                "bookmark": "Validation_Code2",
+                "bookmarkEmptyStr": "未验真",
+                "headStyle": {
+                    "height": 80
+                },
+                "content": {
+                    "type": "element",
+                    "elementType": "CellLayoutTemplate",
+                    "elementProps": {
+                        "textStyle": {
+                            "textAlign": "right",
+                            "justifyContent": "flex-end"
+                        },
+                        "titleStyle": {
+                            "justifyContent": "flex-start",
+                            "fontSize": "15",
+                            "color": "#666666"
+                        },
+                        "layoutStyle": {
+                            "justifyContent": "flex-end"
+                        },
+                        "items": [
+                            "FSSC_Type2",
+                            "FSSC_Number2",
+                            "FSSC_Date2",
+                            "FSSC_Code2",
+                            "FSSC_Total2",
+                            "Place2",
+                            "SeatLevel2",
+                            "FSSC_Discount2",
+                            "FSSC_Tips2",
+                            {
+                                "key": "SingleBillPictures2"
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "type": "element",
+            "elementType": "Card",
+            "elementProps": {
+                "collapseable": true,
+                "headIcon": "",
+                "title": "抵扣信息",
+                "expanded": true,
+                "wrap": {
+                    "type": "element",
+                    "elementType": "VisibleRelated",
+                    "elementProps": {
+                        "yigoid": "FSSC_Tax2"
+                    }
+                },
+                "content": {
+                    "type": "element",
+                    "elementType": "CellLayoutTemplate",
+                    "elementProps": {
+                        "textStyle": {
+                            "textAlign": "right",
+                            "justifyContent": "flex-end"
+                        },
+                        "titleStyle": {
+                            "justifyContent": "flex-start",
+                            "fontSize": "15",
+                            "color": "#666666"
+                        },
+                        "layoutStyle": {
+                            "justifyContent": "flex-end"
+                        },
+                        "items": [
+                            "FSSC_Tax2",
+                            "Tax_rate2",
+                            "Pretax_amount2"
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "type": "element",
+            "elementType": "Card",
+            "elementProps": {
+                "collapseable": true,
+                "headIcon": "",
+                "title": "附件",
+                "expanded": true,
+                "content": {
+                    "type": "element",
+                    "elementType": "AttachmentList",
+                    "elementProps": {
+                        "yigoid": "AttachmentGrid",
+                        "fileName": "UploadName",
+                        "filePath": "Path",
+                        "removable": true
+                    }
+                }
+            }
+        }
+    ],
+    "foot": {
+        "type": "element",
+        "elementType": "SegementToolbar",
+        "elementProps": {
+
+            "ignoreItems": [
+                "New",
+                "Close"
+            ],
+            "captionMapping": {
+                "发送PDF文件至邮箱": "封面打印",
+                "撤销已提交审批": "撤销"
+            }
+        }
+    },
+    "controls": {
+     
+    }
+}

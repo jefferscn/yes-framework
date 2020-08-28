@@ -13,7 +13,7 @@ import { ControlWrap } from 'yes-intf';
  */
 class VisibleEqual extends PureComponent {
     render() {
-        if (this.props.value===this.props.targetValue) {
+        if (this.props.value==this.props.targetValue) {
             return (this.props.children);
         }
         return null;

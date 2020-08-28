@@ -17,6 +17,10 @@
             }
         }
     },
+    "refresh": {
+        "type": "button",
+        "buttonId": "Query"
+    },
     "action": {
         "type": "element",
         "elementType": "VisibleEqual",
@@ -77,6 +81,9 @@
                         "yigoid": "Status_NODB4Other",
                         "style": {
                             "flex": 1
+                        },
+                        "titleMapping": {
+                            "审批未通过": "未通过"
                         }
                     }
                 }

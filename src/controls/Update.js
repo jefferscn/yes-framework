@@ -13,7 +13,7 @@ export default class Update extends PureComponent {
             updating: true,
         });
         try {
-            await this.updateAndroid(url);
+            await this._updateAndroid(url);
         } catch (ex) {
 
         } finally {
@@ -22,11 +22,11 @@ export default class Update extends PureComponent {
             });
         }
     }
-    updateAndroid(url) {
-        return new Promise(function (resolve, reject) {
-            window.resolveLocalFileSystemURL(cordova.file.externalRootDirectory, function (fs) {
+    _updateAndroid(url) {
+        return new Promise((resolve, reject) => {
+            window.resolveLocalFileSystemURL(cordova.file.externalRootDirectory, (fs)=> {
                 //创建文件
-                fs.getFile('android.apk', { create: true }, function (fileEntry) {
+                fs.getFile('android.apk', { create: true }, (fileEntry) => {
                     this.download(fileEntry, url).catch(reject);
                 }, reject);
             }, reject)
@@ -34,21 +34,21 @@ export default class Update extends PureComponent {
     }
 
     download(fileEntry, url) {
-        return new Promise(function (resolve, reject) {
+        return new Promise((resolve, reject) => {
             var ft = new FileTransfer();
             var fileURL = fileEntry.toURL();
             //监听下载进度
-            ft.onprogress = function (e) {
+            ft.onprogress = (e)=> {
                 console.info(e);
                 if (e.lengthComputable) {
                     var percent = (e.loaded / e.total) * 100;
                     // changeMsg('downloading package ' + percent.toFixed(2) + '%');
                     this.setState({
-                        percent,
+                        percent: percent.toFixed(2),
                     });
                 }
             }
-            ft.download(url, fileURL, function (entry) {
+            ft.download(url, fileURL, (entry)=> {
                 cordova.plugins.fileOpener2.open(
                     entry.toURL(),
                     'application/vnd.android.package-archive', {

@@ -27,6 +27,7 @@ AppDispatcher.register((action)=>{
             modalStack.forEach((item)=> {
                 item();
             });
+            break;
     }
 })
 // BackHandler.addPreEventListener(() => {

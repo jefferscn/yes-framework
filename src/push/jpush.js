@@ -34,6 +34,7 @@ function init() {
                 console.log("JPushPlugin:registrationID is " + rId);
                 registrationID = rId;
                 register(rId, 'jpush');
+                JPush.resetBadge();
             }
         });
     } else {

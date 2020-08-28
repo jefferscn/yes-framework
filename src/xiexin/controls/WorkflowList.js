@@ -3,7 +3,7 @@ import { ListView } from 'antd-mobile';
 import { View, ActivityIndicator, StyleSheet, Text as RawText, TouchableWithoutFeedback } from 'react-native';
 import { GridRowWrap, GridWrap, notEmptyVisibleWrapper } from 'yes';
 // import styles from 'yes-framework/style';
-import { Text, TextArea, ListComponents, Image } from 'yes-comp-react-native-web';
+import { TextArea, ListComponents } from 'yes-comp-react-native-web';
 // import TextArea from './TextArea';
 import SplitText from 'yes-framework/controls/SplitText';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -127,24 +127,24 @@ class WorkflowListItem extends PureComponent {
         });
     }
     render() {
+        const { operatorField, workItemNameField, auditResultField, finishTimeField, commentField } = this.props;
         return (
             <TouchableWithoutFeedback style={styles.ListItemContainer} onPress={this.toggleCommet}>
                 <View style={styles.ListItemContainer} >
                     <View style={styles.avatorContainer}>
-                        <Avator yigoid="l_operatorID" size={50} mode="operator" />
-                        {/* <Image avator layoutStyles={styles.alignCenter} yigoid="l_operatorID" /> */}
+                        <Avator yigoid={operatorField} size={50} mode="operator" />
                     </View>
                     <View style={{ flexDirection: 'column', flex: 1 }}>
                         <View style={styles.firstline}>
-                            <ListText style={styles.workitem} yigoid="l_workItemName" />
-                            <NewIcon relatedId="l_userInfo" style={[styles.arrow, this.state.showCommet?null:styles.colorOrange]} name={'commenting'} />
+                            <ListText style={styles.workitem} yigoid={workItemNameField}/>
+                            <NewIcon relatedId={commentField} style={[styles.arrow, this.state.showCommet?null:styles.colorOrange]} name={'commenting'} />
                         </View>
                         <View style={{ flexDirection: 'row', flex: 1, paddingBottom: 5}}>
-                            <SplitText style={[styles.text, styles.operatorLayout]}  yigoid="l_operatorID" />
-                            {this.props.rowIndex === 0 ? <RawText style={styles.text}>发起申请</RawText> : <ListText layoutStyles={styles.textLayout} style={styles.text1} yigoid="l_auditResult" />}
-                            <ListText style={styles.time} yigoid="l_finishTime" />
+                            <SplitText style={[styles.text, styles.operatorLayout]}  yigoid={operatorField} />
+                            {this.props.rowIndex === 0 ? <RawText style={styles.text}>发起申请</RawText> : <ListText layoutStyles={styles.textLayout} style={styles.text1} yigoid={auditResultField} />}
+                            <ListText style={styles.time} yigoid={finishTimeField} />
                         </View>
-                        {this.state.showCommet ? <NewTextArea autoHeight textStyles={{fontSize: 14,backgroundColor:'lightgray'}} relatedId="l_userInfo" yigoid="l_userInfo" /> : null}
+                        {this.state.showCommet ? <NewTextArea autoHeight textStyles={{fontSize: 14,backgroundColor:'lightgray'}} relatedId={commentField} yigoid={commentField} /> : null}
                     </View>
                     {this.props.rowIndex === 0 ? null : <View style={styles.linkdown} />}
                     {this.props.rowIndex < this.props.size - 1 ? <View style={styles.linkup} /> : null}
@@ -155,6 +155,13 @@ class WorkflowListItem extends PureComponent {
 }
 
 class WorkflowList extends PureComponent {
+    static defaultProps = {
+        operatorField: 'l_operatorID',
+        workItemNameField: 'l_workItemName',
+        commentField: 'l_userInfo',
+        finishTimeField: 'l_finishTime',
+        auditResultField: 'l_auditResult',
+    }
     componentWillReceiveProps(nextProps) {
         const data = nextProps.data;
         if (data) {
@@ -207,6 +214,11 @@ class WorkflowList extends PureComponent {
             <NewListItem
                 size={this.props.data.size}
                 rowIndex={revertIndex}
+                operatorField={this.props.operatorField}
+                workItemNameField={this.props.workItemNameField}
+                commentField= {this.props.commentField}
+                finishTimeField={this.props.finishTimeField}
+                auditResultField= {this.props.auditResultField}
             /> : null;
     }
 
@@ -218,6 +230,12 @@ class WorkflowList extends PureComponent {
                     <ActivityIndicator size="large" color="cadetblue" />
                 </View>
             );
+        }
+        const rowCount = this.state.dataSource.getRowCount();
+        if(rowCount ===0) {
+            return (<View style={[layoutStyles]}>
+                    <RawText>没有审批信息</RawText>
+                </View>);
         }
         return (
             <ListView

@@ -35,11 +35,11 @@ class SegementToolbar extends PureComponent {
         return totalItems.filter((value) => {
             const tag = value.get('tag');
             const key = value.get('key');
-            if(ignoreItems && ignoreItems.includes(key)) {
+            if (ignoreItems && ignoreItems.includes(key)) {
                 return false;
             }
-            if(showItems) {
-                if(showItems.includes(key)) {
+            if (showItems) {
+                if (showItems.includes(key)) {
                     return truek
                 }
                 return false;
@@ -81,10 +81,15 @@ class SegementToolbar extends PureComponent {
                 AppDispatcher.dispatch({
                     type: 'STOPEVENT',
                 });
-                this.props.onClick(action);
-                AppDispatcher.dispatch({
-                    type: 'ENABLEEVENT',
-                });
+                try {
+                    await this.props.onClick(action);
+                } catch (e) {
+                    throw e;
+                } finally {
+                    AppDispatcher.dispatch({
+                        type: 'ENABLEEVENT',
+                    });
+                }
             });
             // });
         }
@@ -113,13 +118,18 @@ class SegementToolbar extends PureComponent {
     }
 
     calculateItems(props) {
+        const { captionMapping } = this.props;
         const items = this.getItems(props);
         const toolbarItems = [];
         const actions = {};
         items.forEach((item) => {
             if (item.get('visible') && item.get('enable')) {
-                toolbarItems.push(item.get('caption'));
-                actions[item.get('caption')] = item.get('action');
+                let caption = item.get('caption');
+                if(captionMapping) {
+                    caption  = captionMapping[caption] || caption;
+                }
+                toolbarItems.push(caption);
+                actions[caption] = item.get('action');
                 // toolbarActions.push(item.get('action'));
             }
         });

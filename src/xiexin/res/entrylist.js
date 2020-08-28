@@ -13,6 +13,7 @@ export const allList = [{
     icon: 'icon-jiekuandan',
     text: '借款单',
     category: '单据类型',
+    path: 'jhkd',
     favorite: true,
     color: '#90CAF9'
 }, {
@@ -82,6 +83,7 @@ export let selectedList  =  [
         key: 'jiekuandan',
         icon: 'icon-jiekuandan',
         text: '借款单',
+        path: 'jhkd',
         category: '单据类型',
         favorite: true,
         color: '#F5A623'

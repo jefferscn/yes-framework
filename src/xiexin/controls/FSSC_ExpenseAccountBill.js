@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, ScrollView, Text, StyleSheet, ImageBackground } from 'react-native';
+import { View, ScrollView, Text, StyleSheet, ImageBackground, ActivityIndicator } from 'react-native';
 import PropTypes from 'prop-types';
 import Header from 'yes-framework/controls/Header';
 import ListText from 'yes-framework/controls/ListText';
@@ -283,7 +283,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     flex1: {
-        flex:1,
+        flex: 1,
     },
     column: {
         flexDirection: 'column',
@@ -347,6 +347,17 @@ const styles = StyleSheet.create({
     textStyle: {
         textAlign: 'right',
         justifyContent: 'flex-end',
+    },
+    mask: {
+        position: 'absolute',
+        height: '100%',
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 1,
+        backgroundColor: 'whitesmoke',
+        opacity: 0.4,
     }
 });
 
@@ -386,7 +397,7 @@ class ExpenseAccountBillCard extends PureComponent {
                 </View>
                 <View style={[styles.row, styles.row2]}>
                     <ColumnLabelText style={styles.flex1} yigoid="ApplyMoney" label="申请金额" />
-                    <ColumnLabelText style={styles.flex1} yigoid="HasCosst" label="已用金额" />
+                    <ColumnLabelText style={styles.flex1} yigoid="HasCost" label="已用金额" />
                     <ColumnLabelText style={styles.flex1} yigoid="Balance" label="余额" />
                 </View>
             </View>
@@ -410,11 +421,11 @@ export default class ExpendAccountBill extends PureComponent {
         createElement: PropTypes.func,
         getBillForm: PropTypes.func,
     }
-    goBack = ()=> {
+    goBack = () => {
         History.goBack();
     }
     render() {
-        const { items, pageStyle, topBackground, error, errorMsg } = this.props;
+        const { items, pageStyle, topBackground, formStatus, error, errorMsg } = this.props;
         let actionButton = this.context.createElement(actionMeta);
         // if (error) {
         //     return (<View style={styles.container}>
@@ -437,20 +448,20 @@ export default class ExpendAccountBill extends PureComponent {
                     <ImageBackground style={styles.topBackground} source={ExpenseImage} />
                 }
                 {
-                    error ? 
-                    <Modal
-                        title="错误"
-                        visible
-                        transparent
-                        footer={[{
-                            text: "OK",
-                            onPress: this.goBack,
-                        }]}
-                    >
-                        <View>
-                            <Text>{errorMsg.message}</Text>
-                        </View>
-                    </Modal>: null
+                    error ?
+                        <Modal
+                            title="错误"
+                            visible
+                            transparent
+                            footer={[{
+                                text: "OK",
+                                onPress: this.goBack,
+                            }]}
+                        >
+                            <View>
+                                <Text>{errorMsg.message}</Text>
+                            </View>
+                        </Modal> : null
                 }
                 <Header
                     canBack={true}
@@ -460,7 +471,11 @@ export default class ExpendAccountBill extends PureComponent {
                     title={"出差申请单"}
                     mode="light"
                 />
-                <ScrollView style={{paddingBottom: 20}}>
+                <ScrollView style={{ paddingBottom: 20 }}>
+                    {
+                        formStatus != 'ok' ?
+                            <View style={styles.mask}><ActivityIndicator /></View> : null
+                    }
                     <ExpenseAccountBillCard />
                     <CellLayoutTemplate textStyle={styles.textStyle} layoutStyle={styles.layoutStyle} titleStyle={styles.cellTitle} style={styles.card} items={['Explain']} />
                     <CellLayoutTemplate textStyle={styles.textStyle} layoutStyle={styles.layoutStyle} titleStyle={styles.cellTitle} style={styles.card} items={['NO', 'Type', 'Region', 'StartDate', 'EndDate']} />

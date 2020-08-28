@@ -14,7 +14,7 @@ import FSSC_RbmBookImportView from './FSSC_RbmBookImportView.json';
 import TDefaultWorkFlowView from './TDefaultWorkFlowView.json';
 import FSSC_VATinvoice from './FSSC_VATinvoice.json';
 import FSSC_RepayGetLoanList  from './FSSC_RepayGetLoanList.json';
-import FSSC_TrainTicketBooks from './FSSC_TrainTicketBooks.json';
+import FSSC_TrainTicketBooks from './FSSC_TrainTicketBooks.js';
 import FSSC_TrainTicketBooks_modal from './FSSC_TrainTicketBooks_modal.json';
 import FSSC_ShowInvoiceReport from './FSSC_ShowInvoiceReport.json';
 import FSSC_AirTicketBooks from './FSSC_AirTicketBooks.json';
@@ -31,6 +31,14 @@ import FSSC_TravelAllowanceBooks from './FSSC_TravelAllowanceBooks.json';
 import FSSC_GeneralBooks from './FSSC_GeneralBooks.json';
 import FSSC_WFLog from './FSSC_WFLog.json';
 import FSSC_PersonMsg from './FSSC_PersonMsg.json';
+import FSSC_AirTicketInvoice from './FSSC_AirTicketInvoice.json';
+import FSSC_VATInvoice_Volume from './FSSC_VATinvoice_Volume.json';
+import FSSC_DidiTravelItinerary from './FSSC_DidiTravelItinerary.json';
+import FSSC_LoanBillView from './FSSC_LoanBillView.json';
+import FSSC_RepaymentBillView from './FSSC_RepaymentBillView.json';
+import FSSC_LoanBill from './FSSC_LoanBill';
+import FSSC_RepaymentBill from './FSSC_RepaymentBill';
+import FSSC_TicketInvoice_View from './FSSC_TicketInvoice_View';
 
 export default {
     default: defaultForm,
@@ -66,4 +74,24 @@ export default {
     FSSC_GeneralBooks,
     FSSC_WFLog_modal: FSSC_WFLog,
     FSSC_PersonMsg,
+    FSSC_AirTicketInvoice,
+    FSSC_VATInvoice_Volume,
+    FSSC_VehicleSaleInvoice: FSSC_VATInvoice_Volume,
+    FSSC_SecondhandCarSaleInvoice: FSSC_VATInvoice_Volume,
+    FSSC_QuotaInvoice: FSSC_VATInvoice_Volume,
+    FSSC_PrintedInvoice: FSSC_VATInvoice_Volume,
+    FSSC_TaxiInvoice: FSSC_VATInvoice_Volume,
+    FSSC_PersonBusTicketInvoice: FSSC_VATInvoice_Volume,
+    FSSC_ShipTicketInvoice: FSSC_VATInvoice_Volume,
+    FSSC_TollInvoice: FSSC_VATInvoice_Volume,
+    FSSC_TaxPayCertificate: FSSC_VATInvoice_Volume,
+    FSSC_InternationalReceipt: FSSC_VATInvoice_Volume,
+    FSSC_OtherInvoice: FSSC_VATInvoice_Volume,
+    FSSC_TicketInvoice: FSSC_VATInvoice_Volume,
+    FSSC_DidiTravelItinerary,
+    FSSC_LoanBillView,
+    FSSC_RepaymentBillView,
+    FSSC_LoanBill,
+    FSSC_RepaymentBill,
+    FSSC_TicketInvoice_View,
 };

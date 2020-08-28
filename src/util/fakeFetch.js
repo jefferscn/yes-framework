@@ -1,5 +1,6 @@
 import qs from 'qs';
 export const originFetch = window.fetch;
+import ResizeObserver from  'resize-observer-polyfill';
 
 window.fetch = function () {
     const request = arguments[1];
@@ -16,4 +17,8 @@ window.fetch = function () {
     }
     // request.headers && (request.headers['X-YIGO-Source'] = 'h5');
     return originFetch.apply(this, arguments);
+}
+
+if(!window.ResizeObserver) {
+    window.ResizeObserver = ResizeObserver;
 }

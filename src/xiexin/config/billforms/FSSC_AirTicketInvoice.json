@@ -1,27 +1,10 @@
 {
     "formTemplate": "auto",
-    "head": {
-        "type": "element",
-        "elementType": "Header",
-        "elementProps": {
-            "canBack": true,
-            "titleElement": {
-                "type": "element",
-                "elementType": "FormTitle",
-                "elementProps": {
-                    "containerStyle": {
-                        "alignItems": "center",
-                        "justifyContent": "center"
-                    }
-                }
-            }
-        }
-    },
     "action": {
         "type": "element",
-        "elementType": "ButtonActionButton",
+        "elementType": "GridActionButton",
         "elementProps": {
-            "buttonKey": "EnteyInvoice",
+            "yigoid": "Grid2",
             "style": {
                 "right": "50%",
                 "transform": "translateX(30px)"
@@ -36,6 +19,11 @@
                 "collapseable": false,
                 "headIcon": "",
                 "title": "基本信息",
+                "bookmark": "Validation_Code2",
+                "bookmarkEmptyStr": "未验真",
+                "headStyle": {
+                    "height": 80
+                },
                 "content": {
                     "type": "element",
                     "elementType": "CellLayoutTemplate",
@@ -53,12 +41,14 @@
                             "justifyContent": "flex-end"
                         },
                         "items": [
-                            "FeeTypeID",
-                            "ExpenseDate",
-                            "PersonnelID",
-                            "IsEnterprisesPay",
-                            "CurrencyID",
-                            "Reason"
+                            "FSSC_Type2",
+                            "FSSC_Number2",
+                            "FSSC_Date2",
+                            "International_flag2",
+                            "FSSC_Total2",
+                            {
+                                "key": "SingleBillPictures2"
+                            }
                         ]
                     }
                 }
@@ -89,10 +79,31 @@
                             "justifyContent": "flex-end"
                         },
                         "items": [
-                            "Rate",
-                            "TaxAmount",
-                            "NoTaxAmount"
+                            "NondeductibleAmount2",
+                            "Tax_rate2",
+                            "FSSC_Tax2",
+                            "Pretax_amount2"
                         ]
+                    }
+                }
+            }
+        },
+        {
+            "type": "element",
+            "elementType": "Card",
+            "elementProps": {
+                "collapseable": true,
+                "headIcon": "",
+                "title": "附件",
+                "expanded": true,
+                "content": {
+                    "type": "element",
+                    "elementType": "AttachmentList",
+                    "elementProps": {
+                        "yigoid": "AttachmentGrid",
+                        "fileName": "UploadName",
+                        "filePath": "Path",
+                        "removable": true
                     }
                 }
             }
@@ -109,36 +120,9 @@
                     "type": "element",
                     "elementType": "GridView",
                     "elementProps": {
-                        "yigoid": "Grid1",
+                        "yigoid": "Grid2",
                         "useBodyScroll": true,
                         "hideAction": true,
-                        "removeType": "column",
-                        "removeColumn": "DeleteDtl",
-                        "headExtra": {
-                            "type": "element",
-                            "elementType": "MoneyWithCurrency",
-                            "elementProps": {
-                                "currencyField": {
-                                    "type": "element",
-                                    "elementType": "SplitText",
-                                    "elementProps": {
-                                        "yigoid": "CurrencyID",
-                                        "style": {
-                                            "display": "flex",
-                                            "justifyContent": "center",
-                                            "alignItems": "center",
-                                            "fontSize": 12,
-                                            "color": "green",
-                                            "paddingRight": 4
-                                        }
-                                    }
-                                },
-                                "moneyField": "TotalMoney",
-                                "containerStyle": {
-                                    "flex": 1
-                                }
-                            }
-                        },
                         "rightElement": {
                             "type": "element",
                             "elementType": "FlexBox",
@@ -152,7 +136,7 @@
                                         "type": "element",
                                         "elementType": "SplitText",
                                         "elementProps": {
-                                            "yigoid": "FSSC_Date",
+                                            "yigoid": "cell10",
                                             "style": {
                                                 "fontSize": 12,
                                                 "paddingTop": 12,
@@ -162,21 +146,9 @@
                                     },
                                     {
                                         "type": "element",
-                                        "elementType": "MoneyWithCurrency",
+                                        "elementType": "ListText",
                                         "elementProps": {
-                                            "currencyField": {
-                                                "type": "element",
-                                                "elementType": "SplitText",
-                                                "elementProps": {
-                                                    "yigoid": "Currency",
-                                                    "style": {
-                                                        "fontSize": 12,
-                                                        "paddingRight": 2,
-                                                        "textAlign": "right"
-                                                    }
-                                                }
-                                            },
-                                            "moneyField": "FSSC_Total",
+                                            "yigoid": "cell11",
                                             "containerStyle": {
                                                 "paddingBottom": 6,
                                                 "justifyContent": "flex-end",
@@ -195,7 +167,7 @@
                                     "type": "element",
                                     "elementType": "SplitText",
                                     "elementProps": {
-                                        "yigoid": "Station_geton",
+                                        "yigoid": "cell8",
                                         "showIndex": 1,
                                         "emptyStr": "未填",
                                         "style": {
@@ -211,7 +183,7 @@
                                     "type": "element",
                                     "elementType": "SplitText",
                                     "elementProps": {
-                                        "yigoid": "Station_getoff",
+                                        "yigoid": "cell9",
                                         "showIndex": 1,
                                         "emptyStr": "未填",
                                         "style": {
@@ -223,14 +195,14 @@
                                         }
                                     }
                                 }
-                            },
-                            "secondKey": [
-                                "Train_number"
-                            ],
-                            "teriatiaryKey": [
-                                "FSSC_Seat"
-                            ]
-                        }
+                            }
+                        },
+                        "secondKey": [
+                            "cell14"
+                        ],
+                        "tertiaryKey": [
+                            "cell13"
+                        ]
                     }
                 }
             }
@@ -248,7 +220,17 @@
     "foot": {
         "type": "element",
         "elementType": "SegementToolbar",
-        "elementProps": {}
+        "elementProps": {
+
+            "ignoreItems": [
+                "New",
+                "Close"
+            ],
+            "captionMapping": {
+                "发送PDF文件至邮箱": "封面打印",
+                "撤销已提交审批": "撤销"
+            }
+        }
     },
     "controls": {
         "Grid1": {

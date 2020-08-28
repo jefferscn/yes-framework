@@ -41,3 +41,7 @@
     right: 1;
     top: 1;
 }
+
+.am-pull-to-refresh-content-wrapper {
+    overflow: visible!important;
+}

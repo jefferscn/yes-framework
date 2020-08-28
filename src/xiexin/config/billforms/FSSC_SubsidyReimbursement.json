@@ -54,10 +54,13 @@
         "elementType": "SegementToolbar",
         "elementProps": {
             "ignoreItems": [
-                "ShowWFLog",
                 "New",
                 "Close"
-            ]
+            ],
+            "captionMapping": {
+                "发送PDF文件至邮箱": "封面打印",
+                "撤销已提交审批": "撤销"
+            }
         }
     },
     "action": {

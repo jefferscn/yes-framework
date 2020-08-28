@@ -1,0 +1,139 @@
+{
+    "formTemplate": "normal",
+    "head": {
+        "type": "element",
+        "elementType": "Header",
+        "elementProps": {
+            "canBack": true,
+            "titleElement": {
+                "type": "element",
+                "elementType": "FormTitle",
+                "elementProps": {
+                    "containerStyle": {
+                        "alignItems": "center",
+                        "justifyContent": "center"
+                    }
+                }
+            }
+        }
+    },
+    "foot": {
+        "type": "element",
+        "elementType": "SegementToolbar",
+        "elementProps": {
+            "ignoreItems": [
+                "optKey1",
+                "New",
+                "Close"
+            ]
+        }
+    },
+    "action": {
+        "type": "element",
+        "elementType": "VisibleRelated",
+        "elementProps": {
+            "yigoid": "Grid5",
+            "element": {
+                "type": "element",
+                "elementType": "GridActionButton",
+                "elementProps": {
+                    "yigoid": "Grid5",
+                    "style": {
+                        "right": "50%",
+                        "transform": "translateX(30px)"
+                    }
+                }
+            }
+        }
+    },
+    "items": [
+        "Borrower",
+        "DeptID",
+        "Project",
+        "ProjectWBSID",
+        "IsTravel",
+        "Describe",
+        "SumMoney",
+        "Grid5",
+        {
+            "isGroup": true,
+            "caption": "出差内容",
+            "visibleRelation": "SplitPanel2",
+            "items": [
+                "remark2",
+                "remark3",
+                "jtgj",
+                "jtgjtxt"
+            ]
+        },
+        {
+            "isGroup": true,
+            "caption": "酒店/旅馆",
+            "visibleRelation": "SplitPanel2",
+            "items": [
+                "TheMonthPeriod",
+                "roomNum",
+                "roomprice",
+                "daysNum",
+                "roomsMoney"
+            ]
+        },
+        {
+            "isGroup": true,
+            "caption": "往返交通",
+            "visibleRelation": "SplitPanel2",
+            "items": [
+                "TheMonthPeriod",
+                "roomNum",
+                "roomprice",
+                "daysNum",
+                "roomsMoney"
+            ]
+        }
+    ],
+    "controls": {
+        "Grid5": {
+            "control": "GridView",
+            "showHead": true,
+            "headTitle": "费用明细",
+            "useBodyScroll": true,
+            "style": {
+                "flex": 1
+            },
+            "hideAction": true,
+            "headExtra": {
+                "type": "element",
+                "elementType": "MoneyWithCurrency",
+                "elementProps": {
+                    "currencyField": {
+                        "type": "element",
+                        "elementType": "SplitText",
+                        "elementProps": {
+                            "yigoid": "CurrencyID",
+                            "style": {
+                                "display": "flex",
+                                "justifyContent": "center",
+                                "alignItems": "center",
+                                "fontSize": 12,
+                                "color": "green",
+                                "paddingRight": 4
+                            }
+                        }
+                    },
+                    "moneyField": "SumMoney",
+                    "containerStyle": {
+                        "flex": 1
+                    }
+                }
+            },
+            "primaryKey": "budgetindex",
+            "secondKey": [
+                "remarkdtl"
+            ],
+            "tertiaryKey": [
+                "period",
+                "indexmoney"
+            ]
+        }
+    }
+}

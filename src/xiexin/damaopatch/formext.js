@@ -254,10 +254,20 @@ const formExt = {
                     await this.eval(loadScript, cxt, null);
                 }
             } else {
-                if (onLoad || postShow) {
+                if (onLoad) {
                     onLoad && await this.eval(onLoad, cxt);
-                    postShow && await this.eval(postShow, cxt);
+                    // postShow && await this.eval(postShow, cxt);
                 }
+            }
+            getDispatcher().dispatch({
+                type: 'STOPEVENT',
+            })
+            try {
+                await this.showDocument();
+            } finally {
+                getDispatcher().dispatch({
+                    type: 'ENABLEEVENT',
+                });
             }
         }
     },

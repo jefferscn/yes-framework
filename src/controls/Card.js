@@ -1,5 +1,8 @@
 import React, { PureComponent } from 'react';
-import { View, StyleSheet, Text, ImageBackground, ScrollView, TouchableWithoutFeedback } from 'react-native';
+import {
+    View, StyleSheet, Text, ImageBackground, Animated,
+    ScrollView, TouchableWithoutFeedback
+} from 'react-native';
 import { ControlWrap } from 'yes-intf';
 import ListText from 'yes-framework/controls/ListText';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -74,7 +77,8 @@ const styles = StyleSheet.create({
         textAlign: 'right',
     },
     icon: {
-
+        width: 20,
+        textAlign: 'right',
     },
     bookmark: {
         position: 'absolute',
@@ -184,14 +188,14 @@ class CardHeader extends PureComponent {
         }
         return (
             <TouchableWithoutFeedback onPress={this.onPress}>
-                <Icon name={expanded ? "angle-up" : "angle-down"} size={20} color="#999999" />
+                <Icon style={styles.icon} name={expanded ? "angle-up" : "angle-down"} size={20} color="#999999" />
             </TouchableWithoutFeedback>
         );
 
     }
     render() {
-        const { icon, title, extra, collapseable } = this.props;
-        return (<View style={styles.cardHead}>
+        const { icon, title, extra, collapseable, style } = this.props;
+        return (<View style={[styles.cardHead, style]}>
             {
                 this.buildIcon()
             }
@@ -215,19 +219,38 @@ export default class Card extends PureComponent {
     }
     state = {
         expanded: this.props.collapseable ? this.props.expanded : true,
+        animation: new Animated.Value(),
     }
     collapse = () => {
         this.setState({
             expanded: false,
         });
+        const { animation, height } = this.state;
+        animation.setValue(height)
+        Animated.spring(
+            this.state.animation,
+            {
+                toValue: 0,
+                duration: 5000,
+            }
+        ).start();
     }
     expand = () => {
         this.setState({
             expanded: true,
         });
+        const { animation, height } = this.state;
+        animation.setValue(0)
+        Animated.spring(
+            this.state.animation,
+            {
+                toValue: height,
+                duration: 5000,
+            }
+        ).start();
     }
     buildTitleElement() {
-        const { title, headIcon, extra, collapseable, expanded } = this.props;
+        const { title, headIcon, extra, collapseable, expanded, headStyle } = this.props;
         if (!title) {
             return null;
         }
@@ -238,6 +261,7 @@ export default class Card extends PureComponent {
             icon={headIcon}
             title={title}
             extra={extra}
+            style={headStyle}
             collapseable={collapseable} />
     }
     onPress = () => {
@@ -246,33 +270,46 @@ export default class Card extends PureComponent {
         }
         this.props.onClick && this.props.onClick();
     }
+    onLayout = (layout) => {
+        this.setState({
+            height: layout.nativeEvent.layout.height,
+        });
+    }
     render() {
-        const { children, background, style, bookmark, content } = this.props;
+        const { children, background, style, bookmark, content, wrapElement, bookmarkEmptyStr } = this.props;
+        const { expanded, animation } = this.state;
         const headElement = this.buildTitleElement();
         const cnt = this.context.createElement(content);
-        return (
-            <TouchableWithoutFeedback onPress={this.onPress}>
-                <View style={[styles.card, style]}>
-                    {
-                        bookmark ?
-                            <View style={styles.bookmark}>
-                                <ListText style={styles.bookmarkText} yigoid={bookmark} />
-                                <View style={styles.bookmarkCornor}>
-                                </View>
-                            </View> : null
-                    }
-                    {
-                        background ? <ImageBackground source={background} imageStyle={styles.cardBackground} style={styles.cardBackground} />
-                            : null
-                    }
-                    {
-                        headElement
-                    }
-                    {
-                        this.state.expanded ? (children || cnt) : null
-                    }
-                </View>
-            </TouchableWithoutFeedback>
-        )
+        const wrap = this.context.createElement(wrapElement);
+        const contentElement = (<TouchableWithoutFeedback onPress={this.onPress}>
+            <View style={[styles.card, style]}>
+                {
+                    bookmark ?
+                        <View style={styles.bookmark}>
+                            <ListText style={styles.bookmarkText} yigoid={bookmark} emptyStr={bookmarkEmptyStr} />
+                            <View style={styles.bookmarkCornor}>
+                            </View>
+                        </View> : null
+                }
+                {
+                    background ? <ImageBackground source={background} imageStyle={styles.cardBackground} style={styles.cardBackground} />
+                        : null
+                }
+                {
+                    headElement
+                }
+                <Animated.View style={{ height: animation, overflow: 'hidden' }}>
+                    <View onLayout={this.onLayout}>
+                        {
+                            (children || cnt)
+                        }
+                    </View>
+                </Animated.View>
+            </View>
+        </TouchableWithoutFeedback>);
+        if (wrap) {
+            return React.cloneElement(wrap, {}, contentElement);
+        }
+        return contentElement;
     }
 }

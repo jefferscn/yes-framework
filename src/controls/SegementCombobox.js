@@ -71,13 +71,20 @@ class SegementCombobox extends PureComponent {
     onValueChange = (v) => {
        this.props.onChange  && this.props.onChange(v);
     }
+    getTitle = (title) => {
+        const { titleMapping } = this.props;
+        if(titleMapping) {
+            return titleMapping[title] || title;
+        }
+        return title;
+    }
     render() {
-        const { items, style, value } = this.props;
+        const { items, style, value, titleMapping } = this.props;
         return (
             <View style={[styles.segementCombobox, style]}>
                 {
                     items.map((item)=><SegementComboboxItem 
-                        title={item.get('caption')}
+                        title={this.getTitle(item.get('caption'))}
                         value={item.get('value')}
                         onPress={this.onValueChange}
                         selected={value===""? false: value==item.get('value')}

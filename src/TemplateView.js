@@ -119,7 +119,7 @@ export default class TemplateView extends PureComponent {
     }
 
     render() {
-        const { formKey, status, oid, meta, showType, onClose, ...otherProps } = this.props;
+        const { formKey, status, oid, meta, showType, onClose, modalWrap, ...otherProps } = this.props;
         let { extraProps, hasJson } = this.state;
         // let extraProps = meta;
         // let hasJson = false;
@@ -170,7 +170,7 @@ export default class TemplateView extends PureComponent {
             </CustomBillForm>)
         }
         let TemplateComponent = defaultTemplateMapping.get(extraProps.formTemplate);
-        if (showType === 'modal' && !hasJson) {
+        if (modalWrap && !hasJson) {
             TemplateComponent = ModalWrap(TemplateComponent);
         }
         return (

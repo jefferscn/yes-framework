@@ -15,6 +15,8 @@ import FieldView from '../FieldView';
 import IconFontIcon from '../font';
 import generateRouteComponent from '../util/generateRouteComponent';
 import { generateKey } from '@react-navigation/core/lib/module/routers/KeyGenerator';
+import { Dimensions, Animated, Easing } from 'react-native';
+import { StackViewStyleInterpolator } from 'react-navigation-stack';
 
 function injectStackNavigator(navigator) {
     const oldFunc = navigator.router.getActionForPathAndParams;
@@ -115,6 +117,7 @@ const buildTabNavigator = (tabConfig) => {
     if (tabBarPosition === 'bottom') {
         return createBottomTabNavigator(
             tabs, {
+            initialRouteName: tabConfig.tabs[0].key,
             headerMode: 'none',
             swipeEnabled: false,
             tabBarOptions: {
@@ -143,8 +146,10 @@ const buildTabNavigator = (tabConfig) => {
     }
     return createMaterialTopTabNavigator(
         tabs, {
-        headerMode: 'none',
-        swipeEnabled: false,
+        // headerMode: 'none',
+        title: "1111",
+        swipeEnabled: true,
+        initialRouteName: tabConfig.tabs[0].key,
         tabBarOptions: {
             labelStyle: {
                 fontSize: 14,
@@ -223,7 +228,40 @@ export default (config) => {
             headerMode: 'none',
             cardStyle: {
                 flex: 1
-            }
+            },
+            defaultNavigationOptions: {
+                header: null,
+                // gesturesEnabled: true,
+                animationEnabled: true,
+            },
+            transitionConfig: ()=>({
+                screenInterpolator: StackViewStyleInterpolator.forHorizontal,
+            }),
+            // transitionConfig: () => ({
+            //     transitionSpec: {
+            //         duration: 300,
+            //         easing: Easing.out(Easing.poly(4)),
+            //         timing: Animated.timing,
+            //     },
+            //     screenInterpolator: sceneProps => {
+            //         const { layout, position, scene } = sceneProps;
+            //         const { index } = scene;
+
+            //         // const height = layout.initHeight;
+            //         const width = layout.initWidth;
+            //         const translateX = position.interpolate({
+            //             inputRange: [index - 1, index, index + 1],
+            //             outputRange: [width, 0, 0],
+            //         });
+
+            //         const opacity = position.interpolate({
+            //             inputRange: [index - 1, index - 0.99, index],
+            //             outputRange: [0, 1, 1],
+            //         });
+
+            //         return { opacity, transform: [{ translateX }] };
+            //     },
+            // }),
         }
     )
     const mainModalNavigator = createStackNavigator(
@@ -258,6 +296,8 @@ export default (config) => {
         {
             defaultNavigationOptions: {
                 header: null,
+                // gesturesEnabled: true,
+                animationEnabled: true,
             },
             cardStyle: {
                 backgroundColor: 'transparent',
@@ -266,6 +306,34 @@ export default (config) => {
             mode: 'modal',
             headerMode: 'none',
             transparentCard: true,
+            transitionConfig: ()=>({
+                screenInterpolator: StackViewStyleInterpolator.forHorizontal,
+            })
+            // transitionConfig: () => ({
+            //     transitionSpec: {
+            //         duration: 300,
+            //         easing: Easing.out(Easing.poly(4)),
+            //         timing: Animated.timing,
+            //     },
+            //     screenInterpolator: sceneProps => {
+            //         const { layout, position, scene } = sceneProps;
+            //         const { index } = scene;
+
+            //         // const height = layout.initHeight;
+            //         const width = layout.initWidth;
+            //         const translateX = position.interpolate({
+            //             inputRange: [index - 1, index, index + 1],
+            //             outputRange: [width, 0, 0],
+            //         });
+
+            //         const opacity = position.interpolate({
+            //             inputRange: [index - 1, index - 0.99, index],
+            //             outputRange: [0, 1, 1],
+            //         });
+
+            //         return { opacity, transform: [{ translateX }] };
+            //     },
+            // }),
         },
     );
     injectStackNavigator(MainNavigator);

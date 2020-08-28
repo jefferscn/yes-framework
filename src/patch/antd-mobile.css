@@ -34,6 +34,26 @@
 
 .am-modal-mask {
     transform: translateZ(1px);
+    position: absolute!important;
+}
+
+.am-modal-wrap {
+    position: absolute!important;
+}
+
+.rmc-picker-popup-wrap {
+    position: absolute!important;
+    transform: translateZ(1px);
+}
+
+.rmc-picker-popup {
+    position: absolute!important;
+    transform: translateZ(1px);
+}
+
+.am-action-sheet-wrap {
+    position: absolute!important;
+    transform: translateZ(1px);
 }
 
 .wx-image-viewer {
@@ -153,3 +173,8 @@
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 };
+
+.rmc-picker-popup-mask {
+    transform: translateZ(1px);
+    position: absolute!important;
+}

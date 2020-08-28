@@ -3,6 +3,7 @@ import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import { ListComponents } from 'yes-comp-react-native-web';
 import { ListRowWrap } from 'yes-intf';
 import TicketNameBadge from './TicketNameBadge';
+import SplitText from 'yes-framework/controls/SplitText';
 
 const pressRetentionOffset = { top: 1, left: 1, right: 1, bottom: 1 };
 
@@ -13,7 +14,7 @@ const styles = StyleSheet.create({
         width: '33%',
         display: 'inline-flex',
         padding: 5,
-        height: 180,
+        height: 220,
     },
     inner: {
         borderRadius: 10,
@@ -26,8 +27,10 @@ const styles = StyleSheet.create({
     },
     text1: {
         fontSize: 9,
-        whiteSpace: 'nowrap',
+        // whiteSpace: 'nowrap',
+        whiteSpace: 'break-spaces',
         paddingTop: 38,
+        overflow: 'hidden',
     },
     text2: {
         fontSize: 9,
@@ -44,9 +47,23 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     text5: {
-        color: '#282828',
+        color: '#333333',
         fontSize: 12,
-    }
+    },
+    currency: {
+        fontSize: 10,
+        color: '#141414',
+        paddingRight: 4,
+    },
+    text6: {
+        fontSize: 8,
+        color: '#141414',
+    },
+    textContainer: {
+        flexDirection: 'row',
+        paddingTop: 4,
+        alignItems: 'flex-end',
+    },
 });
 
 @ListRowWrap
@@ -59,7 +76,14 @@ class CardListItem extends PureComponent {
                     <ListText style={styles.text2} yigoid="BillDate_LV" />
                     <ListText style={styles.text3} yigoid="PaymentDeptID" />
                     <ListText style={styles.text4} yigoid="ReimbursementPersonID" />
-                    <ListText style={styles.text5} yigoid="ReimbursementAmount" />
+                    <View style={styles.textContainer}>
+                        <SplitText style={styles.currency} yigoid="CurrencyID_LV" />
+                        <ListText style={styles.text5} yigoid="ReimbursementAmount" />
+                    </View>
+                    <View style={styles.textContainer}>
+                        <Text style={styles.text6}>事由:  </Text>
+                        <ListText style={styles.text6} yigoid="Cause" />
+                    </View>
                     <TicketNameBadge yigoid="FormKey_LV" />
                 </View>
             </TouchableOpacity>

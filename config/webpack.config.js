@@ -11,7 +11,7 @@ export default (DEBUG, PATH, PORT = 3000) => {
             alias: {
                 'react-native': 'react-native-web',
                 'yes-platform': 'yes-web',
-                'yes-framework': './src',
+                'yes-framework': path.resolve(__dirname, '../src'),
                 yes: 'yes-intf',
                 'yes-yiui-common': 'yes-core/dist/YIUI-common',
                 'yes-filtermap': 'yes-core/dist/filtermap',
@@ -31,7 +31,7 @@ export default (DEBUG, PATH, PORT = 3000) => {
             filename: '[name].js',
             // publicPath: './generated/',
         },
-        mode: DEBUG? 'development' : 'production',
+        mode: DEBUG ? 'development' : 'production',
         cache: DEBUG,
         // For options, see http://webpack.github.io/docs/configuration.html#devtool
         devtool: DEBUG ? 'source-map' : false,
@@ -66,6 +66,7 @@ export default (DEBUG, PATH, PORT = 3000) => {
                         path.resolve(__dirname, '../node_modules/yg-echarts/'),
                         path.resolve(__dirname, '../node_modules/yes-core/'),
                         path.resolve(__dirname, '../node_modules/idb/'),
+                        path.resolve(__dirname, '../node_modules/react-navigation-is-focused-hoc/'),
                         path.resolve(__dirname, '../node_modules/yes-intf/'),
                         path.resolve(__dirname, '../src'),
                         path.resolve(__dirname, '../entry.js'),
@@ -86,6 +87,10 @@ export default (DEBUG, PATH, PORT = 3000) => {
                             // 'react-native-web',
                             '@babel/plugin-proposal-export-namespace-from']
                     },
+                }, {
+                    test: /\.js$/,
+                    enforce: 'pre',
+                    use: ['source-map-loader'],
                 }, {
                     test: /\.scss$/,
                     loaders: [
@@ -147,14 +152,14 @@ export default (DEBUG, PATH, PORT = 3000) => {
                 new webpack.DefinePlugin({ 'process.env.NODE_ENV': '"development"', __DEV__: true, __VERSION__: '"debug"' }),
                 new HtmlWebpackPlugin({
                     template: './index.html',
-                }),new BundleAnalyzerPlugin({
+                }), new BundleAnalyzerPlugin({
                     analyzerMode: 'static',
                     reportFilename: './reports.html',
                     openAnalyzer: true,
-                }),new FileManagerPlugin({
+                }), new FileManagerPlugin({
                     onEnd: {
-                        archive:[
-                            {source: './build', destination: './build/debug.zip'}
+                        archive: [
+                            { source: './build', destination: './build/debug.zip' }
                         ]
                     }
                 })
@@ -173,10 +178,10 @@ export default (DEBUG, PATH, PORT = 3000) => {
                     // chunksSortMode: 'manual',
                     // chunks: ['initializationLoading', 'vendor'],
 
-                }),new FileManagerPlugin({
+                }), new FileManagerPlugin({
                     onEnd: {
-                        archive:[
-                            {source: './build', destination: './build/release.zip'}
+                        archive: [
+                            { source: './build', destination: './build/release.zip' }
                         ]
                     }
                 })

@@ -11,6 +11,8 @@ import FilterBlock from 'yes-framework/controls/FilterBlock';
 import { BackHandler, Util } from 'yes-intf';
 import Header from 'yes-framework/controls/Header';
 import SourceTypeIcon from './SourceTypeIcon';
+import ListText from 'yes-framework/controls/ListText';
+import ScriptWrap from './ScriptWrap';
 
 const { ListImage } = ListComponents;
 
@@ -23,6 +25,8 @@ const styles = StyleSheet.create({
         paddingLeft: 12,
     }
 });
+
+const script = 'PushPara("resource", 1); Open(Macro_GetBillKeyByInvoiceType(cell1), InvoiceID, "modal", "View");';
 export default class InvoiceEntry extends PureComponent {
     static contextTypes = {
         getPicture: PropTypes.func,
@@ -57,7 +61,7 @@ export default class InvoiceEntry extends PureComponent {
         this.backHandler && this.backHandler();
         this.backHandler = BackHandler.addPreEventListener(() => {
             this.stepBack();
-            this.backHandler =null;
+            this.backHandler = null;
         });
         this.setState({
             selectType: v,
@@ -110,8 +114,8 @@ export default class InvoiceEntry extends PureComponent {
             });
             //这里需要判断当前的InvoiceType是否为空
             const invoiceType = this.context.getContextComponent('FeeTypeID_NODB4Other');
-            if(invoiceType) {
-                if(!invoiceType.isNull()) {
+            if (invoiceType) {
+                if (!invoiceType.isNull()) {
                     await this.context.onControlClick("Query");
                 }
             }
@@ -125,10 +129,26 @@ export default class InvoiceEntry extends PureComponent {
         }
     }
     onInvoiceTypeChange = (yigoid, v) => {
+        // this.props.onClose && this.props.onClose();
         this.setState({
             modalVisible: false,
-            step: 1,
+            step: 2,
         });
+    }
+    colorMapping = (v)=> {
+        if(!v) {
+            return {
+                color: '#FFC107',
+            };
+        }
+        if(v=="10000") {
+            return {
+                color: '#4CAF50',
+            }
+        }
+        return {
+            color: '#FF5722',
+        }
     }
     render() {
         const { formStatus, errorMsg } = this.props;
@@ -165,7 +185,7 @@ export default class InvoiceEntry extends PureComponent {
                             justifyContent: "center",
                             alignItems: "center"
                         }}
-                    /> : (formStatus==='error'? <View><Text>{errorMsg.message}</Text></View>: <ActivityIndicator size="large" />)}
+                    /> : (formStatus === 'error' ? <View><Text>{errorMsg.message}</Text></View> : <ActivityIndicator size="large" />)}
             </Modal>);
         }
         if (this.state.step === 2) {//需要显示一个发票列表
@@ -206,6 +226,7 @@ export default class InvoiceEntry extends PureComponent {
                             style={{ flex: 1, marginLeft: 12, marginRight: 12 }}
                             yigoid="Grid1"
                             clickMode="select"
+                            removeable={false}
                             hideAction={true}
                             primaryKey={"cell1"}
                             secondKey={["cell4"]}
@@ -213,8 +234,9 @@ export default class InvoiceEntry extends PureComponent {
                                 "cell8",
                                 <CheckboxLabel style={styles.label} falseLabel="费用类型不符" yigoid="IsCompliance" />,
                                 <CheckboxLabel style={styles.label} trueLabel="已引用" yigoid="IsUsed" />,
+                                <ListText style={styles.label} emptyStr="未验真"  styleMapping={this.colorMapping} yigoid="Validation_Code" />
                             ]}
-                            rightElement={<ListImage yigoid="cell7" containerStyle={{ justifyContent: 'center' }} style={{ width: 60, height: 40 }} />}
+                            rightElement={<ScriptWrap script={script}><ListImage yigoid="cell7" containerStyle={{ justifyContent: 'center' }} style={{ width: 60, height: 40 }} /></ScriptWrap>}
                             showArrow={false}
                             leftElement={
                                 <GridSelect yigoid="select" />
@@ -241,7 +263,7 @@ export default class InvoiceEntry extends PureComponent {
                 transparent
                 maskClosable={false}
                 // onClose={this.onClose}
-                title="提示信息"
+                title="发票类型"
                 footer={[{
                     text: '取消',
                     onPress: this.onCancel,
@@ -249,21 +271,21 @@ export default class InvoiceEntry extends PureComponent {
                 // wrapProps={{ onTouchStart: this.onWrapTouchStart }}
                 afterClose={this.onClose}
             >
-                <View>
-                    <Text>暂不支持</Text>
+                <View style={{ maxHeight: 300 }}>
+                    <ComboBox
+                        yigoid="InvoiceType_NODB4Other"
+                        inline
+                        onChange={this.onInvoiceTypeChange}
+                        hideSelect
+                        itemStyle={{
+                            height: 45,
+                            borderBottomWidth: 1,
+                            borderBottomColor: 'lightgrey',
+                            justifyContent: "center",
+                            alignItems: "center"
+                        }}
+                    />
                 </View>
-                {/* <ComboBox
-                    yigoid="InvoiceType_NODB4Other"
-                    inline
-                    onChange={this.onInvoiceTypeChange}
-                    itemStyle={{
-                        height: 45,
-                        borderBottomWidth: 1,
-                        borderBottomColor: 'lightgrey',
-                        justifyContent: "center",
-                        alignItems: "center"
-                    }}
-                /> */}
             </Modal>);
         }
         return null;

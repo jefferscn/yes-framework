@@ -63,7 +63,7 @@ export default (Comp) => {
         }
 
         updateVersion = async () => {
-            if (this.context.getVersion && this.context.getLatestVersion) {
+            if (this.context.getVersion && this.context.checkLatestVersion) {
                 this.setState({
                     fetching: true,
                 });
@@ -79,7 +79,7 @@ export default (Comp) => {
                         latestVersion: appInfo.Version,
                         url: appInfo.Url,
                         platform,
-                        canUpdakte,
+                        canUpdate,
                     });
                 } else {
                     this.setState({

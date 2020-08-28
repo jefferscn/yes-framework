@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import {
     View, StyleSheet, Text, ScrollView,
     TouchableHighlight, PanResponder, LayoutAnimation,
-    Dimensions
+    TouchableOpacity, Dimensions
 } from 'react-native';
 import IconFont from 'yes-framework/font';
 import { Modal, WhiteSpace } from 'antd-mobile';
@@ -21,6 +21,12 @@ import BadgeText from 'yes-framework/controls/BadgeText'
 import { allList, selectedList, saveSelectedList } from '../res/entrylist';
 import AwesomeFontIcon from 'react-native-vector-icons/FontAwesome';
 import Header from 'yes-framework/controls/Header';
+import { History } from 'yes-web';
+import OperationExecTimer from 'yes-framework/controls/OperationExecTimer';
+import BillContainer from './BillContainer';
+import { Util } from 'yes-intf';
+import Global from 'global';
+import { GridChart } from 'yg-echarts';
 
 const { ListText } = ListComponents;
 
@@ -127,7 +133,26 @@ const openUrl = async (service) => {
         alert(result.msg);
         return;
     }
-    open(result.data, '_blank', 'location=no');
+    if (Global.cordova) {
+        if (Global.cordova.platformId != "android") {
+            StatusBar.hide();
+        }
+    }
+    let ref = open(result.data, '_blank', 'location=no,footer=yes,closebuttoncaption=返回,hidenavigationbuttons=yes,lefttoright=yes');
+
+    ref.addEventListener('exit', () => {
+        if (cordova) {
+            if (cordova.platformId != "android") {
+                StatusBar.show();
+            }
+        }
+    });
+    ref.addEventListener('message', (params) => {
+        if (params.data.msgType === 'close') {
+            ref.close();
+            ref = null;
+        }
+    });
 }
 class Entry extends PureComponent {
     static defaultProps = {
@@ -144,7 +169,7 @@ class Entry extends PureComponent {
         const { icon, text, entry, containerStyle, removable,
             iconStyle, textStyle, iconSize, editing, selected } = this.props;
         return (
-            <TouchableHighlight style={containerStyle} onPress={this.onPress}>
+            <TouchableOpacity style={containerStyle} onPress={this.onPress}>
                 <View style={[styles.entry]}>
                     {(editing && selected) ? <TouchableHighlight style={styles.removeButton}>
                         <AwesomeFontIcon name="check" color="white" /></TouchableHighlight> : null}
@@ -153,7 +178,7 @@ class Entry extends PureComponent {
                     <IconFont name={icon} size={iconSize} style={[iconStyle]} color={entry.color || "#008CD7"} />
                     <Text style={[styles.entryText, textStyle]}>{text}</Text>
                 </View>
-            </TouchableHighlight>
+            </TouchableOpacity>
         )
     }
 }
@@ -560,7 +585,9 @@ class EntryList extends PureComponent {
             return;
         }
         if (entry.type === 'thirdpart') {
-            openUrl(entry.service);
+            Util.safeExec(async ()=> {
+                await openUrl(entry.service);
+            });
             return;
         }
         if (entry.formKey) {
@@ -569,6 +596,9 @@ class EntryList extends PureComponent {
             } else {
                 openForm(entry.formKey, entry.oid, 'EDIT');
             }
+        }
+        if (entry.path) {
+            History.push(entry.path);
         }
     }
 
@@ -611,22 +641,25 @@ class EntryList extends PureComponent {
 class TodoList extends PureComponent {
     render() {
         return (<CustomBillForm formKey="ToDoListTotal" oid="-1" status="DEFAULT">
-            <GridView
-                yigoid="Grid1"
-                showHead={false}
-                clickMode="dblclick"
-                useBodyScroll={true}
-                divider={true}
-                dividerStyle={{
-                    borderBottomWidth: 10,
-                    borderBottomColor: '#F7F7F7',
-                }}
-                primaryKey={<FlexBox direction="row" style={{ height: 60, flex: 1, paddingRight: 12, alignItems: 'center', paddingLeft: 16 }}>
-                    <BooksTypeImage yigoid="formKey" style={{ paddingRight: 12 }} />
-                    <ListText yigoid="formname" style={{ flex: 1 }} />
-                    <BadgeText yigoid="C" />
-                </FlexBox>}
-            />
+            <BillContainer>
+                <OperationExecTimer yigoid="flush" ticks={600000} />
+                <GridView
+                    yigoid="Grid1"
+                    showHead={false}
+                    clickMode="dblclick"
+                    useBodyScroll={true}
+                    divider={true}
+                    dividerStyle={{
+                        borderBottomWidth: 10,
+                        borderBottomColor: '#F7F7F7',
+                    }}
+                    primaryKey={<FlexBox direction="row" style={{ height: 60, flex: 1, paddingRight: 12, alignItems: 'center', paddingLeft: 16 }}>
+                        <BooksTypeImage yigoid="formKey" style={{ paddingRight: 12 }} />
+                        <ListText yigoid="formname" style={{ flex: 1 }} />
+                        <BadgeText yigoid="C" />
+                    </FlexBox>}
+                />
+            </BillContainer>
         </CustomBillForm>);
     }
 }
@@ -642,6 +675,43 @@ class ImageCarousel extends PureComponent {
                     yigoid="detail"
                     imageColumn="ImgPath"
                     textColumn="Description"
+                />
+            </CustomBillForm>
+        )
+    }
+}
+
+class PersonelChart extends PureComponent {
+    render() {
+        return(
+            <CustomBillForm formKey = "PersonalMobileExport" oid="-1" status="EDIT">
+                <GridChart
+                    yigoid="Grid1"
+                    title={{
+                        text: "个人报销统计",
+                        left: 'right',
+                        top: 'bottom'
+                    }}
+                    tooltip={{
+                        formatter: '{d}'
+                    }}
+                    legend= {{}}
+                    style={{height: 400}}
+                    slice={
+                        [
+                            "feeTypeID_D",
+                            "BillAmount"
+                        ]
+                    }
+                    series={[
+                        {
+                            type: 'pie',
+                            dataColumn: "BillAmount",
+                            label: {
+                                formatter: "{c}",
+                            }
+                        }
+                    ]}
                 />
             </CustomBillForm>
         )
@@ -666,6 +736,7 @@ export default class Home extends PureComponent {
                     />
                     <WhiteSpace size="md" />
                     <TodoList />
+                    {/* <PersonelChart /> */}
                 </ScrollView>
             </View>
         )

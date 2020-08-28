@@ -77,6 +77,7 @@ class AntdListView extends PureComponent {
                 return dataBlob[sectionIndex].get(rowIndex);
             },
         }),
+        loadingMore: false,
     }
 
     onClick = (rowIndex) => {
@@ -209,6 +210,7 @@ class AntdListView extends PureComponent {
                 onPress: () => this.removeRow(rowId)
             });
             return (<SwipeAction
+                autoClose
                 right={rightActions}
             >
                 <NewListItem
@@ -248,6 +250,20 @@ class AntdListView extends PureComponent {
     addRow = () => {
         this.props.addNewRow && this.props.addNewRow();
     }
+    onEndReached = async ()=> {
+        if (this.props.hasMore) {
+            if (this.state.loadingMore) {
+                return;
+            }
+            this.setState({
+                loadingMore: true,
+            });
+            await this.props.loadMore();
+            this.setState({
+                loadingMore: false,
+            });
+        }
+    }
     render() {
         const { layoutStyles, style, isVirtual, showHead, onRefresh, refreshing, controlState,
             headTitle, headExtra, editable, useBodyScroll, hideAction } = this.props;
@@ -255,7 +271,7 @@ class AntdListView extends PureComponent {
         const visible = controlState.get('visible');
         if (isVirtual) {
             return (
-                <View style={[layoutStyles]}>
+                <View style={[styles.center, style]}>
                     <ActivityIndicator size="large" color="cadetblue" />
                 </View>
             );
@@ -281,6 +297,7 @@ class AntdListView extends PureComponent {
                     useBodyScroll={useBodyScroll}
                     dataSource={this.state.dataSource}
                     contentContainerStyle={{ width: '100%' }}
+                    onEndReached={this.onEndReached}
                     renderRow={this.renderItem}
                     pageSize={4}
                     pullToRefresh={
@@ -300,6 +317,10 @@ class AntdListView extends PureComponent {
 }
 
 const styles = StyleSheet.create({
+    center: {
+        alignContent: 'center',
+        justifyContent: 'center',
+    },
     container: {
         flexDirection: 'column',
         alignItems: 'stretch',

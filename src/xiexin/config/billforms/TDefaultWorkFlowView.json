@@ -17,6 +17,16 @@
             }
         }
     },
+    "events": {
+        "WORKFLOWCHANGE": {
+            "type": "opt",
+            "yigoid": "Refresh"
+        }
+    },
+    "refresh": {
+        "type": "opt",
+        "optId": "Refresh"
+    },
     "list": {
         "type": "element",
         "elementType": "GridView",

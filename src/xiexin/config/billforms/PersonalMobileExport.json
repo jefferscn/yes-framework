@@ -1,0 +1,103 @@
+{
+    "formTemplate": "list",
+    "head": {
+        "type": "element",
+        "elementType": "Header",
+        "elementProps": {
+            "canBack": true,
+            "titleElement": {
+                "type": "element",
+                "elementType": "FormTitle",
+                "elementProps": {
+                    "containerStyle": {
+                        "alignItems": "center",
+                        "justifyContent": "center"
+                    }
+                }
+            }
+        }
+    },
+    "filterBlock": {
+        "type": "element",
+        "elementType": "FilterBlock",
+        "elementProps": {
+            "defaultValue": {
+                "Status_NODB4Other": "0"
+            },
+            "filterItems": [
+                {
+                    "type": "element",
+                    "elementType": "SegementCombobox",
+                    "elementProps": {
+                        "yigoid": "ReimburseStatus",
+                        "style": {
+                            "flex": 1
+                        }
+                    }
+                }
+            ],
+            "hasMore": true,
+            "moreItems": [
+                "FormKey_NODB4Other",
+                {
+                    "type": "element",
+                    "elementType": "AntdListItem",
+                    "elementProps": {
+                        "title": "期间",
+                        "className": "celllayout",
+                        "extra": {
+                            "type": "element",
+                            "elementType": "DateRangeSelect",
+                            "elementProps": {
+                                "style": {
+                                    "paddingLeft": 15,
+                                    "alignItems": "flex-start"
+                                },
+                                "showIcon": false,
+                                "startDateField": "BillDate_NODB4Other",
+                                "endDateField": "BillDate_Comp2_NODB4Other",
+                                "placeholder": "期间",
+                                "openIconStyle": {
+                                    "color": "#3D8AD0"
+                                },
+                                "openTextStyle": {
+                                    "color": "#3D8AD0"
+                                }
+                            }
+                        }
+                    }
+                }
+            ],
+            "queryButton": "Query"
+        }
+    },
+    "list": {
+        "type": "element",
+        "elementType": "GridChart",
+        "elementProps": {
+            "yigoid": "Grid1",
+            "title": {
+                "text": "个人报销统计",
+                "left": "right",
+                "top": "bottom"
+            },
+            "tooltip": {
+                "formatter": "{c}"
+            },
+            "legend": {},
+            "slice": [
+                "feeTypeID_D",
+                "BillAmount"
+            ],
+            "series": [
+                {
+                    "type": "pie",
+                    "dataColumn": "BillAmount",
+                    "label": {
+                        "formatter": "{c}"
+                    }
+                }
+            ]
+        }
+    }
+}

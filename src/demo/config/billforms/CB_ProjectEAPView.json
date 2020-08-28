@@ -73,7 +73,7 @@
                     "type": "element",
                     "elementType": "ListText",
                     "elementProps": {
-                        "yigoid": "GRStatus",
+                        "yigoid": "Status",
                         "style": {
                             "paddingLeft": 6,
                             "paddingRight": 6,
@@ -103,7 +103,9 @@
                 "elementProps": {
                     "direction": "column",
                     "style": {
-                        "justifyContent": "space-between"
+                        "justifyContent": "space-between",
+                        "paddingLeft": 8,
+                        "paddingRight": 8
                     },
                     "items": [
                         {

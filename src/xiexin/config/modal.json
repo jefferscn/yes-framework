@@ -7,5 +7,22 @@
     "FSSC_TrainTicketBooks",
     "FSSC_ShowInvoiceReport",
     "FSSC_TaxiBooks",
-    "FSSC_WFLog"
+    "FSSC_WFLog",
+    "FSSC_AirTicketInvoice",
+    "FSSC_VATinvoice",
+    "FSSC_VATInvoice_Volume",
+    "FSSC_VehicleSaleInvoice",
+    "FSSC_SecondhandCarSaleInvoice",
+    "FSSC_QuotaInvoice",
+    "FSSC_PrintedInvoice",
+    "FSSC_TaxiInvoice",
+    "FSSC_PersonBusTicketInvoice",
+    "FSSC_ShipTicketInvoice",
+    "FSSC_TicketInvoice",
+    "FSSC_TollInvoice",
+    "FSSC_TaxPayCertificate",
+    "FSSC_InternationalReceipt",
+    "FSSC_OtherInvoice",
+    "FSSC_DidiTravelItinerary",
+    "FSSC_TicketInvoice_View"
 ]

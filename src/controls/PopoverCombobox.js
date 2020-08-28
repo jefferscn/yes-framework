@@ -76,10 +76,13 @@ class PopoverCombobox extends PureComponent {
         this.props.onChangePopupState(false);
     }
     showModal = ()=> {
+        if(this.props.disabled) {
+            return;
+        }
         this.props.onChangePopupState(true);
     }
     render() {
-        const { showPopup, items, displayValue, placeholder, type, value, style, openTextStyle, openIconStyle } = this.props;
+        const { showPopup, items, displayValue, placeholder, type, value, style, openTextStyle, openIconStyle, textStyle, layoutStyles, textStyles } = this.props;
         if (type === 'popover') {
             return (
                 <Popover
@@ -114,10 +117,10 @@ class PopoverCombobox extends PureComponent {
             />
         );
         return (
-            <View style={[styles.container, style]}>
+            <View style={[styles.container, layoutStyles, style]}>
                 <TouchableOpacity onPress={this.showModal}>
                     <View style={styles.content}>
-                        <Text style={[styles.text, this.props.showPopup? openTextStyle: null ]}>{displayValue || placeholder}</Text>
+                        <Text placeholder={placeholder} style={[styles.text, textStyle, textStyles, this.props.showPopup? openTextStyle: null ]}>{displayValue || placeholder}</Text>
                         <Icon style={[styles.icon, this.props.showPopup? openIconStyle: null]} name={this.props.showPopup? "angle-up": "angle-down"} size={16} />
                     </View>
                 </TouchableOpacity>

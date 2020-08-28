@@ -1,0 +1,75 @@
+{
+    "formTemplate": "list",
+    "action": {
+        "type": "element",
+        "elementType": "VisibleEqual",
+        "elementProps": {
+            "yigoid": "Status_NODB4Other",
+            "targetValue": "0",
+            "element": {
+                "type": "element",
+                "elementType": "OpenFormActionButton",
+                "elementProps": {
+                    "formKey": "FSSC_RepaymentBill",
+                    "oid": "new",
+                    "status": "NEW",
+                    "style": {
+                        "right": "50%",
+                        "transform": "translateX(30px)"
+                    }
+                }
+            }
+        }
+    },
+    "filterBlock": {
+        "type": "element",
+        "elementType": "FilterBlock",
+        "elementProps": {
+            "defaultValue": {
+                "Status_NODB4Other": "0"
+            },
+            "filterItems": [
+                {
+                    "type": "element",
+                    "elementType": "SegementCombobox",
+                    "elementProps": {
+                        "yigoid": "Status_NODB4Other",
+                        "style": {
+                            "flex": 1
+                        },
+                        "titleMapping": {
+                            "审批未通过": "未通过"
+                        }
+                    }
+                }
+            ],
+            "comboboxId": "Status_NODB4Other",
+            "queryButton": "Query"
+        }
+    },
+    "list": {
+        "type": "element",
+        "elementType": "ListView",
+        "elementProps": {
+            "yigoid": "list",
+            "primaryKey": "NO_LV",
+            "style": {
+                "flex": 1
+            },
+            "secondKey": [
+                "ReimbursementPersonID"
+            ],
+            "tertiaryKey": [
+                "PaymentDeptID"
+            ],
+            "RowElement": {
+                "type": "element",
+                "elementType": "RepaymentCardListItem",
+                "elementProps": {}
+            },
+            "divider": true
+        }
+    },
+    "controls": {
+    }
+}

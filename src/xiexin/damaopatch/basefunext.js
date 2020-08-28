@@ -697,21 +697,21 @@ const BaseFunsExt = (function () {
         return sSQL;
     };
 
-    funs.Open = async function (name, cxt, args) {
-        const pForm = cxt.form, formKey = args[0], OID = args[1] || -1;
-        let mobileFormKey = await YIUI.BPMService.getAliasKey(1, formKey);
-        if (formKey == mobileFormKey) {
-            HashHistory.push(`card/YES/${formKey}/${OID}/DEFAULT`);
-            return;
-        }
-        const form = await cacheSystem.current.FormCache.get(formKey);
-        const yesForm = YIUI.FormBuilder.build(form, 'newtab', pForm.formID);
-        yesForm.initViewDataMonitor();
-        const formUniqueKey = `${formKey}.${OID}`;
-        yesForm.setOID(OID);
-        BillFormStore.addForm(formUniqueKey, yesForm);
-        HashHistory.push(`card/YESMOBILE/${formKey}/${OID}/DEFAULT`);
-    };
+    // funs.Open = async function (name, cxt, args) {
+    //     const pForm = cxt.form, formKey = args[0], OID = args[1] || -1;
+    //     let mobileFormKey = await YIUI.BPMService.getAliasKey(1, formKey);
+    //     if (formKey == mobileFormKey) {
+    //         HashHistory.push(`card/YES/${formKey}/${OID}/DEFAULT`);
+    //         return;
+    //     }
+    //     const form = await cacheSystem.current.FormCache.get(formKey);
+    //     const yesForm = YIUI.FormBuilder.build(form, 'newtab', pForm.formID);
+    //     yesForm.initViewDataMonitor();
+    //     const formUniqueKey = `${formKey}.${OID}`;
+    //     yesForm.setOID(OID);
+    //     BillFormStore.addForm(formUniqueKey, yesForm);
+    //     HashHistory.push(`card/YESMOBILE/${formKey}/${OID}/DEFAULT`);
+    // };
     funs.ERPShowModal = async function (name, cxt, args) {
         const pForm = cxt.form, formKey = args[0], erpOnLoad = args[1];
         // formKey = await YIUI.BPMService.getAliasKey(1,formKey);

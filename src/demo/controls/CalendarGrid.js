@@ -213,7 +213,7 @@ class CalendarGrid extends PureComponent {
                 events,
                 day,
                 onSelect,
-                selected: day === this.state.day,
+                selected: this.state.day ? day.day === this.state.day.day : false,
             }) : <CalenarDay key={day.day} events={events} day={day} onSelect={onSelect} />;
         }
         return this.props.DayElement ? React.cloneElement(this.props.DayElement, {
@@ -245,7 +245,7 @@ class CalendarGrid extends PureComponent {
         await this.props.addNewRow(defaultValue);
     }
     render() {
-        const { data, dateField, controlState, disabled, titleElement } = this.props;
+        const { data, dateField, controlState, disabled, titleElement, weekRowStyle } = this.props;
         const editable = controlState.get('editable') && !disabled;
         let year = null, month = null;
         if (data && data.size > 0) {
@@ -267,6 +267,7 @@ class CalendarGrid extends PureComponent {
                     month={month}
                     getDate={this.getDate}
                     events={data}
+                    weekRowStyle={weekRowStyle}
                     onSelect={this.onSelect}
                     {...this.props}
                 />

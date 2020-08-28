@@ -1,9 +1,10 @@
 import React, { PureComponent } from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { GridRowWrap } from 'yes-intf';
-import ListText from '../../controls/ListText';
-import IconFont from '../../font';
-import VisibleEuqal from '../../controls/VisibleEqual';
+import ListText from 'yes-framework/controls/ListText';
+import IconFont from 'yes-framework/font';
+import VisibleEuqal from 'yes-framework/controls/VisibleEqual';
+import VisibleNotEuqal from 'yes-framework/controls/VisibleNotEqual';
 import PropTypes from 'prop-types';
 
 const styles = StyleSheet.create({
@@ -17,6 +18,7 @@ const styles = StyleSheet.create({
     content: {
         flexDirection: 'column',
         flex: 1,
+        flexBasis: 'auto',
     },
     action: {
         flexDirection: 'row',
@@ -26,7 +28,12 @@ const styles = StyleSheet.create({
     actionbutton: {
         width: 40,
         textAlign: 'right',
-    }
+    },
+    text: {
+        paddingTop: 4,
+        color: 'rgb(0,0,0,0.6)',
+        fontSize: 11,
+    },
 });
 class CalendarRow extends PureComponent {
     static contextTypes = {
@@ -68,8 +75,16 @@ class CalendarRow extends PureComponent {
             <View style={[styles.container]}>
                 <TouchableOpacity onPress={this.onClick} style={[styles.content]}>
                     <View style={[styles.content]}>
-                        <ListText yigoid="Workdescription" />
-                        <ListText yigoid="confirmStatus" />
+                        <VisibleNotEuqal yigoid="WorkNature" targetValue="3">
+                            <ListText yigoid="Workdescription" />
+                        </VisibleNotEuqal>
+                        <VisibleNotEuqal yigoid="WorkNature" targetValue="3">
+                            <ListText yigoid="Project" />
+                        </VisibleNotEuqal>
+                        <VisibleEuqal yigoid="WorkNature" targetValue="3">
+                            <ListText style={styles.text} yigoid="WorkNature" />
+                        </VisibleEuqal>
+                        <ListText style={styles.text} yigoid="confirmStatus" />
                     </View>
                 </TouchableOpacity>
                 <View style={[styles.action]}>

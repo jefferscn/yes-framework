@@ -129,6 +129,24 @@ const entryList = [
                 icon: 'icon-myaccount',
                 iconColor: '#42A5F5',
                 status: 'EDIT',
+            },
+            {
+                text: '借款单',
+                formKey: 'FSSC_LoanBill',
+                modal: true,
+                oid: "-1",
+                icon: 'icon-myaccount',
+                iconColor: '#42A5F5',
+                status: 'EDIT',
+            },
+            {
+                text: '还款单',
+                formKey: 'FSSC_RepaymentBill',
+                modal: true,
+                oid: "-1",
+                icon: 'icon-myaccount',
+                iconColor: '#42A5F5',
+                status: 'EDIT',
             }
         ]
     }
