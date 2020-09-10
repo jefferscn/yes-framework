@@ -24,5 +24,17 @@
     "FSSC_InternationalReceipt",
     "FSSC_OtherInvoice",
     "FSSC_DidiTravelItinerary",
-    "FSSC_TicketInvoice_View"
+    "FSSC_TicketInvoice_View",
+    "FSSC_VATinvoice_View",
+    "FSSC_VATinvoice_Volumn_View",
+    "FSSC_TaxiInvoice_View",
+    "FSSC_OtherInvoice_View",
+    "FSSC_QuotaInvoice_View",
+    "FSSC_PrintedInvoice_View",
+    "FSSC_AirTicketInvoice_View",
+    "FSSC_VehicleSaleInvoice_View",
+    "FSSC_SecondhandCarSaleInvoice_View",
+    "FSSC_PersonBusTicketInvoice_View",
+    "FSSC_ShipTicketInvoice_View",
+    "FSSC_TollInvoice_View"
 ]

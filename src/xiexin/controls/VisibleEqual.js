@@ -9,9 +9,9 @@ class VisibleEqual extends PureComponent {
     }
 
     render() {
-        const { value, targetValue, element } = this.props;
+        const { value, targetValue, element, children } = this.props;
         if(value==targetValue) {
-            return <Element meta = { element } />;
+            return element ? <Element meta = { element } />: children;
         }
         return null;
     }

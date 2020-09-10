@@ -6,6 +6,7 @@
  */
 import React, { PureComponent } from 'react';
 import { ControlWrap } from 'yes-intf';
+import Element from 'yes-framework/template/Element';
 /**
  * 添加High Order Component
  * 主要为了包装常用的Attribute： visibale editable等
@@ -13,8 +14,9 @@ import { ControlWrap } from 'yes-intf';
  */
 class VisibleNotEqual extends PureComponent {
     render() {
-        if (this.props.value!=this.props.targetValue) {
-            return (this.props.children);
+        const { value, targetValue, element, children } = this.props;
+        if(value!=targetValue) {
+            return element ? <Element meta = { element } />: children;
         }
         return null;
     }

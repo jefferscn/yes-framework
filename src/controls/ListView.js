@@ -207,10 +207,13 @@ class AntdListView extends PureComponent {
         }
     }
     renderFoot = () => {
+        if(!this.props.onRefresh) {
+            return null;
+        }
         return !this.props.hasMore ?
             (<View style={styles.foot}>
                 <Text>没有更多数据</Text>
-            </View>) : null;
+            </View>) : (this.state.loadingMore? (<View style={styles.foot}><ActivityIndicator/></View>): null);
     }
     render() {
         const { controlState, layoutStyles, style, useBodyScroll } = this.props;

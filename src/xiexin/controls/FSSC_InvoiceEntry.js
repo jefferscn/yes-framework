@@ -99,7 +99,7 @@ export default class InvoiceEntry extends PureComponent {
                     await this.context.onValueChange("HeadPath", result);
                     await this.context.onControlClick("InvoiceIndentity");
                 } catch (ex) {
-                    Util.alert('错误', ex.messsage);
+                    Util.alert('错误', ex.message);
                     this.setState({
                         step: 1,
                         modalVisible: true,

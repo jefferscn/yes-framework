@@ -64,6 +64,9 @@ export default {
                             "ExpenseDate",
                             "PersonnelID",
                             "IsEnterprisesPay",
+                            "EntryMethod",
+                            "InvoiceType",
+                            "FSSC_Kind",
                             "CurrencyID",
                             "Reason"
                         ]
@@ -118,8 +121,6 @@ export default {
                     "elementProps": {
                         "yigoid": "Grid1",
                         "useBodyScroll": true,
-                        // "clickMode": "script",
-                        // "clickScript": 'if(IsNewOrEdit()){SetPara("resource", 2);} else{SetPara("resource", 3);} Open(Macro_GetBillKeyByInvoiceType(InvoiceType), InvoiceID, "modal", "View");',
                         "hideAction": true,
                         "removeType": "column",
                         "removeColumn": "DeleteDtl",
@@ -246,14 +247,15 @@ export default {
                                         }
                                     }
                                 }
-                            },
-                            "secondKey": [
-                                "Train_number"
-                            ],
-                            "teriatiaryKey": [
-                                "FSSC_Seat"
-                            ]
-                        }
+                            }
+                        },
+                        "secondKey": [
+                            "Car_type"
+                        ],
+                        "tertiaryKey": [
+                            "City",
+                            "Mileage"
+                        ]
                     }
                 }
             }

@@ -62,9 +62,11 @@ export default {
                         "items": [
                             "FeeTypeID",
                             "ExpenseDate",
+                            "SourcesOfBooks",
                             "PersonnelID",
                             "IsEnterprisesPay",
                             "CurrencyID",
+                            "IsManyPeople",
                             "Reason"
                         ]
                     }
@@ -77,28 +79,46 @@ export default {
             "elementProps": {
                 "collapseable": true,
                 "headIcon": "",
-                "title": "抵扣信息",
+                "title": "入住明细",
+                "wrapElement": {
+                    "type": "element",
+                    "elementType": "VisibleRelated",
+                    "elementProps": {
+                        "yigoid": "Grid2"
+                    }
+                },
                 "expanded": true,
                 "content": {
                     "type": "element",
-                    "elementType": "CellLayoutTemplate",
+                    "elementType": "GridView",
                     "elementProps": {
-                        "textStyle": {
-                            "textAlign": "right",
-                            "justifyContent": "flex-end"
+                        "yigoid": "Grid2",
+                        "useBodyScroll": true,
+                        "removeType": "column",
+                        "removeColumn": "Delete",
+                        "primaryKey": "cell6",
+                        "newElement": {
+                            "type": "element",
+                            "elementType": "NativeButton",
+                            "elementProps": {
+                                "title": "新增人员"
+                            }
                         },
-                        "titleStyle": {
-                            "justifyContent": "flex-start",
-                            "fontSize": "15",
-                            "color": "#666666"
-                        },
-                        "layoutStyle": {
-                            "justifyContent": "flex-end"
-                        },
-                        "items": [
-                            "Rate",
-                            "TaxAmount",
-                            "NoTaxAmount"
+                        "secondKey": [
+                            "cell9", {
+                                "type": "element",
+                                "elementType": "AwesomeFontIcon",
+                                "elementProps": {
+                                    "name": "long-arrow-right",
+                                    "style": {
+                                        "paddingLeft": 8,
+                                        "paddingRight": 4,
+                                        "display": "flex",
+                                        "justifyContent": "center",
+                                        "alignItems": "center"
+                                    }
+                                }
+                            }, "cell10"
                         ]
                     }
                 }
@@ -210,50 +230,10 @@ export default {
                                 ]
                             }
                         },
-                        "primaryKey": {
-                            "type": "element",
-                            "elementType": "FromTo",
-                            "elementProps": {
-                                "fromId": {
-                                    "type": "element",
-                                    "elementType": "SplitText",
-                                    "elementProps": {
-                                        "yigoid": "Station_geton",
-                                        "showIndex": 1,
-                                        "emptyStr": "未填",
-                                        "style": {
-                                            "display": "flex",
-                                            "justifyContent": "center",
-                                            "alignItems": "center",
-                                            "fontSize": 12,
-                                            "paddingRight": 4
-                                        }
-                                    }
-                                },
-                                "toId": {
-                                    "type": "element",
-                                    "elementType": "SplitText",
-                                    "elementProps": {
-                                        "yigoid": "Station_getoff",
-                                        "showIndex": 1,
-                                        "emptyStr": "未填",
-                                        "style": {
-                                            "display": "flex",
-                                            "justifyContent": "center",
-                                            "alignItems": "center",
-                                            "fontSize": 12,
-                                            "paddingRight": 4
-                                        }
-                                    }
-                                }
-                            },
-                            "secondKey": [
-                                "Train_number"
-                            ],
-                            "teriatiaryKey": [
-                                "FSSC_Seat"
-                            ]
-                        }
+                        "primaryKey": "FSSC_Number",
+                        "secondKey": [
+                            "City", "Seller"
+                        ]
                     }
                 }
             }

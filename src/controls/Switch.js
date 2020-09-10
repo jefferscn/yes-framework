@@ -9,10 +9,11 @@ export default class AntSwtich extends PureComponent {
         this.props.onChange && this.props.onChange(checked);
     } 
     render() {
-        const { layoutStyles, value } = this.props;
+        const { layoutStyles, value, disabled } = this.props;
         return (
             <View style={layoutStyles}>
                 <Switch
+                    disabled = {disabled}
                     checked = {value}
                     onChange = {this.onChange}
                 />

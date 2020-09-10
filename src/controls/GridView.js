@@ -5,12 +5,12 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { ListView, PullToRefresh, SwipeAction } from 'antd-mobile';
-import { View, ActivityIndicator, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, ActivityIndicator, Text, StyleSheet } from 'react-native';
 // import { propTypes } from 'yes'; // eslint-disable-line
 import { GridRowWrap as gridRowWrap, DynamicControl, GridWrap, MetaBillFormWrap } from 'yes';
 // import styles from '../../style';
 import ListViewItem from './ListViewItem';
-// import ActionButton from './ActionButton';
+import ActionButton from './ActionButton';
 import { withDetail, ListComponents } from 'yes-comp-react-native-web';
 
 const {
@@ -250,6 +250,15 @@ class AntdListView extends PureComponent {
     addRow = () => {
         this.props.addNewRow && this.props.addNewRow();
     }
+    renderFoot = () => {
+        if(!this.props.onRefresh) {
+            return null;
+        }
+        return !this.props.hasMore ?
+            (<View style={styles.foot}>
+                <Text>没有更多数据</Text>
+            </View>) : (this.state.loadingMore? (<View style={styles.foot}><ActivityIndicator/></View>): null);
+    }
     onEndReached = async ()=> {
         if (this.props.hasMore) {
             if (this.state.loadingMore) {
@@ -266,15 +275,14 @@ class AntdListView extends PureComponent {
     }
     render() {
         const { layoutStyles, style, isVirtual, showHead, onRefresh, refreshing, controlState,
-            headTitle, headExtra, editable, useBodyScroll, hideAction } = this.props;
+            headTitle, headExtra, editable, useBodyScroll, hideAction, newElement } = this.props;
         const extra = headExtra ? this.context.createElement(headExtra) : null;
         const visible = controlState.get('visible');
+        const newEle = this.context.createElement(newElement, {
+            onPress: this.addRow,
+        });
         if (isVirtual) {
-            return (
-                <View style={[styles.center, style]}>
-                    <ActivityIndicator size="large" color="cadetblue" />
-                </View>
-            );
+            return null;
         }
         if (!visible) {
             return null;
@@ -300,6 +308,7 @@ class AntdListView extends PureComponent {
                     onEndReached={this.onEndReached}
                     renderRow={this.renderItem}
                     pageSize={4}
+                    renderFooter={this.renderFoot}
                     pullToRefresh={
                         onRefresh ? <PullToRefresh
                             onRefresh={this.onRefresh}
@@ -307,10 +316,9 @@ class AntdListView extends PureComponent {
                         /> : false
                     }
                 />
-                {/* {
-                        (editable && !hideAction) ? <ActionButton onPress={this.addRow} /> : null
-                    } */}
-                {/* </View> */}
+                {
+                    (editable && !hideAction) ? newEle : null
+                }
             </View>
         )
     }
@@ -363,6 +371,12 @@ const styles = StyleSheet.create({
     tertiaryText: {
         fontSize: 10,
         color: 'rgba(0,0,0,0.5)',
+    },
+    foot: {
+        height: 36,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'white',
     }
 })
 

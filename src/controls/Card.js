@@ -281,15 +281,22 @@ export default class Card extends PureComponent {
         const headElement = this.buildTitleElement();
         const cnt = this.context.createElement(content);
         const wrap = this.context.createElement(wrapElement);
+        let bookmarkElement = null;
+        if (bookmark) {
+            if (typeof bookmark === 'string') {
+                bookmarkElement = (<View style={styles.bookmark}>
+                    <ListText style={styles.bookmarkText} yigoid={bookmark} emptyStr={bookmarkEmptyStr} />
+                    <View style={styles.bookmarkCornor}>
+                    </View>
+                </View>);
+            } else {
+                bookmarkElement = this.context.createElement(bookmark);
+            }
+        }
         const contentElement = (<TouchableWithoutFeedback onPress={this.onPress}>
             <View style={[styles.card, style]}>
                 {
-                    bookmark ?
-                        <View style={styles.bookmark}>
-                            <ListText style={styles.bookmarkText} yigoid={bookmark} emptyStr={bookmarkEmptyStr} />
-                            <View style={styles.bookmarkCornor}>
-                            </View>
-                        </View> : null
+                    bookmarkElement 
                 }
                 {
                     background ? <ImageBackground source={background} imageStyle={styles.cardBackground} style={styles.cardBackground} />

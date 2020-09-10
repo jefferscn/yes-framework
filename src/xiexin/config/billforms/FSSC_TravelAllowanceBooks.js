@@ -1,13 +1,37 @@
-{
+export default {
     "formTemplate": "auto",
+    "head": {
+        "type": "element",
+        "elementType": "Header",
+        "elementProps": {
+            "canBack": true,
+            "titleElement": {
+                "type": "element",
+                "elementType": "FormTitle",
+                "elementProps": {
+                    "containerStyle": {
+                        "alignItems": "center",
+                        "justifyContent": "center"
+                    }
+                }
+            }
+        }
+    },
     "action": {
         "type": "element",
-        "elementType": "GridActionButton",
+        "elementType": "VisibleRelatedDisabled",
         "elementProps": {
-            "yigoid": "Grid2",
-            "style": {
-                "right": "50%",
-                "transform": "translateX(30px)"
+            "yigoid": "EnteyInvoice",
+            "element": {
+                "type": "element",
+                "elementType": "ButtonActionButton",
+                "elementProps": {
+                    "buttonKey": "EnteyInvoice",
+                    "style": {
+                        "right": "50%",
+                        "transform": "translateX(30px)"
+                    }
+                }
             }
         }
     },
@@ -19,17 +43,6 @@
                 "collapseable": false,
                 "headIcon": "",
                 "title": "基本信息",
-                "bookmark": {
-                    "type": "element",
-                    "elementType": "ValidateCodeBookmark",
-                    "elementProps": {
-                        "yigoid": "Validation_Code2"
-                    }
-                },
-                "bookmarkEmptyStr": "未验真",
-                "headStyle": {
-                    "height": 80
-                },
                 "content": {
                     "type": "element",
                     "elementType": "CellLayoutTemplate",
@@ -47,18 +60,14 @@
                             "justifyContent": "flex-end"
                         },
                         "items": [
-                            "FSSC_Type2",
-                            "FSSC_Number2",
-                            "FSSC_Date2",
-                            "FSSC_Code2",
-                            "FSSC_Total2",
-                            "Place2",
-                            "SeatLevel2",
-                            "FSSC_Discount2",
-                            "FSSC_Tips2",
-                            {
-                                "key": "SingleBillPictures2"
-                            }
+                            "FeeTypeID",
+                            "SourcesOfBooks",
+                            "ExpenseDate",
+                            "PersonnelID",
+                            "IsEnterprisesPay",
+                            "CurrencyID",
+                            "TotalMoney",
+                            "Reason"
                         ]
                     }
                 }
@@ -70,15 +79,8 @@
             "elementProps": {
                 "collapseable": true,
                 "headIcon": "",
-                "title": "抵扣信息",
+                "title": "出差信息",
                 "expanded": true,
-                "wrap": {
-                    "type": "element",
-                    "elementType": "VisibleRelated",
-                    "elementProps": {
-                        "yigoid": "FSSC_Tax2"
-                    }
-                },
                 "content": {
                     "type": "element",
                     "elementType": "CellLayoutTemplate",
@@ -96,30 +98,13 @@
                             "justifyContent": "flex-end"
                         },
                         "items": [
-                            "FSSC_Tax2",
-                            "Tax_rate2",
-                            "Pretax_amount2"
+                            "StartDate",
+                            "EndDate",
+                            "WorkingStandard",
+                            "WorkingDays",
+                            "RestStandard",
+                            "RestDays"
                         ]
-                    }
-                }
-            }
-        },
-        {
-            "type": "element",
-            "elementType": "Card",
-            "elementProps": {
-                "collapseable": true,
-                "headIcon": "",
-                "title": "附件",
-                "expanded": true,
-                "content": {
-                    "type": "element",
-                    "elementType": "AttachmentList",
-                    "elementProps": {
-                        "yigoid": "AttachmentGrid",
-                        "fileName": "UploadName",
-                        "filePath": "Path",
-                        "removable": true
                     }
                 }
             }
@@ -129,6 +114,7 @@
         "type": "element",
         "elementType": "SegementToolbar",
         "elementProps": {
+
             "ignoreItems": [
                 "New",
                 "Close"
@@ -139,5 +125,6 @@
             }
         }
     },
-    "controls": {}
+    "controls": {
+    }
 }

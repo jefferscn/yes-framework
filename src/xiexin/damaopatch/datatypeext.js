@@ -5,10 +5,10 @@ import { lodash as $ } from 'yes-common';
 'use strict';
 DataDef.Document.prototype.old_clone = DataDef.Document.prototype.clone;
 DataDef.Document.prototype.clone = function () {
-    var newDoc = this.baseprototype.old_clone.apply(this, arguments);
-    newDoc.headValues = $.extend(true, {}, this.headValues);
-    newDoc.otherFieldValues = $.extend(true, {}, this.otherFieldValues);
-    newDoc.tableFilter = $.extend(true, {}, this.tableFilter);
+    var newDoc = this.old_clone.apply(this, arguments);
+    newDoc.headValues = $.extend({}, this.headValues);
+    newDoc.otherFieldValues = $.extend({}, this.otherFieldValues);
+    newDoc.tableFilter = $.extend({}, this.tableFilter);
     return newDoc;
 };
 DataDef.DataTable.prototype.getPos = function () {

@@ -62,9 +62,12 @@ export default {
                         "items": [
                             "FeeTypeID",
                             "ExpenseDate",
+                            "FSSC_Date",
                             "PersonnelID",
                             "IsEnterprisesPay",
                             "CurrencyID",
+                            "TotalMoney",
+                            "International_flag",
                             "Reason"
                         ]
                     }
@@ -98,7 +101,14 @@ export default {
                         "items": [
                             "Rate",
                             "TaxAmount",
-                            "NoTaxAmount"
+                            "NoTaxAmount",
+                            "Price",
+                            "Fuel_Pay",
+                            "Development_fund",
+                            "InsurancePay",
+                            "InvoiceType",
+                            "FSSC_Kind",
+                            "EntryMethod"
                         ]
                     }
                 }
@@ -118,8 +128,6 @@ export default {
                     "elementProps": {
                         "yigoid": "Grid1",
                         "useBodyScroll": true,
-                        // "clickMode": "script",
-                        // "clickScript": 'if(IsNewOrEdit()){SetPara("resource", 2);} else{SetPara("resource", 3);} Open(Macro_GetBillKeyByInvoiceType(InvoiceType), InvoiceID, "modal", "View");',
                         "hideAction": true,
                         "removeType": "column",
                         "removeColumn": "DeleteDtl",
@@ -248,10 +256,10 @@ export default {
                                 }
                             },
                             "secondKey": [
-                                "Train_number"
+                                "Flight_number"
                             ],
                             "teriatiaryKey": [
-                                "FSSC_Seat"
+                                "FSSC_Carrier"
                             ]
                         }
                     }
@@ -263,7 +271,6 @@ export default {
         "type": "element",
         "elementType": "SegementToolbar",
         "elementProps": {
-
             "ignoreItems": [
                 "New",
                 "Close"

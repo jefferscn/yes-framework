@@ -49,6 +49,11 @@ class SegementToolbar extends PureComponent {
     }
 
     onMoreMenuPressed = (index) => {
+        if(index===this.state.moreItems.length-1){
+            this.backHandler();
+            this.backHandler = null;
+            return;
+        }
         const action = this.state.moreItems[index];
         this.onMenuItemPressed(action);
         this.backHandler && this.backHandler();

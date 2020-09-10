@@ -29,6 +29,12 @@ class FeeTypeIcon extends PureComponent {
         if(text==='通讯') {
             iconName='icon-wangluo-'
         }
+        if(text=='船票') {
+            iconName='icon-FSSC_ShipTicketBooks';
+        }
+        if(text=='差旅补贴') {
+            iconName='icon-FSSC_TravelAllowanceBooks';
+        }
         return {
             name: iconName,
             size: 20,

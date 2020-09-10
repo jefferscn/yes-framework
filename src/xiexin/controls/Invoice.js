@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, StyleSheet, Image, Text } from 'react-native';
+import { View, StyleSheet, Image, Text, PixelRatio} from 'react-native';
 import Header from 'yes-framework/controls/Header';
 import { ListComponents } from 'yes-comp-react-native-web';
 import FormTitle from 'yes-framework/controls/FormTitle';
@@ -24,15 +24,26 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     columnTextLabel: {
-        color: 'gray',
+        color: '#A28A7E',
     },
     columnTextText: {
         color: 'black',
         fontSize: 20,
         paddingTop: 6,
+        wordBreak: 'break-all',
     },
     flex1: {
         flex: 1,
+    },
+    invoiceImage: {
+        width: 200,
+        height: 100,
+    },
+    invoiceImageContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingTop: 20,
+        paddingBottom: 10,
     }
 });
 
@@ -47,6 +58,8 @@ class ColumnLabelText extends PureComponent {
         )
     }
 }
+
+PixelRatio.getPixelSizeForLayoutSize
 
 class InvoiceRow extends PureComponent {
     render() {
@@ -74,13 +87,13 @@ export default class Invoice extends PureComponent {
             <View style={[styles.container, style]}>
                 <View style={styles.view1}>
                     <ListComponents.ListImage 
-                        h={200}
+                        h={100}
                         w={200}
                         style={styles.image} 
                         yigoid={imageField} />
                 </View>
                 <View style={styles.view2}>
-                    {invoiceImage ? <Image source={invoiceImage} /> : null}
+                    {invoiceImage ? <View style={styles.invoiceImageContainer}><Image source={invoiceImage} style={styles.invoiceImage} /></View> : null}
                     {
                         rows.map((row) => 
                             (

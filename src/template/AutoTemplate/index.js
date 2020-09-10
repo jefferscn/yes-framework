@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { View, StyleSheet, Text, ScrollView, ActivityIndicator, ImageBackground } from 'react-native';
 import defaultTemplateMapping from '../defaultTemplateMapping';
 import Element from '../Element';
+import AutofitScrollView from 'yes-framework/controls/AutofitScrollView';
 import PropTypes from 'prop-types';
 
 const styles = StyleSheet.create({
@@ -63,18 +64,6 @@ class AutoTemplate extends PureComponent {
     static defaultProps = {
         head: defaultHeader,
     }
-    // render() {
-    //     const { containerStyle, items } = this.props;
-    //     return (
-    //         <View style={[styles.container, containerStyle]}>
-    //             {
-    //                 items.map(item => {
-    //                     <Element meta={item} />
-    //                 })
-    //             }
-    //         </View>
-    //     )
-    // }
     render() {
         const { items, action, error, errorMsg, formStatus, containerStyle, backgroundImg } = this.props;
         // const form = this.context.getBillForm();
@@ -96,7 +85,7 @@ class AutoTemplate extends PureComponent {
             }
             {head}
             <View style={[styles.container, containerStyle]}>
-                <ScrollView style={styles.paddingBottom}>
+                <AutofitScrollView style={styles.paddingBottom}>
                     {
                         formStatus != 'ok' ?
                             <View style={styles.mask}><ActivityIndicator /></View> : null
@@ -106,7 +95,7 @@ class AutoTemplate extends PureComponent {
                             <Element meta={item} />
                         )
                     }
-                </ScrollView>
+                </AutofitScrollView>
                 {actionButton}
             </View>
             {foot}

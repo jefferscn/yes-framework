@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import {
     View, StyleSheet, Text, ScrollView,
     TouchableHighlight, PanResponder, LayoutAnimation,
-    TouchableOpacity, Dimensions
+    TouchableOpacity, Dimensions 
 } from 'react-native';
 import IconFont from 'yes-framework/font';
 import { Modal, WhiteSpace } from 'antd-mobile';

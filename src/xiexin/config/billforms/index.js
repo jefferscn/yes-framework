@@ -3,7 +3,7 @@ import FSSC_ExpenseAccountBillView from './FSSC_ExpenseAccountBillView.json';
 import FSSC_ExpenseAccountBill from './FSSC_ExpenseAccountBill.json';
 import FSSC_BooksQuery from './FSSC_BooksQuery.json';
 import FSSC_BooksCreate from './FSSC_BooksCreate.json';
-import FSSC_HotelBooks from './FSSC_HotelBooks.json';
+import FSSC_HotelBooks from './FSSC_HotelBooks';
 import FSSC_InvoiceEntry from './FSSC_InvoiceEntry.json';
 import SRM_OFFERView from './SRM_OFFERView.json';
 import FSSC_InvoiceQuery from './FSSC_InvoiceQuery.json';
@@ -17,28 +17,31 @@ import FSSC_RepayGetLoanList  from './FSSC_RepayGetLoanList.json';
 import FSSC_TrainTicketBooks from './FSSC_TrainTicketBooks.js';
 import FSSC_TrainTicketBooks_modal from './FSSC_TrainTicketBooks_modal.json';
 import FSSC_ShowInvoiceReport from './FSSC_ShowInvoiceReport.json';
-import FSSC_AirTicketBooks from './FSSC_AirTicketBooks.json';
-import FSSC_TaxiBooks from './FSSC_TaxiBooks.json';
-import FSSC_OnlineItineraryBooks from './FSSC_OnlineItineraryBooks.json';
-import FSSC_CoachBooks from './FSSC_CoachBooks.json';
-import FSSC_CommunicationBooks from './FSSC_CommunicationBooks.json';
+import FSSC_AirTicketBooks from './FSSC_AirTicketBooks';
+import FSSC_TaxiBooks from './FSSC_TaxiBooks';
+import FSSC_OnlineItineraryBooks from './FSSC_OnlineItineraryBooks';
+import FSSC_CoachBooks from './FSSC_CoachBooks';
+import FSSC_CommunicationBooks from './FSSC_CommunicationBooks';
 import FSSC_TravelReimbursement from './FSSC_TravelReimbursement.json';
 import FSSC_SubsidyReimbursement from './FSSC_SubsidyReimbursement.json';
 import FSSC_GeneralReimbursement from './FSSC_GeneralReimbursement.json';
-import FSSC_CateringBooks from './FSSC_CateringBooks.json';
-import FSSC_ShipTicketBooks from './FSSC_ShipTicketBooks.json';
-import FSSC_TravelAllowanceBooks from './FSSC_TravelAllowanceBooks.json';
-import FSSC_GeneralBooks from './FSSC_GeneralBooks.json';
+import FSSC_CateringBooks from './FSSC_CateringBooks';
+import FSSC_ShipTicketBooks from './FSSC_ShipTicketBooks';
+import FSSC_TravelAllowanceBooks from './FSSC_TravelAllowanceBooks';
+import FSSC_GeneralBooks from './FSSC_GeneralBooks';
 import FSSC_WFLog from './FSSC_WFLog.json';
 import FSSC_PersonMsg from './FSSC_PersonMsg.json';
 import FSSC_AirTicketInvoice from './FSSC_AirTicketInvoice.json';
 import FSSC_VATInvoice_Volume from './FSSC_VATinvoice_Volume.json';
-import FSSC_DidiTravelItinerary from './FSSC_DidiTravelItinerary.json';
+import FSSC_DidiTravelItinerary from './FSSC_DidiTravelItinerary';
 import FSSC_LoanBillView from './FSSC_LoanBillView.json';
 import FSSC_RepaymentBillView from './FSSC_RepaymentBillView.json';
 import FSSC_LoanBill from './FSSC_LoanBill';
 import FSSC_RepaymentBill from './FSSC_RepaymentBill';
 import FSSC_TicketInvoice_View from './FSSC_TicketInvoice_View';
+import FSSC_VATinvoice_View from './FSSC_VATinvoice_View';
+import FSSC_TaxiInvoice_View from './FSSC_TaxiInvoice_View';
+import FSSC_AirTicketInvoice_View from './FSSC_AirTicketInvoice_View';
 
 export default {
     default: defaultForm,
@@ -94,4 +97,8 @@ export default {
     FSSC_LoanBill,
     FSSC_RepaymentBill,
     FSSC_TicketInvoice_View,
+    FSSC_VATinvoice_View,
+    FSSC_VATinvoice_Volumn_View: FSSC_VATinvoice_View,
+    FSSC_TaxiInvoice_View,
+    FSSC_AirTicketInvoice_View,
 };

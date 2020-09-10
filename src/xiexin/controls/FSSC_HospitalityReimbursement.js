@@ -18,6 +18,7 @@ import SplitText from 'yes-framework/controls/SplitText';
 import Util from '../util';
 import VisibleRelated from 'yes-framework/controls/VisibleRelated';
 import FormTitle from 'yes-framework/controls/FormTitle';
+import AutofitScrollView from 'yes-framework/controls/AutofitScrollView';
 
 const styles = StyleSheet.create({
     container: {
@@ -473,7 +474,7 @@ export default class HospitalityReimbursement extends PureComponent {
                     }} />}
                     mode="dark"
                 />
-                <ScrollView style={{ paddingBottom: 20 }}>                    
+                <AutofitScrollView style={{ paddingBottom: 20 }}>                    
                     {
                         formStatus != 'ok' ?
                             <View style={styles.mask}><ActivityIndicator /></View> : null
@@ -620,7 +621,7 @@ export default class HospitalityReimbursement extends PureComponent {
                         />
                     </Card>
                     <AttachmentList style={[styles.card]} yigoid="AttachmentGrid" fileName="UploadName" filePath="Path" removable title="附件" />
-                </ScrollView>
+                </AutofitScrollView>
                 {
                     actionButton
                 }
