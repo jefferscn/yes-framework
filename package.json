@@ -47,6 +47,7 @@
     "react-native-vector-icons": "6.6.0",
     "react-native-web": "0.0.0-d33e107ba",
     "react-navigation-is-focused-hoc": "^1.1.1",
+    "react-rating": "^2.0.5",
     "react-viewer": "^3.2.1",
     "react-wx-images-viewer": "github:jefferscn/react-wx-images-viewer",
     "yes-common": "^2.0.0",

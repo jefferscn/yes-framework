@@ -17,6 +17,7 @@ import buildRoute from './route';
 import './patch/antd-mobile.css';
 import { showModal } from './SiblingMgr';
 import { init as initPush } from './push';
+import { init as initOpenWith } from './openwith';
 import Element from './template/Element';
 import { injectFont } from 'yes-web/dist/webutil';
 import fontAwesome from 'react-native-vector-icons/Fonts/FontAwesome.ttf';
@@ -196,6 +197,7 @@ AppDispatcher.register((action) => {
     }
 })
 initPush();
+initOpenWith();
 
 appOptions.messages = getLocaleMessages();
 // appOptions.router = NavigatorListenerWrapper;
