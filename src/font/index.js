@@ -1,1 +1,1 @@
-export { default as default } from './iconFont';
+export { default as default } from './IconFont';

@@ -293,7 +293,7 @@ class AntdListView extends PureComponent {
                     showHead ?
                         <View style={[styles.head]}>
                             <Text style={[styles.headTitle]}>{headTitle}</Text>
-                            <View>
+                            <View style={styles.extraStyle}>
                                 {extra}
                             </View>
                         </View> : null
@@ -377,6 +377,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'white',
+    },
+    extraStyle: {
+        justifyContent:'center',
+        alignItems: 'center',
     }
 })
 

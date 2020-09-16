@@ -8,6 +8,8 @@ import PropTypes from 'prop-types';
 import { YIGOEnvProvider } from 'yes-intf';
 import AppWrapper from '../AppWrapper';
 import i18n from '../i18n';
+import control from '../config/control.js';
+import { ProjectCfg } from '../config/index';
 import global from 'global';
 
 // let modalHandler = null;
@@ -83,7 +85,10 @@ export function showModal(children, fullScreen) {
             locale={getLocaleMessages()}
             controlMapping={ControlMappings.defaultControlMapping}
             >
-            <AppWrapper>
+            <AppWrapper
+                control={control}
+                projectCfg={ProjectCfg}
+            >
                 {/* <ThemeContext.Provider value={getTheme({})}> */}
                 {/* <Modal
                     wrapClassName='sibling'

@@ -100,12 +100,6 @@ class AutoTemplate extends PureComponent {
             </View>
             {foot}
         </View>);
-        // return (<View style={styles.container}>
-        //     {head}
-        //     <View style={styles.errorContainer}>
-        //         <ActivityIndicator size="large" color="cadetblue" />
-        //     </View>
-        // </View>);
     }
 }
 

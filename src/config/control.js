@@ -32,6 +32,33 @@ import IconFont from '../font';
 // import AttachmentAction from '../controls/AttachmentAction';
 // import VisibleRelated from '../controls/VisibleRelated';
 import CellLayoutTemplate from '../template/TabTemplate/CellLayoutTemplate';
+import { Button } from 'react-native';
+
+function isClassComponent(component) {
+  return (
+    typeof component === 'function' &&
+    !!component.prototype.isReactComponent
+  )
+}
+
+function isFunctionComponent(component) {
+  return (
+    typeof component === 'function' &&
+    String(component).includes('React.createElement')
+  )
+}
+
+function isForwardRef(component) {
+  return typeof component.$$typeof === 'symbol' ;
+}
+
+function isReactComponent(component) {
+  return (
+    isClassComponent(component) ||
+    isFunctionComponent(component) ||
+    isForwardRef(component)
+  )
+}
 
 // import { controls } from '../project';
 
@@ -82,8 +109,8 @@ const context = require.context('../controls', true, /.js$/);
 const obj = {};
 context.keys().forEach((key) => {
   const c = context(key).default;
-  if(c.key) {
-    obj[c.key] =  c;
+  if (c.key) {
+    obj[c.key] = c;
   } else {
     const name = key.split('/').pop() // remove the first 2 characters
       .split('.').shift(); // remove the file extension
@@ -91,16 +118,23 @@ context.keys().forEach((key) => {
   }
 });
 
-Object.keys(Components).forEach((key)=>{
-    obj[key] = Components[key];
+Object.keys(Components).forEach((key1) => {
+  if (isReactComponent(Components[key1])) {
+    obj[key1] = Components[key1];
+  } else {
+    for(let key in Components[key1]) {
+      obj[`${key1}.${key}`] = Components[key1][key];
+    }
+  }
 });
 
 obj['IconFont'] = IconFont;
 obj['AwesomeFontIcon'] = AwesomeFontIcon;
 obj['CellLayoutTemplate'] = CellLayoutTemplate;
+obj['NativeButton'] = Button;
 
-Object.keys(controls).forEach((control)=>{
-    obj[control] = controls[control];
+Object.keys(controls).forEach((control) => {
+  obj[control] = controls[control];
 });
 
 export default obj

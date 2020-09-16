@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
         display: 'flex',
     },
     item: {
-        width: '25%',
+        width: '33%',
         paddingRight: 12,
         paddingBottom: 12,
         height: 100,
@@ -50,28 +50,34 @@ class AttachmentFile extends PureComponent {
     static contextTypes = {
         getBillForm: PropTypes.func,
     }
-    buildThumbnail = (url)=> {
-        if(Util.buildThumbnailUrl) {
-            return Util.buildThumbnailUrl(url,100,100);
+    buildThumbnail = (url) => {
+        if (Util.buildThumbnailUrl) {
+            return Util.buildThumbnailUrl(url, 100, 100);
         }
         return url
     }
     isImage = () => {
         const { fileType } = this.props;
-        return fileType === 'jpg' || fileType === 'png' || fileType==='jpeg';
+        return fileType === 'jpg' || fileType === 'png' || fileType === 'jpeg';
     }
     render() {
-        const { displayValue, fileType, style } = this.props;
+        const { displayValue, fileType, style, yigoAttachment } = this.props;
         if (this.isImage()) {
-            const billform = this.context.getBillForm();
-            const formKey = billform.form.formKey;
-            const url = this.buildThumbnail(`${Svr.SvrMgr.AttachURL}?path=${displayValue}&formKey=${formKey}&service=DownloadImage&mode=2`);
-            return (
-                <Image source={url} style={[styles.image, style]} />
-            )
+            if (yigoAttachment) {
+                const billform = this.context.getBillForm();
+                const formKey = billform.form.formKey;
+                const url = this.buildThumbnail(`${Svr.SvrMgr.AttachURL}?path=${displayValue}&formKey=${formKey}&service=DownloadImage&mode=2`);
+                return (
+                    <Image source={url} style={[styles.image, style]} />
+                )
+            } else {
+                return (
+                    <Image source={displayValue} style={[styles.image, style]} />
+                )
+            }
         }
         return (
-            <View style={{flex:1}}>
+            <View style={{ flex: 1 }}>
                 <Text>{fileType}</Text>
             </View>
         )
@@ -83,7 +89,8 @@ class AttachmentItem extends PureComponent {
     static defaultProps = {
         removable: false,
         fileType: null,
-        url: null
+        url: null,
+        yigoAttachment: true,
     }
     onRemove = () => {
         this.props.remove && this.props.remove();
@@ -92,11 +99,11 @@ class AttachmentItem extends PureComponent {
         this.props.onPress && this.props.onPress(this.props.rowIndex);
     }
     render() {
-        const { removable, fileUrl, fileType, style } = this.props;
+        const { removable, fileUrl, fileType, style, yigoAttachment } = this.props;
         return (
             <TouchableWithoutFeedback onPress={this.onPress}>
-                <View style={[styles.item,style]}>
-                    <AttachmentFile fileType={fileType} yigoid={fileUrl} />
+                <View style={[styles.item, style]}>
+                    <AttachmentFile yigoAttachment={yigoAttachment} fileType={fileType} yigoid={fileUrl} />
                     {removable ? <TouchableWithoutFeedback onPress={this.onRemove}>
                         <Icon name="times" size={20} style={styles.icon} />
                     </TouchableWithoutFeedback> : null}
@@ -113,6 +120,7 @@ class AttachmentList extends PureComponent {
     }
     static defualtProps = {
         removable: true,
+        yigoAttachment: true,
     }
     state = {
         showPreview: false,
@@ -140,7 +148,7 @@ class AttachmentList extends PureComponent {
     }
     render() {
         const { data, fileName, filePath, isVirtual, title,
-            containerStyle, removable, editable, inline
+            containerStyle, removable, editable, inline, yigoAttachment,
         } = this.props;
         const grid = this.context.getOwner();
         if (!grid) {
@@ -158,11 +166,16 @@ class AttachmentList extends PureComponent {
         };
         const billform = this.context.getBillForm();
         const formKey = billform.form.formKey;
-        const filePathIndex = grid.getCellIndexByKey(filePath);
-        const fileNameIndex = grid.getCellIndexByKey(fileName);
-        const files = data.map((item) => {
-            const path = item.getIn(['data', filePathIndex, 0]);
-            return `${Svr.SvrMgr.AttachURL}?path=${path}&formKey=${formKey}&service=DownloadImage&mode=2`
+        // const filePathIndex = grid.getCellIndexByKey(filePath);
+        // const fileNameIndex = grid.getCellIndexByKey(fileName);
+        const files = data.map((item, index) => {
+            const path = grid.getValueByKey(index, filePath);
+            if (yigoAttachment) {
+                // const path = item.getIn(['data', filePathIndex, 0]);
+                return `${Svr.SvrMgr.AttachURL}?path=${path}&formKey=${formKey}&service=DownloadImage&mode=2`
+            } else {
+                return path;
+            }
         }).toJSON();
         if (inline) {
             if (files.length > 0) {
@@ -176,7 +189,7 @@ class AttachmentList extends PureComponent {
             return (
                 <TouchableWithoutFeedback onPress={this.onViewerClose}>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                        <Text style={styles.noattach}>{billform.form.formLoaded? '没有附件,点击关闭' : '数据加载中...'}</Text>
+                        <Text style={styles.noattach}>{billform.form.formLoaded ? '没有附件,点击关闭' : '数据加载中...'}</Text>
                     </View>
                 </TouchableWithoutFeedback>
             );
@@ -189,10 +202,12 @@ class AttachmentList extends PureComponent {
                 <View style={[styles.container, containerStyle]}>
                     {
                         data.map((item, index) => {
-                            const fn = item.getIn(['data', fileNameIndex, 0]);
+                            // const fn = item.getIn(['data', fileNameIndex, 0]);
+                            const fn = grid.getValueByKey(index, fileName);
                             const fnArray = fn.split('.');
                             const fileType = fnArray.length > 1 ? fnArray[fnArray.length - 1] : null;
                             return (<AttachmentItem
+                                yigoAttachment={yigoAttachment}
                                 rowIndex={index}
                                 removable={removable && editable}
                                 fileType={fileType}

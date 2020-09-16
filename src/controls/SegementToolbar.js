@@ -40,7 +40,7 @@ class SegementToolbar extends PureComponent {
             }
             if (showItems) {
                 if (showItems.includes(key)) {
-                    return truek
+                    return true
                 }
                 return false;
             }

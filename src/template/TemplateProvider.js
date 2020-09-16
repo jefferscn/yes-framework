@@ -13,13 +13,19 @@ export default class TemplateProvider extends PureComponent {
     }
 
     createElement = (obj, props) => {
-        if (obj && obj.type === 'element') {
-            const C = this.props.CustomControls[obj.elementType];
-            if(!C) {
-                console.log(`ElementType ${obj.elementType} missing!`);
-                return null;
+        if (obj) {
+            if (obj.type === 'element') {
+                const C = this.props.CustomControls[obj.elementType];
+                if (!C) {
+                    console.log(`ElementType ${obj.elementType} missing!`);
+                    return null;
+                }
+                return <C {...obj.elementProps} {...props} />;
+            } else {
+                if(!React.isValidElement(obj)) {
+                    return null;
+                }
             }
-            return <C {...obj.elementProps} {...props} />;
         }
         return obj;
     }

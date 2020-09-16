@@ -99,9 +99,15 @@ export default {
                         "primaryKey": "cell6",
                         "newElement": {
                             "type": "element",
-                            "elementType": "NativeButton",
+                            "elementType": "ScriptWrap",
                             "elementProps": {
-                                "title": "新增人员"
+                                "script": "ShowModal('CD_LiftPerson',{Profession:{'ALL'},type:{'01'}})",
+                                "element": {
+                                    "elementType": "NativeButton",
+                                    "elementProps": {
+                                        "title": "新增人员"
+                                    }
+                                }
                             }
                         },
                         "secondKey": [

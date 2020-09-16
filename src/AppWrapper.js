@@ -1,11 +1,11 @@
 import React from 'react';
 import PlatformProvider from './providers';
 import BaiduProvider from './providers/BaiduMapProvider';
-import { ProjectCfg } from './config/index';
+// import { ProjectCfg } from './config/index';
 import enUS from 'antd-mobile/lib/locale-provider/en_US';
 import { LocaleProvider } from 'antd-mobile';
 import TemplateProvider from './template/TemplateProvider';
-import control from './config/control.js';
+// import control from './config/control.js';
 
 const getAntLocale = () => {
     if (navigator.language.startsWith('zh')) {
@@ -13,21 +13,21 @@ const getAntLocale = () => {
     }
     return enUS;
 }
-const { wechat, cordova, baidumap } = ProjectCfg;
-let Provider = ({ children }) => {
-    if (baidumap) {
-        return (<BaiduProvider {...baidumap}>
-            <PlatformProvider.Browser>
-                {children}
-            </PlatformProvider.Browser>
-        </BaiduProvider>);
-    }
-    return (
-        <PlatformProvider.Browser>
-            {children}
-        </PlatformProvider.Browser>
-    );
-};
+// const { wechat, cordova, baidumap } = ProjectCfg;
+// let Provider = ({ children }) => {
+//     if (baidumap) {
+//         return (<BaiduProvider {...baidumap}>
+//             <PlatformProvider.Browser>
+//                 {children}
+//             </PlatformProvider.Browser>
+//         </BaiduProvider>);
+//     }
+//     return (
+//         <PlatformProvider.Browser>
+//             {children}
+//         </PlatformProvider.Browser>
+//     );
+// };
 
 // wechat
 function isWeixin() {
@@ -39,51 +39,102 @@ function isWeixin() {
     }
 }
 
-if (isWeixin() && wechat) {
-    Provider = ({ children }) => {
-        if (baidumap) {
-            return (<BaiduProvider>
-                <PlatformProvider.Wechat {...wechat} >
-                    {children}
-                </PlatformProvider.Wechat>
-            </BaiduProvider>);
-        }
-        return (
-            <PlatformProvider.Wechat {...wechat} >
-                {children}
-            </PlatformProvider.Wechat>
-        );
-    };
-}
+// if (isWeixin() && wechat) {
+//     Provider = ({ children }) => {
+//         if (baidumap) {
+//             return (<BaiduProvider>
+//                 <PlatformProvider.Wechat {...wechat} >
+//                     {children}
+//                 </PlatformProvider.Wechat>
+//             </BaiduProvider>);
+//         }
+//         return (
+//             <PlatformProvider.Wechat {...wechat} >
+//                 {children}
+//             </PlatformProvider.Wechat>
+//         );
+//     };
+// }
 
 // cordova
 function isCordova() {
     return window.cordova;
 }
 
-if (isCordova()) {
-    const cordovaProps = cordova || {};
-    Provider = ({ children }) => {
+// if (isCordova()) {
+//     const cordovaProps = cordova || {};
+//     Provider = ({ children }) => {
+//         if (baidumap) {
+//             return (<BaiduProvider {...baidumap}>
+//                 <PlatformProvider.Cordova {...cordovaProps}>
+//                     {children}
+//                 </PlatformProvider.Cordova>
+//             </BaiduProvider>);
+//         }
+//         return (
+//             <PlatformProvider.Cordova {...cordovaProps}>
+//                 {children}
+//             </PlatformProvider.Cordova>
+//         );
+//     };
+// }
+
+export default ({ children, control, projectCfg }) => {
+    const { wechat, cordova, baidumap } = projectCfg;
+    let Provider = ({ children }) => {
         if (baidumap) {
             return (<BaiduProvider {...baidumap}>
-                <PlatformProvider.Cordova {...cordovaProps}>
+                <PlatformProvider.Browser>
                     {children}
-                </PlatformProvider.Cordova>
+                </PlatformProvider.Browser>
             </BaiduProvider>);
         }
         return (
-            <PlatformProvider.Cordova {...cordovaProps}>
+            <PlatformProvider.Browser>
                 {children}
-            </PlatformProvider.Cordova>
+            </PlatformProvider.Browser>
         );
     };
-}
 
-export default ({children}) =>
-    (<LocaleProvider locale={getAntLocale()}>
+    if (isWeixin() && wechat) {
+        Provider = ({ children }) => {
+            if (baidumap) {
+                return (<BaiduProvider>
+                    <PlatformProvider.Wechat {...wechat} >
+                        {children}
+                    </PlatformProvider.Wechat>
+                </BaiduProvider>);
+            }
+            return (
+                <PlatformProvider.Wechat {...wechat} >
+                    {children}
+                </PlatformProvider.Wechat>
+            );
+        };
+    }
+
+    if (isCordova()) {
+        const cordovaProps = cordova || {};
+        Provider = ({ children }) => {
+            if (baidumap) {
+                return (<BaiduProvider {...baidumap}>
+                    <PlatformProvider.Cordova {...cordovaProps}>
+                        {children}
+                    </PlatformProvider.Cordova>
+                </BaiduProvider>);
+            }
+            return (
+                <PlatformProvider.Cordova {...cordovaProps}>
+                    {children}
+                </PlatformProvider.Cordova>
+            );
+        };
+    }
+    return (<LocaleProvider locale={getAntLocale()}>
         <TemplateProvider CustomControls={control}>
             <Provider>
                 {children}
             </Provider>
         </TemplateProvider>
     </LocaleProvider>)
+}

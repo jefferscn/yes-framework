@@ -84,7 +84,6 @@ export default (DEBUG, PATH, PORT = 3000) => {
                             ['@babel/plugin-proposal-class-properties', {
                                 "loose": true
                             }],
-                            // 'react-native-web',
                             '@babel/plugin-proposal-export-namespace-from']
                     },
                 }, {

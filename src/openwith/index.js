@@ -1,6 +1,6 @@
 import global from 'global';
 
-export const init = () => {
+export const init = (handler) => {
     if (!(global.cordova && global.cordova.openwith)) {
         console.log('openwith init fail!')
         return;
@@ -32,12 +32,13 @@ export const init = () => {
         // ...
         // An example...
 
-        if (intent.items.length > 0) {
+        if (intent.items.length > 0 && handler) {
             global.cordova.openwith.load(intent.items[0], function (data, item) {
 
                 // data is a long base64 string with the content of the file
                 console.log("the item weights " + data.length + " bytes");
-                uploadToServer(item);
+                // uploadToServer(item);
+                handler(item);
 
                 // "exit" when done.
                 // Note that there is no need to wait for the upload to finish,

@@ -1,7 +1,5 @@
 import React, { PureComponent } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
-// import { withNavigation } from 'react-navigation';
-// import { HeaderBackButton } from 'react-navigation';
 import { History } from 'yes-web';
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -11,6 +9,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         borderBottomWidth: 1,
         borderBottomColor: 'lightgrey',
+    },
+    headerLight: {
+        backgroundColor: 'black',
+    },
+    headerDark: {
+        backgroundColor: 'white',
     },
     absoluteTitle: {
         position: 'absolute',
@@ -37,12 +41,28 @@ const styles = StyleSheet.create({
     },
     lightMode: {
         color: 'white',
-    }
+    },
+    textStyle: {
+        marginTop: 13,
+        marginBottom: 13,
+        marginLeft: 13,
+        height: 24,
+        display: 'flex',
+        alignItems: 'center',
+    },
 });
 
-
-
 class Header extends PureComponent {
+    static propTypes = {
+        titleMode: PropTypes.oneOf(['flex', 'absolute']),//flex=使用 flex布局，absolute=使用absolute布局
+        mode: PropTypes.oneOf(['dark', 'light']),
+        title: PropTypes.string,
+        titleElement: PropTypes.shape({
+            type: PropTypes.oneOf(['element']),
+            elementType: PropTypes.string,
+            elementProps: PropTypes.object,
+        }),
+    }
     static defaultProps = {
         titleMode: 'flex',//flex=使用 flex布局，absolute=使用absolute布局
         canBack: true,
@@ -63,13 +83,15 @@ class Header extends PureComponent {
     }
     createTitleElement = () => {
         if (this.props.titleElement) {
-            return this.context.createElement(this.props.titleElement);
+            return this.context.createElement(this.props.titleElement, {
+                mode: this.props.mode,
+            });
         }
         if (this.props.title) {
             return <HeadTitle style={[this.props.titleMode === 'flex' ? styles.flexTitle : styles.absoluteTitle,
             this.props.titleStyle]} title={this.props.title}
                 textStyle={[
-                    this.props.mode === 'light' ? styles.lightMode : null,
+                    this.props.mode === 'light' ? styles.lightMode : null, this.props.textStyle
                 ]}
             />;
         }
@@ -93,7 +115,9 @@ class Header extends PureComponent {
     }
     render() {
         return (
-            <View style={[styles.header, this.getPaddingStyle(), this.props.headerStyle]}>
+            <View style={[styles.header, this.getPaddingStyle(), 
+                this.props.mode==='light'? styles.headerLight: styles.headerDark,
+                this.props.headerStyle]}>
                 {this.createLeftElement()}
                 {this.createTitleElement()}
                 {this.createRightElement()}
@@ -142,7 +166,7 @@ class HeadTitle extends PureComponent {
     render() {
         return (
             <View style={[styles.title, this.props.style]}>
-                <Text style={this.props.textStyle}>{this.props.title}</Text>
+                <Text style={[styles.textStyle, this.props.textStyle]}>{this.props.title}</Text>
             </View>
         )
     }

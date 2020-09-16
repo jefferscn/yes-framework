@@ -17,7 +17,7 @@ if (Platform.OS === 'web') {
     styles.textinput = [styles.textinput, {
         outlineColor: 'transparent',
     }];
-}
+};
 class Login extends Component {
     constructor(props) {
         super(props);

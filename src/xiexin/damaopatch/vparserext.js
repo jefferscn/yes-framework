@@ -28,7 +28,7 @@ View.Old_Context = View.Context;
 View.Context = function (form) {
     let result = new View.Old_Context(form);
     result.locationMap = {};
-    if (form) {
+    if (form && form.getGridArray) {
         var grids = form.getGridArray(), grid;
         for (var i = 0, size = grids.length; i < size; i++) {
             grid = form.getComponent(grids[i].key);

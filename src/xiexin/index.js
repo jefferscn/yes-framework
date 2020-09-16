@@ -18,3 +18,8 @@ AppDispatcher.register((action)=>{
             }, 0)
     }
 });
+
+export const OpenwithHandler = (item)=> {
+    alert('OpenWith');
+    console.log(item);
+}

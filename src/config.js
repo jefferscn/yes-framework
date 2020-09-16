@@ -4,7 +4,7 @@ import './template';
 // import projectJSON from './config/project.json';
 // import loginJSON from './config/login.json';
 import { BackHandler, AppDispatcher } from 'yes';
-import { ProjectCfg, RouteCfg, LoginCfg, ModalCfg } from './config/index';
+import { ProjectCfg, RouteCfg, LoginCfg, ModalCfg, OpenwithHandler } from './config/index';
 import control from './config/control.js';
 import { ControlMappings, AuthenticatedRoute } from 'yes-comp-react-native-web';
 import { Util } from 'yes-web';
@@ -182,7 +182,10 @@ const onNavigationStateChange = (prevState, currentState) => {
 
 const AuthRouter = AuthenticatedRoute(MainRouter, () => <Element meta={LoginCfg} />, 'root');
 const NavigatorListenerWrapper = (props) =>
-    (<AppWrapper>
+    (<AppWrapper
+        projectCfg={ProjectCfg}
+        control={control}
+    >
         <AuthRouter
             onNavigationStateChange={onNavigationStateChange}
             {...props} />
@@ -196,8 +199,13 @@ AppDispatcher.register((action) => {
             break;
     }
 })
-initPush();
-initOpenWith();
+
+if (window.cordova) {
+    document.addEventListener('deviceready', () => {
+        initPush();
+        initOpenWith(OpenwithHandler);
+    }, false);
+}
 
 appOptions.messages = getLocaleMessages();
 // appOptions.router = NavigatorListenerWrapper;

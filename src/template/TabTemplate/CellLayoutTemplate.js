@@ -60,6 +60,13 @@ class CellLayoutTemplate extends Component {  // eslint-disable-line
         createElement: PropTypes.func,
     }
 
+    getControlProps = (key)=> {
+        if(this.context.getControlProps){
+            return this.context.getControlProps(key);
+        }
+        return {};
+    }
+
     renderSection(section) {
         let S = List;
         const extraProps = {};
@@ -96,7 +103,7 @@ class CellLayoutTemplate extends Component {  // eslint-disable-line
                                 textStyles={{ textAlign: 'left' }}
                                 layoutStyles={{ minHeight: 30, textAlign: 'left', justifyContent: 'flex-start', alignItems: 'center' }}
                                 layout={this.getLayout(item, section.contentStyle)}
-                                {...this.context.getControlProps(item.key || item)}
+                                {...this.getControlProps(item.key || item)}
                             />
                         )
                     })
@@ -158,7 +165,7 @@ class CellLayoutTemplate extends Component {  // eslint-disable-line
             textStyles={[{ textAlign: 'left' }, textStyle, item.textStyle]}
             layoutStyles={[styles.defaultLayout, layoutStyle, item.layoutStyle]}
             layout={this.getLayout(item)}
-            {...this.context.getControlProps(item.key || item)}
+            {...this.getControlProps(item.key || item)}
         />);
     }
 
@@ -170,7 +177,7 @@ class CellLayoutTemplate extends Component {  // eslint-disable-line
                     key={this.props.grid}
                     yigoid={this.props.grid}
                     isCustomLayout
-                    {...this.context.getControlProps(this.props.grid)}>
+                    {...this.getControlProps(this.props.grid)}>
                 </DynamicControl>
             </View>);
         }
