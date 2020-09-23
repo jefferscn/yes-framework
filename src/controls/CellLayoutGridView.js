@@ -27,6 +27,7 @@ class AntdListView extends PureComponent {
         style: {},
         showArrow: true,
         divider: true,
+        useBodyScroll: true,
     };
 
     componentWillReceiveProps(nextProps) {
@@ -100,7 +101,7 @@ class AntdListView extends PureComponent {
         this.props.onRefresh && this.props.onRefresh();
     }
     render() {
-        const { controlState, layoutStyles, style } = this.props;
+        const { controlState, layoutStyles, style, useBodyScroll } = this.props;
         if (controlState && controlState.get('isVirtual')) {
             return (
                 <View style={[layoutStyles]}>
@@ -112,6 +113,7 @@ class AntdListView extends PureComponent {
             <ListView
                 style={style}
                 initialListSize={20}
+                useBodyScroll={useBodyScroll}
                 dataSource={this.state.dataSource}
                 contentContainerStyle={{ width: '100%' }}
                 renderRow={this.renderItem}

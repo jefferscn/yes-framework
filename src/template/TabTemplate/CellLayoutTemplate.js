@@ -29,14 +29,26 @@ const styles = {
         paddingLeft: 15,
     },
     defaultLayout: {
-        minHeight: 30, 
-        textAlign: 'left', 
-        justifyContent: 'flex-start', 
+        minHeight: 30,
+        textAlign: 'left',
+        justifyContent: 'flex-start',
         flexDirection: 'row',
         alignItems: 'center',
     },
     defaultText: {
         textAlign: 'left',
+    },
+    labelRight: {
+        textAlign: 'right',
+        justifyContent: 'flex-end',
+    },
+    labelLeft: {
+        textAlign: 'left',
+        justifyContent: 'flex-start',
+    },
+    labelMiddle: {
+        textAlign: 'center',
+        justifyContent: 'center',
     }
 };
 
@@ -53,6 +65,8 @@ class CellLayoutTemplate extends Component {  // eslint-disable-line
             key: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
             caption: PropTypes.string,
         })),
+        labelAlign: PropTypes.oneOf(['left', 'right', 'middle']),
+        contentAlign: PropTypes.oneOf(['left', 'right', 'middle']),
     };
 
     static contextTypes = {
@@ -60,8 +74,13 @@ class CellLayoutTemplate extends Component {  // eslint-disable-line
         createElement: PropTypes.func,
     }
 
-    getControlProps = (key)=> {
-        if(this.context.getControlProps){
+    static defaultProps = {
+        labelAlign: 'left',
+        contentAlign: 'right',
+    }
+
+    getControlProps = (key) => {
+        if (this.context.getControlProps) {
             return this.context.getControlProps(key);
         }
         return {};
@@ -90,7 +109,12 @@ class CellLayoutTemplate extends Component {  // eslint-disable-line
                 {
                     section.items.map((item) => {
                         if (item.type === 'element') {
-                            return this.context.createElement(item);
+                            return this.context.createElement(item, {
+                                layout: this.getLayout(item),
+                                // contentContainerStyle: { justifyContent: 'flex-end', alignItems: 'center', textAlign: 'right' },
+                                textStyles: this.getContentTextStyle(item),
+                                layoutStyles: this.getContentLayoutStyle(item),
+                            });
                         }
                         return (
                             <DynamicControl
@@ -98,10 +122,11 @@ class CellLayoutTemplate extends Component {  // eslint-disable-line
                                 yigoid={item.key || item}
                                 isCustomLayout
                                 showLabel={false}
-                                contentContainerStyle={{ justifyContent: 'flex-end', alignItems: 'center', textAlign: 'right' }}
+                                // disabled={true}
+                                // contentContainerStyle={{ justifyContent: 'flex-end', alignItems: 'center', textAlign: 'right' }}
                                 // hideWhenEmptyValue
-                                textStyles={{ textAlign: 'left' }}
-                                layoutStyles={{ minHeight: 30, textAlign: 'left', justifyContent: 'flex-start', alignItems: 'center' }}
+                                textStyles={this.getContentTextStyle(item)}
+                                layoutStyles={this.getContentLayoutStyle(item)}
                                 layout={this.getLayout(item, section.contentStyle)}
                                 {...this.getControlProps(item.key || item)}
                             />
@@ -112,6 +137,23 @@ class CellLayoutTemplate extends Component {  // eslint-disable-line
         );
     }
 
+    getLabelStyle = () => {
+        const { labelAlign, titleStyle } = this.props;
+        return [styles.textStyle, labelAlign === 'left' ? styles.labelLeft : (labelAlign === 'middle' ? styles.labelMiddle : styles.labelRight), titleStyle];
+    }
+
+    getContentTextStyle = (item) => {
+        const { contentAlign, contentTextStyle } = this.props;
+        return [contentAlign === 'left' ? styles.labelLeft : (contentAlign === 'middle' ? styles.labelMiddle : styles.labelRight),
+            contentTextStyle, item.textStyle];
+    }
+
+    getContentLayoutStyle = (item) => {
+        const { contentAlign, contentLayoutStyle } = this.props;
+        return [contentAlign === 'left' ? styles.labelLeft : (contentAlign === 'middle' ? styles.labelMiddle : styles.labelRight),
+            contentLayoutStyle, item.layoutStyle];
+    }
+
     getLayout(item, contentStyle) {
         const { titleStyle } = this.props;
         if (this.props.getLayout) {
@@ -120,7 +162,7 @@ class CellLayoutTemplate extends Component {  // eslint-disable-line
         if (!item.layoutType || item.layoutType === 'cell') {
             return <CellLayout
                 contentStyle={[styles.contentStyle, contentStyle]}
-                titleStyle={[styles.textStyle, titleStyle]}
+                titleStyle={[this.getLabelStyle(), item.labelStyle]}
                 divider title={item.caption ? this.props.formatMessage(item.caption) : ''}
                 style={styles.accessoryStyle}
             />;
@@ -149,7 +191,12 @@ class CellLayoutTemplate extends Component {  // eslint-disable-line
             extraProps.value = item.visibleEqual.value;
         }
         if (item.type === 'element') {
-            return this.context.createElement(item);
+            return this.context.createElement(item, {
+                layout: this.getLayout(item),
+                // contentContainerStyle: { justifyContent: 'flex-end', alignItems: 'center', textAlign: 'right' },
+                textStyles: this.getContentTextStyle(item),
+                layoutStyles: this.getContentLayoutStyle(item),
+            });
         }
         if (typeof item === 'object') {
             Object.assign(extraProps, item);
@@ -159,11 +206,12 @@ class CellLayoutTemplate extends Component {  // eslint-disable-line
             key={item.key || item}
             yigoid={item.key || item}
             isCustomLayout
-            contentContainerStyle={{ justifyContent: 'flex-end', alignItems: 'center', textAlign: 'right' }}
+            // disabled={true}
+            // contentContainerStyle={{ justifyContent: 'flex-end', alignItems: 'center', textAlign: 'right' }}
             showLabel={false}
             // hideWhenEmptyValue
-            textStyles={[{ textAlign: 'left' }, textStyle, item.textStyle]}
-            layoutStyles={[styles.defaultLayout, layoutStyle, item.layoutStyle]}
+            textStyles={this.getContentTextStyle(item)}
+            layoutStyles={this.getContentLayoutStyle(item)}
             layout={this.getLayout(item)}
             {...this.getControlProps(item.key || item)}
         />);

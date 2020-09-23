@@ -11,12 +11,12 @@ export const newForm = (formKey) => {
     History.push(`card/YES/${formKey}/new/NEW`);
 }
 
-export const openModal = async (formKey, oid, status, params) => {
+export const openModal = async (formKey, oid, status, params, showType) => {
     let realOid = oid;
     if(oid === 'new') {
         realOid = await YIUI.RemoteService.applyNewOID();
     }
-    Util.showBillformInModal(formKey, realOid, status, params);
+    Util.showBillformInModal(formKey, realOid, status, params, showType);
 }
 
 export const showModal = (v)=> {

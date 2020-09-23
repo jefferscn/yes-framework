@@ -107,7 +107,7 @@ export default class InvoiceEntry extends PureComponent {
                 }
             })
         }
-        if (v == 3) {//import from database
+        if (v == 5) {//import from database
             this.setState({
                 modalVisible: false,
                 step: 2,
@@ -205,7 +205,7 @@ export default class InvoiceEntry extends PureComponent {
                             backHandler={this.stepBack}
                         />
                         <FilterBlock
-                            queryButton={this.state.selectType == "3" ? "Query" : null}
+                            queryButton={this.state.selectType == "5" ? "Query" : null}
                             filterItems={[{
                                 type: 'element',
                                 elementType: 'ChainDict',

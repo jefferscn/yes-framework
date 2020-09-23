@@ -470,6 +470,7 @@ export default class ExpendAccountBill extends PureComponent {
                     }}
                     title={"出差申请单"}
                     mode="light"
+                    transparent
                 />
                 <ScrollView style={{ paddingBottom: 20 }}>
                     {

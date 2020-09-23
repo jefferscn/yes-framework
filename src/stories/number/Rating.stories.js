@@ -9,7 +9,7 @@ export default {
 
 const Template = (args) => (
   <StoryWrapper>
-    <Rating {...args} />
+      <Rating {...args} />
   </StoryWrapper>);
 
 const argTypes = {

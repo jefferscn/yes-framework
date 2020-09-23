@@ -50,6 +50,9 @@ const styles = StyleSheet.create({
         display: 'flex',
         alignItems: 'center',
     },
+    transparent: {
+        backgroundColor: 'transparent',
+    }
 });
 
 class Header extends PureComponent {
@@ -67,6 +70,7 @@ class Header extends PureComponent {
         titleMode: 'flex',//flex=使用 flex布局，absolute=使用absolute布局
         canBack: true,
         mode: 'dark',
+        transparent: false,
     }
     static contextTypes = {
         createElement: PropTypes.func,
@@ -117,6 +121,7 @@ class Header extends PureComponent {
         return (
             <View style={[styles.header, this.getPaddingStyle(), 
                 this.props.mode==='light'? styles.headerLight: styles.headerDark,
+                this.props.transparent? styles.transparent: null,
                 this.props.headerStyle]}>
                 {this.createLeftElement()}
                 {this.createTitleElement()}

@@ -19,6 +19,9 @@ export const Base = Template.bind({});
 Base.argTypes = argTypes;
 Base.args = {
     yigoid: 'grid1',
+    style: {
+      width: '100%',
+    },
     fileName: 'img',
     filePath: 'img',
     yigoAttachment: false,

@@ -8,6 +8,9 @@ const styles = StyleSheet.create({
         backgroundColor: 'ghostwhite',
         borderRadius: '50%',
         overflow: 'hidden',
+    },
+    head: {
+
     }
 });
 class Avator extends PureComponent {

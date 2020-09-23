@@ -32,7 +32,10 @@ WithSelect.args = {
     primaryKey: 'title',
     secondKey: ['subTitle'],
     tertiaryKey: ['dict2'],
-    useBodyScroll: true,
+    useBodyScroll: false,
+    style: {
+        flex: 1,
+    },
     leftElement: {
         type: 'element',
         elementType: 'GridSelect',
