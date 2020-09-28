@@ -118,7 +118,7 @@ class AttachmentList extends PureComponent {
         getOwner: PropTypes.func,
         getBillForm: PropTypes.func,
     }
-    static defualtProps = {
+    static defaultProps = {
         removable: true,
         yigoAttachment: true,
     }

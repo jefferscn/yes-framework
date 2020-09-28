@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import NormalTemplate from 'yes-framework/template/NormalTemplate';
+import AutoTemplate from 'yes-framework/template/AutoTemplate';
 import meta from '../config/billforms/FSSC_TrainTicketBooks';
 import { Modal } from 'antd-mobile';
 
@@ -11,7 +11,7 @@ export default class FSSC_TrainTicketBooks extends PureComponent {
             wrapClassName="fullscreen"
             maskClosable={false}
         >
-            <NormalTemplate {...meta} {...this.props} />
+            <AutoTemplate {...meta} {...this.props} />
         </Modal>);
     }
 }

@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Modal, NavBar, Icon } from 'antd-mobile';
+import { Modal } from 'antd-mobile';
 import PropTypes from 'prop-types';
 import GridView from 'yes-framework/controls/GridView';
 import { ComboBox, ListComponents } from 'yes-comp-react-native-web';
@@ -23,6 +23,19 @@ const styles = StyleSheet.create({
         display: 'flex',
         alignItems: 'center',
         paddingLeft: 12,
+    },
+    gridContainer: {
+        flex: 1,
+    },
+    mask: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        zIndex: 1,
+        justifyContent: 'center',
+        backgroundColor: 'rgb(211,211,211,0.5)',
     }
 });
 
@@ -135,13 +148,13 @@ export default class InvoiceEntry extends PureComponent {
             step: 2,
         });
     }
-    colorMapping = (v)=> {
-        if(!v) {
+    colorMapping = (v) => {
+        if (!v) {
             return {
                 color: '#FFC107',
             };
         }
-        if(v=="10000") {
+        if (v == "10000") {
             return {
                 color: '#4CAF50',
             }
@@ -151,7 +164,7 @@ export default class InvoiceEntry extends PureComponent {
         }
     }
     render() {
-        const { formStatus, errorMsg } = this.props;
+        const { formStatus, errorMsg, busying } = this.props;
         // if(formStatus==='error') {
         //     return null;
         // }
@@ -222,26 +235,31 @@ export default class InvoiceEntry extends PureComponent {
                                 }
                             }]}
                         ></FilterBlock>
-                        <GridView
-                            style={{ flex: 1, marginLeft: 12, marginRight: 12 }}
-                            yigoid="Grid1"
-                            clickMode="select"
-                            removeable={false}
-                            hideAction={true}
-                            primaryKey={"cell1"}
-                            secondKey={["cell4"]}
-                            tertiaryKey={["cell2",
-                                "cell8",
-                                <CheckboxLabel style={styles.label} falseLabel="费用类型不符" yigoid="IsCompliance" />,
-                                <CheckboxLabel style={styles.label} trueLabel="已引用" yigoid="IsUsed" />,
-                                <ListText style={styles.label} emptyStr="未验真"  styleMapping={this.colorMapping} yigoid="Validation_Code" />
-                            ]}
-                            rightElement={<ScriptWrap script={script}><ListImage yigoid="cell7" containerStyle={{ justifyContent: 'center' }} style={{ width: 60, height: 40 }} /></ScriptWrap>}
-                            showArrow={false}
-                            leftElement={
-                                <GridSelect yigoid="select" />
+                        <View style={styles.gridContainer}>
+                            {
+                                busying ? <View style={styles.mask}><ActivityIndicator /></View> : null
                             }
-                        />
+                            <GridView
+                                style={{ flex: 1, marginLeft: 12, marginRight: 12 }}
+                                yigoid="Grid1"
+                                clickMode="select"
+                                removeable={false}
+                                hideAction={true}
+                                primaryKey={"cell1"}
+                                secondKey={["cell4"]}
+                                tertiaryKey={["cell2",
+                                    "cell8",
+                                    <CheckboxLabel style={styles.label} falseLabel="费用类型不符" yigoid="IsCompliance" />,
+                                    <CheckboxLabel style={styles.label} trueLabel="已引用" yigoid="IsUsed" />,
+                                    <ListText style={styles.label} emptyStr="未验真" styleMapping={this.colorMapping} yigoid="Validation_Code" />
+                                ]}
+                                rightElement={<ScriptWrap script={script}><ListImage yigoid="cell7" containerStyle={{ justifyContent: 'center' }} style={{ width: 60, height: 40 }} /></ScriptWrap>}
+                                showArrow={false}
+                                leftElement={
+                                    <GridSelect yigoid="select" />
+                                }
+                            />
+                        </View>
                         <SegementButtons items={[{
                             text: '导入发票',
                             key: 'OK',

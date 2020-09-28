@@ -11,6 +11,7 @@ export default {
             "headerStyle": {
                 "border": 0
             },
+            "transparent": true,
             "titleElement": {
                 "type": "element",
                 "elementType": "FormTitle",
@@ -175,7 +176,8 @@ export default {
         "elementProps": {
             "ignoreItems": [
                 "New",
-                "Close"
+                "Close",
+                "Refresh"
             ],
             "captionMapping": {
                 "发送PDF文件至邮箱": "封面打印",

@@ -182,8 +182,9 @@ YIUI.UICalcProcess = YIUI.extend(YIUI.UICalcProcess, {
             scopeGridKey = '.GridKey.' + grid.key,
             formScope = await View.UIScopeTrees.get(formKey),
             scope = formScope[scopeGridKey];
-        if (scope && !scope.includeOnlyUIFunction) {
-            const result = this.richDocumentDoAfterDeleteRow(grid.key, scope);
+        // if (scope && !scope.includeOnlyUIFunction) {
+        if (scope && scope.includeERPMidFunction && !scope.includeOnlyUIFunction && this.form.isERPForm) {
+            const result = await this.richDocumentDoAfterDeleteRow(grid.key, scope);
             await View.UIScopeTrees.processRichDocumentResult(this.form, result);
         } else {
             this.base(grid);

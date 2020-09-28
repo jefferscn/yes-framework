@@ -274,7 +274,7 @@ YIUI.Grid.prototype.loadSubDetail = function () {
     // showGrid.load();
 };
 
-YIUI.Grid.prototype.deleteGridRow = function (rowIndex, fireEvent) {
+YIUI.Grid.prototype.deleteGridRow = async function (rowIndex, fireEvent) {
     rowIndex = parseInt(rowIndex, 10);
 
     const form = YIUI.FormStack.getForm(this.ofFormID);
@@ -461,6 +461,7 @@ YIUI.Grid.prototype.deleteGridRow = function (rowIndex, fireEvent) {
     } else {
         deleteDir(form, ts, rowIndex, fireEvent);
     }
+    await form.getUIProcess().doPostDeleteRow(this);
     return true;
 };
 

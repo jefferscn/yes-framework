@@ -23,8 +23,8 @@ export default {
                 }],
                 [
                     {
-                        key: 'FSSC_Name',
-                        label: '价格含税'
+                        key: 'FSSC_Total',
+                        label: '含税金额',
                     },
                     {
                         key: 'FSSC_Date',
@@ -47,7 +47,7 @@ export default {
                         label: '服务类型'
                     },
                     {
-                        key: 'FSSC_Total',
+                        key: 'Pretax_amount2',
                         label: '金额'
                     },
                     {

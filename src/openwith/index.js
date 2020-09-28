@@ -7,6 +7,7 @@ export const init = (handler) => {
     }
     function initSuccess() { console.log('init success!'); }
     function initError(err) { console.log('init failed: ' + err); }
+    global.cordova.openwith.setVerbosity(0)
     global.cordova.openwith.init(initSuccess, initError);
 
     function myHandler(intent) {

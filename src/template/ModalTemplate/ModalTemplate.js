@@ -5,9 +5,9 @@ import defaultTemplateMapping from '../defaultTemplateMapping';
 import PropTypes from 'prop-types';
 import Element from '../Element';
 
-const { width, height } = Dimensions.get('window');
+// const { width, height } = Dimensions.get('window');
 
-const maxHeight = height * 0.7;
+// const maxHeight = height * 0.7;
 
 class ModalTemplateForm extends PureComponent {
     static contextTypes = {
@@ -20,6 +20,7 @@ class ModalTemplateForm extends PureComponent {
     }
     state = {
         modalVisible: true,
+        maxHeight : Dimensions.get('window').height*0.7,
     }
     onActionPress = (action) => {
         // const act = this.props.actions.find((item) => this.props.formatMessage(item.caption) === action);
@@ -56,7 +57,7 @@ class ModalTemplateForm extends PureComponent {
                 afterClose={this.onClose}
             >
                 {formStatus === 'ok' ?
-                    <View style={[{ maxHeight: maxHeight}, style]}><Element meta={content} /></View> :
+                    <View style={[{ maxHeight: this.state.maxHeight}, style]}><Element meta={content} /></View> :
                     <ActivityIndicator size="large" />
                 }
             </Modal>

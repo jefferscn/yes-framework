@@ -23,7 +23,7 @@ import AutofitScrollView from 'yes-framework/controls/AutofitScrollView';
 const styles = StyleSheet.create({
     container: {
         flexGrow: 1,
-        flexBasis: 0,
+        flexBasis: 'auto',
     },
     errorContainer: {
         flex: 1,
@@ -156,6 +156,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         zIndex: 1,
         backgroundColor: 'rgba(245,245,245,0.5)',
+    },
+    celllayoutText: {
+        paddingTop: 5,
+        paddingBottom: 10,
     }
 });
 
@@ -503,7 +507,13 @@ export default class HospitalityReimbursement extends PureComponent {
                         </View>
                     </Card>
                     <Card style={[styles.firstCard, { overflow: 'visible' }]} bookmark="Status">
-                        <CellLayoutTemplate getLayout={this.getLayout} items={[
+                        <CellLayoutTemplate 
+                            getLayout={this.getLayout} 
+                            // layoutStyles={styles.layoutStyle}
+                            contentAlign='left'
+                            contentLayoutStyle={{flexBasis: 'auto'}}
+                            contentTextStyle={styles.celllayoutText}
+                            items={[
                             {
                                 key: "ReimbursementPersonID",
                                 textStyle: {

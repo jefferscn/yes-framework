@@ -1,7 +1,7 @@
 {
     "formTemplate": "custom",
     "control": "FSSC_InvoiceEntry",
-    "keepAlive": true,
+    "keepAlive": false,
     "content": {
         "type": "element",
         "elementType": "ComboBox",
