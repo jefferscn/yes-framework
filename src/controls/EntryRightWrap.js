@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { Svr } from 'yes-core';
 
 export default (Comp) => {
     class EntryRightWrap extends PureComponent {
