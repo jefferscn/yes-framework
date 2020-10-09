@@ -2,6 +2,14 @@
     height: auto!important;
 }
 
+.celllayout.am-list-item.am-list-item-middle .am-list-line {
+    align-items: stretch;
+}
+
+.celllayout.am-list-item .am-list-line .am-list-extra {
+    display: flex;
+}
+
 .am-modal-body {
     height: auto!important;
 }

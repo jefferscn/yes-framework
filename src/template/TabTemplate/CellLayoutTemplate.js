@@ -27,6 +27,7 @@ const styles = {
     },
     accessoryStyle: {
         paddingLeft: 15,
+        flexBasis: 'auto',
     },
     defaultLayout: {
         minHeight: 30,

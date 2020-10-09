@@ -114,6 +114,10 @@ export default class TemplateView extends PureComponent {
                     AppDispatcher.dispatch(closeForm(form.form.uniqueId));
                 });
             }
+            const parentForm = form.form.getParentForm();
+            if(parentForm && parentForm.onChildClose) {
+                parentForm.onChildClose(form.form);
+            }
             this.props.onClose && this.props.onClose();
         }
     }

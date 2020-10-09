@@ -1,7 +1,13 @@
 import React, { PureComponent } from 'react';
 import { ControlWrap } from 'yes-intf';
 import { Switch } from 'antd-mobile';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+
+const styles = StyleSheet.create({
+    container: {
+        flexDirection: 'row',
+    }
+})
 
 @ControlWrap
 export default class AntSwtich extends PureComponent {
@@ -11,7 +17,7 @@ export default class AntSwtich extends PureComponent {
     render() {
         const { layoutStyles, value, disabled } = this.props;
         return (
-            <View style={layoutStyles}>
+            <View style={[styles.container, layoutStyles]}>
                 <Switch
                     disabled = {disabled}
                     checked = {value}
