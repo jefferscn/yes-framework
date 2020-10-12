@@ -168,13 +168,23 @@ class AntdListView extends PureComponent {
         </View>
     );
 
+    rowAction = (action, rowId) => {
+        if(!action) {
+            return;
+        }
+        if(action.columnKey) {
+            const owner = this.context.getOwner();
+            owner.doOnCellClick(rowId, action.columnKey);
+        }
+    }
+
     removeRow = (rowId) => {
-        if(this.props.removeType==='normal') {
+        if (this.props.removeType === 'normal') {
             this.props.removeRow(rowId);
         }
-        if(this.props.removeType==='column') {
+        if (this.props.removeType === 'column') {
             const owner = this.context.getOwner();
-            if(owner) {
+            if (owner) {
                 owner.doOnCellClick(rowId, this.props.removeColumn);
             }
         }
@@ -200,18 +210,47 @@ class AntdListView extends PureComponent {
         }
         const NewListItem = this.NewListItem;
         const rightActions = [];
-        if ((this.props.status === 1 || this.props.status === 2) && this.props.removeable) {
-            rightActions.push({
-                text: '删除',
-                style: {
-                    backgroundColor: '#aaa',
-                    color: 'white',
-                },
-                onPress: () => this.removeRow(rowId)
-            });
+        const leftActions = [];
+        if (((this.props.status === 1 || this.props.status === 2) && this.props.removeable) ||
+            this.props.rightActions || this.props.leftActions) {
+            if (this.props.leftActions) {
+                this.props.leftActions.forEach((action) => {
+                    leftActions.push({
+                        text: action.text,
+                        style: {
+                            backgroundColor: '#aaa',
+                            color: 'white',
+                        },
+                        onPress: () => this.rowAction(action, rowId),
+                    })
+                });
+            }
+            if (this.props.rightActions) {
+                this.props.rightActions.forEach((action) => {
+                    rightActions.push({
+                        text: action.text,
+                        style: {
+                            backgroundColor: '#aaa',
+                            color: 'white',
+                        },
+                        onPress: () => this.rowAction(action, rowId),
+                    })
+                })
+            }
+            if ((this.props.status === 1 || this.props.status === 2) && this.props.removeable) {
+                rightActions.push({
+                    text: '删除',
+                    style: {
+                        backgroundColor: '#aaa',
+                        color: 'white',
+                    },
+                    onPress: () => this.removeRow(rowId)
+                });
+            }
             return (<SwipeAction
                 autoClose
                 right={rightActions}
+                left={leftActions}
             >
                 <NewListItem
                     centerElement={this.centerComp}
@@ -251,15 +290,15 @@ class AntdListView extends PureComponent {
         this.props.addNewRow && this.props.addNewRow();
     }
     renderFoot = () => {
-        if(!this.props.onRefresh) {
+        if (!this.props.onRefresh) {
             return null;
         }
         return !this.props.hasMore ?
             (<View style={styles.foot}>
                 <Text>没有更多数据</Text>
-            </View>) : (this.state.loadingMore? (<View style={styles.foot}><ActivityIndicator/></View>): null);
+            </View>) : (this.state.loadingMore ? (<View style={styles.foot}><ActivityIndicator /></View>) : null);
     }
-    onEndReached = async ()=> {
+    onEndReached = async () => {
         if (this.props.hasMore) {
             if (this.state.loadingMore) {
                 return;
@@ -379,7 +418,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
     },
     extraStyle: {
-        justifyContent:'center',
+        justifyContent: 'center',
         alignItems: 'center',
     }
 })

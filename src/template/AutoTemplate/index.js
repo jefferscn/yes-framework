@@ -87,7 +87,7 @@ class AutoTemplate extends PureComponent {
             <View style={[styles.container, containerStyle]}>
                 <AutofitScrollView style={styles.paddingBottom}>
                     {
-                        formStatus != 'ok' ?
+                        (formStatus && formStatus != 'ok') ?
                             <View style={styles.mask}><ActivityIndicator /></View> : null
                     }
                     {

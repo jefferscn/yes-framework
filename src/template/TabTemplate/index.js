@@ -14,19 +14,22 @@ const styles = StyleSheet.create({
         flexGrow: 1,
         flexBasis: 0,
     },
+    tab: {
+        height: '100%',
+    }
 });
 class TabTemplate extends PureComponent {
     static contextTypes = {
         createElement: PropTypes.func,
     }
     renderTab = (tab) => {
-        return <AutofitScrollView>
+        return <View style={styles.tab}>
             {
                 tab.items.map(item =>
                     <Element meta={item} />
                 )
             }
-        </AutofitScrollView>
+        </View>
     }
     renderContent(tabs) {
         if (this.props.foot || this.props.head) {

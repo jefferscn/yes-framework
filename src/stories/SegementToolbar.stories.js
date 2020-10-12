@@ -1,9 +1,10 @@
 import React from 'react';
-import SegementTollbar from '../controls/SegementToolbar';
+import SegementToolbar from '../controls/SegementToolbar';
 import fontAwesome from 'react-native-vector-icons/Fonts/FontAwesome.ttf';
 import { injectFont } from 'yes-web/dist/webutil';
 import StoryContext from 'yes-comp-react-native-web/stories/StoryContext';
 import 'antd-mobile/dist/antd-mobile.css';
+import { View, StyleSheet } from 'react-native';
 
 injectFont(fontAwesome, 'FontAwesome');
 
@@ -16,13 +17,22 @@ export default {
   component: SegementTollbar,
 };
 
+const styles = StyleSheet.create({
+  page: {
+    width: 375,
+    height: 812,
+  }
+});
+
 const Template = (args) => (
 <AppWrapper
   control={control}
   projectCfg={ProjectCfg}
 >
   <StoryContext>
-    <SegementTollbar {...args} />
+    <View style={styles.page}>
+      <SegementToolbar {...args} />
+    </View>
   </StoryContext>
 </AppWrapper>);
 

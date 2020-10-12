@@ -5,6 +5,7 @@ import { injectFont } from 'yes-web/dist/webutil';
 import StoryContext from 'yes-comp-react-native-web/stories/StoryContext';
 import 'antd-mobile/dist/antd-mobile.css';
 import { ControlMappings } from 'yes-comp-react-native-web';
+import StoryWrapper from './StoryWrapper';
 
 injectFont(fontAwesome, 'FontAwesome');
 
@@ -18,15 +19,17 @@ export default {
 };
 
 const Template = (args) => (
-  <AppWrapper
-    control={control}
-    projectCfg={ProjectCfg}
-  >
-    <StoryContext controlMapping={ControlMappings.defaultControlMapping}>
+  // <AppWrapper
+  //   control={control}
+  //   projectCfg={ProjectCfg}
+  // >
+  //   <StoryContext controlMapping={ControlMappings.defaultControlMapping}>
+  <StoryWrapper>
       <TabTemplate {...args} />
-    </StoryContext>
-  </AppWrapper>);
-
+  </StoryWrapper>
+  //   </StoryContext>
+  // </AppWrapper>);
+)
 const argTypes = {
 }
 export const Base = Template.bind({});
@@ -69,6 +72,51 @@ Base.args = {
     ]
   }, {
     title: "页面二",
-    items: []
+    items: [{
+      type: 'element',
+      elementType: "AutoTemplate",
+      elementProps: {
+        head: null,
+        foot: {
+            type: 'element',
+            elementType: "SegementToolbar",
+            elementProps: {
+            }
+        },
+        items: [
+          {
+            type: 'element',
+            elementType: "Card",
+            elementProps: {
+              "collapseable": false,
+              "headIcon": "",
+              "title": "基本信息",
+              "content": {
+                "type": "element",
+                "elementType": "CellLayoutTemplate",
+                "elementProps": {
+                  "textStyle": {
+                    "textAlign": "right",
+                    "justifyContent": "flex-end"
+                  },
+                  "titleStyle": {
+                    "justifyContent": "flex-start",
+                    "fontSize": "15",
+                    "color": "#666666"
+                  },
+                  "layoutStyle": {
+                    "justifyContent": "flex-end"
+                  },
+                  "items": [
+                    "dict1",
+                    "text1"
+                  ]
+                }
+              }
+            }
+          }
+        ]
+      }
+    }]
   }]
 };

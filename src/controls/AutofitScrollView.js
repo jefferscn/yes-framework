@@ -30,9 +30,9 @@ export default class AutofitScrollView extends PureComponent {
         this.scrollNode = this.scrollRef.getScrollableNode()
     }
     render() {
-        const { children } = this.props;
+        const { children, style } = this.props;
         return (
-            <ScrollView ref={this.ref} onLayout={this.onLayout}>
+            <ScrollView style={style} ref={this.ref} onLayout={this.onLayout}>
                 {
                     children
                 }
