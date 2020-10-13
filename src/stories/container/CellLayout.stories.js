@@ -32,6 +32,16 @@ Base.args = {
     items: [
         'text1',
         {
+            type: 'element',
+            elementType: 'BarcodeScannerText',
+            elementProps: {
+                yigoid: 'text1',
+                style: {
+                    flex: 1
+                }
+            }
+        },
+        {
             'key': 'text1',
             'textStyle': {
                 'color': 'red'

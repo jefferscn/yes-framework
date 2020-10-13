@@ -140,6 +140,11 @@ const styles = StyleSheet.create({
     currentMain: {
         flex: 1,
         paddingRight: 0,
+    },
+    foot: {
+        paddingBottom: 10,
+        borderBottomLeftRadius: 10,
+        borderBottomRightRadius: 10,
     }
 });
 
@@ -265,6 +270,11 @@ export default class Card extends PureComponent {
             style={headStyle}
             collapseable={collapseable} />
     }
+    buildFootElement() {
+        return (<View style={styles.foot}>
+
+        </View>)
+    }
     onPress = () => {
         if (this.props.disabled) {
             return;
@@ -282,6 +292,7 @@ export default class Card extends PureComponent {
         const headElement = this.buildTitleElement();
         const cnt = this.context.createElement(content);
         const wrap = this.context.createElement(wrapElement);
+        const footElement = this.buildFootElement();
         let bookmarkElement = null;
         if (bookmark) {
             if (typeof bookmark === 'string') {
@@ -313,6 +324,9 @@ export default class Card extends PureComponent {
                         }
                     </View>
                 </Animated.View>
+                {
+                    footElement
+                }
             </View>
         </TouchableWithoutFeedback>);
         if (wrap) {

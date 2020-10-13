@@ -15,6 +15,7 @@ export default class CordovaProvider extends Component {
         getVersion: PropTypes.func,
         getPlatform: PropTypes.func,
         checkLatestVersion: PropTypes.func,
+        barcodeScan: PropTypes.func,
     }
 
     static contentTypes = {
@@ -30,12 +31,33 @@ export default class CordovaProvider extends Component {
             getVersion: this.getVersion,
             checkLatestVersion: this.checkLatestVersion,
             getPlatform: this.getPlatform,
+            barcodeScan: this.barcodeScan,
         };
     }
 
-    getPlatform = ()=> {
+    getPlatform = () => {
         const platform = device.platform.toLowerCase();
         return platform;
+    }
+
+    barcodeScan = async () => {
+        return new Promise((resolve, reject) => {
+            if (cordova && cordova.plguins.barcodeScanner) {
+                cordova.plugins.barcodeScanner.scan((result) => {
+                    if (result.cancelled) {
+                        reject('cancelled');
+                    } else {
+                        resolve(result.text);
+                    }
+                }, (error) => {
+                    reject(error);
+                }, {
+                    showTorchButton: true
+                });
+            } else {
+                reject('cordova plugin missing');
+            }
+        });
     }
 
     checkLatestVersion = async () => {

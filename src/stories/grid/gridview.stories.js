@@ -13,7 +13,7 @@ const Template = (args) => (
 </StoryWrapper>);
 
 const argTypes = {
-
+    
 }
 export const Base = Template.bind({});
 Base.argTypes = argTypes;
@@ -23,6 +23,14 @@ Base.args = {
     secondKey: ['subTitle'],
     tertiaryKey: ['dict2'],
     useBodyScroll: true,
+    rightActions: [{
+        text: '显示',
+        columnKey: 'aaa'
+    }],
+    leftActions: [{
+        text: '明细',
+        columnKey: 'aaa'
+    }]
 };
 
 export const WithSelect = Template.bind({});
