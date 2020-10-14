@@ -26,15 +26,48 @@ class ImageSelect extends PureComponent {
 export default class BrowserProvider extends PureComponent {
     static childContextTypes = {
         getPicture: PropTypes.func,
+        getPosition: PropTypes.func,
+        getCurrentAddress: PropTypes.func,
+    }
+
+    static contentTypes = {
+        getPositionString: PropTypes.func,
     }
 
     state = {
         imagePickerVisible: false,
     }
+
     getChildContext() {
         return {
             getPicture: this.getPicture,
+            getPosition: this.getPosition,
+            getCurrentAddress: this.getCurrentAddress,
         };
+    }
+
+    getPosition = async () => {
+        const options= {
+            enableHighAccuracy: false,
+            maximumAge: 0,
+            timeout: 10000,
+        }
+        return new Promise((resolve, reject) => {
+            const onLocateSuccess = (position) => {
+                resolve(position.coords);
+            };
+
+            const onLocateError = (err) => {
+                reject(err)
+            };
+            navigator.geolocation.getCurrentPosition(onLocateSuccess, onLocateError, options);
+        });
+    }
+
+    getCurrentAddress = async () => {
+        const position = await this.getPosition();
+        const address = await this.contenxt.getPositionString({ lng: position.longitude, lat: position.latitude });
+        return address;
     }
 
     getPicture = (cameraDirection, quality = 50, targetWidth = 1000,) => {

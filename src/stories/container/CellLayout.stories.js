@@ -30,7 +30,32 @@ Base.args = {
     labelAlign: 'left',
     contentAlign: 'right',
     items: [
+        {
+            type: 'element',
+            elementType: 'MapText',
+            elementProps: {
+                yigoid: 'map1',
+                style: {
+                    height: 200
+                }
+            }
+        },
+        {
+            type: 'element',
+            elementType: 'GpsText',
+            elementProps: {
+                yigoid: 'text1',
+                style: {
+                    flex: 1
+                }
+            }
+        },
         'text1',
+        {
+            key: 'text1',
+            caption: '',
+            placeholder: '',
+        },
         {
             type: 'element',
             elementType: 'BarcodeScannerText',

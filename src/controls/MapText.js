@@ -74,7 +74,7 @@ class MapText extends Component {
                     <Text>{this.props.displayValue}</Text>
                 </View>);
         }
-        return (<View style={this.props.layoutStyles}>
+        return (<View style={[this.props.style, this.props.layoutStyles]}>
             <Map
                 ak={this.context.getBaiduMapAk()}
                 scrollWheelZoom
