@@ -141,10 +141,10 @@ export default class CordovaProvider extends Component {
                         //file.localURL
                         const reader = new FileReader();
                         reader.onloadend = function (e) {
-                            const fileName = path.basename(file.localURL);
+                            const fileName = path.basename(decodeURIComponent(file.localURL));
                             let mimeType = file.type;
                             if (!mimeType) {
-                                const extName = path.extname(file.localURL).toLowerCase();
+                                const extName = path.extname(decodeURIComponent(file.localURL)).toLowerCase();
                                 if (extName === '.jpg' || extName === '.jpeg') {
                                     mimeType = "image/jpeg";
                                 }
@@ -158,6 +158,7 @@ export default class CordovaProvider extends Component {
                                     quality: quality / 100,
                                     maxWidth: targetWidth,
                                     success(result) {
+                                        result.name = fileName;
                                         resolve({
                                             file: result,
                                             name: fileName,
