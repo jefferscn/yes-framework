@@ -36,6 +36,7 @@
             width: 100%;
             height: 100%;
         }
+
         .noselect {
 
             -webkit-touch-callout: none;
@@ -64,12 +65,19 @@
     </style>
     <script type="text/javascript" src="inject.js"></script>
     <script type="text/javascript" src="cordova.js"></script>
+
+    <!-- <script src="https://cdn.bootcss.com/vConsole/3.3.4/vconsole.min.js"></script>
+    <script>
+        // 初始化
+        var vConsole = new VConsole();
+        console.log('Hello world');
+    </script> -->
     <!--css引用-->
 </head>
 
 <body class="um-vp noselect" ontouchstart>
     <div id="app" class="flexbox"></div>
-    <div id="keyboard" ></div>
+    <div id="keyboard"></div>
     <div id="modal"></div>
 </body>
 

@@ -186,3 +186,7 @@
     transform: translateZ(1px);
     position: absolute!important;
 }
+
+.rmc-picker-item{
+    color: black!important;
+}

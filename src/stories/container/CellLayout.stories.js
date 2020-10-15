@@ -40,6 +40,7 @@ Base.args = {
                 }
             }
         },
+        'map1',
         {
             type: 'element',
             elementType: 'GpsText',
@@ -81,6 +82,16 @@ Base.args = {
             elementProps: {
                 yigoid: 'score',
             }
+        },{
+            type: 'element',
+            elementType: 'Stepper',
+            elementProps: {
+                yigoid: 'score',
+            }
+        },'date1',
+        {
+            key: 'date1',
+            onlyDate: true,
         }
     ]
 };
