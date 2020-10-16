@@ -146,12 +146,13 @@ WithLeftElement.args = {
         elementProps: {
             yigoid: 'img',
             style: {
-                width: 60,
+                width: 40,
                 height: 40,
+                borderRadius: '50%',
             },
             containerStyle: {
                 justifyContent: 'center',
-                paddingRight: 10
+                paddingRight: 10,
             }
         }
     },
@@ -161,13 +162,13 @@ WithLeftElement.args = {
         elementProps: {
             yigoid: 'img',
             style: {
-                width: 60,
+                width: 40,
                 height: 40,
+                borderRadius: 10,
             },
             containerStyle: {
                 justifyContent: 'center',
-                paddingRight: 10,
-                paddingLeft: 10,
+                paddingRight: 12,
             }
         }
     },

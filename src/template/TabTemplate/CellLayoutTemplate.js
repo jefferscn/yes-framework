@@ -17,6 +17,7 @@ const styles = {
         justifyContent: 'flex-end',
         display: 'flex',
         fontSize: 12,
+        height: '100%',
     },
     contentStyle: {
         maxWidth: 110,
@@ -51,6 +52,15 @@ const styles = {
     labelMiddle: {
         textAlign: 'center',
         justifyContent: 'center',
+    },
+    labelVAlignTop: {
+        alignItems: 'flex-start',
+    },
+    labelVAlignMiddle: {
+        alignItems: 'center',
+    },
+    labelVAlignBottom: {
+        alignItems: 'flex-end',
     }
 };
 
@@ -68,6 +78,7 @@ class CellLayoutTemplate extends Component {  // eslint-disable-line
             caption: PropTypes.string,
         })),
         labelAlign: PropTypes.oneOf(['left', 'right', 'middle']),
+        labelVAlign: PropTypes.oneOf(['top', 'middle', 'bottom']),
         contentAlign: PropTypes.oneOf(['left', 'right', 'middle']),
     };
 
@@ -79,6 +90,7 @@ class CellLayoutTemplate extends Component {  // eslint-disable-line
     static defaultProps = {
         labelAlign: 'left',
         contentAlign: 'right',
+        labelVAlign: 'middle',
     }
 
     getControlProps = (key) => {
@@ -140,8 +152,11 @@ class CellLayoutTemplate extends Component {  // eslint-disable-line
     }
 
     getLabelStyle = () => {
-        const { labelAlign, titleStyle } = this.props;
-        return [styles.textStyle, labelAlign === 'left' ? styles.labelLeft : (labelAlign === 'middle' ? styles.labelMiddle : styles.labelRight), titleStyle];
+        const { labelAlign, labelVAlign, titleStyle } = this.props;
+        return [styles.textStyle, 
+                labelAlign === 'left' ? styles.labelLeft : (labelAlign === 'middle' ? styles.labelMiddle : styles.labelRight), 
+                labelVAlign ==='top' ? styles.labelVAlignTop : (labelVAlign==='middle' ? styles.labelVAlignMiddle : styles.labelVAlignBottom),
+                titleStyle];
     }
 
     getContentTextStyle = (item) => {

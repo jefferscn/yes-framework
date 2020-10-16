@@ -3,17 +3,51 @@ import StoryWrapper from '../StoryWrapper';
 import CellLayoutTemplate from '../../template/TabTemplate/CellLayoutTemplate';
 
 export default {
-  title: 'yes-framework/container/CellLayout',
-  component: CellLayoutTemplate,
+    title: 'yes-framework/container/CellLayout',
+    component: CellLayoutTemplate,
 };
 
 const Template = (args) => (
-<StoryWrapper>
-    <CellLayoutTemplate {...args} />
-</StoryWrapper>);
+    <StoryWrapper>
+        <CellLayoutTemplate {...args} />
+    </StoryWrapper>);
 
 const argTypes = {
-
+    labelAlign: {
+        description: 'Label横向位置',
+        control: {
+            type: 'radio',
+            options: ['left', 'middle', 'right'],
+        },
+        defaultValue: 'left',
+    },
+    labelVAlign: {
+        description: 'Label纵向位置',
+        control: {
+            type: 'radio',
+            options: ['top', 'middle', 'bottom'],
+        },
+        defaultValue: 'middle',
+    },
+    contentAlign: {
+        description: '控件横向位置',
+        control: {
+            type: 'radio',
+            options: ['left', 'middle', 'right'],
+        }
+    },
+    style: {
+        description: '控件样式(最外层)',
+        control: {
+            type: 'object'
+        }
+    },
+    items: {
+        description: '行内容',
+        control: {
+            type: 'object'
+        }
+    }
 }
 
 export const Base = Template.bind({});
@@ -21,7 +55,7 @@ Base.argTypes = argTypes;
 Base.args = {
     useBodyScroll: false,
     style: {
-        flex:1,
+        flex: 1,
         width: '100%',
     },
     titleStyle: {
@@ -82,13 +116,13 @@ Base.args = {
             elementProps: {
                 yigoid: 'score',
             }
-        },{
+        }, {
             type: 'element',
             elementType: 'Stepper',
             elementProps: {
                 yigoid: 'score',
             }
-        },'date1',
+        }, 'date1',
         {
             key: 'date1',
             onlyDate: true,

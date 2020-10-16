@@ -42,7 +42,7 @@ export default class CordovaProvider extends Component {
 
     barcodeScan = async () => {
         return new Promise((resolve, reject) => {
-            if (cordova && cordova.plguins.barcodeScanner) {
+            if (cordova && cordova.plugins.barcodeScanner) {
                 cordova.plugins.barcodeScanner.scan((result) => {
                     if (result.cancelled) {
                         reject('cancelled');

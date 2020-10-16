@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { ControlWrap } from 'yes-intf';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 
 const styles = StyleSheet.create({
@@ -38,7 +38,9 @@ export default class BarcodeScannerText extends PureComponent {
         return (
             <View style={[styles.container, this.props.layoutStyles, style]}>
                 <Text style={[styles.text, this.props.textStyles]}>{displayValue}</Text>
-                <Icon onPress={this.onPress} size={iconSize} style={styles.icon} color={disabled ? 'gray' : '#8BC34A'} name="qrcode" />
+                <TouchableOpacity onPress={this.onPress} style={styles.icon}>
+                    <Icon size={iconSize} color={disabled ? 'gray' : '#8BC34A'} name="qrcode" />
+                </TouchableOpacity>
             </View>
         )
     }

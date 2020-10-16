@@ -53,6 +53,13 @@
         "EAPOid",
         "Description",
         "ReimbursementExplain",
+        {
+            "type": "element",
+            "elementType": "BarcodeScannerText",
+            "elementProps": {
+                "yigoid": "ReimbursementExplain"
+            }
+        },
         "SumNumber",
         "BXType",
         "receiverTxt",

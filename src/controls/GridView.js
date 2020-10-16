@@ -256,7 +256,7 @@ class AntdListView extends PureComponent {
                     centerElement={this.centerComp}
                     rightElement={this.context.createElement(this.props.rightElement)}
                     containerView={this.context.createElement(this.props.rowContainer)}
-                    containerStyle={this.props.rowStyle}
+                    containerStyle={[styles.rowStyle, this.props.rowStyle]}
                     onPress={() => this.onClick(rowId)}
                     divider={this.props.divider}
                     dividerStyle={this.props.dividerStyle}
@@ -272,7 +272,7 @@ class AntdListView extends PureComponent {
                 centerElement={this.centerComp}
                 rightElement={this.context.createElement(this.props.rightElement)}
                 containerView={this.context.createElement(this.props.rowContainer)}
-                containerStyle={this.props.rowStyle}
+                containerStyle={[styles.rowStyle, this.props.rowStyle]}
                 onPress={() => this.onClick(rowId)}
                 divider={this.props.divider}
                 dividerStyle={this.props.dividerStyle}
@@ -364,6 +364,9 @@ class AntdListView extends PureComponent {
 }
 
 const styles = StyleSheet.create({
+    rowStyle: {
+        padding: 12,
+    },
     center: {
         alignContent: 'center',
         justifyContent: 'center',
@@ -390,14 +393,15 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     primaryText: {
-        paddingTop: 8,
-        paddingLeft: 4,
-        fontSize: 12,
+        // paddingTop: 8,
+        // paddingLeft: 4,
+        fontSize: 14,
+        fontWeight: 'bold',
     },
     secondaryText: {
-        paddingTop: 4,
-        paddingLeft: 6,
-        paddingBottom: 4,
+        // paddingTop: 4,
+        paddingLeft: 2,
+        // paddingBottom: 4,
         opacity: '60%',
         fontSize: 12,
     },

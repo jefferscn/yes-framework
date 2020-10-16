@@ -180,7 +180,7 @@ class AntdListView extends PureComponent {
             <NewListItem
                 centerElement={this.centerComp}
                 rightElement={this.context.createElement(this.props.rightElement)}
-                containerStyle={this.props.rowStyle}
+                containerStyle={[styles.rowStyle, this.props.rowStyle]}
                 onPress={() => this.onClick(rowId)}
                 // divider={this.props.divider}
                 rowIndex={rowId}
@@ -248,6 +248,9 @@ class AntdListView extends PureComponent {
 }
 // AntdListView.propTypes = propTypes.List;
 const styles = StyleSheet.create({
+    rowStyle: {
+        padding: 12,
+    },
     center: {
         justifyContent: 'center',
         alignItems: 'center',

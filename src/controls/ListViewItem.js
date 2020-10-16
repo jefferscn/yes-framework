@@ -125,9 +125,7 @@ const styles = StyleSheet.create({
     },
     arrow: {
         alignItems: 'center',
-        justifyContent: 'flex-start',
         display: 'flex',
-        width: 20,
         color: 'rgba(0,0,0,0.6)',
     },
     centerStyle: {
