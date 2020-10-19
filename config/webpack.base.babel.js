@@ -22,6 +22,7 @@ export default (DEBUG, PATH, PORT = 3000) => {
                 // 'whatwg-fetch',
                 './src/util/fakeFetch',
                 '@babel/polyfill',
+                'proxy-polyfill',
                 './main',
             ]),
             // initializationLoading: './initializationLoading',
