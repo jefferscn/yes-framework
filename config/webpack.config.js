@@ -67,6 +67,7 @@ export default (DEBUG, PATH, PORT = 3000) => {
                         path.resolve(__dirname, '../node_modules/query-string/'),
                         path.resolve(__dirname, '../node_modules/wicg-inert/'),
                         path.resolve(__dirname, '../node_modules/split-on-first/'),
+                        path.resolve(__dirname, '../node_modules/strict-uri-encode/'),
                         path.resolve(__dirname, '../node_modules/yes-core/'),
                         path.resolve(__dirname, '../node_modules/idb/'),
                         path.resolve(__dirname, '../node_modules/react-navigation-is-focused-hoc/'),
