@@ -19,7 +19,7 @@ export default (DEBUG, PATH, PORT = 3000) => {
         },
         entry: {
             app: (/*DEBUG ? [`webpack-dev-server/client?http://localhost:${PORT}`] : */[]).concat([
-                // 'whatwg-fetch',
+                'whatwg-fetch',
                 './src/util/fakeFetch',
                 '@babel/polyfill',
                 'proxy-polyfill',
