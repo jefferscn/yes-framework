@@ -17,7 +17,6 @@ const styles = {
         justifyContent: 'flex-end',
         display: 'flex',
         fontSize: 12,
-        height: '100%',
     },
     contentStyle: {
         maxWidth: 110,

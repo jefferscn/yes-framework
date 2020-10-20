@@ -61,6 +61,10 @@ function isCordova() {
     return window.cordova;
 }
 
+function isAppcan() {
+    return window.appcan;
+}
+
 // if (isCordova()) {
 //     const cordovaProps = cordova || {};
 //     Provider = ({ children }) => {
@@ -130,6 +134,24 @@ export default ({ children, control, projectCfg }) => {
             );
         };
     }
+
+    if(isAppcan()) {
+        Provider = ({ children }) => {
+            if (baidumap) {
+                return (<BaiduProvider {...baidumap}>
+                    <PlatformProvider.Appcan >
+                        {children}
+                    </PlatformProvider.Appcan>
+                </BaiduProvider>);
+            }
+            return (
+                    <PlatformProvider.Appcan >
+                    {children}
+                </PlatformProvider.Appcan>
+            );
+        };
+    }
+
     return (<LocaleProvider locale={getAntLocale()}>
         <TemplateProvider CustomControls={control}>
             <Provider>
