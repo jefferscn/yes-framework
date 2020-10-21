@@ -62,7 +62,7 @@ function isCordova() {
 }
 
 function isAppcan() {
-    return window.uexDevice;
+    return window.uexDispatcherNative;
 }
 
 // if (isCordova()) {

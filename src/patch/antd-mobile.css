@@ -197,3 +197,7 @@
     flex-direction: row;
     align-items: stretch;
 }
+
+.am-tabs-tab-bar-wrap {
+    display: flex;
+}

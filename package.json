@@ -53,10 +53,10 @@
     "react-wx-images-viewer": "github:jefferscn/react-wx-images-viewer",
     "whatwg-fetch": "^3.4.1",
     "yes-common": "^2.0.0",
-    "yes-comp-react-native-web": "^1.0.13",
-    "yes-core": "^3.0.12",
-    "yes-intf": "^3.0.16",
-    "yes-web": "^3.0.1",
+    "yes-comp-react-native-web": "^1.0.14",
+    "yes-core": "^3.0.13",
+    "yes-intf": "^3.0.17",
+    "yes-web": "^3.0.3",
     "yg-echarts": "^3.0.0"
   },
   "devDependencies": {
