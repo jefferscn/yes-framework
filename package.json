@@ -46,7 +46,7 @@
     "react-native-root-siblings": "^4.0.6",
     "react-native-screens": "^2.4.0",
     "react-native-vector-icons": "6.6.0",
-    "react-native-web": "0.0.0-d33e107ba",
+    "react-native-web": "^0.14.3",
     "react-navigation-is-focused-hoc": "^1.1.1",
     "react-rating": "^2.0.5",
     "react-viewer": "^3.2.1",
