@@ -7,8 +7,8 @@ class VisibleRelated extends PureComponent {
         createElement: PropTypes.func,
     }
     render() {
-        const { visible, children, element } = this.props;
-        if(visible) {
+        const { visible, children, element, isVirtual } = this.props;
+        if(visible && !isVirtual) {
             return element? this.context.createElement(element): children;
         }
         return null;

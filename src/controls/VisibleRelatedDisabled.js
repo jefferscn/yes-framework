@@ -7,8 +7,8 @@ class VisibleRelatedDisabled extends PureComponent {
         createElement: PropTypes.func,
     }
     render() {
-        const { disabled, children, element } = this.props;
-        if(!disabled) {
+        const { disabled, children, element, isVirtual } = this.props;
+        if(!disabled && !isVirtual) {
             return element? this.context.createElement(element): children;
         }
         return null;

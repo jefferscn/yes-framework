@@ -109,6 +109,12 @@ Base.args = {
         },
         'dict1',
         'image1',
+        {
+            key: 'image1',
+            imageStyle: {
+                backgroundColor: 'whitesmoke',
+            }
+        },
         'combobox1',
         {
             type: 'element',
