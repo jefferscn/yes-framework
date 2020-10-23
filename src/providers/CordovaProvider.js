@@ -141,7 +141,8 @@ export default class CordovaProvider extends Component {
                         //file.localURL
                         const reader = new FileReader();
                         reader.onloadend = function (e) {
-                            const fileName = path.basename(decodeURIComponent(file.localURL));
+                            let fileName = path.basename(decodeURIComponent(file.localURL));
+                            fileName = fileName.replace(":", "_");
                             let mimeType = file.type;
                             if (!mimeType) {
                                 const extName = path.extname(decodeURIComponent(file.localURL)).toLowerCase();
@@ -150,6 +151,18 @@ export default class CordovaProvider extends Component {
                                 }
                                 if (extName === '.png') {
                                     mimeType = "image/png"
+                                }
+                            }
+                            if (mimeType) {
+                                let ext = path.extname(decodeURIComponent(file.localURL)).toLowerCase();
+                                if (!ext) {
+                                    if (mimeType === 'image/jpeg') {
+                                        ext = ".jpg";
+                                    }
+                                    if (mimeType === 'image/png') {
+                                        ext = ".png";
+                                    }
+                                    fileName = `${fileName}${ext}`;
                                 }
                             }
                             const theFile = new Blob([e.target.result], { type: mimeType });
@@ -188,7 +201,7 @@ export default class CordovaProvider extends Component {
             };
             const onActionSheetPress = (index) => {
                 const cameraOptions = {
-                    destinationType: Camera.DestinationType.FILE_URI,
+                    destinationType: Camera.DestinationType.NATIVE_URI,
                     encodingType: Camera.EncodingType.JPEG,
                 };
                 if (index === 0) {
