@@ -58,7 +58,8 @@ class AttachmentFile extends PureComponent {
     }
     isImage = () => {
         const { fileType } = this.props;
-        return fileType === 'jpg' || fileType === 'png' || fileType === 'jpeg';
+        const tmp = fileType ? fileType.toLowerCase() : "";
+        return tmp === 'jpg' || tmp === 'png' || tmp === 'jpeg';
     }
     render() {
         const { displayValue, fileType, style, yigoAttachment } = this.props;
@@ -121,6 +122,7 @@ class AttachmentList extends PureComponent {
     static defaultProps = {
         removable: true,
         yigoAttachment: true,
+        multiSelect: true,
     }
     state = {
         showPreview: false,
@@ -147,7 +149,7 @@ class AttachmentList extends PureComponent {
         })
     }
     render() {
-        const { data, fileName, filePath, isVirtual, title,
+        const { data, fileName, filePath, isVirtual, title, multiSelect, 
             containerStyle, removable, editable, inline, yigoAttachment,
         } = this.props;
         const grid = this.context.getOwner();
@@ -161,7 +163,8 @@ class AttachmentList extends PureComponent {
                 style: {
                     width: 85,
                     display: 'inline-block',
-                }
+                },
+                multiSelect,
             }
         };
         const billform = this.context.getBillForm();

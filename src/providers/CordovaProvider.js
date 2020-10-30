@@ -9,6 +9,7 @@ import path from 'path';
 export default class CordovaProvider extends Component {
     static childContextTypes = {
         getPicture: PropTypes.func,
+        getPictures: PropTypes.func,
         getPosition: PropTypes.func,
         getCurrentAddress: PropTypes.func,
         getTopPadding: PropTypes.func,
@@ -25,6 +26,7 @@ export default class CordovaProvider extends Component {
     getChildContext() {
         return {
             getPicture: this.getPicture,
+            getPictures: this.getPictures,
             getPosition: this.getPosition,
             getCurrentAddress: this.getCurrentAddress,
             getTopPadding: this.getTopPadding,
@@ -125,20 +127,87 @@ export default class CordovaProvider extends Component {
         return address;
     }
 
+    getPictures = () => {
+        return new Promise((resolve, reject) => {
+            const loadFile = (imageURI) => {
+                return new Promise((res, rej) => {
+                    window.resolveLocalFileSystemURL(imageURI, (fileEntry) => {
+                        fileEntry.file((file) => {
+                            const reader = new FileReader();
+                            reader.onloadend = function (e) {
+                                let fileName = path.basename(decodeURIComponent(imageURI));
+                                fileName = fileName.replace(":", "_");
+                                let mimeType = file.type;
+                                if (!mimeType) {
+                                    const extName = path.extname(decodeURIComponent(imageURI)).toLowerCase();
+                                    if (extName === '.jpg' || extName === '.jpeg') {
+                                        mimeType = "image/jpeg";
+                                    }
+                                    if (extName === '.png') {
+                                        mimeType = "image/png"
+                                    }
+                                }
+                                if (mimeType) {
+                                    let ext = path.extname(decodeURIComponent(imageURI)).toLowerCase();
+                                    if (!ext) {
+                                        if (mimeType === 'image/jpeg') {
+                                            ext = ".jpg";
+                                        }
+                                        if (mimeType === 'image/png') {
+                                            ext = ".png";
+                                        }
+                                        fileName = `${fileName}${ext}`;
+                                    }
+                                }
+                                const theFile = new Blob([e.target.result], { type: mimeType });
+                                theFile.name = fileName;
+                                console.log(fileName);
+                                console.log(mimeType);
+                                res({
+                                    file: theFile,
+                                    name: fileName,
+                                });
+                            };
+                            reader.readAsArrayBuffer(file);
+                            // res(file);
+                        }, (e) => {
+                            rej(e);
+                        });
+                    }, (e) => {
+                        rej(e);
+                    });
+                })
+            };
+            ImagePicker.getPictures(async function (result) {
+                const images = [];
+                console.log(result);
+                try {
+                    for (let image of result.images) {
+                        images.push(await loadFile(image.uri));
+                    }
+                } catch (ex) {
+                    reject(ex);
+                }
+                resolve(images);
+            }, function (err) {
+                reject(err);
+            }, {
+                maximumImagesCount: 9,
+                width: 1920,
+                height: 1440,
+                quality: 70
+            });
+        })
+    }
+
     getPicture = (cameraDirection = Camera.Direction.BACK, quality = 50, targetWidth = 1000,) => {
         return new Promise((resolve, reject) => {
             const onFileSelect = (imageURI) => {
-                // if (imageURI.startsWith('content://')) {
-                //     resolveLocalFileSystemURL(imageURI,
-                //         (fileEntry)=>{
-                //         },
-                //         (e)=>console.log(e))
-                // } else {
+                console.log(imageURI);
                 ActionSheet.close();
                 this.backHandler();
                 window.resolveLocalFileSystemURL(imageURI, (fileEntry) => {
                     fileEntry.file((file) => {
-                        //file.localURL
                         const reader = new FileReader();
                         reader.onloadend = function (e) {
                             let fileName = path.basename(decodeURIComponent(file.localURL));
@@ -201,7 +270,7 @@ export default class CordovaProvider extends Component {
             };
             const onActionSheetPress = (index) => {
                 const cameraOptions = {
-                    destinationType: Camera.DestinationType.NATIVE_URI,
+                    destinationType: Camera.DestinationType.FILE_URI,
                     encodingType: Camera.EncodingType.JPEG,
                 };
                 if (index === 0) {

@@ -7,20 +7,54 @@ import PropTypes from 'prop-types';
 class AttachmentAction extends PureComponent {
     static contextTypes = {
         getPicture: PropTypes.func,
+        getPictures: PropTypes.func,
+        startWorking: PropTypes.func,
+        endWorking: PropTypes.func,
+    }
+    static defaultProps = {
+        multiSelect: false,
     }
     onImageAddClick = async (e) => {
         e.preventDefault();
-        if (!this.context.getPicture) {
-            return;
-        }
-        try {
-            const file = await this.context.getPicture();
-            // const result = await this.props.uploadImage(file.file, file.name);
-            // this.props.onChange(result);
-            // this.onAddImage([file]);
-            await this.props.addAttachment(file.file);
-        } catch (ex) {
-            console.log(ex);
+        if (!this.props.multiSelect) {
+            if (!this.context.getPicture) {
+                return;
+            }
+            this.context.startWorking();
+            try {
+                const file = await this.context.getPicture();
+                await this.props.addAttachment(file.file);
+            } catch (ex) {
+                console.log(ex);
+            } finally {
+                this.context.endWorking();
+            }
+        } else {
+            if (this.context.getPictures) {
+                this.context.startWorking();
+                try {
+                    const files = await this.context.getPictures();
+                    for (let file of files) {
+                        await this.props.addAttachment(file.file);
+                    }
+                } catch (ex) {
+
+                } finally {
+                    this.context.endWorking();
+                }
+            } else {
+                if (this.context.getPicture) {
+                    this.context.startWorking();
+                    try {
+                        const file = await this.context.getPicture();
+                        await this.props.addAttachment(file.file);
+                    } catch (ex) {
+                        console.log(ex);
+                    } finally {
+                        this.context.endWorking();
+                    }
+                }
+            }
         }
     }
     onAddImage = (files) => {

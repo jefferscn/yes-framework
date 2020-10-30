@@ -6,14 +6,24 @@ import { Text } from 'react-native';
 import { ControlWrap } from 'yes-intf';
 import Element from '../template/Element';
 
-const YText = ({ displayValue, value, style, isVirtual, controlState, caption, icon, styleMapping, emptyStr = "空" }) => {
+const YText = ({ displayValue, value, style, isVirtual, controlState, caption, icon, styleMapping, textMapping, emptyStr = "空" }) => {
+    const getText = ()=> {
+        let txt = displayValue;
+        if(!txt) {    
+            txt = emptyStr;
+        }
+        if(!textMapping) {
+            return txt;
+        }
+        return textMapping[txt] || txt;
+    }
     let extraStyle = null;
     if(styleMapping) {
         extraStyle = styleMapping(value);
     }
     return (<Text style={[style, extraStyle]}>
         {icon ? <Element meta={icon} /> : null}
-        {displayValue || emptyStr}
+        {getText()}
     </Text>);
 };
 
