@@ -2,13 +2,8 @@ import React, { PureComponent } from 'react';
 import defaultTemplateMapping from '../defaultTemplateMapping';
 import { View, Text as RawText, StyleSheet, ActivityIndicator } from 'react-native';
 import { AppDispatcher, Util, DynamicControl } from 'yes';
-import Controls from '../../config/control';
-// import { withNavigation } from 'react-navigation';
 import { internationalWrap } from 'yes-intf';
 import PropTypes from 'prop-types';
-// import { intlShape, FormattedMessage } from 'react-intl';
-
-const { Searchbar } = Controls;
 
 const styles = StyleSheet.create({
     mask: {

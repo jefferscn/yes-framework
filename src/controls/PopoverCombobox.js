@@ -11,7 +11,7 @@ const { Item } = Popover;
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
-        height: 48,
+        // height: 48,
         backgroundColor: 'white',
         justifyContent: 'center',
         alignItems: 'center',

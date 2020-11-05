@@ -190,6 +190,10 @@ export default class CordovaProvider extends Component {
                 }
                 resolve(images);
             }, function (err) {
+                if(err==='已取消') {
+                    reject('usercancel');
+                    return;
+                }
                 reject(err);
             }, {
                 maximumImagesCount: 9,
@@ -200,7 +204,7 @@ export default class CordovaProvider extends Component {
         })
     }
 
-    getPicture = (cameraDirection = Camera.Direction.BACK, quality = 50, targetWidth = 1000,) => {
+    getPicture = (cameraDirection = Camera.Direction.BACK, quality = 50, targetWidth = 1000, multi = false) => {
         return new Promise((resolve, reject) => {
             const onFileSelect = (imageURI) => {
                 console.log(imageURI);
@@ -241,10 +245,13 @@ export default class CordovaProvider extends Component {
                                     maxWidth: targetWidth,
                                     success(result) {
                                         result.name = fileName;
-                                        resolve({
+                                        resolve(multi ? [{
                                             file: result,
                                             name: fileName,
-                                        });
+                                        }] : {
+                                                file: result,
+                                                name: fileName,
+                                            });
                                     },
                                     error(err) {
                                         reject(err);
@@ -268,7 +275,7 @@ export default class CordovaProvider extends Component {
                 this.backHandler();
                 reject('usercancel');
             };
-            const onActionSheetPress = (index) => {
+            const onActionSheetPress = async (index) => {
                 const cameraOptions = {
                     destinationType: Camera.DestinationType.FILE_URI,
                     encodingType: Camera.EncodingType.JPEG,
@@ -282,14 +289,22 @@ export default class CordovaProvider extends Component {
                     navigator.camera.getPicture(onFileSelect, onSelectFileError, cameraOptions);
                 }
                 if (index === 1) {
-                    if (device.platform == 'iOS') {
-                        cameraOptions['correctOrientation'] = true;
-                    };
-                    if (!targetWidth) {
-                        delete cameraOptions.targetWidth;
+                    if (multi) {
+                        try {
+                            resolve(await this.getPictures());
+                        } catch (ex) {
+                            reject(ex);
+                        }
+                    } else {
+                        if (device.platform == 'iOS') {
+                            cameraOptions['correctOrientation'] = true;
+                        };
+                        if (!targetWidth) {
+                            delete cameraOptions.targetWidth;
+                        }
+                        cameraOptions['sourceType'] = Camera.PictureSourceType.PHOTOLIBRARY;
+                        navigator.camera.getPicture(onFileSelect, onSelectFileError, cameraOptions);
                     }
-                    cameraOptions['sourceType'] = Camera.PictureSourceType.PHOTOLIBRARY;
-                    navigator.camera.getPicture(onFileSelect, onSelectFileError, cameraOptions);
                 }
                 if (index === 2) {
                     ActionSheet.close();

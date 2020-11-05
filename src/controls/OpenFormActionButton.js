@@ -38,7 +38,7 @@ export default class OpenFormActionButton extends PureComponent {
             options: itms,
             cancelButtonIndex: itms.length - 1,
             message: null,
-            maskClosable: false,
+            maskClosable: true,
         }, this.onButtonClick);
         History.push(`#ActionSheet`, false);
         this.backHandler = BackHandler.addPreEventListener(() => {
