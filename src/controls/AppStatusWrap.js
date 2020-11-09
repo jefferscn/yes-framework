@@ -55,9 +55,9 @@ export default (Comp) => {
             getPlatform: PropTypes.func,
         }
         state = {
-            currentVersion: null,
+            currentVersion: '',
             fetching: false,
-            latestVersion: null,
+            latestVersion: '',
             canUpdakte: false,
             platform: 'browser',
         }
@@ -68,6 +68,9 @@ export default (Comp) => {
                     fetching: true,
                 });
                 const currentVersion = await this.context.getVersion();
+                this.setState({
+                    currentVersion,
+                });
                 const appInfo= await this.context.checkLatestVersion();
                 const platform = this.context.getPlatform();
                 if (appInfo) {
@@ -75,7 +78,6 @@ export default (Comp) => {
                     const canUpdate = result > 0;
                     this.setState({
                         fetching: false,
-                        currentVersion,
                         latestVersion: appInfo.Version,
                         url: appInfo.Url,
                         platform,

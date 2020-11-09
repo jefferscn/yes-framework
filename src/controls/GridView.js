@@ -43,6 +43,7 @@ class AntdListView extends PureComponent {
         createElement: PropTypes.func,
         getOwner: PropTypes.func,
     }
+
     componentWillReceiveProps(nextProps) {
         const data = nextProps.controlState.getIn(['dataModel', 'data']);
         if (data) {

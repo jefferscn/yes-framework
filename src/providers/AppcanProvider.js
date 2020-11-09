@@ -20,12 +20,75 @@ function base64ToFile(base64, mimeType = 'application/pdf') {
 export default class AppcanProvider extends PureComponent {
     static childContextTypes = {
         getPicture: PropTypes.func,
+        getPosition: PropTypes.func,
+        getCurrentAddress: PropTypes.func,
+    }
+
+    componentDidMount() {
+        if (uexLocation) {
+            uexLocation.openLocation("bd09", (error) => {
+                if (error) {
+                    this.gpsReady = false;
+                } else {
+                    this.gpsReady = true;
+                    uexLocation.onChange = this.onLocationChange;
+                }
+            });
+        }
+    }
+
+    onLocationChange = (lat, lng) => {
+        this.currentLocation = {
+            lat,
+            lng,
+        };
+    }
+
+    componentWillUnmount() {
+        if (this.gpsReady) {
+            uexLocation.closeLocation();
+        }
     }
 
     getChildContext() {
         return {
             getPicture: this.getPicture,
+            getPosition: this.getPosition,
+            getCurrentAddress: this.getCurrentAddress,
         };
+    }
+
+    getPosition = () => {
+        if (this.currentLocation) {
+            return Promise.resolve({
+                longitude: this.currentLocation.lng,
+                latetude: this.currentLocation.lat,
+            });
+        }
+        return Promise.reject('no gps');
+    }
+
+    getCurrentAddress = () => {
+        return new Promise((resolve, reject) => {
+            if (this.currentLocation) {
+                const convertCallback = (error, data)=> {
+                    if(error) {
+                        reject(error);
+                    } else {
+                        resolve(data);
+                    }
+                }
+                uexLocation.getAddressByType({
+                    longitude: this.currentLocation.lng,
+                    latetude: this.currentLocation.lat,
+                    type: 'bd09',
+                    flag: 2,
+                }, convertCallback);
+                return;
+            } else {
+                reject('no gps');
+            }
+        })
     }
 
     getPicture = (cameraDirection, quality = 50, targetWidth = 1000,) => {
