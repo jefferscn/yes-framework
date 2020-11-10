@@ -54,7 +54,7 @@
     "whatwg-fetch": "^3.4.1",
     "yes-common": "^2.0.0",
     "yes-comp-react-native-web": "^1.0.15",
-    "yes-core": "^3.0.15",
+    "yes-core": "^3.0.17",
     "yes-intf": "^3.0.17",
     "yes-web": "^3.0.3",
     "yg-echarts": "^3.0.0"
