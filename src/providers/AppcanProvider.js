@@ -5,6 +5,7 @@ import { ActionSheet } from 'antd-mobile';
 import { History } from 'yes-platform';
 import { BackHandler } from 'yes';
 import mimetype from 'mime-types';
+import global from 'global';
 
 function base64ToFile(base64, mimeType = 'application/pdf') {
     let bytes = window.atob(base64);
@@ -25,13 +26,13 @@ export default class AppcanProvider extends PureComponent {
     }
 
     componentDidMount() {
-        if (uexLocation) {
-            uexLocation.openLocation("bd09", (error) => {
+        if (global.uexLocation) {
+            global.uexLocation.openLocation("bd09", (error) => {
                 if (error) {
                     this.gpsReady = false;
                 } else {
                     this.gpsReady = true;
-                    uexLocation.onChange = this.onLocationChange;
+                    global.uexLocation.onChange = this.onLocationChange;
                 }
             });
         }
@@ -46,7 +47,7 @@ export default class AppcanProvider extends PureComponent {
 
     componentWillUnmount() {
         if (this.gpsReady) {
-            uexLocation.closeLocation();
+            global.uexLocation.closeLocation();
         }
     }
 
