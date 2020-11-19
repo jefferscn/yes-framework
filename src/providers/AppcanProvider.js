@@ -26,13 +26,17 @@ export default class AppcanProvider extends PureComponent {
     }
 
     componentDidMount() {
-        if (global.uexLocation) {
-            global.uexLocation.openLocation("bd09", (error) => {
-                if (error) {
-                    this.gpsReady = false;
-                } else {
-                    this.gpsReady = true;
-                    global.uexLocation.onChange = this.onLocationChange;
+        if (global.appcan) {
+            global.appcan.ready(() => {
+                if (global.uexLocation) {
+                    global.uexLocation.openLocation("bd09", (error) => {
+                        if (error) {
+                            this.gpsReady = false;
+                        } else {
+                            this.gpsReady = true;
+                            global.uexLocation.onChange = this.onLocationChange;
+                        }
+                    });
                 }
             });
         }
@@ -72,8 +76,8 @@ export default class AppcanProvider extends PureComponent {
     getCurrentAddress = () => {
         return new Promise((resolve, reject) => {
             if (this.currentLocation) {
-                const convertCallback = (error, data)=> {
-                    if(error) {
+                const convertCallback = (error, data) => {
+                    if (error) {
                         reject(error);
                     } else {
                         resolve(data);

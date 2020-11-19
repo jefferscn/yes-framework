@@ -221,6 +221,14 @@ export default class SectionListGrid extends PureComponent {
                 <Text>没有更多数据</Text>
             </View>) : (this.state.loadingMore ? (<View style={styles.foot}><ActivityIndicator /></View>) : null);
     }
+    /**
+     * 提前计算当前所有数据项目的位置，用于在多数据的时候完成部分渲染 
+     * @param {sections值} data 
+     * @param {包含头的位置} index 
+     */
+    getItemLayout = (data, index) => {
+        
+    }
 
     render() {
         return <SectionList
@@ -228,6 +236,7 @@ export default class SectionListGrid extends PureComponent {
             renderSectionHeader={this.renderSectionHeader}
             sections={this.state.sections}
             stickySectionHeadersEnabled
+            getItemLayout={this.getItemLayout}
             onEndReached={this.onEndReached}
             ListFooterComponent={this.renderListFooter}
         />

@@ -2,10 +2,11 @@ import React, { PureComponent } from 'react';
 import { GridWrap } from 'yes-intf';
 import { withDetail } from 'yes-comp-react-native-web';
 import PropTypes from 'prop-types';
+import { View } from 'react-native';
 
 @GridWrap
 @withDetail
-export default class GridAddRow extends PureComponent {
+class GridAddRow_ extends PureComponent {
     static contextTypes = {
         createElement: PropTypes.func,
     }
@@ -21,5 +22,14 @@ export default class GridAddRow extends PureComponent {
         return React.cloneElement(child, {
             onPress: this.onPress,
         });
+    }
+}
+
+export default class GridAddRow extends PureComponent {
+    render() {
+        const { style } = this.props;
+        return <View style={style}>
+            <GridAddRow_ {...this.props} />
+        </View>
     }
 }

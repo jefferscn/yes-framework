@@ -201,3 +201,7 @@
 .am-tabs-tab-bar-wrap {
     display: flex;
 }
+
+.am-modal-alert-content {
+    max-height: 400px;
+}

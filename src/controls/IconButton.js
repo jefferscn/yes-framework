@@ -42,8 +42,8 @@ export default class Button extends PureComponent {
             }
         }
         return (
-            <TouchableHighlight onPress={onPress} style={{flex: 1}}>
-                <View style={[styles.container, direction==='row'?styles.directionRow: styles.directionColumn, style]}>
+            <TouchableHighlight onPress={onPress} style={[{flex:1}, style]}>
+                <View style={[styles.container, direction==='row'?styles.directionRow: styles.directionColumn]}>
                     {
                         iconElement
                     }

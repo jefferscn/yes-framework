@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import TemplateView from './TemplateView';
 import { YIUI, cacheSystem } from 'yes-core';
-import { BillformStore } from 'yes';
 import { FormPara } from './config/index';
 
 export default class RouteComponent extends Component {

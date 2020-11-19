@@ -1,14 +1,26 @@
 import React, { PureComponent } from 'react';
-import { View, ActivityIndicator, Dimensions } from 'react-native';
+import { View, ActivityIndicator, Dimensions, StyleSheet } from 'react-native';
 import { Modal } from 'antd-mobile';
 import defaultTemplateMapping from '../defaultTemplateMapping';
 import PropTypes from 'prop-types';
 import Element from '../Element';
+import { Util } from 'yes-web';
 
 // const { width, height } = Dimensions.get('window');
 
 // const maxHeight = height * 0.7;
-
+const styles = StyleSheet.create({
+    mask: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        zIndex: 1,
+        justifyContent: 'center',
+        backgroundColor: 'rgba(211,211,211,0.5)',
+    }
+});
 class ModalTemplateForm extends PureComponent {
     static contextTypes = {
         onControlClick: PropTypes.func,
@@ -20,15 +32,30 @@ class ModalTemplateForm extends PureComponent {
     }
     state = {
         modalVisible: true,
-        maxHeight : Dimensions.get('window').height*0.7,
+        maxHeight: Dimensions.get('window').height * 0.7,
+        busyingAction: null,
     }
-    onActionPress = (action) => {
+    onActionPress = async (action) => {
+        if (this.props.busying) {
+            return;
+        }
         // const act = this.props.actions.find((item) => this.props.formatMessage(item.caption) === action);
-        this.context.onControlClick(action);
-        if (this.props.autoClose) {
+        this.setState({
+            busyingAction: action,
+        });
+        try {
+            await this.context.onControlClick(action);
+            if (this.props.autoClose) {
+                this.setState({
+                    modalVisible: false,
+                })
+            }
+        } catch (ex) {
+            Util.alert('错误', ex.message);
+        } finally {
             this.setState({
-                modalVisible: false,
-            })
+                busyingAction: null,
+            });
         }
     }
     onClose = () => {
@@ -36,13 +63,13 @@ class ModalTemplateForm extends PureComponent {
     }
     render() {
         // const actions = this.props.actions.map((item) => this.props.formatMessage(item.caption));
-        const { title, content, popup, animationType, actions, formStatus, style } = this.props;
+        const { title, content, popup, animationType, actions, formStatus, style, busying } = this.props;
         const acts = actions ? actions.map((action) => {
             return {
                 text: action.text,
                 onPress: () => this.onActionPress(action.yigoid),
             }
-        }): undefined;
+        }) : undefined;
         return (
             <Modal
                 visible={this.state.modalVisible}
@@ -57,7 +84,12 @@ class ModalTemplateForm extends PureComponent {
                 afterClose={this.onClose}
             >
                 {formStatus === 'ok' ?
-                    <View style={[{ maxHeight: this.state.maxHeight}, style]}><Element meta={content} /></View> :
+                    <View style={[{ maxHeight: this.state.maxHeight }, style]}>
+                        <Element meta={content} />
+                        {
+                            busying ? <View style={styles.mask}><ActivityIndicator size="small" /></View> : null
+                        }
+                    </View> :
                     <ActivityIndicator size="large" />
                 }
             </Modal>

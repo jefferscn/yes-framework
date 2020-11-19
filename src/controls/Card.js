@@ -173,11 +173,13 @@ class CardHeader extends PureComponent {
         return this.context.createElement(title);
     }
     buildExtra = () => {
-        const { extra } = this.props;
+        const { extra, extraStyle } = this.props;
         if (!extra) {
-            return <View style={{ flex: 1 }} />;
+            return <View style={{flex: 1}} />;
         }
-        return this.context.createElement(extra);
+        return <View style={{flexDirection: 'row', justifyContent: 'flex-end', flex: 1}}>
+            {this.context.createElement(extra)}
+        </View>
     }
     onPress = () => {
         const { expanded } = this.props;
@@ -256,7 +258,7 @@ export default class Card extends PureComponent {
         ).start();
     }
     buildTitleElement() {
-        const { title, headIcon, extra, collapseable, expanded, headStyle } = this.props;
+        const { title, headIcon, extra, collapseable, expanded, headStyle, extraStyle } = this.props;
         if (!title) {
             return null;
         }
@@ -267,6 +269,7 @@ export default class Card extends PureComponent {
             icon={headIcon}
             title={title}
             extra={extra}
+            extraStyle={extraStyle}
             style={headStyle}
             collapseable={collapseable} />
     }
