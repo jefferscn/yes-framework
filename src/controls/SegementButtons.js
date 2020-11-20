@@ -120,7 +120,7 @@ class SegementButtons extends PureComponent {
             });
             moreItems = items.slice(3, items.length);
             moreItems.push({
-                test: "取消",
+                text: "取消",
                 key: "cancel",
             });
         } else {

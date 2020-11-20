@@ -26,33 +26,34 @@ export default class AppcanProvider extends PureComponent {
     }
 
     componentDidMount() {
-        if (global.appcan) {
-            global.appcan.ready(() => {
-                if (global.uexLocation) {
-                    global.uexLocation.openLocation("bd09", (error) => {
-                        if (error) {
-                            this.gpsReady = false;
-                        } else {
-                            this.gpsReady = true;
-                            global.uexLocation.onChange = this.onLocationChange;
-                        }
-                    });
-                }
-            });
-        }
+        // if (global.appcan) {
+        //     global.appcan.ready(() => {
+        //         if (global.uexLocation) {
+        //             global.uexLocation.openLocation("bd09", (error) => {
+        //                 if (error) {
+        //                     this.gpsReady = false;
+        //                 } else {
+        //                     this.gpsReady = true;
+        //                     global.uexLocation.onChange = this.onLocationChange;
+        //                 }
+        //             });
+        //         }
+        //     });
+        // }
     }
 
-    onLocationChange = (lat, lng) => {
-        this.currentLocation = {
-            lat,
-            lng,
-        };
-    }
+    // onLocationChange = (lat, lng) => {
+    //     this.currentLocation = {
+    //         lat,
+    //         lng,
+    //     };
+    //     uexLocation.closeLocation();
+    // }
 
     componentWillUnmount() {
-        if (this.gpsReady) {
-            global.uexLocation.closeLocation();
-        }
+        // if (this.gpsReady) {
+        //     global.uexLocation.closeLocation();
+        // }
     }
 
     getChildContext() {
@@ -64,32 +65,49 @@ export default class AppcanProvider extends PureComponent {
     }
 
     getPosition = () => {
-        if (this.currentLocation) {
-            return Promise.resolve({
-                longitude: this.currentLocation.lng,
-                latetude: this.currentLocation.lat,
-            });
-        }
-        return Promise.reject('no gps');
-    }
-
-    getCurrentAddress = () => {
         return new Promise((resolve, reject) => {
-            if (this.currentLocation) {
-                const convertCallback = (error, data) => {
+            const onChange = (lat, lng) => {
+                resolve({
+                    longitude: lng,
+                    latetude: lat,
+                });
+                uexLocation.closeLocation();
+            }
+            if (global.uexLocation) {
+                global.uexLocation.openLocation("bd09", (error) => {
                     if (error) {
                         reject(error);
                     } else {
-                        resolve(data);
+                        global.uexLocation.onChange = onChange;
                     }
+                });
+            } else {
+                reject('no gps');
+            }
+        })
+    }
+
+    getCurrentAddress = () => {
+        return new Promise(async (resolve, reject) => {
+            if (global.uexLocation) {
+                try {
+                    const pos = await this.getPosition();
+                    const convertCallback = (error, data) => {
+                        if (error) {
+                            reject(error);
+                        } else {
+                            resolve(data);
+                        }
+                    }
+                    uexLocation.getAddressByType({
+                        longitude: pos.longitude,
+                        latetude: pos.latetude,
+                        type: 'bd09',
+                        flag: 2,
+                    }, convertCallback);
+                } catch (ex) {
+                    reject(ex);
                 }
-                uexLocation.getAddressByType({
-                    longitude: this.currentLocation.lng,
-                    latetude: this.currentLocation.lat,
-                    type: 'bd09',
-                    flag: 2,
-                }, convertCallback);
-                return;
             } else {
                 reject('no gps');
             }
