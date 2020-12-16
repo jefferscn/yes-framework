@@ -53,7 +53,7 @@ class PickerView1 extends PureComponent {
     getValue = () => {
         return this.state.value;
     }
-    onChange = (v)=> {
+    onChange = (v) => {
         this.setState({
             value: v,
         });
@@ -72,17 +72,44 @@ class PopoverCombobox extends PureComponent {
         this.props.onChange && this.props.onChange(v[0]);
         this.props.onChangePopupState(false);
     }
-    closeModal = ()=> {
+    closeModal = () => {
         this.props.onChangePopupState(false);
     }
-    showModal = ()=> {
-        if(this.props.disabled) {
+    showModal = () => {
+        if (this.props.disabled) {
             return;
         }
         this.props.onChangePopupState(true);
     }
     render() {
-        const { showPopup, items, displayValue, placeholder, type, value, style, openTextStyle, openIconStyle, textStyle, layoutStyles, textStyles } = this.props;
+        const { showPopup, items, displayValue, placeholder, type, value, inline,
+            style, openTextStyle, openIconStyle, textStyle, layoutStyles, textStyles } = this.props;
+
+        const data = items.map((item) => {
+            return {
+                value: '' + item.get('value'),
+                label: item.get('caption')
+            }
+        });
+        const picker = (
+            <PickerView1
+                data={data}
+                cols={1}
+                cascade={false}
+                value={['' + value]}
+                title={this.props.caption}
+            />
+        );
+        if (inline) {
+            return <PickerView
+                data={data}
+                cols={1}
+                cascade={false}
+                onChange={this.onValueChange}
+                value={['' + value]}
+                title={this.props.caption}
+            />;
+        }
         if (type === 'popover') {
             return (
                 <Popover
@@ -101,27 +128,12 @@ class PopoverCombobox extends PureComponent {
                 </Popover>
             );
         }
-        const data = items.map((item) => {
-            return {
-                value: '' + item.get('value'),
-                label: item.get('caption')
-            }
-        });
-        const picker = (
-            <PickerView1
-                data={data}
-                cols={1}
-                cascade={false}
-                value={['' + value]}
-                title={this.props.caption}
-            />
-        );
         return (
             <View style={[styles.container, layoutStyles, style]}>
                 <TouchableOpacity onPress={this.showModal}>
                     <View style={styles.content}>
-                        <Text placeholder={placeholder} style={[styles.text, textStyle, textStyles, this.props.showPopup? openTextStyle: null ]}>{displayValue || placeholder}</Text>
-                        <Icon style={[styles.icon, this.props.showPopup? openIconStyle: null]} name={this.props.showPopup? "angle-up": "angle-down"} size={16} />
+                        <Text placeholder={placeholder} style={[styles.text, textStyle, textStyles, this.props.showPopup ? openTextStyle : null]}>{displayValue || placeholder}</Text>
+                        <Icon style={[styles.icon, this.props.showPopup ? openIconStyle : null]} name={this.props.showPopup ? "angle-up" : "angle-down"} size={16} />
                     </View>
                 </TouchableOpacity>
                 <Popup

@@ -77,7 +77,7 @@ class SegementButtons extends PureComponent {
                 AppDispatcher.dispatch({
                     type: 'STOPEVENT',
                 });
-                this.context.onControlClick(itm.key);
+                await this.context.onControlClick(itm.key);
                 AppDispatcher.dispatch({
                     type: 'ENABLEEVENT',
                 });

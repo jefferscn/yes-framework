@@ -29,6 +29,7 @@ class ModalTemplateForm extends PureComponent {
         popup: false,
         animationType: 'slide-up',
         autoClose: false,
+        drawer: false,
     }
     state = {
         modalVisible: true,
@@ -63,7 +64,7 @@ class ModalTemplateForm extends PureComponent {
     }
     render() {
         // const actions = this.props.actions.map((item) => this.props.formatMessage(item.caption));
-        const { title, content, popup, animationType, actions, formStatus, style, busying } = this.props;
+        const { title, content, popup, animationType, actions, formStatus, style, busying, drawer } = this.props;
         const acts = actions ? actions.map((action) => {
             return {
                 text: action.text,
@@ -80,6 +81,7 @@ class ModalTemplateForm extends PureComponent {
                 onClose={this.onClose}
                 title={title}
                 footer={acts}
+                wrapClassName={drawer? 'am-modal-drawer':null}
                 // wrapProps={{ onTouchStart: this.onWrapTouchStart }}
                 afterClose={this.onClose}
             >

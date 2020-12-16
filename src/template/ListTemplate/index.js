@@ -4,6 +4,7 @@ import { View, Text as RawText, StyleSheet, ActivityIndicator } from 'react-nati
 import { AppDispatcher, Util, DynamicControl } from 'yes';
 import { internationalWrap } from 'yes-intf';
 import PropTypes from 'prop-types';
+import './ListWithQuery';
 
 const styles = StyleSheet.create({
     mask: {
@@ -14,7 +15,7 @@ const styles = StyleSheet.create({
         bottom: 0,
         zIndex: 1,
         justifyContent: 'center',
-        backgroundColor: 'rgb(211,211,211,0.5)',
+        backgroundColor: 'rgba(211,211,211,0.5)',
     }
 })
 class ListTemplate extends PureComponent {
@@ -88,7 +89,8 @@ class ListTemplate extends PureComponent {
     }
 
     buildChildren() {
-        const { searchBar, filterBlock, list, head, action, formStatus, error, errorMsg, busying } = this.props;
+        const { searchBar, filterBlock, list, action, formStatus, error, errorMsg, 
+            contentStyle, busying } = this.props;
         //reloading状态下不显示加载状态
         // if(formStatus!=='ok' || formStatus!=='reloading') {
         //     return (
@@ -99,6 +101,8 @@ class ListTemplate extends PureComponent {
             onRefresh: this.onRefresh,
             refreshing: this.state.refreshing,
         });
+        const foot = this.context.createElement(this.props.foot);
+        const head = this.context.createElement(this.props.head);
         let actionButton = this.context.createElement(action);
         if (!React.isValidElement(listEle)) {
             listEle = <DynamicControl
@@ -119,12 +123,15 @@ class ListTemplate extends PureComponent {
                 {
                     filterBlock ? this.context.createElement(filterBlock, { formStatus }) : null
                 }
-                <View style={{ flex: 1 }}>
+                <View style={[{ flex: 1 }, contentStyle]}>
                     {
                         busying ? <View style={styles.mask}><ActivityIndicator /></View> : null
                     }
                     {listEle}
                 </View>
+                {
+                    foot 
+                }
                 {
                     actionButton
                 }

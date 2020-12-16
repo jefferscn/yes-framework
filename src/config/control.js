@@ -33,7 +33,7 @@ import IconFont from '../font';
 // import VisibleRelated from '../controls/VisibleRelated';
 import CellLayoutTemplate from '../template/TabTemplate/CellLayoutTemplate';
 import AutoTemplate from '../template/AutoTemplate';
-import { Button } from 'react-native';
+import { Button, Text } from 'react-native';
 
 function isClassComponent(component) {
   return (
@@ -134,6 +134,7 @@ obj['AwesomeFontIcon'] = AwesomeFontIcon;
 obj['CellLayoutTemplate'] = CellLayoutTemplate;
 obj['AutoTemplate'] = AutoTemplate;
 obj['NativeButton'] = Button;
+obj['NativeText'] = Text;
 
 Object.keys(controls).forEach((control) => {
   obj[control] = controls[control];
