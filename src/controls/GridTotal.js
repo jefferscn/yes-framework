@@ -18,10 +18,10 @@ export default (Comp) => {
             if (!owner) {
                 return 0;
             }
-            const index = owner.getCellIndexByKey(sumField);
+            // const index = owner.getCellIndexByKey(sumField);
             let total = new Decimal(0);
             for (let i = 0; i < this.props.data.size; i++) {
-                let v = owner.getValueAt(i, index);
+                let v = owner.getValueByKey(i, sumField);
                 total = total.plus(v || 0);
             }
             return parseFloat(total);
