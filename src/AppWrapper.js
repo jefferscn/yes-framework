@@ -83,12 +83,12 @@ function isAppcan() {
 //     };
 // }
 
-export default ({ children, control, projectCfg }) => {
+export default ({ children, control, projectCfg, mainThread = false }) => {
     const { wechat, cordova, baidumap } = projectCfg;
     let Provider = ({ children }) => {
         if (baidumap) {
             return (<BaiduProvider {...baidumap}>
-                <PlatformProvider.Browser>
+                <PlatformProvider.Browser checkUpdate={mainThread}>
                     {children}
                 </PlatformProvider.Browser>
             </BaiduProvider>);
@@ -122,7 +122,7 @@ export default ({ children, control, projectCfg }) => {
         Provider = ({ children }) => {
             if (baidumap) {
                 return (<BaiduProvider {...baidumap}>
-                    <PlatformProvider.Cordova {...cordovaProps}>
+                    <PlatformProvider.Cordova checkUpdate={mainThread} {...cordovaProps}>
                         {children}
                     </PlatformProvider.Cordova>
                 </BaiduProvider>);

@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { ActionSheet } from 'antd-mobile';
+import { ActionSheet, Modal } from 'antd-mobile';
 import { History } from 'yes-platform';
 import { BackHandler } from 'yes';
 import Compressor from 'compressorjs';
 import path from 'path';
+import { StyleSheet, View, Text, TouchableHighlight } from 'react-native-web';
+import Update from '../controls/Update';
+import { versionCompare } from '../controls/AppStatusWrap';
 
 export default class CordovaProvider extends Component {
     static childContextTypes = {
@@ -21,6 +24,16 @@ export default class CordovaProvider extends Component {
 
     static contentTypes = {
         getPositionString: PropTypes.func,
+    }
+
+    static defaultProps = {
+        checkUpdate: true,
+    }
+
+    state = {
+        modalVisible: false,
+        platform: device.platform.toLowerCase(),
+        packageUrl: null,
     }
 
     getChildContext() {
@@ -190,7 +203,7 @@ export default class CordovaProvider extends Component {
                 }
                 resolve(images);
             }, function (err) {
-                if(err==='已取消') {
+                if (err === '已取消') {
                     reject('usercancel');
                     return;
                 }
@@ -327,7 +340,31 @@ export default class CordovaProvider extends Component {
         });
     }
 
-    componentDidMount() {
+    checkUpdate = async () => {
+        const latestVersionData = await this.checkLatestVersion();
+        if (latestVersionData) {
+            const latestVersion = latestVersionData.Version;
+            if (versionCompare(latestVersion, this.currentVersion) > 0 && versionCompare(latestVersion, this.latestCheckVersion) > 0) {
+                this.latestCheckVersion = latestVersion;
+                this.notifyUpdate(latestVersionData.Url, latestVersion);
+            }
+        }
+    }
+
+    notifyUpdate = (url, version) => {
+        this.setState({
+            packageUrl: url,
+            modalVisible: true,
+            version,
+        });
+    }
+
+    async componentDidMount() {
+        if (this.props.checkUpdate) {
+            this.currentVersion = await this.getVersion();
+            this.latestCheckVersion = this.currentVersion;
+            this.updateTimer = setInterval(this.checkUpdate, 1000 * 120);
+        }
         if (this.props.overlayWebview) {
             StatusBar.overlaysWebView(true);
         }
@@ -359,10 +396,75 @@ export default class CordovaProvider extends Component {
         }
     }
 
+    componentWillMount() {
+        clearInterval(this.updateTimer);
+    }
+
     BUTTONS = ['拍照', '相册', '取消'];
+
+    onUpdateClose = () => {
+        this.setState({
+            modalVisible: false,
+        });
+    }
 
     render() {
         const { children } = this.props;
-        return children;
+        if(!this.props.checkUpdate) {
+            return children;
+        }
+        return <View style={styles.container}>
+            {children}
+            <Modal
+                visible={this.state.modalVisible}
+                popup
+                animationType={"slide-up"}
+                transparent
+                maskClosable={true}
+                onClose={this.onClose}
+                title={`发现新版本(${this.state.version})`}
+                // footer={acts}
+                afterClose={this.onClose}
+            >
+                <View style={[{ maxHeight: 200 }]}>
+                    <Text>是否马上更新?</Text>
+                    <View style={styles.foot}>
+                        <TouchableHighlight style={[styles.button, styles.cancel]} onPress={this.onUpdateClose}>
+                            <Text style={styles.cancelText}>取消</Text>
+                        </TouchableHighlight>
+                        <Update url={this.state.packageUrl} titleStyle={styles.okText} platform={this.state.platform}
+                            style={[styles.button, styles.ok]} title="更新" />
+                    </View>
+                </View>
+            </Modal>
+        </View>
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    foot: {
+        marginTop: 12,
+        height: 36,
+        flexDirection: 'row',
+    },
+    button: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    cancel: {
+        backgroundColor: '#f5f5f5',
+    },
+    ok: {
+        backgroundColor: 'blue',
+    },
+    cancelText: {
+
+    },
+    okText: {
+        color: 'white',
+    },
+});

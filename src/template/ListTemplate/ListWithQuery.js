@@ -27,6 +27,10 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
     },
+    advqueryitemwrap: {
+        justifyContent: 'center',
+        width: 50,
+    },
     item: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -62,7 +66,7 @@ const AdvanceQuery = ({ item, selected, onPress }) => {
     const doPress = () => {
         onPress && onPress(item);
     }
-    return <TouchableOpacity style={styles.queryitemwrap} onPress={doPress}>
+    return <TouchableOpacity style={styles.advqueryitemwrap} onPress={doPress}>
         <View style={styles.item}>
             <Icon name="filter" />
         </View>

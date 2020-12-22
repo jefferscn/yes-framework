@@ -185,6 +185,7 @@ const NavigatorListenerWrapper = (props) =>
     (<AppWrapper
         projectCfg={ProjectCfg}
         control={control}
+        mainThread
     >
         <AuthRouter
             onNavigationStateChange={onNavigationStateChange}

@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, TouchableOpacity, Text } from 'react-native';
+import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { ActivityIndicator } from 'antd-mobile';
 
 export default class Update extends PureComponent {
@@ -24,7 +24,7 @@ export default class Update extends PureComponent {
     }
     _updateAndroid(url) {
         return new Promise((resolve, reject) => {
-            window.resolveLocalFileSystemURL(cordova.file.externalRootDirectory, (fs)=> {
+            window.resolveLocalFileSystemURL(cordova.file.externalRootDirectory, (fs) => {
                 //创建文件
                 fs.getFile('android.apk', { create: true }, (fileEntry) => {
                     this.download(fileEntry, url).catch(reject);
@@ -38,7 +38,7 @@ export default class Update extends PureComponent {
             var ft = new FileTransfer();
             var fileURL = fileEntry.toURL();
             //监听下载进度
-            ft.onprogress = (e)=> {
+            ft.onprogress = (e) => {
                 console.info(e);
                 if (e.lengthComputable) {
                     var percent = (e.loaded / e.total) * 100;
@@ -48,7 +48,7 @@ export default class Update extends PureComponent {
                     });
                 }
             }
-            ft.download(url, fileURL, (entry)=> {
+            ft.download(url, fileURL, (entry) => {
                 cordova.plugins.fileOpener2.open(
                     entry.toURL(),
                     'application/vnd.android.package-archive', {
@@ -68,21 +68,21 @@ export default class Update extends PureComponent {
         });
     }
     render() {
-        const { title, url, platform } = this.props;
+        const { title, url, platform, style }  = this.props;
         if (platform === 'android') {
             return (
-                <View>
+                <View style={style}>
                     <TouchableOpacity onPress={this.updateAndroid}>
                         <View>
-                            <Text>{title}</Text>
+                            <Text style={titleStyle}>{title}</Text>
                         </View>
                     </TouchableOpacity>
                     {
-                       this.state.updating? <ActivityIndicator toast text={`下载中(${this.state.percent}%)`} />: null
+                        this.state.updating ? <ActivityIndicator toast text={`下载中(${this.state.percent}%)`} /> : null
                     }
                 </View>
             )
         }
-        return <a href={url} class="dialog-btn">{title}</a>
+        return <a href={url} style={StyleSheet.flatten([{ display: 'flex' }, style, titleStyle])} className="dialog-btn">{title}</a>
     }
 }

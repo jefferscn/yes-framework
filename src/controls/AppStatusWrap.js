@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-function versionCompare(v1, v2, options) {
+export function versionCompare(v1, v2, options) {
     var lexicographical = options && options.lexicographical,
         zeroExtend = options && options.zeroExtend,
         v1parts = v1.split('.'),
