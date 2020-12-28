@@ -4,13 +4,12 @@ import billform from './config/billforms';
 import PropTypes from 'prop-types';
 import CustomControls from './config/control.js';
 import { CustomBillForm } from 'yes-comp-react-native-web';
-import { AppDispatcher } from 'yes-intf';
+import { AppDispatcher, BackHandler } from 'yes-intf';
 import { closeForm } from 'yes-core';
 import ModalWrap from './template/ModalWrap';
 import Header from './controls/Header';
 import { View, Text } from 'react-native';
 import FormTitle from './controls/FormTitle';
-
 export default class TemplateView extends PureComponent {
     static childContextTypes = {
         getControlProps: PropTypes.func,
@@ -119,6 +118,20 @@ export default class TemplateView extends PureComponent {
                 parentForm.onChildClose(form.form);
             }
             this.props.onClose && this.props.onClose();
+        }
+    }
+
+    componentDidMount() {
+        //根据配置关闭安卓的回退功能
+        if(this.state.extraProps.blockHardBack) {
+            BackHandler.lock && BackHandler.lock();
+        }
+    }
+
+    componentWillUnmount() {
+        //根据配置开启安卓的回退功能
+        if(this.state.extraProps.blockHardBack) {
+            BackHandler.unlock && BackHandler.unlock();
         }
     }
 

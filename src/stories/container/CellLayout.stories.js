@@ -88,6 +88,13 @@ Base.args = {
         'text1',
         {
             key: 'text1',
+            layoutType: 'control',
+            layoutStyles: {
+                paddingRight: 12,
+            }
+        },
+        {
+            key: 'text1',
             caption: '',
             placeholder: '',
         },

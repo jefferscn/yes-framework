@@ -21,7 +21,8 @@
     "lint": "npm run lint:js",
     "start:production": "npm run build && npm run start:prod",
     "start:prod": "http-server build -c-1 -g -o",
-    "dd": "npm run lint"
+    "dd": "npm run lint",
+    "chromatic": "npx chromatic --project-token 5svms8bsy9"
   },
   "keywords": [
     "mui"
@@ -77,6 +78,7 @@
     "@storybook/react": "^6.0.21",
     "babel-loader": "^8.0.6",
     "babel-plugin-react-native-web": "^0.11.7",
+    "chromatic": "^5.5.0",
     "compression-webpack-plugin": "^3.1.0",
     "cross-env": "^7.0.2",
     "css-loader": "^3.5.2",

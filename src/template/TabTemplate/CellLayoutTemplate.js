@@ -218,7 +218,6 @@ class CellLayoutTemplate extends Component {  // eslint-disable-line
             Object.assign(extraProps, item);
         }
         return (<S
-            {...extraProps}
             key={item.key || item}
             yigoid={item.key || item}
             isCustomLayout
@@ -229,6 +228,7 @@ class CellLayoutTemplate extends Component {  // eslint-disable-line
             textStyles={this.getContentTextStyle(item)}
             layoutStyles={this.getContentLayoutStyle(item)}
             layout={this.getLayout(item)}
+            {...extraProps}
             {...this.getControlProps(item.key || item)}
         />);
     }

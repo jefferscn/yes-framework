@@ -227,7 +227,11 @@ export default class SectionListGrid extends PureComponent {
      * @param {包含头的位置} index 
      */
     getItemLayout = (data, index) => {
-        
+        // console.log(data);
+        // console.log(index);
+        return {
+            index,
+        };
     }
 
     render() {
