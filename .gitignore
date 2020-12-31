@@ -3,3 +3,6 @@ dist
 build
 projects
 project/index.js
+debug.log
+build-storybook.log
+src/project/index.js
