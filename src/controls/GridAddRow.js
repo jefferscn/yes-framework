@@ -10,12 +10,18 @@ class GridAddRow_ extends PureComponent {
     static contextTypes = {
         createElement: PropTypes.func,
     }
-    onPress = ()=> {
+    static defaultProps = {
+        sizeLimit: Number.MAX_VALUE,
+    }
+    onPress = () => {
         this.props.addNewRow && this.props.addNewRow();
     }
+    getRowCount = () => {
+        return this.props.data ? this.props.data.size : 0;
+    }
     render() {
-        const { children, editable } = this.props;
-        if(!editable) {
+        const { children, editable, sizeLimit } = this.props;
+        if (!editable || this.getRowCount() >= sizeLimit) {
             return null;
         }
         const child = this.context.createElement(children);

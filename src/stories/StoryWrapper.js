@@ -11,18 +11,17 @@ import AppWrapper from '../AppWrapper';
 import { ProjectCfg } from '../config/index';
 import control from '../config/control';
 
-export default ({ children }) => {
+const StoryWrapper = ({ children }) => {
     return (<AppWrapper
         control={control}
         projectCfg={ProjectCfg}
     >
         <StoryContext controlMapping={ControlMappings.defaultControlMapping}>
-            {/* <View style={{
-                height,
-                width,
-            }}> */}
-                {children}
-            {/* </View> */}
+            {children}
         </StoryContext>
     </AppWrapper>);
 }
+
+StoryWrapper.displayName = "StoryWrapper";
+
+export default StoryWrapper;

@@ -1,14 +1,14 @@
 import React from 'react';
-import ListTemplate from '../template/ListTemplate';
+import ListTemplate from '../../template/ListTemplate';
 import fontAwesome from 'react-native-vector-icons/Fonts/FontAwesome.ttf';
 import { injectFont } from 'yes-web/dist/webutil';
 import 'antd-mobile/dist/antd-mobile.css';
-import StoryWrapper from './StoryWrapper';
+import StoryWrapper from '../StoryWrapper';
 
 injectFont(fontAwesome, 'FontAwesome');
 
 export default {
-  title: 'yes-framework/ListTemplate',
+  title: 'yes-framework/template/ListTemplate',
   component: ListTemplate,
 };
 

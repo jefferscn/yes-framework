@@ -1,14 +1,14 @@
 import React from 'react';
-import ModalTemplate from '../template/ModalTemplate';
+import ModalTemplate from '../../template/ModalTemplate';
 import fontAwesome from 'react-native-vector-icons/Fonts/FontAwesome.ttf';
 import { injectFont } from 'yes-web/dist/webutil';
 import 'antd-mobile/dist/antd-mobile.css';
-import StoryWrapper from './StoryWrapper';
+import StoryWrapper from '../StoryWrapper';
 
 injectFont(fontAwesome, 'FontAwesome');
 
 export default {
-  title: 'yes-framework/ModalTemplate',
+  title: 'yes-framework/template/ModalTemplate',
   component: ModalTemplate,
 };
 

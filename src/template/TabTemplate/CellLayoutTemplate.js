@@ -69,6 +69,7 @@ const EqualSection = equalVisibleWrapper(List);
 const RelatedCell = controlVisibleWrapper(DynamicControl);
 const NotEmptyRelatedCell = notEmptyVisibleWrapper(DynamicControl);
 const EqualCell = equalVisibleWrapper(DynamicControl);
+@internationalWrap
 class CellLayoutTemplate extends Component {  // eslint-disable-line
     static propTypes = {
         items: PropTypes.arrayOf(PropTypes.shape({
@@ -266,4 +267,5 @@ class CellLayoutTemplate extends Component {  // eslint-disable-line
     }
 }
 
-export default internationalWrap(CellLayoutTemplate);
+CellLayoutTemplate.displayName = "CellLayoutTemplate";
+export default CellLayoutTemplate;

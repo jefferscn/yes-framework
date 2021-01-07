@@ -68,7 +68,7 @@ export default class Update extends PureComponent {
         });
     }
     render() {
-        const { title, url, platform, style }  = this.props;
+        const { title, url, platform, style, titleStyle }  = this.props;
         if (platform === 'android') {
             return (
                 <View style={style}>

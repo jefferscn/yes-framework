@@ -258,7 +258,7 @@ export default class Card extends PureComponent {
         ).start();
     }
     buildTitleElement() {
-        const { title, headIcon, extra, collapseable, expanded, headStyle, extraStyle } = this.props;
+        const { title, headIcon, extra, collapseable, expanded, headStyle, extraStyle, iconStyle } = this.props;
         if (!title) {
             return null;
         }
@@ -271,6 +271,7 @@ export default class Card extends PureComponent {
             extra={extra}
             extraStyle={extraStyle}
             style={headStyle}
+            iconStyle={iconStyle}
             collapseable={collapseable} />
     }
     buildFootElement() {
