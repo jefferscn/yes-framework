@@ -29,6 +29,10 @@ import { History } from 'yes-web';
 import Switch from './controls/Switch';
 import MonthPicker from './controls/MonthPicker';
 import './preload';
+if(ProjectCfg.isYIGO3) {
+    require('./yigopatch');
+}
+// import './yigopatch';
 
 window.his = History;
 
