@@ -172,17 +172,20 @@ export default class TreeDict extends PureComponent {
                 const path = [];
                 // let selectedItem = null;
                 //2.加载路径上的所有数据
-                for (let item of result) {
+                for (let item of result[0]) {
                     let itm = item;
-                    if (itm.oid === "0") {
+                    if (itm.oid == "0") {
                         itm = {
                             oid: "0",
                             itemKey: this.props.itemKey,
                             Name: this.props.caption,
                             NodeType: 1,
                         };
+                    } else {
+                        itm = this.plainData[itm.oid];
                     }
                     await this.loadChildren(itm);
+                    path.push(itm);
                 }
                 //3.更新state信息
                 this.setState({
