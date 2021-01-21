@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-// import { generateTabRouteConfig } from './util';
 import './template';
-// import projectJSON from './config/project.json';
-// import loginJSON from './config/login.json';
 import { BackHandler, AppDispatcher } from 'yes';
 import { ProjectCfg, RouteCfg, LoginCfg, ModalCfg, OpenwithHandler } from './config/index';
 import control from './config/control.js';
@@ -10,10 +7,8 @@ import { ControlMappings, AuthenticatedRoute } from 'yes-comp-react-native-web';
 import { Util } from 'yes-web';
 import { util as projectUtil } from './project';
 import i18n from './i18n';
-import { LocaleProvider, Modal } from 'antd-mobile';
-// import RouteConfig from './config/route.json';
+import { Modal } from 'antd-mobile';
 import buildRoute from './route';
-// import './yigopatch';
 import './patch/antd-mobile.css';
 import { showModal } from './SiblingMgr';
 import { init as initPush } from './push';
@@ -32,9 +27,9 @@ import './preload';
 if(ProjectCfg.isYIGO3) {
     require('./yigopatch');
 }
-// import './yigopatch';
 
 window.his = History;
+window.Util = Util;
 
 // import './util/fakeFetch';
 // Reflect = undefined;
@@ -214,7 +209,6 @@ if (window.cordova) {
 }
 
 appOptions.messages = getLocaleMessages();
-// appOptions.router = NavigatorListenerWrapper;
 appOptions.mock = true;
 appOptions.controlMapping = ControlMappings.defaultControlMapping;
 appOptions.debug = true;

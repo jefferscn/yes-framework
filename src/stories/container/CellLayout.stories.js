@@ -115,6 +115,13 @@ Base.args = {
             }
         },
         'dict1',
+        {
+            type: 'element',
+            elementType: 'TreeDict',
+            elementProps: {
+                yigoid: 'dict2',
+            }
+        },
         'image1',
         {
             key: 'image1',

@@ -24,6 +24,8 @@ const data = {
     附件: '附件',
     More: '更多',
     OK: '确认',
+    Ok: '确认',
+    Search: "搜索",
     Cancel: '取消',
     'Processed List': '我已审批的',
     'Todo List': '待我审批的',

@@ -25,7 +25,7 @@ class DictSelect_ extends PureComponent {
 }
 
 @ComboboxWrap
-export default class DictSelect extends PureComponent {
+export default class ComboboxSelect extends PureComponent {
     render() {
         const { style } = this.props;
         return <View style={style}>
