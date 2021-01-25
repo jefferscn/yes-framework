@@ -25,7 +25,7 @@ import Switch from './controls/Switch';
 import MonthPicker from './controls/MonthPicker';
 import './preload';
 if(ProjectCfg.isYIGO3) {
-    require('./yigopatch');
+    require('./yigopatch/yigo3');
 }
 
 window.his = History;

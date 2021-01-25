@@ -1,4 +1,8 @@
-.am-modal-content {
+.am-modal.am-modal-transparent .am-modal-content .am-modal-body {
+    height: auto!important;
+}
+
+.am-modal.am-modal-transparent .am-modal-content {
     height: auto!important;
 }
 
@@ -10,9 +14,9 @@
     display: flex;
 }
 
-.am-modal-body {
+/* .am-modal-body {
     height: auto!important;
-}
+} */
 
 .am-list-footer {
     padding: 0!important;
