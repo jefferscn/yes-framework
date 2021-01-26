@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import defaultTemplateMapping from './template/defaultTemplateMapping';
-import billform from './config/billforms';
+// import billform from './config/billforms';
 import PropTypes from 'prop-types';
-import CustomControls from './config/control.js';
+// import CustomControls from './config/control.js';
 import { CustomBillForm } from 'yes-comp-react-native-web';
 import { AppDispatcher, BackHandler } from 'yes-intf';
 import { closeForm } from 'yes-core';
@@ -11,9 +11,13 @@ import Header from './controls/Header';
 import { View, Text } from 'react-native';
 import FormTitle from './controls/FormTitle';
 export default class TemplateView extends PureComponent {
+    static contextTypes  ={
+        getFormTemplate: PropTypes.func,
+        getCustomControl: PropTypes.func,
+        getDefaultFormTemplate: PropTypes.func,
+    }
     static childContextTypes = {
         getControlProps: PropTypes.func,
-        // createElement: PropTypes.func,
     }
 
     controlProps = {}
@@ -21,34 +25,33 @@ export default class TemplateView extends PureComponent {
     getChildContext() {
         return {
             getControlProps: this.getControlProps,
-            // createElement: this.createElement,
         };
     }
 
-    constructor(args) {
+    constructor(args, context) {
         super(args);
         const { formKey, meta, showType } = this.props;
         let extraProps = meta;
         let hasJson = false;
         // 支持反向模版
         if (!extraProps) {
-            extraProps = billform.default;
+            extraProps = context.getDefaultFormTemplate();
             const [fKey, tKey] = formKey.split('|');
-            if (billform[fKey]) {
-                extraProps = Object.assign({}, extraProps, billform[fKey]);
+            if (context.getFormTemplate(fKey)) {
+                extraProps = Object.assign({}, extraProps, context.getFormTemplate(fKey));
             }
-            if (billform[formKey]) {
-                extraProps = Object.assign({}, extraProps, billform[formKey]);
+            if (context.getFormTemplate(formKey)) {
+                extraProps = Object.assign({}, extraProps, context.getFormTemplate(formKey));
             }
             if (showType) {
                 const fKey1 = `${fKey}_${showType}`;
                 const fKey2 = `${formKey}_${showType}`;
-                if (billform[fKey1]) {
-                    extraProps = Object.assign({}, extraProps, billform[fKey1]);
+                if (context.getFormTemplate(fKey1)) {
+                    extraProps = Object.assign({}, extraProps, context.getFormTemplate(fKey1));
                     hasJson = true;
                 }
-                if (billform[fKey2]) {
-                    extraProps = Object.assign({}, extraProps, billform[fKey2]);
+                if (context.getFormTemplate(fKey2)) {
+                    extraProps = Object.assign({}, extraProps, context.getFormTemplate(fKey2));
                     hasJson = true;
                 }
             }
@@ -66,10 +69,10 @@ export default class TemplateView extends PureComponent {
             return this.controlProps[yigoid];
         }
 
-        if (!billform[fKey]) {
+        if (!this.context.getFormTemplate(fKey)) {
             return {};
         }
-        const { controls } = billform[fKey];
+        const { controls } = this.context.getFormTemplate(fKey);
         if (!controls) {
             return {};
         }
@@ -85,7 +88,7 @@ export default class TemplateView extends PureComponent {
 
     calculateElement(props) {
         if (props.control && typeof props.control === 'string') {
-            props['control'] = CustomControls[props.control];
+            props['control'] = this.context.getCustomControl(props.control);
         }
         for (const key in props) {
             const ele = props[key];
@@ -93,13 +96,13 @@ export default class TemplateView extends PureComponent {
                 for (let i = 0; i < ele.length; i++) {
                     const ele1 = ele[i];
                     if (ele1 && ele1.type === 'element') {
-                        const CC = CustomControls[ele1.elementType];
+                        const CC = this.context.getCustomControl(ele1.elementType);
                         ele[i] = <CC {...ele1.elementProps} />;
                     }
                 }
             }
             if (ele && ele.type === 'element') {
-                const Control = CustomControls[ele.elementType];
+                const Control = this.context.getCustomControl(ele.elementType);
                 props[key] = <Control {...ele.elementProps} />;
             }
         }

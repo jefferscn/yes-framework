@@ -22,7 +22,7 @@
     "start:production": "npm run build && npm run start:prod",
     "start:prod": "http-server build -c-1 -g -o",
     "dd": "npm run lint",
-    "chromatic": "npx chromatic --project-token 5svms8bsy9"
+    "chromatic": "npx chromatic --project-token 5svms8bsy9 --auto-accept-changes"
   },
   "keywords": [
     "mui"

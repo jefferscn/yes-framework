@@ -83,7 +83,7 @@ function isAppcan() {
 //     };
 // }
 
-export default ({ children, control, projectCfg, mainThread = false }) => {
+export default ({ children, control, projectCfg, mainThread = false, formTemplates }) => {
     const { wechat, cordova, baidumap } = projectCfg;
     let Provider = ({ children }) => {
         if (baidumap) {
@@ -153,7 +153,10 @@ export default ({ children, control, projectCfg, mainThread = false }) => {
     }
 
     return (<LocaleProvider locale={getAntLocale()}>
-        <TemplateProvider CustomControls={control}>
+        <TemplateProvider 
+            CustomControls={control}
+            formTemplates={formTemplates}
+        >
             <Provider>
                 {children}
             </Provider>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './template';
 import { BackHandler, AppDispatcher } from 'yes';
-import { ProjectCfg, RouteCfg, LoginCfg, ModalCfg, OpenwithHandler } from './config/index';
+import { ProjectCfg, RouteCfg, LoginCfg, ModalCfg, OpenwithHandler, billforms } from './config/index';
 import control from './config/control.js';
 import { ControlMappings, AuthenticatedRoute } from 'yes-comp-react-native-web';
 import { Util } from 'yes-web';
@@ -24,7 +24,7 @@ import { History } from 'yes-web';
 import Switch from './controls/Switch';
 import MonthPicker from './controls/MonthPicker';
 import './preload';
-if(ProjectCfg.isYIGO3) {
+if (ProjectCfg.isYIGO3) {
     require('./yigopatch/yigo3');
 }
 
@@ -182,15 +182,16 @@ const onNavigationStateChange = (prevState, currentState) => {
 
 const AuthRouter = AuthenticatedRoute(MainRouter, () => <Element meta={LoginCfg} />, 'root');
 const NavigatorListenerWrapper = (props) =>
-    (<AppWrapper
-        projectCfg={ProjectCfg}
-        control={control}
-        mainThread
-    >
-        <AuthRouter
-            onNavigationStateChange={onNavigationStateChange}
-            {...props} />
-    </AppWrapper>);
+(<AppWrapper
+    formTemplates={billforms}
+    projectCfg={ProjectCfg}
+    control={control}
+    mainThread
+>
+    <AuthRouter
+        onNavigationStateChange={onNavigationStateChange}
+        {...props} />
+</AppWrapper>);
 
 AppDispatcher.register((action) => {
     switch (action.type) {
