@@ -9,7 +9,7 @@ import { YIGOEnvProvider } from 'yes-intf';
 import AppWrapper from '../AppWrapper';
 import i18n from '../i18n';
 import control from '../config/control.js';
-import { ProjectCfg } from '../config/index';
+import { ProjectCfg, billforms } from '../config/index';
 import global from 'global';
 
 // let modalHandler = null;
@@ -23,10 +23,10 @@ const getLocaleMessages = () => {
 
 const modalStack = [];
 global.modalStack = modalStack;
-AppDispatcher.register((action)=>{
-    switch(action.type) {
+AppDispatcher.register((action) => {
+    switch (action.type) {
         case 'LOGOUTED':
-            modalStack.forEach((item)=> {
+            modalStack.forEach((item) => {
                 item();
             });
             break;
@@ -76,7 +76,7 @@ function createCallback(mh) {
 }
 
 export function showModal(children, fullScreen) {
-    const closeModal = ()=> {
+    const closeModal = () => {
         backHandler();
         callback();
     }
@@ -84,34 +84,27 @@ export function showModal(children, fullScreen) {
         <YIGOEnvProvider
             locale={getLocaleMessages()}
             controlMapping={ControlMappings.defaultControlMapping}
-            >
+        >
             <AppWrapper
+                formTemplates={billforms}
                 control={control}
                 projectCfg={ProjectCfg}
             >
-                {/* <ThemeContext.Provider value={getTheme({})}> */}
-                {/* <Modal
-                    wrapClassName='sibling'
-                    transparent
-                    visible
-                    onClose={onModalClose}
-                > */}
                 {
-                    React.cloneElement(children,{
-                        onClose: closeModal 
+                    React.cloneElement(children, {
+                        onClose: closeModal
                     })
                 }
-                {/* </Modal> */}
-                {/* </ThemeContext.Provider> */}
             </AppWrapper>
-        </YIGOEnvProvider>);
+        </YIGOEnvProvider>
+    );
     History.push(`#Sibling_${siblingKey++}`);
     const callback = createCallback(modalHandler);
     const backHandler = BackHandler.addPreEventListener(() => {
         backHandler();
         callback();
     });
-    return ()=> {
+    return () => {
         backHandler();
         callback();
     };

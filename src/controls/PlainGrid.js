@@ -1,10 +1,11 @@
-import React, { useRef, PureComponent } from 'react';
+import React, { useRef, PureComponent, useState } from 'react';
 import { GridRowWrap as gridRowWrap, GridWrap } from 'yes';
 import { FlatList, Platform, ScrollView, StyleSheet, Text, View, VirtualizedList } from 'react-native';
 import { ListComponents } from 'yes-comp-react-native-web';
 import ImmutableVirtulizedList from 'yes-comp-react-native-web/dist/components/List/ImmutableVirtulizedList';
 import ListText from './ListText';
 import PropTypes from 'prop-types';
+import { RefreshControl } from 'react-native-web-refresh-control';
 
 const { ListImage } = ListComponents;
 
@@ -75,6 +76,13 @@ function LockTableView(props: Props) {
     //     }
     // });
 
+    function getCellWidth(key) {
+        let width = props.cellWidth;
+        if(props.cellWidths) {
+            width = props.cellWidths[key] || width;
+        }
+        return width;
+    }
     /**
      * 注释: 绘制每行数据
      * 时间: 2020/7/23 0023 9:14
@@ -94,7 +102,7 @@ function LockTableView(props: Props) {
                         style={{
                             fontSize: props.textSize,
                             color: props.textColor,
-                            width: props.cellWidth,
+                            width: getCellWidth(item.key),
                             height: props.cellHeight,
                             display: 'flex',
                             justifyContent: 'center',
@@ -103,6 +111,7 @@ function LockTableView(props: Props) {
                             textAlignVertical: 'center',
                             borderWidth: border_width,
                             borderColor: '#e7e7e7',
+                            overflow: 'hidden',
                             backgroundColor: !props.isLockTable && i === 0 ? props.firstColumnBackGroundColor : 'transparent',
                         }} />
             );
@@ -125,7 +134,7 @@ function LockTableView(props: Props) {
                     style={{
                         fontSize: props.textSize,
                         color: props.tableHeadTextColor,
-                        width: props.cellWidth,
+                        width: getCellWidth(item.key),
                         height: props.cellHeight,
                         textAlign: 'center',
                         display: 'flex',
@@ -154,7 +163,7 @@ function LockTableView(props: Props) {
             <View style={{ flexDirection: 'row', backgroundColor: props.firstRowBackGroundColor }}>
                 <View
                     style={{
-                        width: props.cellWidth,
+                        width: getCellWidth(props.lockColumns[0].key),
                         height: props.cellHeight,
                         borderWidth: border_width,
                         borderColor: '#e7e7e7',
@@ -231,6 +240,20 @@ function LockTableView(props: Props) {
 
     let lockList = useRef(null);
     let headScrollView = useRef(null);
+    async function onRefresh() {
+        props.onRefresh && props.onRefresh();
+    }
+    let [loadingMore, setLoadingMore] = useState(false);
+    async function onEndReached() {
+        console.log('onEndReached');
+        if (props.hasMore) {
+            if (loadingMore) {
+                return;
+            }
+            await props.loadMore();
+            setLoadingMore(false);
+        }
+    }
 
     /**
      * 注释: 绘制锁定表格
@@ -244,7 +267,7 @@ function LockTableView(props: Props) {
                 <View style={{ flex: 1, flexDirection: 'row' }}>
                     {/*锁定列*/}
                     <View style={{
-                        width: props.cellWidth,
+                        width: getCellWidth(props.lockColumns[0].key)
                     }}>
                         <ImmutableVirtulizedList
                             ref={lockList}
@@ -265,6 +288,7 @@ function LockTableView(props: Props) {
                         style={{ borderRightWidth: border_width, borderColor: '#e7e7e7' }}
                         horizontal={true}
                         bounces={false}
+                        scrollEventThrottle={30}
                         onScroll={event => {
                             headScrollView.current.scrollTo({ x: event.nativeEvent.contentOffset.x, animated: false });
                         }}
@@ -273,12 +297,16 @@ function LockTableView(props: Props) {
                             data={props.data}
                             showsHorizontalScrollIndicator={false}
                             showsVerticalScrollIndicator={false}
+                            refreshControl={
+                                <RefreshControl refreshing={props.refreshing} onRefresh={onRefresh} />
+                            }
                             onScroll={event => {
                                 lockList.current.scrollToOffset({
                                     animated: false,
                                     offset: event.nativeEvent.contentOffset.y,
                                 });
                             }}
+                            onEndReached={onEndReached}
                             renderItem={({ index }) => {
                                 return renderRowCell(index);
                             }}
@@ -351,7 +379,7 @@ export default class PlainGrid extends PureComponent {
     }
     render() {
         const grid = this.context.getOwner();
-        if(!grid) {
+        if (!grid) {
             return null;
         }
         let columns = grid.getVisibleColumns();
@@ -361,6 +389,8 @@ export default class PlainGrid extends PureComponent {
         const dataColumns = columns;
         return <LockTableView
             isLockTable
+            onRefresh={this.props.onRefresh}
+            refreshing={this.props.refreshing}
             lockColumns={lockColumns}
             dataColumns={dataColumns}
             {...this.props}
