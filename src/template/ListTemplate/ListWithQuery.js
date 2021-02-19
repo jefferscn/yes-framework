@@ -279,7 +279,8 @@ class ListWithQueryTemplate extends PureComponent {
                     <QueryBlock ref={this.bindRef} onQuery={this.onQuery} onAdvanceQuery={this.onAdvanceQuery} items={queryItems} advanceQuery={advanceQuery} />
                     <View style={[{ flex: 1 }, contentStyle]}>
                         {
-                            busying ? <View style={styles.mask}><ActivityIndicator /></View> : null
+                            ((formStatus && formStatus != 'ok') ||
+                                busying) ? <View style={styles.mask}><ActivityIndicator /></View> : null
                         }
                         {
                             showMask ? <TouchableWithoutFeedback onPress={this.onMaskClick} style={styles.mask}><View style={styles.mask} /></TouchableWithoutFeedback> : null

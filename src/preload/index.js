@@ -8,6 +8,8 @@ const yigoPreload = async () => {
     };
     return await Svr.Request.getData(params);
 }
+
+const oldFunc = Linking.getInitialURL;
 /**
  * Preload
  *  condition   条件，只有在平台的preloadForm中出现的项目才会起作用，这里是一个path值
@@ -19,25 +21,25 @@ const yigoPreload = async () => {
 Linking.getInitialURL = async () => {
     try {
         if (!Preload) {
-            return null;
+            return oldFunc? await oldFunc() : null;
         }
         let data = Preload;
         if (typeof Preload === 'function') {
             data = await Preload();
         }
         if (!data) {
-            return null;
+            return oldFunc? await oldFunc() : null;
         }
         if (data.condition) {
             const preloadData = await yigoPreload();
             if (preloadData) {
                 if (!preloadData.find(item => item.path === data.condition)) {
-                    return null;
+                    return oldFunc? await oldFunc() : null;
                 }
             }
         }
         return `://card/YES/${data.formKey}/${data.oid}/${data.status}`;
     } catch (ex) {
-        return null;
+        return oldFunc? await oldFunc() : null;
     }
 };

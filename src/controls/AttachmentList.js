@@ -8,6 +8,90 @@ import { Svr } from 'yes-core';
 import Element from '../template/Element';
 import { History } from 'yes-web';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { TouchableHighlight } from 'react-native-web';
+import { util } from '../project';
+
+const mineTypes = [{ ext: 'doc', minetype: 'application/msword' },
+{ ext: 'docx', minetype: 'application/msword' },
+{ ext: 'pdf', minetype: 'application/pdf' },
+{ ext: 'ppt', minetype: 'application/vnd.ms-powerpoint' },
+{ ext: 'xls', minetype: 'application/vnd.ms-excel' },
+{ ext: 'xlsx', minetype: 'application/vnd.ms-excel' },
+{ ext: 'rtf', minetype: 'application/rtf' },
+{ ext: 'txt', minetype: 'text/plain' },
+{ ext: 'png', minetype: 'image/png' },
+{ ext: 'jpg', minetype: 'image/jpeg' },
+{ ext: 'jpeg', minetype: 'image/jpeg' },
+{ ext: 'apk', minetype: 'application/vnd.android.package-archive' },
+];
+
+const getMineType = function (file) {
+    if (!file)
+        return null;
+    var minetype = mineTypes.find(function (item) {
+        return file.endsWith(item.ext);
+    });
+    return minetype ? minetype.minetype : '*/*';
+};
+
+const getFileName = function (_url) {
+    const txt = _url.split('/').pop();
+    var timestamp = Date.parse(new Date());
+    var newname = timestamp + '.' + txt.split('.').slice(-1).toString();
+    return newname;
+};
+
+function isChineseChar(str) {
+    var reg = /[\u4E00-\u9FA5\uF900-\uFA2D]/;
+    return reg.test(str);
+}
+
+const downloadFile = function (_url, fileName) {
+    return new Promise((resolve, reject) => {
+        // const fileName = getFileName(_url);
+        var onFileSystemSuccess = function (fileSystem) {
+            var fs = null;
+            if (cordova.platformId === "android") {
+                fs = fileSystem;
+            } else {
+                fs = fileSystem.root;
+            }
+            fs.getFile(
+                fileName, { create: true, exclusive: false },
+                function gotFileEntry(fileEntry) {
+                    fileEntry.remove();
+                    var ft = new FileTransfer();
+
+                    var uri = _url;
+                    if (isChineseChar(_url)) {
+                        uri = encodeURI(_url);
+                    }
+                    ft.download(uri, fileEntry.nativeURL, function (entry) {
+                        var minetype = getMineType(fileName);
+                        resolve();
+                        cordova.plugins.fileOpener2.open(
+                            entry.toURL(),
+                            minetype
+                        );
+                    }, function (error) {
+                        reject(error.getMessage());
+                    },
+                        false);
+                }, (error) => reject(error.getMessage()));
+        };
+        var onError = function (error) {
+            reject(error);
+        }
+        if (!cordova) {
+            reject(`${fileName} has not been supported!`);
+        }
+        if (cordova.platformId === "android") {
+            window.resolveLocalFileSystemURL(cordova.file.externalRootDirectory, onFileSystemSuccess, onError);
+        } else {
+            window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onFileSystemSuccess, onError);
+        }
+    })
+};
 
 const styles = StyleSheet.create({
     image: {
@@ -42,7 +126,15 @@ const styles = StyleSheet.create({
         position: 'absolute',
         right: 20,
         top: 10,
-    }
+    },
+    fileTypeContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    fileTypeIcon: {
+        fontSize: 40,
+    },
 });
 
 @ControlWrap
@@ -61,6 +153,33 @@ class AttachmentFile extends PureComponent {
         const tmp = fileType ? fileType.toLowerCase() : "";
         return tmp === 'jpg' || tmp === 'png' || tmp === 'jpeg';
     }
+    getFileTypeIcon = (type) => {
+        let result = 'file';
+        switch (type) {
+            case 'pdf':
+                result = "file-pdf-o";
+                break;
+            case 'xls':
+            case 'xlsx':
+                result = 'file-excel-o';
+                break;
+            case 'doc':
+            case 'docx':
+                result = 'file-word-o';
+                break;
+            case 'ppt':
+                result = 'file-powerpoint-o';
+                break;
+        }
+        return result;
+    }
+    openFile = () => {
+        const { displayValue, yigoAttachment } = this.props;
+        const billform = this.context.getBillForm();
+        const formKey = billform.form.formKey;
+        const file = yigoAttachment ? `${Svr.SvrMgr.AttachURL}?path=${displayValue}&formKey=${formKey}&service=DownloadAttachment&mode=2` : displayValue;
+        Util.safeExec(async () => await downloadFile(file, getFileName(displayValue)));
+    }
     render() {
         const { displayValue, fileType, style, yigoAttachment } = this.props;
         if (this.isImage()) {
@@ -78,9 +197,10 @@ class AttachmentFile extends PureComponent {
             }
         }
         return (
-            <View style={{ flex: 1 }}>
-                <Text>{fileType}</Text>
-            </View>
+            <TouchableHighlight onPress={this.openFile} style={styles.fileTypeContainer}>
+                {/* <Text>{fileType}</Text> */}
+                <Icon style={styles.fileTypeIcon} name={this.getFileTypeIcon(fileType)} />
+            </TouchableHighlight>
         )
     }
 }
@@ -149,7 +269,7 @@ class AttachmentList extends PureComponent {
         })
     }
     render() {
-        const { data, fileName, filePath, isVirtual, title, multiSelect, 
+        const { data, fileName, filePath, isVirtual, title, multiSelect,
             containerStyle, removable, editable, inline, yigoAttachment,
         } = this.props;
         const grid = this.context.getOwner();
@@ -171,15 +291,16 @@ class AttachmentList extends PureComponent {
         const formKey = billform.form.formKey;
         // const filePathIndex = grid.getCellIndexByKey(filePath);
         // const fileNameIndex = grid.getCellIndexByKey(fileName);
-        const files = data.map((item, index) => {
+        let files = [];
+        data.forEach((item, index) => {
             const path = grid.getValueByKey(index, filePath);
             if (yigoAttachment) {
                 // const path = item.getIn(['data', filePathIndex, 0]);
-                return `${Svr.SvrMgr.AttachURL}?path=${path}&formKey=${formKey}&service=DownloadImage&mode=2`
+                files.push(`${Svr.SvrMgr.AttachURL}?path=${path}&formKey=${formKey}&service=DownloadImage&mode=2`);
             } else {
-                return path;
+                files.push(path);
             }
-        }).toJSON();
+        });
         if (inline) {
             if (files.length > 0) {
                 return (<WxImageViewer

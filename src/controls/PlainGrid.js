@@ -378,22 +378,31 @@ export default class PlainGrid extends PureComponent {
         cellWidth: 100,
     }
     render() {
+        const { lockColumns, dataColumns, ...otherProps } = this.props;
         const grid = this.context.getOwner();
         if (!grid) {
             return null;
         }
         let columns = grid.getVisibleColumns();
-        columns = columns.filter((c) => !c.isSelect);
-        const firstColumn = columns.shift();
-        const lockColumns = [firstColumn];
-        const dataColumns = columns;
+        columns = columns.filter((c) => !c.isSelect && c.type!==200);
+        let lockColumns_ = [columns[0]];
+        if(lockColumns) {
+            lockColumns_ = columns.filter((c)=>lockColumns.includes(c.key));
+        }
+        let dataColumns_ = null;
+        if(dataColumns) {
+            dataColumns_ = columns.filter((c)=>dataColumns.includes(c.key));
+        } else {
+            dataColumns_ = columns.filter((c)=>!lockColumns_.some(l=>l.key===c.key));
+        }
+        // const dataColumns_ = columns;
         return <LockTableView
             isLockTable
             onRefresh={this.props.onRefresh}
             refreshing={this.props.refreshing}
-            lockColumns={lockColumns}
-            dataColumns={dataColumns}
-            {...this.props}
+            lockColumns={lockColumns_}
+            dataColumns={dataColumns_}
+            {...otherProps}
         />
     }
 }
