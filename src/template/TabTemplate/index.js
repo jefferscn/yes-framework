@@ -1,14 +1,11 @@
 import React, { PureComponent } from 'react';
-import { Components } from 'yes-comp-react-native-web'; // eslint-disable-line import/no-unresolved
 import { getMappedComponentHOC, internationalWrap } from 'yes'; // eslint-disable-line import/no-unresolved
 import defaultTemplateMapping from '../defaultTemplateMapping';
 import { View, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import { Tabs } from 'antd-mobile';
-import AutofitScrollView from '../../controls/AutofitScrollView';
 import Element from '../Element';
 
-const { CustomBillForm, LoadingComp } = Components;
 const styles = StyleSheet.create({
     container: {
         flexGrow: 1,

@@ -1,6 +1,6 @@
 import React from 'react';
 import StoryWrapper from '../StoryWrapper';
-import SectionList from '../../controls/SectionList';
+import { SectionList } from '../../export';
 
 export default {
   title: 'yes-framework/grid/SectionList',

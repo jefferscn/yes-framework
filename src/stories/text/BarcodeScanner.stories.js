@@ -1,5 +1,5 @@
 import React from 'react';
-import BarcodeScannerText from '../../controls/BarcodeScannerText';
+import { BarcodeScannerText } from '../../export';
 import StoryWrapper from '../StoryWrapper';
 import { View, StyleSheet } from 'react-native';
 

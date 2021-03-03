@@ -1,6 +1,6 @@
 import React from 'react';
 import StoryWrapper from '../StoryWrapper';
-import Card from '../../controls/Card';
+import { Card } from '../../export';
 
 export default {
   title: 'yes-framework/container/Card',

@@ -1,5 +1,5 @@
 import React from 'react';
-import Stepper from '../../controls/Stepper';
+import { Stepper } from '../../export';
 import StoryWrapper from '../StoryWrapper';
 
 export default {

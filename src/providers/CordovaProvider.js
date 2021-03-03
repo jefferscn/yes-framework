@@ -6,8 +6,8 @@ import { BackHandler } from 'yes';
 import Compressor from 'compressorjs';
 import path from 'path';
 import { StyleSheet, View, Text, TouchableHighlight } from 'react-native-web';
-import Update from '../controls/Update';
-import { versionCompare } from '../controls/AppStatusWrap';
+import { Update } from '../export';
+import { versionCompare } from 'yes-framework/hoc/AppStatusWrap';
 
 export default class CordovaProvider extends Component {
     static childContextTypes = {

@@ -1,5 +1,5 @@
 import React from 'react';
-import MapText from '../../controls/MapText';
+import { MapText } from '../../export';
 import StoryWrapper from '../StoryWrapper';
 import { View, StyleSheet } from 'react-native';
 

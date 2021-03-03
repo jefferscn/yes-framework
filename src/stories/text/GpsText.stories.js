@@ -1,5 +1,5 @@
 import React from 'react';
-import GpsText from '../../controls/GpsText';
+import { GpsText } from '../../export';
 import StoryWrapper from '../StoryWrapper';
 import { View, StyleSheet } from 'react-native';
 

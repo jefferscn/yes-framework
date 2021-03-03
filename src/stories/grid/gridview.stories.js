@@ -1,6 +1,6 @@
 import React from 'react';
 import StoryWrapper from '../StoryWrapper';
-import GridView from '../../controls/GridView';
+import { GridView } from '../../export';
 
 export default {
   title: 'yes-framework/grid/GridView',

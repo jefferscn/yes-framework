@@ -1,5 +1,5 @@
 import React from 'react';
-import DecimalFromTo from '../../controls/DecimalFromTo';
+import { DecimalFromTo } from '../../export';
 import fontAwesome from 'react-native-vector-icons/Fonts/FontAwesome.ttf';
 import { injectFont } from 'yes-web/dist/webutil';
 import StoryContext from 'yes-comp-react-native-web/stories/StoryContext';

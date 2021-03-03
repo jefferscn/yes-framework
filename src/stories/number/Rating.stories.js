@@ -1,5 +1,5 @@
 import React from 'react';
-import Rating from '../../controls/Rating';
+import { Rating } from '../../export';
 import StoryWrapper from '../StoryWrapper';
 
 export default {

@@ -21,8 +21,8 @@ import TemplateView from './TemplateView';
 import AppWrapper from './AppWrapper';
 import { openForm } from './util/navigateUtil';
 import { History } from 'yes-web';
-import Switch from './controls/Switch';
-import MonthPicker from './controls/MonthPicker';
+import Switch from './controls/Yigo/Checkbox/Switch';
+import MonthPicker from './controls/Yigo/MonthPicker/MonthPicker';
 import './preload';
 if (ProjectCfg.isYIGO3) {
     require('./yigopatch/yigo3');

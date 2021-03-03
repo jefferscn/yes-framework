@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
-import { View, StyleSheet, Text, ScrollView, ActivityIndicator, ImageBackground } from 'react-native';
+import { View, StyleSheet, Text, ActivityIndicator, ImageBackground } from 'react-native';
 import defaultTemplateMapping from '../defaultTemplateMapping';
 import Element from '../Element';
-import AutofitScrollView from 'yes-framework/controls/AutofitScrollView';
+import { AutofitScrollView } from 'yes-framework/export';
 import PropTypes from 'prop-types';
 
 const styles = StyleSheet.create({

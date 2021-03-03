@@ -1,6 +1,6 @@
 import React from 'react';
 import StoryWrapper from '../StoryWrapper';
-import ImageCarouselGrid from '../../controls/ImageCarouselGrid';
+import { ImageCarouselGrid } from '../../export';
 
 export default {
   title: 'yes-framework/grid/CarouselGrid',

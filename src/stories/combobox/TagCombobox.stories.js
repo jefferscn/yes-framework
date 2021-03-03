@@ -1,5 +1,5 @@
 import React from 'react';
-import TagCombobox from '../../controls/TagCombobox';
+import { TagCombobox } from '../../export';
 import fontAwesome from 'react-native-vector-icons/Fonts/FontAwesome.ttf';
 import { injectFont } from 'yes-web/dist/webutil';
 import StoryContext from 'yes-comp-react-native-web/stories/StoryContext';

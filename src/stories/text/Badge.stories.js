@@ -1,5 +1,5 @@
 import React from 'react';
-import BadgeText from '../../controls/BadgeText';
+import { BadgeText } from '../../export';
 import StoryWrapper from '../StoryWrapper';
 import { View, StyleSheet } from 'react-native';
 

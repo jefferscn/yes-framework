@@ -4,6 +4,7 @@ import BaiduProvider from './providers/BaiduMapProvider';
 // import { ProjectCfg } from './config/index';
 import enUS from 'antd-mobile/lib/locale-provider/en_US';
 import { LocaleProvider } from 'antd-mobile';
+import AppProvider from './providers/ApplicationProvider';
 import TemplateProvider from './template/TemplateProvider';
 // import control from './config/control.js';
 
@@ -135,7 +136,7 @@ export default ({ children, control, projectCfg, mainThread = false, formTemplat
         };
     }
 
-    if(isAppcan()) {
+    if (isAppcan()) {
         Provider = ({ children }) => {
             if (baidumap) {
                 return (<BaiduProvider {...baidumap}>
@@ -145,7 +146,7 @@ export default ({ children, control, projectCfg, mainThread = false, formTemplat
                 </BaiduProvider>);
             }
             return (
-                    <PlatformProvider.Appcan >
+                <PlatformProvider.Appcan >
                     {children}
                 </PlatformProvider.Appcan>
             );
@@ -153,13 +154,15 @@ export default ({ children, control, projectCfg, mainThread = false, formTemplat
     }
 
     return (<LocaleProvider locale={getAntLocale()}>
-        <TemplateProvider 
-            CustomControls={control}
-            formTemplates={formTemplates}
-        >
-            <Provider>
-                {children}
-            </Provider>
-        </TemplateProvider>
+        <AppProvider>
+            <TemplateProvider
+                CustomControls={control}
+                formTemplates={formTemplates}
+            >
+                <Provider>
+                    {children}
+                </Provider>
+            </TemplateProvider>
+        </AppProvider>
     </LocaleProvider>)
 }

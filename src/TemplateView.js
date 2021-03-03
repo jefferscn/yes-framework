@@ -1,15 +1,12 @@
 import React, { PureComponent } from 'react';
 import defaultTemplateMapping from './template/defaultTemplateMapping';
-// import billform from './config/billforms';
 import PropTypes from 'prop-types';
-// import CustomControls from './config/control.js';
 import { CustomBillForm } from 'yes-comp-react-native-web';
 import { AppDispatcher, BackHandler } from 'yes-intf';
 import { closeForm } from 'yes-core';
 import ModalWrap from './template/ModalWrap';
-import Header from './controls/Header';
+import { Header, FormTitle } from './export';
 import { View, Text } from 'react-native';
-import FormTitle from './controls/FormTitle';
 export default class TemplateView extends PureComponent {
     static contextTypes  ={
         getFormTemplate: PropTypes.func,

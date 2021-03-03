@@ -4,7 +4,7 @@ import { Modal, ImagePicker } from 'antd-mobile';
 import { showModal } from '../SiblingMgr';
 import Compressor from 'compressorjs';
 import { StyleSheet, View, Text, TouchableHighlight } from 'react-native-web';
-import Update from '../controls/Update';
+import { Update } from '../export';
 
 class ImageSelect extends PureComponent {
     onClose = () => {

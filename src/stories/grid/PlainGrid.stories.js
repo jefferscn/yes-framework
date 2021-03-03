@@ -1,5 +1,5 @@
 import React from 'react';
-import PlainGrid from '../../controls/PlainGrid';
+import { PlainGrid } from '../../export';
 import StoryWrapper from '../StoryWrapper';
 
 export default {

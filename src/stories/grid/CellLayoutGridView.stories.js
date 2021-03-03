@@ -1,6 +1,6 @@
 import React from 'react';
 import StoryWrapper from '../StoryWrapper';
-import CellLayoutGridView from '../../controls/CellLayoutGridView';
+import { CellLayoutGridView } from '../../export';
 
 export default {
   title: 'yes-framework/grid/CellLayout',

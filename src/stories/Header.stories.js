@@ -1,5 +1,5 @@
 import React from 'react';
-import Header from '../controls/Header';
+import { Header } from 'yes-framework/export';
 import fontAwesome from 'react-native-vector-icons/Fonts/FontAwesome.ttf';
 import { injectFont } from 'yes-web/dist/webutil';
 import StoryContext from 'yes-comp-react-native-web/stories/StoryContext';

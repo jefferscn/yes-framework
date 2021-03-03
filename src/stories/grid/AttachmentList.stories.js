@@ -1,6 +1,6 @@
 import React from 'react';
 import StoryWrapper from '../StoryWrapper';
-import AttachmentList from '../../controls/AttachmentList';
+import { AttachmentList } from '../../export';
 
 export default {
   title: 'yes-framework/grid/AttachmentList',
