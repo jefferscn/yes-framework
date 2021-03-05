@@ -4,7 +4,7 @@ import {
     TouchableWithoutFeedback
 } from 'react-native';
 import { ControlWrap } from 'yes-intf';
-import { ListText } from 'yes-framework/export';
+import ListText from '../Yigo/Text/ListText';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PropTypes from 'prop-types';
 
