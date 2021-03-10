@@ -13,7 +13,10 @@ const styles = StyleSheet.create({
     },
     directionColumn: {
         flexDirection: 'column',
-    }
+    },
+    textStyle: {
+        color: '#008cd7',
+    },
 });
 
 export default class Button extends PureComponent {
@@ -36,7 +39,7 @@ export default class Button extends PureComponent {
         let titleElement = null;
         if(title) {
             if(typeof title ==='string') {
-                titleElement = <Text style={textStyle}>{title}</Text>;
+                titleElement = <Text style={[styles.textStyle,textStyle]}>{title}</Text>;
             } else {
                 titleElement = this.context.createElement(title);
             }

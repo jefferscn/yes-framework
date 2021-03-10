@@ -171,3 +171,264 @@ Base.args = {
         }
     ]
 };
+
+export const Simple = Template.bind({});
+Simple.argTypes = argTypes;
+Simple.args = {
+    "gridId": 'grid1',
+    "rowIndex": 0,
+    "showSeperator": false,
+    "contentStyle": {
+        paddingTop: 4,
+        paddingBottom: 4,
+    },
+    "content": {
+        "type": "element",
+        "elementType": "FlexBox",
+        "elementProps": {
+            "direction": 'row',
+            items: [
+                {
+                    "type": "element",
+                    "elementType": "Avatar",
+                    "elementProps": {
+                        yigoid: "img",
+                        size: 30,
+                    }
+                },
+                {
+                    "type": "element",
+                    "elementType": "Seperator",
+                    "elementProps": {
+
+                    }
+                },
+                {
+
+                    "type": "element",
+                    "elementType": "ListText",
+                    "elementProps": {
+                        yigoid: "title",
+                        style: {
+                            flex: 1,
+                            fontSize: 16,
+                            fontFamily: 'PingFangSC-Medium, PingFang SC',
+                            fontWeight: 500,
+                            color: '#333333',
+                            justifyContent: 'flex-start',
+                            alignItems: 'center',
+                            display: 'flex',
+                        }
+                    }
+                },{
+                    "type": "element",
+                    "elementType": "ListText",
+                    "elementProps": {
+                        yigoid: "date",
+                        style: {
+                            fontSize: 12,
+                            fontFamily: 'PingFangSC-Medium, PingFang SC',
+                            fontWeight: 200,
+                            color: '#333333',
+                            justifyContent: 'flex-start',
+                            alignItems: 'center',
+                            display: 'flex',
+                            width: 70,
+                        }
+                    }
+                }, {
+                    "type": "element",
+                    "elementType": "HasDetailSign",
+                    "elementProps": {
+                    }
+                }
+            ]
+        }
+    }
+}
+
+export const News = Template.bind({});
+News.argTypes = argTypes;
+News.args = {
+    "gridId": 'grid1',
+    "rowIndex": 0,
+    "showSeperator": false,
+    seperatorStyle: {
+        height: 8,
+        backgroundColor: '#F8F8F8',
+    },
+    headStyle: {
+        height: 40,
+    },
+    footStyle: {
+        flex: 1,
+    },
+    "headLeft": [
+        {
+            "type": "element",
+            "elementType": "Avatar",
+            "elementProps": {
+                yigoid: "img",
+                size: 30,
+            }
+        }, {
+            "type": "element",
+            "elementType": "Seperator",
+            "elementProps": {
+
+            }
+        },
+        {
+            "type": "element",
+            "elementType": "FlexBox",
+            "elementProps": {
+                items: [{
+                    "type": "element",
+                    "elementType": "ListText",
+                    "elementProps": {
+                        yigoid: "title",
+                        style: {
+                            fontSize: 16,
+                            fontFamily: 'PingFangSC-Medium, PingFang SC',
+                            fontWeight: 500,
+                            color: '#333333',
+                        }
+                    }
+                }, {
+                    "type": "element",
+                    "elementType": "ListText",
+                    "elementProps": {
+                        yigoid: "subTitle",
+                        style: {
+                            fontSize: 12,
+                            fontFamily: 'PingFangSC-Medium, PingFang SC',
+                            fontWeight: 500,
+                            color: 'lightgray',
+                        }
+                    }
+                }]
+            }
+        }
+    ],
+    "headRight": [{
+        "type": "element",
+        "elementType": "IconButton",
+        "elementProps": {
+            yigoid: "score",
+            title: '关注',
+            textStyle: {
+                color: 'red',
+                fontSize: 12,
+            },
+            style: {
+                maxWidth: 50,
+            },
+        }
+    }],
+    "content":
+    {
+        "type": "element",
+        "elementType": "FlexBox",
+        "elementProps": {
+            items: [{
+                "type": "element",
+                "elementType": "LongTextWithMore",
+                "elementProps": {
+                    yigoid: "subTitle",
+                }
+            },
+            {
+                "type": "element",
+                "elementType": "ListComponents.ListImage",
+                "elementProps": {
+                    yigoid: "img",
+                    style: {
+                        height: 200,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                    }
+                }
+            },
+            ]
+        }
+    },
+    "footRight": [
+        {
+            "type": "element",
+            "elementType": "IconButton",
+            "elementProps": {
+                yigoid: "score",
+                icon: 'thumbs-o-up',
+                icon: {
+                    "type": "element",
+                    "elementType": "CheckboxIcon",
+                    "elementProps": {
+                        yigoid: 'select',
+                        trueIcon: 'thumbs-o-up',
+                        falseIcon: 'thumbs-o-up',
+                        trueStyle: {
+                            color: 'red',
+                        },
+                    }
+                },
+                title: {
+                    "type": "element",
+                    "elementType": "ListText",
+                    "elementProps": {
+                        "yigoid": "score",
+                        "style": {
+                            paddingLeft: 6,
+                            color: 'black',
+                            fontSize: 12,
+                            fontWeight: 100,
+                        }
+                    }
+                },
+            }
+        }, {
+            "type": "element",
+            "elementType": "IconButton",
+            "elementProps": {
+                yigoid: "score",
+                icon: "comment-o",
+                iconStyle: {
+                    color: 'black',
+                    fontSize: 12,
+                    fontWeight: 100,
+                },
+                title: {
+                    "type": "element",
+                    "elementType": "ListText",
+                    "elementProps": {
+                        "yigoid": "score",
+                        "style": {
+                            paddingLeft: 6,
+                            color: 'black',
+                            fontSize: 12,
+                            fontWeight: 100,
+                        }
+                    }
+                },
+            }
+        }, {
+            "type": "element",
+            "elementType": "IconButton",
+            "elementProps": {
+                yigoid: "score",
+                title: '分享',
+                icon: 'share',
+                iconStyle: {
+                    color: 'black',
+                    fontSize: 12,
+                    fontWeight: 100,
+                },
+                textStyle: {
+                    paddingLeft: 6,
+                    color: 'black',
+                    fontSize: 12,
+                    fontWeight: 100,
+                },
+            }
+        }
+    ]
+};

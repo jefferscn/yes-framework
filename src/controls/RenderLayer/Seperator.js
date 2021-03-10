@@ -9,8 +9,10 @@ const styles = StyleSheet.create({
 export default ({ weight=8, direction="hor", color='transparent' })=> {
     const weightStyle=direction==='hor'?{
         width: weight,
+        height: '100%',
     }: {
         height: weight,
+        width: '100%',
     };
     return <View
         style={[direction==='ver'?styles.ver:styles.hor,

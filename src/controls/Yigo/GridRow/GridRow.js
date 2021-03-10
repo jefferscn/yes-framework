@@ -25,7 +25,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     content: {
-
+        paddingLeft: 12,
+        paddingRight: 12,
     },
     header: {
         height: 30,
@@ -60,18 +61,20 @@ export default class GridRow extends PureComponent {
         return (
             <TouchableOpacity onPress={this.props.onPress}>
                 <View style={[styles.container, style]}>
-                    <View style={[styles.header, headStyle]}>
-                        <View style={styles.headLeft}>
-                            {
-                                headLeft ? headLeft.map((item) => this.context.createElement(item)) : null
-                            }
-                        </View>
-                        <View style={styles.headRight}>
-                            {
-                                headRight ? headRight.map((item) => this.context.createElement(item)) : null
-                            }
-                        </View>
-                    </View>
+                    {
+                        (headLeft || headRight) ? <View style={[styles.header, headStyle]}>
+                            <View style={styles.headLeft}>
+                                {
+                                    headLeft ? headLeft.map((item) => this.context.createElement(item)) : null
+                                }
+                            </View>
+                            <View style={styles.headRight}>
+                                {
+                                    headRight ? headRight.map((item) => this.context.createElement(item)) : null
+                                }
+                            </View>
+                        </View> : null
+                    }
                     <View style={[styles.content, contentStyle]}>
                         {
                             this.context.createElement(content)
