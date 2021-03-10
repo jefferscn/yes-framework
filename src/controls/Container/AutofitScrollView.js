@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import { ScrollView } from 'react-native';
-
 export default class AutofitScrollView extends PureComponent {
     onLayout = (e) => {
         if(!document.activeElement || !this.scrollNode) {

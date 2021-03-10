@@ -1,5 +1,5 @@
 import React from 'react';
-import TabTemplate from '../../template/TabTemplate';
+import TabTemplate from 'yes-framework/template/TabTemplate';
 import fontAwesome from 'react-native-vector-icons/Fonts/FontAwesome.ttf';
 import { injectFont } from 'yes-web/dist/webutil';
 import 'antd-mobile/dist/antd-mobile.css';
