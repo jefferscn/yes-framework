@@ -8,12 +8,24 @@ import PropTypes from 'prop-types';
 import { YIGOEnvProvider } from 'yes-intf';
 import AppWrapper from '../AppWrapper';
 import i18n from '../i18n';
-import control from '../config/control.js';
-import { ProjectCfg, billforms } from '../config/index';
+// import control from '../config/control.js';
+// import { ProjectCfg, billforms } from '../config/index';
 import global from 'global';
 
 // let modalHandler = null;
 let siblingKey = 0;
+let inited = false;
+let control = null;
+let ProjectCfg = null;
+let billforms = [];
+
+export const init = (c, p, b)=> {
+    control = c;
+    ProjectCfg = p;
+    billforms = b;
+    inited = true;
+}
+
 const getLocaleMessages = () => {
     if (navigator.language.startsWith('zh')) {
         return i18n['zh-CN'];
@@ -32,14 +44,6 @@ AppDispatcher.register((action) => {
             break;
     }
 })
-// BackHandler.addPreEventListener(() => {
-//     const cb = modalStack[modalStack.length-1];
-//     if (cb) {
-//         cb();
-//         return false;
-//     }
-//     return true;
-// });
 
 const getMappedComponent = (tag) => {
     return ControlMappings.defaultControlMapping.get(tag);

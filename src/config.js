@@ -24,6 +24,8 @@ import { History } from 'yes-web';
 import Switch from './controls/Yigo/Checkbox/Switch';
 import MonthPicker from './controls/Yigo/MonthPicker/MonthPicker';
 import './preload';
+import { init as initSiblingMgr } from './SiblingMgr';
+
 if (ProjectCfg.isYIGO3) {
     require('./yigopatch/yigo3');
 }
@@ -31,6 +33,7 @@ if (ProjectCfg.isYIGO3) {
 window.his = History;
 window.Util = Util;
 
+initSiblingMgr(control, ProjectCfg, billforms);
 // import './util/fakeFetch';
 // Reflect = undefined;
 
