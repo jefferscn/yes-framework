@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Animated, View } from 'react-native';
 import { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
 import { SwipeAction } from 'antd-mobile';
 
 export default ({ onRemove, removeable = true, removeText = "删除", removeStyle, children, right, ...otherProps }) => {
-    const height = new Animated.Value(0);
+    const [height, setHeight] = useState(new Animated.Value(0));
     let animating = false;
     const onRemove_ = () => {
         animating = true;
@@ -30,7 +30,11 @@ export default ({ onRemove, removeable = true, removeText = "删除", removeStyl
         }
     }
     const onLayout = (e) => {
-        Animated.timing(height, { toValue: e.nativeEvent.layout.height }).start();
+        Animated.timing(height, {
+            toValue: e.nativeEvent.layout.height,
+            duration: 300,
+        }).start(() => {
+        });
     }
     return <Animated.View style={[{ overflow: 'hidden' }, {
         height: height,

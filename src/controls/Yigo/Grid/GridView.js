@@ -253,7 +253,7 @@ class AntdListView extends PureComponent {
             }
             return (<SwipeAction
                 removeable={removeable}
-                onRemove={()=>this.removeRow(rowId)}
+                onRemove={() => this.removeRow(rowId)}
                 autoClose
                 right={rightActions}
                 left={leftActions}
@@ -324,11 +324,13 @@ class AntdListView extends PureComponent {
         }
     }
     keyExtractor = (items, index) => {
+        const { data, keyField } = this.props;
         const owner = this.context.getOwner();
         if (!owner) {
             return index;
         }
-        return owner.getValueByKey(index, "OID") || index;
+        const keyData = owner.getValueByKey(index, keyField || "OID")
+        return (keyData && keyData.gt(0)) ? keyData : data.getIn([index, 'rowID']);
     }
     render() {
         const { layoutStyles, style, isVirtual, showHead, onRefresh, refreshing, controlState,

@@ -86,7 +86,6 @@ export default (DEBUG, PATH, PORT = 3000) => {
                         babelrc: false,
                         presets: [['@babel/preset-env', { "modules": "commonjs", }], '@babel/preset-react', '@babel/preset-flow'],
                         plugins: ['@babel/plugin-proposal-export-default-from',
-                            'react-native-reanimated/plugin',
                             ['@babel/plugin-proposal-decorators', { "legacy": true }],
                             ['@babel/plugin-proposal-class-properties', {
                                 "loose": true
