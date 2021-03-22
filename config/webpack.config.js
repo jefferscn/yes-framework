@@ -9,7 +9,7 @@ export default (DEBUG, PATH, PORT = 3000) => {
         resolve: {
             extensions: ['.web.js', '.js', '.jsx'],
             alias: {
-                'react-native': 'react-native-web',
+                'react-native' : path.resolve(__dirname, '../src/react-native'),
                 'yes-platform': 'yes-web',
                 'yes-framework': path.resolve(__dirname, '../src'),
                 yes: 'yes-intf',
@@ -29,7 +29,7 @@ export default (DEBUG, PATH, PORT = 3000) => {
         },
         output: {
             path: path.resolve(__dirname, `../${PATH}`),
-            filename: '[name].js',
+            filename: '[name].[contenthash].js',
             // publicPath: './generated/',
         },
         mode: DEBUG ? 'development' : 'production',
@@ -64,6 +64,7 @@ export default (DEBUG, PATH, PORT = 3000) => {
                         path.resolve(__dirname, '../node_modules/react-native-screens'),
                         path.resolve(__dirname, '../node_modules/yes-comp-react-native-web'),
                         path.resolve(__dirname, '../node_modules/react-wx-images-viewer'),
+                        path.resolve(__dirname, '../node_modules/react-native-snap-carousel'),
                         path.resolve(__dirname, '../node_modules/yg-echarts/'),
                         path.resolve(__dirname, '../node_modules/query-string/'),
                         path.resolve(__dirname, '../node_modules/wicg-inert/'),
@@ -85,6 +86,7 @@ export default (DEBUG, PATH, PORT = 3000) => {
                         babelrc: false,
                         presets: [['@babel/preset-env', { "modules": "commonjs", }], '@babel/preset-react', '@babel/preset-flow'],
                         plugins: ['@babel/plugin-proposal-export-default-from',
+                            'react-native-reanimated/plugin',
                             ['@babel/plugin-proposal-decorators', { "legacy": true }],
                             ['@babel/plugin-proposal-class-properties', {
                                 "loose": true

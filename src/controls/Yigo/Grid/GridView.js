@@ -4,16 +4,20 @@
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { ListView, PullToRefresh, SwipeAction } from 'antd-mobile';
+import { ListView, PullToRefresh } from 'antd-mobile';
 import { View, ActivityIndicator, Text, StyleSheet } from 'react-native';
 import { GridRowWrap as gridRowWrap, DynamicControl, GridWrap, MetaBillFormWrap } from 'yes';
 import ListViewItem from '../../Container/ListViewItem';
 import Separator from '../../RenderLayer/Seperator';
 import { withDetail, ListComponents } from 'yes-comp-react-native-web';
+import { RefreshControl } from 'react-native-web-refresh-control';
+import ImmutableVirtulizedList from 'yes-comp-react-native-web/dist/components/List/ImmutableVirtulizedList';
+import SwipeAction from '../../Animated/SwipeAction';
 
 const {
     ListText
 } = ListComponents;
+
 class AntdListView extends PureComponent {
     static propTypes = {
         yigoid: PropTypes.string,
@@ -36,6 +40,7 @@ class AntdListView extends PureComponent {
     static contextTypes = {
         createElement: PropTypes.func,
         getOwner: PropTypes.func,
+        getRowIdentifier: PropTypes.func,
     }
 
     componentWillReceiveProps(nextProps) {
@@ -57,11 +62,12 @@ class AntdListView extends PureComponent {
     }
 
     generateRowIdentifier = (props) => {
-        const data = props.controlState.getIn(['dataModel', 'data']);
-        const result = [];
-        for (let i = 0; i < data.size; i++) {
-            result.push(i);
-        }
+        // const data = props.controlState.getIn(['dataModel', 'data']);
+        // const result = [];
+        // for (let i = 0; i < data.size; i++) {
+        //     result.push(i);
+        // }
+        const result = this.context.getRowIdentifier();
         return result;
     }
 
@@ -195,7 +201,8 @@ class AntdListView extends PureComponent {
 
     NewListItem = gridRowWrap(ListViewItem, ActivityIndicator, this.props.yigoid)
     // RowView = listRowWrap(View, this.props.yigoid)
-    renderItem = (item, secionId, rowId, highlightRow) => {
+    renderItem = ({ item, index }) => {
+        const rowId = index;
         if (this.props.RowElement) {
             const rowElement = this.context.createElement(this.props.RowElement);
             return React.cloneElement(rowElement, {
@@ -232,17 +239,21 @@ class AntdListView extends PureComponent {
                     })
                 })
             }
+            let removeable = false;
             if ((this.props.status === 1 || this.props.status === 2) && this.props.removeable) {
-                rightActions.push({
-                    text: '删除',
-                    style: {
-                        backgroundColor: '#aaa',
-                        color: 'white',
-                    },
-                    onPress: () => this.removeRow(rowId)
-                });
+                removeable = true;
+                // rightActions.push({
+                //     text: '删除',
+                //     style: {
+                //         backgroundColor: '#aaa',
+                //         color: 'white',
+                //     },
+                //     onPress: () => this.removeRow(rowId)
+                // });
             }
             return (<SwipeAction
+                removeable={removeable}
+                onRemove={()=>this.removeRow(rowId)}
                 autoClose
                 right={rightActions}
                 left={leftActions}
@@ -312,6 +323,13 @@ class AntdListView extends PureComponent {
             });
         }
     }
+    keyExtractor = (items, index) => {
+        const owner = this.context.getOwner();
+        if (!owner) {
+            return index;
+        }
+        return owner.getValueByKey(index, "OID") || index;
+    }
     render() {
         const { layoutStyles, style, isVirtual, showHead, onRefresh, refreshing, controlState,
             headTitle, headExtra, editable, useBodyScroll, hideAction, newElement } = this.props;
@@ -338,7 +356,7 @@ class AntdListView extends PureComponent {
                         </View> : null
                 }
                 {/* <View style={{ flex: 1 }}> */}
-                <ListView
+                {/* <ListView
                     style={style}
                     initialListSize={20}
                     useBodyScroll={useBodyScroll}
@@ -355,7 +373,22 @@ class AntdListView extends PureComponent {
                             refreshing={refreshing}
                         /> : false
                     }
-                />
+                /> */}
+                {
+                    <ImmutableVirtulizedList
+                        initialNumberToRender={20}
+                        data={this.props.data}
+                        renderItem={this.renderItem}
+                        keyExtractor={this.keyExtractor}
+                        ListFooterComponent={this.renderFoot}
+                        refreshControl={
+                            onRefresh ? <RefreshControl
+                                onRefresh={this.onRefresh}
+                                refreshing={refreshing}
+                            /> : null
+                        }
+                    />
+                }
                 {
                     (editable && !hideAction) ? newEle : null
                 }

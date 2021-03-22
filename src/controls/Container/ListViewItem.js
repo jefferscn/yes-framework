@@ -1,103 +1,98 @@
-import React, { PureComponent } from 'react';
+import React  from 'react';
 import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 const pressRetentionOffset = { top: 5, left: 5, right: 5, bottom: 5 };
 
-export default class ListViewItem extends PureComponent {
-    static defaultProps = {
-        divider: true,
-    }
-    renderLeftElement() {
-        return this.props.leftElement;
+export default (props) => {
+    const renderLeftElement = () => {
+        return props.leftElement;
     }
 
-    renderCenterElement() {
-        return this.props.centerElement;
+    const renderCenterElement = () => {
+        return props.centerElement;
     }
 
-    renderRightElement() {
-        return this.props.rightElement;
+    const renderRightElement = () => {
+        return props.rightElement;
     }
 
-    renderArrow() {
-        return this.props.showArrow ? <Icon style={styles.arrow} name='chevron-right' /> : null;
+    const renderArrow = () => {
+        return props.showArrow ? <Icon style={styles.arrow} name='chevron-right' /> : null;
     }
 
-    renderExtra() {
-        return this.props.extra || null;
+    const renderExtra = () => {
+        return props.extra || null;
     }
 
-    onPress = () => {
-        this.props.onPress();
+    const onPress = () => {
+        props && props.onPress(props.rowIndex);
     }
 
-    renderDetail() {
-        return this.props.detailElement;
+    const renderDetail = () => {
+        return props.detailElement;
     }
 
-    render() {
-        const { containerView } = this.props;
-        let container = null;
+    const { containerView } = props;
+    let container = null;
 
-        if (this.props.detailElement) {
-            if (containerView) {
-                container = React.cloneElement(containerView, {
-                    style: [styles.container, this.props.containerStyle]
-                }, [
-                    this.renderLeftElement(),
-                    this.renderCenterElement(),
-                    this.renderRightElement(),
-                    this.renderArrow(),
-                    this.renderExtra(),
-                ]);
-            } else {
-                container = (<View style={[styles.container, this.props.containerStyle]}>
-                    {this.renderLeftElement()}
-                    {this.renderCenterElement()}
-                    {this.renderRightElement()}
-                    {this.renderArrow()}
-                    {this.renderExtra()}
-                </View>);
-
-            }
-            return (<View style={[this.props.divider ? [styles.divider, this.props.dividerStyle] : {}]}>
-                <TouchableOpacity onPress={this.onPress} pressRetentionOffset={pressRetentionOffset}>
-                    {
-                        container
-                    }
-                </TouchableOpacity>
-                {
-                    this.renderDetail()
-                }
-            </View>)
-        }
+    if (props.detailElement) {
         if (containerView) {
             container = React.cloneElement(containerView, {
-                style: [styles.container, this.props.divider ? [styles.divider, this.props.dividerStyle] : {}, this.props.containerStyle]
+                style: [styles.container, props.containerStyle]
             }, [
-                this.renderLeftElement(),
-                this.renderCenterElement(),
-                this.renderRightElement(),
-                this.renderArrow(),
-                this.renderExtra(),
+                renderLeftElement(),
+                renderCenterElement(),
+                renderRightElement(),
+                renderArrow(),
+                renderExtra(),
             ]);
         } else {
-            container = (<View style={[styles.container, this.props.divider ? [styles.divider, this.props.dividerStyle] : {}, this.props.containerStyle]}>
-                {this.renderLeftElement()}
-                {this.renderCenterElement()}
-                {this.renderRightElement()}
-                {this.renderArrow()}
-                {this.renderExtra()}
+            container = (<View style={[styles.container, props.containerStyle]}>
+                {renderLeftElement()}
+                {renderCenterElement()}
+                {renderRightElement()}
+                {renderArrow()}
+                {renderExtra()}
             </View>);
+
         }
-        return (
-            <TouchableOpacity onPress={this.onPress} pressRetentionOffset={pressRetentionOffset}>
+        return (<View style={[props.divider ? [styles.divider, props.dividerStyle] : {}]}>
+            <TouchableOpacity onPress={onPress} pressRetentionOffset={pressRetentionOffset}>
                 {
                     container
                 }
             </TouchableOpacity>
-        );
+            {
+                renderDetail()
+            }
+        </View>)
     }
+    if (containerView) {
+        container = React.cloneElement(containerView, {
+            style: [styles.container, props.divider ? [styles.divider, props.dividerStyle] : {}, props.containerStyle]
+        }, [
+            renderLeftElement(),
+            renderCenterElement(),
+            renderRightElement(),
+            renderArrow(),
+            renderExtra(),
+        ]);
+    } else {
+        container = (<View style={[styles.container, props.divider ? [styles.divider, props.dividerStyle] : {}, props.containerStyle]}>
+            {renderLeftElement()}
+            {renderCenterElement()}
+            {renderRightElement()}
+            {renderArrow()}
+            {renderExtra()}
+        </View>);
+    }
+    return (
+        <TouchableOpacity onPress={onPress} pressRetentionOffset={pressRetentionOffset}>
+            {
+                container
+            }
+        </TouchableOpacity>
+    );
 }
 
 const styles = StyleSheet.create({

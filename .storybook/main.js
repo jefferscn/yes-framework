@@ -17,7 +17,7 @@ module.exports = {
       'node_modules/@storybook/core/node_modules/core-js/modules'
     );
 
-    config.resolve.alias['react-native'] = 'react-native-web';
+    config.resolve.alias['react-native'] = path.resolve(__dirname, '../src/react-native');
     config.resolve.alias['yes'] = 'yes-intf';
     config.resolve.alias['yes-framework'] = path.resolve(__dirname, '../src');
     config.resolve.alias['yes-platform'] = 'yes-web';
@@ -52,6 +52,7 @@ module.exports = {
         path.resolve(__dirname, '../node_modules/react-wx-images-viewer'),
         path.resolve(__dirname, '../node_modules/yg-echarts/'),
         path.resolve(__dirname, '../node_modules/yes-core/'),
+        path.resolve(__dirname, '../node_modules/react-native-snap-carousel'),
         path.resolve(__dirname, '../node_modules/react-navigation-is-focused-hoc/'),
         path.resolve(__dirname, '../node_modules/yes-intf/'),
         path.resolve(__dirname, '../node_modules/idb/'),
