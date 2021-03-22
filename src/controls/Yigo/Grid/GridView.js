@@ -329,8 +329,9 @@ class AntdListView extends PureComponent {
         if (!owner) {
             return index;
         }
-        const keyData = owner.getValueByKey(index, keyField || "OID")
-        return (keyData && keyData.gt(0)) ? keyData : data.getIn([index, 'rowID']);
+        const keyData = owner.getValueByKey(index, keyField || "OID");
+        //这里得keyData可能是一个数值也可能是一个Decimal对象所以需要区别处理
+        return (keyData && (keyData.gt ? keyData.gt(0) : keyData)) ? keyData : data.getIn([index, 'rowID']);
     }
     render() {
         const { layoutStyles, style, isVirtual, showHead, onRefresh, refreshing, controlState,

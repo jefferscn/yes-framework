@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Animated, View } from 'react-native';
-import { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
 import { SwipeAction } from 'antd-mobile';
 
 export default ({ onRemove, removeable = true, removeText = "删除", removeStyle, children, right, ...otherProps }) => {
