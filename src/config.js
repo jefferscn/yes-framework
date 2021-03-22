@@ -4,7 +4,7 @@ import { BackHandler, AppDispatcher } from 'yes';
 import { ProjectCfg, RouteCfg, LoginCfg, ModalCfg, OpenwithHandler, billforms } from './config/index';
 import control from './config/control.js';
 import { ControlMappings, AuthenticatedRoute } from 'yes-comp-react-native-web';
-import { Util } from 'yes-web';
+import { Util, IndexedDBCacheAdapter } from 'yes-web';
 import { util as projectUtil } from './project';
 import i18n from './i18n';
 import { Modal } from 'antd-mobile';
@@ -32,6 +32,12 @@ if (ProjectCfg.isYIGO3) {
 
 window.his = History;
 window.Util = Util;
+
+try {
+    IndexedDBCacheAdapter.clear('form');
+    IndexedDBCacheAdapter.clear('formdata');
+    IndexedDBCacheAdapter.clear('formrights');
+} catch (ignore) {}
 
 initSiblingMgr(control, ProjectCfg, billforms);
 // import './util/fakeFetch';
