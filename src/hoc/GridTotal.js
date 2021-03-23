@@ -12,10 +12,16 @@ export default (Comp) => {
         getRowCount = () => {
             return this.props.data ? this.props.data.size : 0;
         }
-        getTotal = () => {
-            const { sumField } = this.props;
+        getTotalRowCount = ()=> {
             const owner = this.context.getOwner();
             if (!owner) {
+                return 0;
+            }
+            return owner.getTotalRowCount();
+        }
+        getTotal = (sumField) => {
+            const owner = this.context.getOwner();
+            if (!owner || !sumField) {
                 return 0;
             }
             // const index = owner.getCellIndexByKey(sumField);
@@ -45,12 +51,15 @@ export default (Comp) => {
         }
         render() {
             const count = this.getRowCount();
-            const total = this.getTotal();
+            const total = this.getTotal(this.props.sumField);
             const selectedCount = this.getSelectedCount();
+            const totalRowCount = this.getTotalRowCount();
             return (
                 <Comp {...this.props}  
                     count={count}
                     total={total}
+                    getTotal={this.getTotal}
+                    totalRowCount={totalRowCount}
                     selectedCount={selectedCount}
                 />
             )

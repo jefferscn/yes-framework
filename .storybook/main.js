@@ -72,6 +72,7 @@ module.exports = {
           ['@babel/plugin-proposal-class-properties', {
             "loose": true
           }],
+          'react-native-reanimated/plugin',
           '@babel/plugin-proposal-export-namespace-from']
       },
     })
