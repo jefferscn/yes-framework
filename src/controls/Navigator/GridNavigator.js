@@ -17,7 +17,7 @@ import { History } from 'yes-web';
 import { Util, BackHandler } from 'yes-intf';
 import getHistory from 'yes-intf/dist/history';
 import Global from 'global';
-import { withSpring, useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
+// import Animated, { withSpring, useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
 
 const styles = StyleSheet.create({
     page: {
@@ -225,10 +225,11 @@ const DragableEntry = (props) => {
     }
     const { icon, text, entry, containerStyle, removable, translate,
         iconStyle, textStyle, iconSize, position, width, height, column } = props;
-    const translateXY = useSharedValue({
-        x: 0,
-        y: 0,
-    });
+    // const translateXY = useSharedValue({
+    //     x: 0,
+    //     y: 0,
+    // });
+    const translateXY = useRef(new Animated.ValueXY()).current;
     const posStyle = {
         position: 'absolute',
         top: 0,
@@ -242,24 +243,28 @@ const DragableEntry = (props) => {
             return;
         }
         const calcPos = getPosition();
-        translateXY.value = withSpring(calcPos, {
+        Animated.spring(translateXY, {
+            toValue: calcPos,
             duration: 500,
-        });
+        }).start();
     }, [translate, position, width, height, column]);
-    const animatedStyle = useAnimatedStyle(()=>{
-        return {
-            transform: [
-                {
-                    translateX: translateXY.value.x,
-                },
-                {
-                    translateY: translateXY.value.y,
-                }
-            ]
-        };
-    });
+    // const animatedStyle = useAnimatedStyle(() => {
+    //     console.log(translateXY.value);
+    //     return {
+    //         transform: [
+    //             {
+    //                 translateX: translateXY.value.x,
+    //             },
+    //             {
+    //                 translateY: translateXY.value.y,
+    //             }
+    //         ]
+    //     };
+    // });
     return (
-        <Animated.View style={[styles.entry, containerStyle, posStyle, animatedStyle]}>
+        <Animated.View style={[styles.entry, containerStyle, posStyle, {
+            transform: translateXY.getTranslateTransform(),
+        }]}>
             {removable ? <TouchableHighlight style={styles.removeButton} onPress={onRemove}>
                 <AwesomeFontIcon name="times" color="white" /></TouchableHighlight> : null}
             <IconFont name={icon} size={iconSize} style={[iconStyle]} color={entry.color || "#008CD7"} />
