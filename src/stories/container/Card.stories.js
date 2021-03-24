@@ -34,6 +34,7 @@ Base.args = {
         name: 'star',
       }
     },
+    collapseable: true,
     bookmark: 'text1',
     extra: {
       type: 'element',

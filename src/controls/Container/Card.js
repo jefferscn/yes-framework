@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { useEffect, useState, PureComponent } from 'react';
 import {
     View, StyleSheet, Text, ImageBackground, Animated,
     TouchableWithoutFeedback
@@ -7,7 +7,9 @@ import { ControlWrap } from 'yes-intf';
 import ListText from '../Yigo/Text/ListText';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PropTypes from 'prop-types';
+import Element from 'yes-framework/template/Element';
 
+const AnimatedIcon = Animated.createAnimatedComponent(Icon);
 const styles = StyleSheet.create({
     container: {
         flexGrow: 1,
@@ -79,7 +81,10 @@ const styles = StyleSheet.create({
     },
     icon: {
         width: 20,
-        textAlign: 'right',
+        // textAlign: 'right',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     bookmark: {
         position: 'absolute',
@@ -148,76 +153,88 @@ const styles = StyleSheet.create({
     }
 });
 
-class CardHeader extends PureComponent {
-    static contextTypes = {
-        createElement: PropTypes.func,
-    }
-    buildIcon = () => {
-        const { icon, iconStyle } = this.props;
+const CardHeader = (props) => {
+    const buildIcon = () => {
+        const { icon, iconStyle } = props;
         if (!icon) {
             return null;
         }
         if (typeof icon === 'string') {
             return <Icon name={icon} style={iconStyle} />;
         }
-        return this.context.createElement(icon);
+        return <Element meta={icon} />
     }
-    buildTitle = () => {
-        const { title, titleStyle } = this.props;
+    const buildTitle = () => {
+        const { title, titleStyle } = props;
         if (!title) {
             return null;
         }
         if (typeof title === 'string') {
             return <Text style={styles.cardTitle}>{title}</Text>
         }
-        return this.context.createElement(title);
+        return <Element meta={title} />
     }
-    buildExtra = () => {
-        const { extra, extraStyle } = this.props;
+    const buildExtra = () => {
+        const { extra, extraStyle } = props;
         if (!extra) {
-            return <View style={{flex: 1}} />;
+            return <View style={{ flex: 1 }} />;
         }
-        return <View style={{flexDirection: 'row', justifyContent: 'flex-end', flex: 1}}>
-            {this.context.createElement(extra)}
+        return <View style={{ flexDirection: 'row', justifyContent: 'flex-end', flex: 1 }}>
+            <Element meta={extra} />
         </View>
     }
-    onPress = () => {
-        const { expanded } = this.props;
+    const onPress = () => {
+        const { expanded } = props;
         if (expanded) {
-            this.props.collapse && this.props.collapse();
+            props.collapse && props.collapse();
             return;
         }
-        this.props.expand && this.props.expand();
+        props.expand && props.expand();
     }
-    buildCollapse = () => {
-        const { collapseable, expanded } = this.props;
+    const [expandAnimation] = useState(new Animated.Value(0));
+    const buildCollapse = () => {
+        const { collapseable, expanded } = props;
         if (!collapseable) {
             return null;
         }
+        const angle = expandAnimation.interpolate({
+            inputRange: [0, 1],
+            outputRange: ['360deg', '180deg'],
+            extrapolate: 'clamp',
+        });
         return (
-            <TouchableWithoutFeedback onPress={this.onPress}>
-                <Icon style={styles.icon} name={expanded ? "angle-up" : "angle-down"} size={20} color="#999999" />
+            <TouchableWithoutFeedback onPress={onPress}>
+                <AnimatedIcon style={[styles.icon,{
+                    transform: [
+                        {
+                            rotate: angle,
+                        }
+                    ]
+                }]} name="angle-up" size={20} color="#999999" />
             </TouchableWithoutFeedback>
         );
-
     }
-    render() {
-        const { icon, title, extra, collapseable, style } = this.props;
-        return (<View style={[styles.cardHead, style]}>
-            {
-                this.buildIcon()
-            }
-            {
-                this.buildTitle()
-            }
-            {
-                this.buildExtra()
-            }
-            {
-                this.buildCollapse()
-            }
-        </View>);
-    }
+    const { style, expanded } = props;
+    useEffect(() => {
+        Animated.spring(expandAnimation,{
+            toValue: props.expanded? 0 : 1,
+            duration: 300
+        }).start();
+    }, [expanded])
+    return (<View style={[styles.cardHead, style]}>
+        {
+            buildIcon()
+        }
+        {
+            buildTitle()
+        }
+        {
+            buildExtra()
+        }
+        {
+            buildCollapse()
+        }
+    </View>);
 }
 
 @ControlWrap
@@ -239,7 +256,7 @@ export default class Card extends PureComponent {
             this.state.animation,
             {
                 toValue: 0,
-                duration: 5000,
+                duration: 500,
             }
         ).start();
     }
@@ -253,7 +270,7 @@ export default class Card extends PureComponent {
             this.state.animation,
             {
                 toValue: height,
-                duration: 5000,
+                duration: 500,
             }
         ).start();
     }
@@ -312,7 +329,7 @@ export default class Card extends PureComponent {
         const contentElement = (<TouchableWithoutFeedback onPress={this.onPress}>
             <View style={[styles.card, style]}>
                 {
-                    bookmarkElement 
+                    bookmarkElement
                 }
                 {
                     background ? <ImageBackground source={background} imageStyle={styles.cardBackground} style={styles.cardBackground} />
