@@ -390,7 +390,7 @@ export default class CordovaProvider extends Component {
                 // document.getElementById('keyboard').style.height = e.keyboardHeight;
             });
             window.addEventListener('native.keyboardhide', (e) => {
-                document.body.style.height = 'auto';
+                document.body.style.height = null;
                 // document.getElementById('keyboard').style.height = 0;
             });
         }

@@ -8,7 +8,11 @@ export default class Update extends PureComponent {
         percent: 0,
     }
     updateAndroid = async () => {
-        const { url } = this.props;
+        const { url, onPress } = this.props;
+        onPress && onPress();
+        if(this.state.updating) {
+            return;
+        }
         this.setState({
             updating: true,
         });
