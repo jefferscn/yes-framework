@@ -384,6 +384,7 @@ class AntdListView extends PureComponent {
                         renderItem={this.renderItem}
                         keyExtractor={this.keyExtractor}
                         ListFooterComponent={this.renderFoot}
+                        onEndReached={this.onEndReached}
                         refreshControl={
                             onRefresh ? <RefreshControl
                                 onRefresh={this.onRefresh}
