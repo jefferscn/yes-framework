@@ -199,12 +199,12 @@ const CardHeader = (props) => {
         }
         const angle = expandAnimation.interpolate({
             inputRange: [0, 1],
-            outputRange: ['360deg', '180deg'],
+            outputRange: !expanded ? ['360deg', '180deg'] : ['0deg', '180deg'],
             extrapolate: 'clamp',
         });
         return (
             <TouchableWithoutFeedback onPress={onPress}>
-                <AnimatedIcon style={[styles.icon,{
+                <AnimatedIcon style={[styles.icon, {
                     transform: [
                         {
                             rotate: angle,
@@ -216,8 +216,8 @@ const CardHeader = (props) => {
     }
     const { style, expanded } = props;
     useEffect(() => {
-        Animated.spring(expandAnimation,{
-            toValue: props.expanded? 0 : 1,
+        Animated.spring(expandAnimation, {
+            toValue: props.expanded ? 0 : 1,
             duration: 300
         }).start();
     }, [expanded])

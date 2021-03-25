@@ -7,6 +7,7 @@ import { ControlMappings, AuthenticatedRoute } from 'yes-comp-react-native-web';
 import { Util, IndexedDBCacheAdapter } from 'yes-web';
 import { util as projectUtil } from './project';
 import i18n from './i18n';
+import { injectFetchConfig } from 'yes-core';
 import { Modal } from 'antd-mobile';
 import buildRoute from './route';
 import './patch/antd-mobile.css';
@@ -30,6 +31,9 @@ if (ProjectCfg.isYIGO3) {
     require('./yigopatch/yigo3');
 }
 
+if(ProjectCfg.fetch) {
+    injectFetchConfig(ProjectCfg.fetch);
+}
 window.his = History;
 window.Util = Util;
 

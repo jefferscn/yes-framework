@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
 
     }
 });
-export default ({ weight=8, direction="hor", color='transparent' })=> {
+export default ({ weight=8, direction="ver", color='transparent' })=> {
     const weightStyle=direction==='hor'?{
         width: weight,
         height: '100%',
