@@ -8,7 +8,7 @@ import ModalWrap from './template/ModalWrap';
 import { Header, FormTitle } from './export';
 import { View, Text } from 'react-native';
 export default class TemplateView extends PureComponent {
-    static contextTypes  ={
+    static contextTypes = {
         getFormTemplate: PropTypes.func,
         getCustomControl: PropTypes.func,
         getDefaultFormTemplate: PropTypes.func,
@@ -56,6 +56,8 @@ export default class TemplateView extends PureComponent {
         this.state = {
             extraProps,
             hasJson,
+            error: null,
+            errorInfo: null,
         }
     }
 
@@ -114,7 +116,7 @@ export default class TemplateView extends PureComponent {
                 });
             }
             const parentForm = form.form.getParentForm();
-            if(parentForm && parentForm.onChildClose) {
+            if (parentForm && parentForm.onChildClose) {
                 parentForm.onChildClose(form.form);
             }
             this.props.onClose && this.props.onClose();
@@ -123,16 +125,23 @@ export default class TemplateView extends PureComponent {
 
     componentDidMount() {
         //根据配置关闭安卓的回退功能
-        if(this.state.extraProps.blockHardBack) {
+        if (this.state.extraProps.blockHardBack) {
             BackHandler.lock && BackHandler.lock();
         }
     }
 
     componentWillUnmount() {
         //根据配置开启安卓的回退功能
-        if(this.state.extraProps.blockHardBack) {
+        if (this.state.extraProps.blockHardBack) {
             BackHandler.unlock && BackHandler.unlock();
         }
+    }
+
+    componentDidCatch(error, errorInfo) {
+        this.setState({
+            error,
+            errorInfo,
+        });
     }
 
     render() {
@@ -163,6 +172,20 @@ export default class TemplateView extends PureComponent {
         //         }
         //     }
         // }
+        if (this.state.error) {
+            return (<View style={{ flex: 1 }}>
+                <Header canBack
+                    titleElement={
+                        <FormTitle containerStyle={{
+                            "alignItems": "center",
+                            "justifyContent": "center"
+                        }} />
+                    } />
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <Text>{this.state.error}</Text>
+                </View>
+            </View>);
+        }
         if (extraProps.formTemplate === 'dynamic') {//不支持，直接弹出提示
             return (<CustomBillForm
                 formKey={formKey}

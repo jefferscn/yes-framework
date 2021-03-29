@@ -4,6 +4,7 @@ import { StyleSheet, View, Text, Button, TouchableOpacity } from 'react-native';
 import GridTotal from 'yes-framework/hoc/GridTotal';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PropTypes from 'prop-types';
+import { Util } from 'yes-intf';
 
 const styles = StyleSheet.create({
     container: {
@@ -74,11 +75,15 @@ class GridBatchOperate extends PureComponent {
         if (this.props.optType === 'toolbar') {
             const item = this.getItem(this.props);
             if (item) {
-                await this.props.onClick(item.get('action'));
+                Util.safeExec(async () =>
+                    await this.props.onClick(item.get('action'))
+                )
             }
         }
         if (this.props.optType === 'button') {
-            await this.context.onControlClick(this.props.optKey);
+            Util.safeExec(async () =>
+                await this.context.onControlClick(this.props.optKey)
+            );
         }
     }
 
@@ -128,7 +133,7 @@ class GridBatchOperate extends PureComponent {
                     <Text style={styles.text}>{`选中${selectedCount}/${count}行`}</Text>
                 </View>
                 <View style={styles.buttonContainer}>
-                    <Button disabled={selectedCount==0} onPress={this.doOpt} title={title} />
+                    <Button disabled={selectedCount == 0} onPress={this.doOpt} title={title} />
                 </View>
             </View>
         );

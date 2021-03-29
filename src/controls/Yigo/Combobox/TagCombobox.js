@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, useState, useEffect, memo } from 'react';
 import { ComboboxWrap } from 'yes-intf';
 import { View, StyleSheet } from 'react-native';
 import { Tag } from 'antd-mobile';
@@ -14,12 +14,12 @@ const styles = StyleSheet.create({
     },
 });
 
-const WrapTag = ({ onChange, title, value, selected }) => {
+const WrapTag = memo(({ onChange, title, value, selected }) => {
     const onValueChange = () => {
         onChange(value);
     }
     return <Tag style={{ marginTop: 2, marginBottom: 2 }} selected={selected} onChange={onValueChange}>{title}</Tag>
-}
+});
 
 class TagCombobox extends PureComponent {
     static defaultProps = {
@@ -39,7 +39,7 @@ class TagCombobox extends PureComponent {
         return (
             <View style={[styles.container, layoutStyles, style]}>
                 {
-                    data.map(item => <WrapTag selected={value == item.value} onChange={this.onValueChange} value={item.value} title={item.label} />)
+                    data.map(item => <WrapTag key={item.value} selected={value == item.value} onChange={this.onValueChange} value={item.value} title={item.label} />)
                 }
             </View>
         );

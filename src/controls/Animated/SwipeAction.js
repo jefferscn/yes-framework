@@ -3,7 +3,7 @@ import { Animated, View } from 'react-native';
 import { SwipeAction } from 'antd-mobile';
 
 export default ({ onRemove, removeable = true, removeText = "删除", removeStyle, children, right, ...otherProps }) => {
-    const [height, setHeight] = useState(new Animated.Value(0));
+    const [height] = useState(new Animated.Value(0));
     let animating = false;
     const onRemove_ = () => {
         animating = true;
