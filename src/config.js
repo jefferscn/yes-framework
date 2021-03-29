@@ -93,13 +93,16 @@ function formatMessage(msg) {
 Util.alert = (title, msg) => {
     History.push(`#util_alert`);
     const backHandler = BackHandler.addPreEventListener(() => {
+        focusElement && focusElement.focus();
         modal.close();
         backHandler();
     });
-
+    const focusElement = document.activeElement;
+    document.body.focus();
     const modal = Modal.alert(formatMessage(title), formatMessage(msg), [{
         text: formatMessage('OK'),
         onPress: () => {
+            focusElement && focusElement.focus();
             modal.close();
             backHandler();
         }
