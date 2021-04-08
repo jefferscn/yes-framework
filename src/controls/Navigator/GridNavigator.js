@@ -1,4 +1,4 @@
-import React, { PureComponent, useEffect, useRef } from 'react';
+import React, { PureComponent, useEffect, useRef, memo } from 'react';
 import {
     View, StyleSheet, Text, ScrollView, Animated,
     TouchableHighlight, PanResponder, LayoutAnimation,
@@ -212,7 +212,7 @@ class Entry extends PureComponent {
     }
 }
 
-const DragableEntry = (props) => {
+const DragableEntry = memo((props) => {
     const getPosition = () => {
         const { column, position, width, height } = props;
         return {
@@ -271,7 +271,7 @@ const DragableEntry = (props) => {
             <Text style={[styles.entryText, textStyle]}>{text}</Text>
         </Animated.View>
     )
-}
+});
 
 class FavoriteLine extends PureComponent {
     state = {
@@ -286,10 +286,6 @@ class FavoriteLine extends PureComponent {
     }
     onRemove = (entry) => {
         this.props.changeSelected(entry, false);
-    }
-    componentWillReceiveProps(props) {
-        console.log(props);
-        console.log(props.list === this.props.list);
     }
     render() {
         const { list, column } = this.props;

@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
   "stories": [
@@ -10,7 +11,6 @@ module.exports = {
     "@storybook/addon-essentials"
   ],
   "webpackFinal": (config) => {
-    console.log(config);
     config.resolve.alias['core-js/modules'] = path.resolve(
       __dirname,
       '..',
@@ -25,6 +25,9 @@ module.exports = {
                 // 'yes-filtermap': 'yes-core/dist/filtermap',
     config.resolve.alias['yes-filtermap'] = 'yes-core/dist/filtermap';
     config.resolve.extensions = ['.web.js', ...config.resolve.extensions];
+    config.plugins.push(
+      new webpack.DefinePlugin({"__DEV__": true})
+    );
     config.module.rules.push({
       test: /\.jsx?$/,
       include: [
