@@ -7,6 +7,7 @@ import { closeForm } from 'yes-core';
 import ModalWrap from './template/ModalWrap';
 import { Header, FormTitle } from './export';
 import { View, Text } from 'react-native';
+import FormContext from './context/FormContext';
 export default class TemplateView extends PureComponent {
     static contextTypes = {
         getFormTemplate: PropTypes.func,
@@ -58,6 +59,7 @@ export default class TemplateView extends PureComponent {
             hasJson,
             error: null,
             errorInfo: null,
+            contextValue: {}
         }
     }
 
@@ -144,6 +146,14 @@ export default class TemplateView extends PureComponent {
         });
     }
 
+    changeContextValue = (key, value) => {
+        const dt = {};
+        dt[key] = value;
+        this.setState({
+            contextValue: { ...this.state.contextValue, ...dt }
+        });
+    }
+
     render() {
         const { formKey, status, oid, meta, showType, onClose, modalWrap, ...otherProps } = this.props;
         let { extraProps, hasJson } = this.state;
@@ -214,23 +224,28 @@ export default class TemplateView extends PureComponent {
             TemplateComponent = ModalWrap(TemplateComponent);
         }
         return (
-            <CustomBillForm
-                formKey={formKey}
-                status={status || 'VIEW'}
-                oid={oid ? oid : -1} // eslint-disable-line
-                onClose={this.onClose}
-                {...otherProps}
-                {...extraProps}
-            >
-                <TemplateComponent
+            <FormContext.Provider value={{
+                contextValues: this.state.contextValue,
+                changeValue: this.changeContextValue
+            }}>
+                <CustomBillForm
                     formKey={formKey}
                     status={status || 'VIEW'}
                     oid={oid ? oid : -1} // eslint-disable-line
-                    onClose={this.props.onClose}
+                    onClose={this.onClose}
                     {...otherProps}
                     {...extraProps}
-                />
-            </CustomBillForm>
+                >
+                    <TemplateComponent
+                        formKey={formKey}
+                        status={status || 'VIEW'}
+                        oid={oid ? oid : -1} // eslint-disable-line
+                        onClose={this.props.onClose}
+                        {...otherProps}
+                        {...extraProps}
+                    />
+                </CustomBillForm>
+            </FormContext.Provider>
         );
     }
 }

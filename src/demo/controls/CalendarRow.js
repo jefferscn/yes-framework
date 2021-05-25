@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { GridRowWrap } from 'yes-intf';
-import ListText from 'yes-framework/controls/ListText';
+import ListText from 'yes-framework/controls/Yigo/Text/ListText';
 import IconFont from 'yes-framework/font';
-import VisibleEuqal from 'yes-framework/controls/VisibleEqual';
-import VisibleNotEuqal from 'yes-framework/controls/VisibleNotEqual';
+import VisibleEuqal from 'yes-framework/controls/Visible/VisibleEqual';
+import VisibleNotEuqal from 'yes-framework/controls/Visible/VisibleNotEqual';
 import PropTypes from 'prop-types';
 
 const styles = StyleSheet.create({

@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { GridRowWrap } from 'yes-intf';
-import { ListText, VisibleEqual } from 'yes-framework/export';
+import ListText from '../Yigo/Text/ListText';
 import IconFont from 'yes-framework/font';
 import PropTypes from 'prop-types';
 

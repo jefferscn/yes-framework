@@ -2,6 +2,12 @@
     height: auto!important;
 }
 
+.am-modal-transparent.am-modal-popup-slide-up .am-modal-content .am-modal-body {
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+}
+
 .am-modal.am-modal-transparent .am-modal-content {
     height: auto!important;
 }
