@@ -1,6 +1,15 @@
 import React from 'react';
 import StoryWrapper from '../StoryWrapper';
-import { GridView } from '../../export';
+import { GridView, ListText } from '../../export';
+import { View, Text } from 'react-native';
+import { GridRowWrap } from 'yes-intf';
+
+const RowView = GridRowWrap(({rowIndex, style})=>{
+    const bkColor = {
+        backgroundColor: rowIndex % 2 ? 'white': 'gray',
+    }
+    return <View style={[style, bkColor]}><ListText yigoid="title"></ListText></View>
+});
 
 export default {
   title: 'yes-framework/grid/GridView',
@@ -11,6 +20,8 @@ const Template = (args) => (
 <StoryWrapper>
     <GridView {...args} />
 </StoryWrapper>);
+
+const data = [];
 
 const argTypes = {
     
@@ -23,6 +34,9 @@ Base.args = {
     secondKey: ['subTitle'],
     tertiaryKey: ['dict2'],
     useBodyScroll: true,
+    rowHeight: 76,
+    keyField: 'id',
+    RowElement: <RowView style={{height: 76}}/>,
     rightActions: [{
         text: '显示',
         columnKey: 'aaa'
@@ -40,10 +54,14 @@ WithSelect.args = {
     primaryKey: 'title',
     secondKey: ['subTitle'],
     tertiaryKey: ['dict2'],
+    keyField: 'id',
     useBodyScroll: false,
     style: {
         flex: 1,
     },
+    rowHeight: 76,
+    removeable: false,
+    clickMode: 'select',
     leftElement: {
         type: 'element',
         elementType: 'GridSelect',

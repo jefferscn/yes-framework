@@ -9,6 +9,79 @@ import { StyleSheet, View, Text, TouchableHighlight } from 'react-native-web';
 import { Update } from '../export';
 import { versionCompare } from 'yes-framework/hoc/AppStatusWrap';
 
+const mineTypes = [{ ext: 'doc', minetype: 'application/msword' },
+{ ext: 'docx', minetype: 'application/msword' },
+{ ext: 'pdf', minetype: 'application/pdf' },
+{ ext: 'ppt', minetype: 'application/vnd.ms-powerpoint' },
+{ ext: 'xls', minetype: 'application/vnd.ms-excel' },
+{ ext: 'xlsx', minetype: 'application/vnd.ms-excel' },
+{ ext: 'rtf', minetype: 'application/rtf' },
+{ ext: 'txt', minetype: 'text/plain' },
+{ ext: 'png', minetype: 'image/png' },
+{ ext: 'jpg', minetype: 'image/jpeg' },
+{ ext: 'jpeg', minetype: 'image/jpeg' },
+{ ext: 'apk', minetype: 'application/vnd.android.package-archive' },
+];
+
+const getMineType = function (file) {
+    if (!file)
+        return null;
+    var minetype = mineTypes.find(function (item) {
+        return file.endsWith(item.ext);
+    });
+    return minetype ? minetype.minetype : '*/*';
+};
+
+function isChineseChar(str) {
+    var reg = /[\u4E00-\u9FA5\uF900-\uFA2D]/;
+    return reg.test(str);
+}
+
+const downloadFile = function (_url, fileName) {
+    return new Promise((resolve, reject) => {
+        var onFileSystemSuccess = function (fileSystem) {
+            var fs = null;
+            if (cordova.platformId === "android") {
+                fs = fileSystem;
+            } else {
+                fs = fileSystem.root;
+            }
+            fs.getFile(
+                fileName, { create: true, exclusive: false },
+                function gotFileEntry(fileEntry) {
+                    fileEntry.remove();
+                    var ft = new FileTransfer();
+
+                    var uri = _url;
+                    if (isChineseChar(_url)) {
+                        uri = encodeURI(_url);
+                    }
+                    ft.download(uri, fileEntry.nativeURL, function (entry) {
+                        var minetype = getMineType(fileName);
+                        resolve();
+                        cordova.plugins.fileOpener2.open(
+                            entry.toURL(),
+                            minetype
+                        );
+                    }, function (error) {
+                        reject(error.code);
+                    },
+                        true);
+                }, (error) => reject(error.getMessage()));
+        };
+        var onError = function (error) {
+            reject(error);
+        }
+        if (!cordova) {
+            reject(`${fileName} has not been supported!`);
+        }
+        if (cordova.platformId === "android") {
+            window.resolveLocalFileSystemURL(cordova.file.externalRootDirectory, onFileSystemSuccess, onError);
+        } else {
+            window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onFileSystemSuccess, onError);
+        }
+    })
+};
 export default class CordovaProvider extends Component {
     static childContextTypes = {
         getPicture: PropTypes.func,
@@ -20,6 +93,7 @@ export default class CordovaProvider extends Component {
         getPlatform: PropTypes.func,
         checkLatestVersion: PropTypes.func,
         barcodeScan: PropTypes.func,
+        openFile: PropTypes.func,
     }
 
     static contentTypes = {
@@ -47,7 +121,12 @@ export default class CordovaProvider extends Component {
             checkLatestVersion: this.checkLatestVersion,
             getPlatform: this.getPlatform,
             barcodeScan: this.barcodeScan,
+            openFile: this.openFile,
         };
+    }
+
+    openFile = (url, fileName) => {
+        downloadFile(url, fileName);
     }
 
     getPlatform = () => {
@@ -262,9 +341,9 @@ export default class CordovaProvider extends Component {
                                             file: result,
                                             name: fileName,
                                         }] : {
-                                                file: result,
-                                                name: fileName,
-                                            });
+                                            file: result,
+                                            name: fileName,
+                                        });
                                     },
                                     error(err) {
                                         reject(err);
@@ -410,7 +489,7 @@ export default class CordovaProvider extends Component {
 
     render() {
         const { children } = this.props;
-        if(!this.props.checkUpdate) {
+        if (!this.props.checkUpdate) {
             return children;
         }
         return <View style={styles.container}>

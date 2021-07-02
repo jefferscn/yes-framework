@@ -51,7 +51,7 @@
     "react-native-snap-carousel": "^3.9.1",
     "react-native-user-avatar": "github:jefferscn/react-native-user-avatar",
     "react-native-vector-icons": "6.6.0",
-    "react-native-web": "^0.14.3",
+    "react-native-web": "^0.14.13",
     "react-native-web-refresh-control": "^1.0.3",
     "react-navigation-is-focused-hoc": "^1.1.1",
     "react-rating": "^2.0.5",

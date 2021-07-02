@@ -43,23 +43,23 @@ class AntdListView extends PureComponent {
         getRowIdentifier: PropTypes.func,
     }
 
-    componentWillReceiveProps(nextProps) {
-        const data = nextProps.controlState.getIn(['dataModel', 'data']);
-        if (data) {
-            this.setState({
-                dataSource: this.state.dataSource.cloneWithRows(nextProps.controlState.getIn(['dataModel', 'data']), this.generateRowIdentifier(nextProps)),
-            });
-        }
-    }
+    // componentWillReceiveProps(nextProps) {
+    //     const data = nextProps.controlState.getIn(['dataModel', 'data']);
+    //     if (data) {
+    //         this.setState({
+    //             dataSource: this.state.dataSource.cloneWithRows(nextProps.controlState.getIn(['dataModel', 'data']), this.generateRowIdentifier(nextProps)),
+    //         });
+    //     }
+    // }
 
-    componentWillMount() {
-        if (this.props.controlState && this.props.controlState.getIn(['dataModel', 'data'])) {
-            this.setState({
-                dataSource: this.state.dataSource.cloneWithRows(this.props.controlState.getIn(['dataModel', 'data']),
-                    this.generateRowIdentifier(this.props)),
-            });
-        }
-    }
+    // componentWillMount() {
+    //     if (this.props.controlState && this.props.controlState.getIn(['dataModel', 'data'])) {
+    //         this.setState({
+    //             dataSource: this.state.dataSource.cloneWithRows(this.props.controlState.getIn(['dataModel', 'data']),
+    //                 this.generateRowIdentifier(this.props)),
+    //         });
+    //     }
+    // }
 
     generateRowIdentifier = (props) => {
         // const data = props.controlState.getIn(['dataModel', 'data']);
@@ -213,6 +213,13 @@ class AntdListView extends PureComponent {
         const NewListItem = this.NewListItem;
         const rightActions = [];
         const leftActions = [];
+        const containerStyle = {
+
+        };
+        if (this.props.rowHeight) {
+            containerStyle.height = this.props.rowHeight;
+        }
+
         if (((this.props.status === 1 || this.props.status === 2) && this.props.removeable) ||
             this.props.rightActions || this.props.leftActions) {
             if (this.props.leftActions) {
@@ -270,6 +277,7 @@ class AntdListView extends PureComponent {
                     showArrow={this.props.showArrow}
                     leftElement={this.context.createElement(this.props.leftElement)}
                     detailElement={this.context.createElement(this.props.detailElement)}
+                    containerStyle={containerStyle}
                 />
             </SwipeAction>);
         }
@@ -286,6 +294,7 @@ class AntdListView extends PureComponent {
                 showArrow={this.props.showArrow}
                 leftElement={this.context.createElement(this.props.leftElement)}
                 detailElement={this.context.createElement(this.props.detailElement)}
+                containerStyle={containerStyle}
             />
         );
     }
@@ -335,7 +344,7 @@ class AntdListView extends PureComponent {
     }
     render() {
         const { layoutStyles, style, isVirtual, showHead, onRefresh, refreshing, controlState,
-            headTitle, headExtra, editable, useBodyScroll, hideAction, newElement } = this.props;
+            rowHeight, headTitle, headExtra, editable, useBodyScroll, hideAction, newElement } = this.props;
         const extra = headExtra ? this.context.createElement(headExtra) : null;
         const visible = controlState.get('visible');
         const newEle = this.context.createElement(newElement, {
@@ -385,6 +394,7 @@ class AntdListView extends PureComponent {
                         keyExtractor={this.keyExtractor}
                         ListFooterComponent={this.renderFoot}
                         onEndReached={this.onEndReached}
+                        rowHeight={rowHeight}
                         refreshControl={
                             onRefresh ? <RefreshControl
                                 onRefresh={this.onRefresh}
