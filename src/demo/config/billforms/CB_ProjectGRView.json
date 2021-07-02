@@ -1,0 +1,132 @@
+{
+    "formTemplate": "list",
+    "head": {
+        "type": "element",
+        "elementType": "Header",
+        "elementProps": {
+            "canBack": true,
+            "titleElement": {
+                "type": "element",
+                "elementType": "FormTitle",
+                "elementProps": {
+                    "containerStyle": {
+                        "alignItems": "center",
+                        "justifyContent": "center"
+                    }
+                }
+            }
+        }
+    },
+    "action": {
+        "type": "element",
+        "elementType": "OpenFormActionButton",
+        "elementProps": {
+            "formKey": "CB_ProjectGR*1",
+            "oid": "new",
+            "status": "NEW",
+            "style": {
+                "right": "50%",
+                "transform": "translateX(30px)"
+            }
+        }
+    },
+    "filterBlock": {
+        "type": "element",
+        "elementType": "FilterBlock",
+        "elementProps": {
+            "defaultValue": {
+                "Status": "0"
+            },
+            "filterItems": [
+                {
+                    "type": "element",
+                    "elementType": "SegementCombobox",
+                    "elementProps": {
+                        "yigoid": "Status",
+                        "style": {
+                            "flex": 1
+                        }
+                    }
+                }
+            ],
+            "hasMore": false,
+            "moreItems": [
+            ],
+            "queryButton": "Query"
+        }
+    },
+    "list": {
+        "type": "element",
+        "elementType": "ListView",
+        "elementProps": {
+            "yigoid": "list",
+            "primaryKey": "Project",
+            "style": {
+                "flex": 1,
+                "marginLeft": 12
+            },
+            "secondKey": [
+                "Description"
+            ],
+            "tertiaryKey": [
+                {
+                    "type": "element",
+                    "elementType": "ListText",
+                    "elementProps": {
+                        "yigoid": "Status_LV",
+                        "style": {
+                            "paddingLeft": 6,
+                            "paddingRight": 6,
+                            "fontSize": 12,
+                            "paddingBottom": 6,
+                            "color": "darkorchid"
+                        }
+                    }
+                }
+            ],
+            "rightElement": {
+                "type": "element",
+                "elementType": "FlexBox",
+                "elementProps": {
+                    "direction": "column",
+                    "style": {
+                        "justifyContent": "space-between",
+                        "paddingLeft": 8,
+                        "paddingRight": 8
+                    },
+                    "items": [
+                        {
+                            "type": "element",
+                            "elementType": "SplitText",
+                            "elementProps": {
+                                "yigoid": "ReimburseDate_LV",
+                                "style": {
+                                    "fontSize": 12,
+                                    "paddingTop": 8,
+                                    "textAlign": "right"
+                                }
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "elementType": "ListText",
+                            "elementProps": {
+                                "yigoid": "SumNumber_LV",
+                                "style": {
+                                    "textAlign": "right",
+                                    "paddingBottom": 6
+                                },
+                                "containerStyle": {
+                                    "paddingBottom": 6,
+                                    "justifyContent": "flex-end",
+                                    "paddingRight": 0
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            "divider": true
+        }
+    }
+}

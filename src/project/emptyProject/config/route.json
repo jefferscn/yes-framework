@@ -1,0 +1,36 @@
+[
+    {
+        "key": "Home",
+        "type": "control",
+        "path": "Home",
+        "control": "Home",
+        "isRoot": false 
+    },
+    {
+        "key": "Tab",
+        "type": "tab",
+        "path": "Tabs",
+        "showLabel": true,
+        "showIcon": true,
+        "isRoot": true,
+        "tabPosition": "bottom",
+        "activeTintColor": "#008CD7",
+        "inactiveTintColor": "black",
+        "tabs": [{
+                "key": "Home1",
+                "type": "control",
+                "path": "Home1",
+                "label": "面板",
+                "icon": "icon-dashboard",
+                "control": "Home"
+            },{
+                "key": "Home2",
+                "type": "control",
+                "path": "Home2",
+                "label": "我的",
+                "icon": "icon-wode",
+                "control": "Home"
+            }
+        ]
+    }
+]

@@ -1,0 +1,12 @@
+{
+    "formTemplate": "modal",
+    "content": {
+        "type": "element",
+        "elementType": "WorkflowList",
+        "elementProps": {
+            "yigoid": "detail_grid"
+        }
+    },
+    "popup": true,
+    "maskClosable": true
+}

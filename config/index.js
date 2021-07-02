@@ -6,7 +6,7 @@
  */
 
 'use strict';
-import webpack4web from "./webpack.config";
+import webpack4web from "./webpack.base.babel";
 
 export default {
     'web': webpack4web

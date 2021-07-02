@@ -1,0 +1,77 @@
+{
+    "formTemplate": "normal",
+    "head": {
+        "type": "element",
+        "elementType": "Header",
+        "elementProps": {
+            "canBack": true,
+            "titleElement": {
+                "type": "element",
+                "elementType": "FormTitle",
+                "elementProps": {
+                    "containerStyle": {
+                        "alignItems": "center",
+                        "justifyContent": "center"
+                    }
+                }
+            }
+        }
+    },
+    "foot": {
+        "type": "element",
+        "elementType": "SegementToolbar",
+        "elementProps": {
+            "ignoreItems": [
+                "optKey1",
+                "New",
+                "Close"
+            ]
+        }
+    },
+    "action": {
+        "type": "element",
+        "elementType": "VisibleRelated",
+        "elementProps": {
+            "yigoid": "Grid5",
+            "element": {
+                "type": "element",
+                "elementType": "GridActionButton",
+                "elementProps": {
+                    "yigoid": "Grid5",
+                    "style": {
+                        "right": "50%",
+                        "transform": "translateX(30px)"
+                    }
+                }
+            }
+        }
+    },
+    "items": [
+        "ReimbursePerson",
+        "CB_DEPTID",
+        "Project",
+        "EAPOid",
+        "Description",
+        "ReimbursementExplain",
+        {
+            "type": "element",
+            "elementType": "BarcodeScannerText",
+            "elementProps": {
+                "yigoid": "ReimbursementExplain"
+            }
+        },
+        "SumNumber",
+        "BXType",
+        "receiverTxt",
+        "BankTxt",
+        "BankCardNumber",
+        "AttachmentGrid"
+    ],
+    "controls": {
+        "AttachmentGrid": {
+            "control": "AttachmentList",
+            "fileName": "UploadName",
+            "filePath": "Path"
+        }
+    }
+}

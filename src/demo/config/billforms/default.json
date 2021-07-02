@@ -1,0 +1,9 @@
+{
+    "formTemplate": "dynamic",
+    "mergeGridLayout": true,
+    "mergeGridLayoutTitle": "默认",
+    "ignoredTags": [
+        "button"
+    ],
+    "controlMapping": {}
+}

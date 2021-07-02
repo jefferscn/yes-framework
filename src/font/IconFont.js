@@ -1,6 +1,6 @@
 import createIconSet from 'react-native-vector-icons/lib/create-icon-set';
-import glyphMap from './iconfont.json';
-import iconfont from './iconfont.ttf';
+import { font } from '../project';
+const { glyphMap, ttf } = font;
 
 function injectFont(font, fontName) {
     const reactNativeVectorIconsRequiredStyles = `@font-face { src:url(${font});font-family: ${fontName}; }`;
@@ -15,7 +15,7 @@ function injectFont(font, fontName) {
     // inject stylesheet
     document.head.appendChild(style);
 }
-injectFont(iconfont, 'iconfont');
+injectFont(ttf, 'iconfont');
 const iconSet = createIconSet(glyphMap, 'iconfont', 'iconfont.ttf');
 
 export default iconSet;

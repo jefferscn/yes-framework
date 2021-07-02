@@ -1,82 +1,145 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import defaultTemplateMapping from '../defaultTemplateMapping';
-import { View, Text as RawText, StyleSheet, InteractionManager } from 'react-native';
+import { View, Text as RawText, StyleSheet, ActivityIndicator } from 'react-native';
 import { AppDispatcher, Util, DynamicControl } from 'yes';
-import Controls from '../../config/control';
-import { withNavigation } from 'react-navigation';
-import internationalWrap from '../../controls/InternationalWrap';
+import { internationalWrap } from 'yes-intf';
 import PropTypes from 'prop-types';
-import { DynamicBillForm } from 'yes-platform';
-import { intlShape, FormattedMessage } from 'react-intl';
+import './ListWithQuery';
 
-const { Searchbar } = Controls;
-
-class ListTemplate extends DynamicBillForm{
+const styles = StyleSheet.create({
+    mask: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        zIndex: 1,
+        justifyContent: 'center',
+        backgroundColor: 'rgba(211,211,211,0.5)',
+    }
+})
+class ListTemplate extends PureComponent {
     static contextTypes = {
         createElement: PropTypes.func,
+        onControlClick: PropTypes.func,
         getControlProps: PropTypes.func,
-        intl: intlShape,
+        doOpt: PropTypes.func,
     }
 
-    onRefresh = () => {
-        AppDispatcher.dispatch({
-            type: 'RELOADFORM',
-            key: Util.buildFormKey(this.props.formKey, '-1'),
-        });
-    }
     state = {
-        ready: false,
+        refreshing: false,
+    }
+    onRefresh = async () => {
+        this.setState({
+            refreshing: true,
+        });
+        try {
+            const { refresh } = this.props;
+            if (!refresh || refresh.type === 'form') {
+                await this.props.reload();
+            }
+            if (refresh && refresh.type === 'button') {
+                await this.context.onControlClick(refresh.buttonId);
+            }
+            if (refresh && refresh.type === 'opt') {
+                await this.context.doOpt(refresh.optId);
+            }
+        } catch (ex) {
+            console.log(ex);
+        } finally {
+            this.setState({
+                refreshing: false,
+            })
+        }
+        // AppDispatcher.dispatch({
+        //     type: 'RELOADFORM',
+        //     key: Util.buildFormKey(this.props.formKey, '-1'),
+        // });
     }
 
-    // componentDidMount() {
-    //     this.props.navigation.addListener(
-    //         'didFocus',
-    //         () => {
-    //             this.setState({
-    //                 ready: true,
-    //             });
-    //         }
-    //         // this._focusFirstTextInput
-    //     );
-    //     // super.componentDidMount();
-    // }
+    render() {
+        return this.buildChildren();
+    }
+
+    componentDidMount() {
+        const { events } = this.props;
+        if (events) {
+            this.dispatcherId = AppDispatcher.register((action) => {
+                const event = events[action.type];
+                if (event) {
+                    if (event.type === 'button') {
+                        setTimeout(() => {
+                            this.context.onControlClick(event.yigoid);
+                        }, 0);
+                        return;
+                    }
+                    if (event.type === 'opt') {
+                        setTimeout(() => {
+                            this.context.doOpt(event.yigoid);
+                        }, 0);
+                        return;
+                    }
+                }
+            });
+        }
+    }
+
+    componentWillUnmount() {
+        this.dispatcherId && AppDispatcher.unregister(this.dispatcherId);
+    }
+
     buildChildren() {
-        // if (!this.state.ready) {
-        //     return null;
+        const { searchBar, filterBlock, list, action, formStatus, error, errorMsg, 
+            contentStyle, busying } = this.props;
+        //reloading状态下不显示加载状态
+        // if(formStatus!=='ok' || formStatus!=='reloading') {
+        //     return (
+
+        //     )
         // }
-        const { searchBar, list, head } = this.props;
-        // const header = this.context.createElement(head);
+        let listEle = this.context.createElement(list, {
+            onRefresh: this.onRefresh,
+            refreshing: this.state.refreshing,
+        });
+        const foot = this.context.createElement(this.props.foot);
+        const head = this.context.createElement(this.props.head);
+        let actionButton = this.context.createElement(action);
+        if (!React.isValidElement(listEle)) {
+            listEle = <DynamicControl
+                designPositionBase
+                yigoid={list}
+                debugStyle={{ flex: 1 }}
+                layoutStyles={{ flex: 1 }}
+                style={{ flex: 1, marginLeft: 12 }}
+                {...this.context.getControlProps(list)}
+            />;
+            // listEle = this.context.createElement(list);
+        }
         return (
             <View style={{ flex: 1, backgroundColor: 'white' }}>
                 {
                     this.context.createElement(head)
                 }
                 {
-                    searchBar ? <Searchbar
-                        visible
-                        designPositionBase
-                        meta={searchBar}
-                        yigoid={searchBar.textField}
-                        textField={searchBar.textField}
-                        searchButton={searchBar.queryButton}
-                        placeholder={this.props.formatMessage('search taskid')}
-                    /> : null
+                    filterBlock ? this.context.createElement(filterBlock, { formStatus }) : null
                 }
-                <View style={{ flex: 1 }}>
-                    <DynamicControl
-                        designPositionBase
-                        yigoid={list}
-                        debugStyle={{ flex: 1 }}
-                        layoutStyles={{ flex: 1 }}
-                        style={{ flex: 1, marginLeft: 12 }}
-                        {...this.context.getControlProps(list)}
-                    />
+                <View style={[{ flex: 1 }, contentStyle]}>
+                    {
+                        busying ? <View style={styles.mask}><ActivityIndicator /></View> : null
+                    }
+                    {listEle}
                 </View>
+                {
+                    foot 
+                }
+                {
+                    actionButton
+                }
             </View>
         );
     }
 }
-const ListWithNavigation = withNavigation(internationalWrap(ListTemplate));
+const ListWithNavigation = internationalWrap(ListTemplate);
 
 ListWithNavigation.caption = "单据列表模板";
 defaultTemplateMapping.reg('list', ListWithNavigation);

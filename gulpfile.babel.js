@@ -1,6 +1,5 @@
 import del from 'del';
 import gulp from 'gulp';
-import open from 'open';
 import gulpLoadPlugins from 'gulp-load-plugins';
 import packageJson from './package.json';
 import runSequence from 'run-sequence';
@@ -24,16 +23,10 @@ const $ = gulpLoadPlugins({ camelize: true });
 const DEST_DIR = process.env.DEST_DIR || 'build';
 $.util.log(options);
 
-// Main tasks
-gulp.task('serve', () => runSequence('serve:clean', 'serve:start'));
-gulp.task('dist', () => runSequence('dist:clean', `dist:${DEST_DIR}`));
-gulp.task('clean', ['dist:clean', 'serve:clean']);
-gulp.task('open', () => open('http://localhost:3000'));
-gulp.task('startrelease', () => runSequence('serve:clean', `dist:${DEST_DIR}`, 'serve:startRelease'));
-
 // Remove all built files
 gulp.task('serve:clean', cb => del(DEST_DIR, { dot: true, force: true }, cb));
 gulp.task('dist:clean', cb => del([DEST_DIR], { dot: true, force: true }, cb));
+
 
 // Copy static files across to our final directory
 gulp.task('serve:static', () =>
@@ -54,11 +47,11 @@ gulp.task('dist:static', () =>
 );
 
 // Start a livereloading development server
-gulp.task('serve:start', ['serve:static'], () => {
+gulp.task('serve:start', gulp.series('serve:static', () => {
     const config = webpackConfig[options.platform](true, DEST_DIR, PORT);
-    console.log(config);
     return new WebpackDevServer(webpack(config), {
-        contentBase: './generated',
+        // contentBase: './generated',
+        contentBase: './',
         compress: true,
         disableHostCheck: true,
         historyApiFallback: true,
@@ -68,10 +61,10 @@ gulp.task('serve:start', ['serve:static'], () => {
 
             $.util.log(`[${packageJson.name} serve]`, `Listening at 0.0.0.0:${PORT}`);
         });
-});
+}));
 
 // release，使用express，
-gulp.task('serve:startRelease', ['serve:static'], () => {
+gulp.task('serve:startRelease', gulp.series('serve:static', () => {
     const app = express();
     app.use(compression());
     app.use(express.static(`${DEST_DIR}/generated`));
@@ -79,10 +72,10 @@ gulp.task('serve:startRelease', ['serve:static'], () => {
         if (err) throw new $.util.PluginError('express server', err);
         $.util.log(`[${packageJson.name} serve]`, `Listening at 0.0.0.0:${PORT}`);
     });
-});
+}));
 
 // Create a distributable package
-gulp.task(`dist:${DEST_DIR}`, ['dist:static'], cb => {
+gulp.task(`dist:${DEST_DIR}`, gulp.series('dist:static', cb => {
     const config = webpackConfig[options.platform](false, DEST_DIR);
     webpack(config, (err, stats) => {
         if (err) throw new $.util.PluginError(DEST_DIR, err);
@@ -91,4 +84,10 @@ gulp.task(`dist:${DEST_DIR}`, ['dist:static'], cb => {
 
         cb();
     });
-});
+}));
+
+// Main tasks
+gulp.task('serve', gulp.series('serve:clean', 'serve:start'));
+gulp.task('dist', gulp.series('dist:clean', `dist:${DEST_DIR}`));
+gulp.task('clean', gulp.series('dist:clean', 'serve:clean'));
+gulp.task('startrelease', gulp.series('serve:clean', `dist:${DEST_DIR}`, 'serve:startRelease'));
