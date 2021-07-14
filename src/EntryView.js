@@ -26,7 +26,6 @@ class WorkitemView extends PureComponent {
     }
     async componentWillMount() {
         try {
-            const entry = 
             // const workitemInfo = await YIUI.BPMService.loadWorkitemInfo(this.props.navigation.state.params.wid);
             // if (workitemInfo) {
             //     const expVals = {};

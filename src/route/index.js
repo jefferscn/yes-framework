@@ -1,85 +1,85 @@
 import React from 'react';
 import {
-    createAppContainer,
-    createStackNavigator,
+    NavigationContainer,
+} from '@react-navigation/native';
+import {
+    createStackNavigator
+} from '@react-navigation/stack';
+import {
+    createBottomTabNavigator
+} from '@react-navigation/bottom-tabs';
+import {
     createMaterialTopTabNavigator,
-    createBottomTabNavigator,
-    withNavigation,
-} from 'react-navigation';
+} from '@react-navigation/material-top-tabs';
 import Element from '../template/Element';
 import DynamicView from '../DynamicView';
 import Controls from '../config/control';
 import WorkitemView from '../WorkitemView';
-import FieldView from '../FieldView';
-// import AwesomeFontIcon from 'react-native-vector-icons/FontAwesome';
 import IconFontIcon from '../font';
 import generateRouteComponent from '../util/generateRouteComponent';
-import { generateKey } from '@react-navigation/core/lib/module/routers/KeyGenerator';
-import { Dimensions, Animated, Easing } from 'react-native';
-import { StackViewStyleInterpolator } from 'react-navigation-stack';
+import getPathFromState from './getPathFromState.tsx';
+import getStateFromPath from './getStateFromPath.tsx';
+import getActionFromState from './getActionFromState'
+// import { generateKey } from '@react-navigation/core/lib/module/routers/KeyGenerator';
+// import { StackViewStyleInterpolator } from 'react-navigation-stack';
 
-function injectStackNavigator(navigator) {
-    const oldFunc = navigator.router.getActionForPathAndParams;
-    navigator.router.getActionForPathAndParams = function () {
-        const action = oldFunc.apply(this, arguments);
-        if (action && action.action) {
-            action.action.key = action.action.key || generateKey();
-        }
-        return action;
-    }
-}
+// function injectStackNavigator(navigator) {
+//     const oldFunc = navigator.router.getActionForPathAndParams;
+//     navigator.router.getActionForPathAndParams = function () {
+//         const action = oldFunc.apply(this, arguments);
+//         if (action && action.action) {
+//             action.action.key = action.action.key || generateKey();
+//         }
+//         return action;
+//     }
+// }
 
-const defaultCardRoute = {
-    DynamicDetail: {
-        screen: withNavigation(DynamicView),
-        path: 'YESMOBILE/:metaKey/:id/:status',
+const defaultCardRoute = [
+    // DynamicDetail: {
+    //     screen: DynamicView,
+    //     path: 'YESMOBILE/:metaKey/:id/:status',
+    // },
+    {
+        key: 'YigoForm',
+        screen: DynamicView,
+        path: 'card/YES/:metaKey/:id/:status',
     },
-    DynamicDetail1: {
-        screen: withNavigation(DynamicView),
-        path: 'YES/:metaKey/:id/:status',
+    {
+        key: 'YigoFormWithParent',
+        screen: DynamicView,
+        path: 'card/YES/:metaKey/:id/:status/:parent',
     },
-    DynamicDetail2: {
-        screen: withNavigation(DynamicView),
-        path: 'YES/:metaKey/:id/:status/:parent',
+    {
+        key: 'Workitem',
+        screen: WorkitemView,
+        path: 'card/WORKITEM/:wid/:onlyOpen/:loadInfo',
     },
-    Workitem: {
-        screen: withNavigation(WorkitemView),
-        path: 'WORKITEM/:wid/:onlyOpen/:loadInfo',
-    },
-    WorkitemM: {
-        screen: withNavigation(WorkitemView),
-        path: 'WORKITEMM/:wid/:onlyOpen/:loadInfo/:msg',
-    },
-    WorkitemField: {
-        screen: withNavigation(FieldView),
-        path: 'WORKITEM/:wid/:field',
-    },
-};
-const defaultModalRoute = {
-    DynamicDetail: {
-        screen: withNavigation(DynamicView),
-        path: 'YESMOBILE/:metaKey/:id/:status',
-    },
-    DynamicDetail1: {
-        screen: withNavigation(DynamicView),
-        path: 'YES/:metaKey/:id/:status',
-    },
-    Workitem: {
-        screen: withNavigation(WorkitemView),
-        path: 'WORKITEM/:wid/:onlyOpen/:loadInfo',
-    },
-    WorkitemM: {
-        screen: withNavigation(WorkitemView),
-        path: 'WORKITEMM/:wid/:onlyOpen/:loadInfo/:msg',
-    },
-    WorkitemField: {
-        screen: withNavigation(FieldView),
-        path: 'WORKITEM/:wid/:field',
-    },
-};
+    // WorkitemM: {
+    //     screen: WorkitemView,
+    //     path: 'WORKITEMM/:wid/:onlyOpen/:loadInfo/:msg',
+    // },
+];
+// const defaultModalRoute = {
+//     DynamicDetail: {
+//         screen: DynamicView,
+//         path: 'YESMOBILE/:metaKey/:id/:status',
+//     },
+//     DynamicDetail1: {
+//         screen: DynamicView,
+//         path: 'YES/:metaKey/:id/:status',
+//     },
+//     Workitem: {
+//         screen: WorkitemView,
+//         path: 'WORKITEM/:wid/:onlyOpen/:loadInfo',
+//     },
+//     WorkitemM: {
+//         screen: WorkitemView,
+//         path: 'WORKITEMM/:wid/:onlyOpen/:loadInfo/:msg',
+//     },
+// };
 
 const buildTabNavigator = (tabConfig) => {
-    const tabs = {};
+    const tabs = [];
     for (let tab of tabConfig.tabs) {
         const page = buildScreen(tab);
         if (!page.navigationOptions) {
@@ -89,16 +89,21 @@ const buildTabNavigator = (tabConfig) => {
                     focused,
                     horizontal,
                 }) => (
-                        <IconFontIcon
-                            name={tab.icon}
-                            size={22}
-                            style={{ color: focused ? '#008CD7' : '#aaa' }}
-                        />
-                    ) : null,
+                    <IconFontIcon
+                        name={tab.icon}
+                        size={22}
+                        style={{ color: focused ? '#008CD7' : '#aaa' }}
+                    />
+                ) : null,
                 tabBarLabel: tab.label,
             });
         }
-        tabs[tab.key] = page;
+        tabs.push({
+            component: page,
+            options: page.navigationOptions,
+            name: tab.key,
+        });
+        // tabs[tab.key] = page;
     }
     // if (!tabConfig.tabPosition || tabConfig.tabPosition === "top") {
     const tabBarPosition = tabConfig.tabPosition || 'top';
@@ -112,14 +117,46 @@ const buildTabNavigator = (tabConfig) => {
     }
     const navigatorProps = {};
     if (tabConfig.tabbarElement) {
-        navigatorProps.tabBarComponent = (props) => <Element {...props} meta={tabConfig.tabbarElement} />
+        navigatorProps.tabBar = (props) => <Element {...props} meta={tabConfig.tabbarElement} />
     }
     if (tabBarPosition === 'bottom') {
+        const BottomTab = createBottomTabNavigator();
+        return () => <BottomTab.Navigator
+            initialRouteName={tabConfig.tabs[0].key}
+            headerMode='none'
+            tabBarOptions={{
+                labelPosition: 'below-icon',
+                labelStyle: {
+                    fontSize: 14,
+                    margin: 0,
+                },
+                activeBackgroundColor: tabConfig.activeBackgroundColor || 'white',
+                activeTintColor: tabConfig.activeTintColor || '#008CD7',
+                inactiveBackgroundColor: tabConfig.inactiveBackgroundColor || 'white',
+                inactiveTintColor: tabConfig.inactiveTintColor || '#aaa',
+                showLabel: tabConfig.showLabel,
+                showIcon: tabConfig.showIcon,
+                style: {
+                    backgroundColor: 'white',
+                },
+            }}
+            {
+            ...navigatorProps
+            }
+        >
+            {
+                tabs.map((tab) =>
+                    <BottomTab.Screen
+                        {...tab}
+                    />
+                )
+            }
+        </BottomTab.Navigator>;
         return createBottomTabNavigator(
             tabs, {
             initialRouteName: tabConfig.tabs[0].key,
             headerMode: 'none',
-            swipeEnabled: false,
+            swipeEnabled: true,
             tabBarOptions: {
                 labelStyle: {
                     fontSize: 14,
@@ -200,7 +237,11 @@ const buildScreen = (config) => {
         case 'button':
             const result = () => null;
             result.navigationOptions = {
-                tabBarButtonComponent: Controls[config.tabControl],
+                // tabBarButtonComponent: Controls[config.tabControl],
+                tabBarButton: () => {
+                    const C = Controls[config.tabControl];
+                    return <C />
+                }
             }
             return result;
         default:
@@ -209,133 +250,133 @@ const buildScreen = (config) => {
 };
 
 export default (config) => {
-    const customRoute = {};
+    const customRoute = [];
     let initialRouteName = null;
-    // console.log(config)
+    const linking = {
+        screens: {
+        }
+    };
+    defaultCardRoute.forEach((r) => {
+        linking.screens[r.key] = {
+            path: r.path
+        };
+    });
     for (let r of config) {
         let route = {};
         const Screen = buildScreen(r);
         route.screen = Screen;
         route.path = r.path;
-        customRoute[r.key] = route;
+        route.key = r.key;
+        // customRoute[r.key] = route;
+        customRoute.push(route);
         if (r.isRoot) {
             initialRouteName = r.key;
         }
+        linking.screens[r.key] = {
+            path: r.path,
+        }
     }
-    const mainCardNavigator = createStackNavigator(
-        defaultCardRoute,
-        {
-            headerMode: 'none',
-            cardStyle: {
-                flex: 1
-            },
-            defaultNavigationOptions: {
-                header: null,
-                // gesturesEnabled: true,
-                animationEnabled: true,
-            },
-            transitionConfig: ()=>({
-                screenInterpolator: StackViewStyleInterpolator.forHorizontal,
-            }),
-            // transitionConfig: () => ({
-            //     transitionSpec: {
-            //         duration: 300,
-            //         easing: Easing.out(Easing.poly(4)),
-            //         timing: Animated.timing,
-            //     },
-            //     screenInterpolator: sceneProps => {
-            //         const { layout, position, scene } = sceneProps;
-            //         const { index } = scene;
-
-            //         // const height = layout.initHeight;
-            //         const width = layout.initWidth;
-            //         const translateX = position.interpolate({
-            //             inputRange: [index - 1, index, index + 1],
-            //             outputRange: [width, 0, 0],
-            //         });
-
-            //         const opacity = position.interpolate({
-            //             inputRange: [index - 1, index - 0.99, index],
-            //             outputRange: [0, 1, 1],
-            //         });
-
-            //         return { opacity, transform: [{ translateX }] };
-            //     },
-            // }),
-        }
-    )
-    const mainModalNavigator = createStackNavigator(
-        defaultModalRoute,
-        {
-            defaultNavigationOptions: {
-                header: null,
-            },
-            cardStyle: {
-                backgroundColor: 'transparent',
-            },
-            initialRouteName,
-            mode: 'modal',
-            headerMode: 'none',
-            transparentCard: true,
-        }
-    )
-    injectStackNavigator(mainModalNavigator);
-    const MainNavigator = createStackNavigator(
-        {
-            ...customRoute,
-            Card: {
-                screen: mainCardNavigator,
-                path: 'card',
-            },
-            // ...defaultModalRoute,
-            Modal: {
-                screen: mainModalNavigator,
-                path: 'modal',
+    const Stack = createStackNavigator();
+    const mainCardNavigator = () =>
+        <Stack.Navigator
+            headerMode="none"
+        >
+            {
+                defaultCardRoute.map((card) =>
+                    <Stack.Screen
+                        name={card.key}
+                        component={card.screen}
+                    />
+                )
             }
-        },
-        {
-            defaultNavigationOptions: {
-                header: null,
-                // gesturesEnabled: true,
-                animationEnabled: true,
-            },
-            cardStyle: {
-                backgroundColor: 'transparent',
-            },
-            initialRouteName,
-            mode: 'modal',
-            headerMode: 'none',
-            transparentCard: true,
-            transitionConfig: ()=>({
-                screenInterpolator: StackViewStyleInterpolator.forHorizontal,
-            })
-            // transitionConfig: () => ({
-            //     transitionSpec: {
-            //         duration: 300,
-            //         easing: Easing.out(Easing.poly(4)),
-            //         timing: Animated.timing,
-            //     },
-            //     screenInterpolator: sceneProps => {
-            //         const { layout, position, scene } = sceneProps;
-            //         const { index } = scene;
-
-            //         // const height = layout.initHeight;
-            //         const width = layout.initWidth;
-            //         const translateX = position.interpolate({
-            //             inputRange: [index - 1, index, index + 1],
-            //             outputRange: [width, 0, 0],
-            //         });
-
-            //         const opacity = position.interpolate({
-            //             inputRange: [index - 1, index - 0.99, index],
-            //             outputRange: [0, 1, 1],
-            //         });
-
-            //         return { opacity, transform: [{ translateX }] };
-            //     },
-            // }),
-        },
-    );
-    injectStackNavigator(MainNavigator);
-    return createAppContainer(MainNavigator);
+        </Stack.Navigator>
+    // const mainCardNavigator = createStackNavigator(
+    //     defaultCardRoute,
+    //     {
+    //         headerMode: 'none',
+    //         cardStyle: {
+    //             flex: 1
+    //         },
+    //         defaultNavigationOptions: {
+    //             header: null,
+    //             // gesturesEnabled: true,
+    //             animationEnabled: true,
+    //         },
+    //     }
+    // )
+    // const mainModalNavigator = createStackNavigator(
+    //     defaultModalRoute,
+    //     {
+    //         defaultNavigationOptions: {
+    //             header: null,
+    //         },
+    //         cardStyle: {
+    //             backgroundColor: 'transparent',
+    //         },
+    //         initialRouteName,
+    //         mode: 'modal',
+    //         headerMode: 'none',
+    //         transparentCard: true,
+    //     }
+    // )
+    // injectStackNavigator(mainModalNavigator);
+    const MainNavigator = () =>
+        <Stack.Navigator
+            initialRouteName={initialRouteName}
+            headerMode="none"
+        >
+            {
+                [...customRoute, ...defaultCardRoute].map((r) =>
+                    <Stack.Screen
+                        name={r.key}
+                        component={r.screen}
+                        options = {{
+                            animationEnabled: true,
+                        }}
+                    />
+                )
+            }
+        </Stack.Navigator>
+    // const MainNavigator = createStackNavigator(
+    //     {
+    //         ...customRoute,
+    //         Card: {
+    //             screen: mainCardNavigator,
+    //             path: 'card',
+    //         },
+    //         // ...defaultModalRoute,
+    //         // Modal: {
+    //         //     screen: mainModalNavigator,
+    //         //     path: 'modal',
+    //         // }
+    //     },
+    //     {
+    //         defaultNavigationOptions: {
+    //             header: null,
+    //             // gesturesEnabled: true,
+    //             animationEnabled: true,
+    //         },
+    //         cardStyle: {
+    //             backgroundColor: 'transparent',
+    //         },
+    //         initialRouteName,
+    //         mode: 'modal',
+    //         headerMode: 'none',
+    //         transparentCard: true,
+    //     },
+    // );
+    // injectStackNavigator(MainNavigator);
+    linking.initialRouteName = initialRouteName;
+    return () =>
+        <NavigationContainer linking={{
+            enabled: true,
+            getStateFromPath,
+            getPathFromState,
+            getActionFromState,
+            prefixes: ['://'],
+            config: linking
+        }}
+        >
+            <MainNavigator />
+        </NavigationContainer>
 }

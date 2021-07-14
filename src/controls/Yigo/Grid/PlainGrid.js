@@ -10,31 +10,31 @@ import { RefreshControl } from 'react-native-web-refresh-control';
 const { ListImage } = ListComponents;
 
 const RowView = gridRowWrap(View);
-interface Props {
-    //是否开启锁定
-    isLockTable?: boolean;
-    //标题数据
-    titleData: string[];
-    lockColumns: string[];
-    dataColumns: string[];
-    // //数据源
-    // tableData: object[];
-    data: object;
-    //单元格文字大小
-    textSize?: number;
-    //单元格文字颜色
-    textColor?: string;
-    //单元格最大宽度
-    cellMaxWidth?: number;
-    //单元格高度
-    cellHeight?: number;
-    //第一行背景色
-    firstRowBackGroundColor?: string;
-    //第一列背景色
-    firstColumnBackGroundColor?: string;
-    //表头字体颜色
-    tableHeadTextColor?: string;
-};
+// interface Props {
+//     //是否开启锁定
+//     isLockTable?: boolean;
+//     //标题数据
+//     titleData: string[];
+//     lockColumns: string[];
+//     dataColumns: string[];
+//     // //数据源
+//     // tableData: object[];
+//     data: object;
+//     //单元格文字大小
+//     textSize?: number;
+//     //单元格文字颜色
+//     textColor?: string;
+//     //单元格最大宽度
+//     cellMaxWidth?: number;
+//     //单元格高度
+//     cellHeight?: number;
+//     //第一行背景色
+//     firstRowBackGroundColor?: string;
+//     //第一列背景色
+//     firstColumnBackGroundColor?: string;
+//     //表头字体颜色
+//     tableHeadTextColor?: string;
+// };
 
 /**
  * 注释: 双向锁定表格
@@ -43,7 +43,7 @@ interface Props {
  * @param props
  * @constructor
  */
-function LockTableView(props: Props) {
+function LockTableView(props) {
     const border_width = Platform.OS === 'ios' ? StyleSheet.hairlineWidth : StyleSheet.hairlineWidth * 2;
     // let columnMaxWidth: number[] = [];
     let firstColumnData = [];
@@ -88,7 +88,7 @@ function LockTableView(props: Props) {
      * 时间: 2020/7/23 0023 9:14
      * @author 郭翰林
      */
-    function renderRowCell(index: number) {
+    function renderRowCell(index) {
         let childrenViews = [];
         props.dataColumns.forEach((item) => {
             childrenViews.push(
@@ -126,7 +126,7 @@ function LockTableView(props: Props) {
      * @param rowData
      * @returns {any}
      */
-    function renderFirstRowCell(rowData: object[]) {
+    function renderFirstRowCell(rowData) {
         let childrenViews = [];
         rowData.map((item, i) => {
             childrenViews.push(
@@ -204,7 +204,7 @@ function LockTableView(props: Props) {
      * @param index
      * @returns {any}
      */
-    function renderFirstCell(index: number) {
+    function renderFirstCell(index) {
         const lockColumn = props.lockColumns[0];
         return (
             <RowView

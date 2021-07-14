@@ -5,9 +5,9 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 export default (DEBUG, PATH, PORT = 3000) => {
     return ({
         resolve: {
-            extensions: ['.web.js', '.js', '.jsx'],
+            extensions: ['.web.js', '.js', '.jsx', '.tsx', 'ts'],
             alias: {
-                'react-native' : path.resolve(__dirname, '../src/react-native'),
+                'react-native': path.resolve(__dirname, '../src/react-native'),
                 'yes-platform': 'yes-web',
                 'yes-framework': path.resolve(__dirname, '../src'),
                 yes: 'yes-intf',
@@ -97,6 +97,10 @@ export default (DEBUG, PATH, PORT = 3000) => {
                     enforce: 'pre',
                     use: ['source-map-loader'],
                 }, {
+                    test: /\.tsx?$/,
+                    use: 'ts-loader',
+                    exclude: /node_modules/ //表示node_modules中的tsx文件不做处理
+                }, {
                     test: /\.scss$/,
                     loaders: [
                         'isomorphic-style-loader',
@@ -154,6 +158,10 @@ export default (DEBUG, PATH, PORT = 3000) => {
         },
         plugins: DEBUG
             ? [
+                new webpack.NormalModuleReplacementPlugin(
+                    /useLinking.js/,
+                    'useLinking.native.js'
+                ),
                 new webpack.DefinePlugin({ 'process.env.NODE_ENV': '"development"', __DEV__: true, __VERSION__: '"debug"' }),
                 new HtmlWebpackPlugin({
                     template: './index.html',
@@ -161,6 +169,10 @@ export default (DEBUG, PATH, PORT = 3000) => {
             ]
             : [
                 new webpack.DefinePlugin({ 'process.env.NODE_ENV': '"production"', __DEV__: false, __VERSION__: '"debug"' }),
+                new webpack.NormalModuleReplacementPlugin(
+                    /useLinking.js/,
+                    'useLinking.native.js'
+                ),
                 // new webpack.optimize.DedupePlugin(),
                 // new webpack.optimize.UglifyJsPlugin({
                 //     compressor: { screw_ie8: true, keep_fnames: true, warnings: false },

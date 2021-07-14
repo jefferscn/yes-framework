@@ -17,16 +17,11 @@ const styles = StyleSheet.create({
     }
 })
 
-class FormTitle extends PureComponent {
-    render() {
-        const { style } = this.props;
-        return (
-            <FormInfo.FormCaption 
-                containerStyle = {[styles.container, this.props.containerStyle]} 
-                style={[styles.text, style]} 
-            />
-        );
-    }
-}
-
-export default FormTitle;
+export default ({ style, containerStyle }) => {
+    return (
+        <FormInfo.FormCaption
+            containerStyle={[styles.container, containerStyle]}
+            style={[styles.text, style]}
+        />
+    );
+};

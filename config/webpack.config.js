@@ -157,6 +157,10 @@ export default (DEBUG, PATH, PORT = 3000) => {
         plugins: DEBUG
             ? [
                 new webpack.DefinePlugin({ 'process.env.NODE_ENV': '"development"', __DEV__: true, __VERSION__: '"debug"' }),
+                new webpack.NormalModuleReplacementPlugin(
+                    /useLinking.js/,
+                    'useLinking.native.js'
+                ),
                 new HtmlWebpackPlugin({
                     template: './index.html',
                 }), new BundleAnalyzerPlugin({
@@ -179,6 +183,10 @@ export default (DEBUG, PATH, PORT = 3000) => {
                 //     mangle: { screw_ie8: true, keep_fnames: true },
                 // }),
                 // new webpack.optimize.OccurenceOrderPlugin(),
+                new webpack.NormalModuleReplacementPlugin(
+                    /useLinking.js/,
+                    'useLinking.native.js'
+                ),
                 new webpack.optimize.AggressiveMergingPlugin(),
                 new HtmlWebpackPlugin({
                     template: './index.html',
