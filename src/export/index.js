@@ -1,15 +1,11 @@
-const context = require.context('../controls', true, /.js$/);
-
-const obj = {};
-context.keys().forEach((key) => {
-  const c = context(key).default;
-  if (c.key) {
-    obj[c.key] = c;
-  } else {
-    const name = key.split('/').pop() // remove the first 2 characters
-      .split('.').shift(); // remove the file extension
-    obj[name] = c;
-  }
-});
-
-module.exports = obj;
+export * as NavigateUtil from '../util/navigateUtil';
+export { default as Element } from '../template/Element';
+export { default as createAppOptions } from '../createAppOptions';
+import templateRegistry from '../template/defaultTemplateMapping';
+export * from './control';
+export * from './hoc';
+export const regTemplate = templateRegistry.reg;
+export { default as TemplateProvider } from '../template/TemplateProvider';
+export { default as AppWrapper } from '../AppWrapper';
+export { default as EntryContext } from '../context/Entry';
+export { default as FormContext } from '../context/FormContext';

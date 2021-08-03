@@ -1,6 +1,6 @@
 import React from 'react';
 import { AppDispatcher, AppStatusStore } from 'yes';
-import EntryContext from 'yes-framework/context/Entry';
+import EntryContext from '../context/Entry';
 import { Svr } from 'yes-core';
 
 function reducer(state, action) {

@@ -13,12 +13,11 @@ import {
 } from '@react-navigation/material-top-tabs';
 import Element from '../template/Element';
 import DynamicView from '../DynamicView';
-import Controls from '../config/control';
 import WorkitemView from '../WorkitemView';
-import IconFontIcon from '../font';
+// import IconFontIcon from '../font';
 import generateRouteComponent from '../util/generateRouteComponent';
-import getPathFromState from './getPathFromState.tsx';
-import getStateFromPath from './getStateFromPath.tsx';
+import getPathFromState from './getPathFromState';
+import getStateFromPath from './getStateFromPath';
 import getActionFromState from './getActionFromState'
 // import { generateKey } from '@react-navigation/core/lib/module/routers/KeyGenerator';
 // import { StackViewStyleInterpolator } from 'react-navigation-stack';
@@ -88,13 +87,25 @@ const buildTabNavigator = (tabConfig) => {
                     tintColor,
                     focused,
                     horizontal,
-                }) => (
-                    <IconFontIcon
-                        name={tab.icon}
-                        size={22}
-                        style={{ color: focused ? '#008CD7' : '#aaa' }}
-                    />
-                ) : null,
+                }) => {
+                    const meta = {
+                        type: 'element',
+                        elementType: 'IconFont',
+                        elementProps: {
+                            name: tab.icon,
+                            size: 22,
+                            style: {
+                                color: focused ? '#008CD7' : '#aaa'
+                            }
+                        }
+                    };
+                    return <Element meta={meta} />
+                    // <IconFontIcon
+                    //     name={tab.icon}
+                    //     size={22}
+                    //     style={{ color: focused ? '#008CD7' : '#aaa' }}
+                    // />
+                } : null,
                 tabBarLabel: tab.label,
             });
         }
@@ -224,8 +235,14 @@ const buildYIGOBillformScreen = (config) => {
 };
 
 const buildControlScreen = (config) => {
-    const Control = Controls[config.control];
-    return () => <Control {...config.controlProps} />
+    // const Control = Controls[config.control];
+    // return () => <Control {...config.controlProps} />
+    const meta = {
+        type: 'element',
+        elementType: config.control,
+        elementProps: config.controlProps,
+    }
+    return () => <Element meta={meta} />
 };
 
 const buildScreen = (config) => {
@@ -239,8 +256,12 @@ const buildScreen = (config) => {
             result.navigationOptions = {
                 // tabBarButtonComponent: Controls[config.tabControl],
                 tabBarButton: () => {
-                    const C = Controls[config.tabControl];
-                    return <C />
+                    // const C = Controls[config.tabControl];
+                    // return <C />
+                    return <Element meta={{
+                        type: 'element',
+                        elementType: config.tabControl,
+                    }} />
                 }
             }
             return result;
@@ -330,7 +351,7 @@ export default (config) => {
                     <Stack.Screen
                         name={r.key}
                         component={r.screen}
-                        options = {{
+                        options={{
                             animationEnabled: true,
                         }}
                     />

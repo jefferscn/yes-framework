@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import Element from 'yes-framework/template/Element';
+import Element from '../../template/Element';
 
 export default class ScriptWrap extends PureComponent {
     static contextTypes = {

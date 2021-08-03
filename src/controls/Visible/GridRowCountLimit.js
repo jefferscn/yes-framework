@@ -6,7 +6,7 @@
  */
 import React, { PureComponent } from 'react';
 import { GridWrap } from 'yes-intf';
-import Element from 'yes-framework/template/Element';
+import Element from '../../template/Element';
 /**
  *
  */

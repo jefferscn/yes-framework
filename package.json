@@ -1,9 +1,12 @@
 {
-  "name": "mUI",
-  "version": "2.0.0",
+  "name": "yes-framework",
+  "version": "0.0.6",
   "description": "",
-  "main": "init.js",
+  "main": "lib/export/index.js",
   "scripts": {
+    "clean-lib": "rm -rf lib && mkdir lib",
+    "lib": "npm run clean-lib && babel src -d lib && tsc --build",
+    "ts": "tsc --build",
     "start": "gulp serve --platform web",
     "build": "npm run build:clean && cross-env NODE_ENV=production webpack --config config/webpack.prod.babel.js --color -p --progress",
     "build:debug": "npm run build:clean && cross-env NODE_ENV=production webpack --config config/webpack.prod.debug.babel.js --color -p --progress",
@@ -76,6 +79,7 @@
     "yes-web": "^4.0.1"
   },
   "devDependencies": {
+    "@babel/cli": "^7.14.5",
     "@babel/core": "^7.5.5",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/plugin-proposal-decorators": "^7.4.4",
@@ -91,6 +95,7 @@
     "@storybook/addon-essentials": "^6.0.21",
     "@storybook/addon-links": "^6.0.21",
     "@storybook/react": "^6.0.21",
+    "@types/react-native": "^0.64.12",
     "babel-loader": "^8.0.6",
     "babel-plugin-react-native-web": "^0.11.7",
     "chromatic": "^5.5.0",

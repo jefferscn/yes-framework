@@ -7,7 +7,7 @@ import { ControlWrap } from 'yes-intf';
 import ListText from '../Yigo/Text/ListText';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PropTypes from 'prop-types';
-import Element from 'yes-framework/template/Element';
+import Element from '../../template/Element';
 
 const AnimatedIcon = Animated.createAnimatedComponent(Icon);
 const styles = StyleSheet.create({

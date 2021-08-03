@@ -4,7 +4,7 @@
 import React from 'react';
 import { Text } from 'react-native';
 import { ControlWrap } from 'yes-intf';
-import Element from 'yes-framework/template/Element';
+import Element from '../../../template/Element';
 
 const YText = ({ template, displayValue, value, style, isVirtual, controlState, caption, icon, styleMapping, textMapping, emptyStr = "空" }) => {
     const getText = ()=> {

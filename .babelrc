@@ -4,6 +4,7 @@
         "@babel/preset-react"
     ],
     "plugins": [
+        "@babel/plugin-proposal-export-default-from",
         [
             "@babel/plugin-proposal-decorators",
             {
@@ -16,6 +17,7 @@
                 "loose": true
             }
         ],
-        "@babel/plugin-proposal-export-default-from"
+        "react-native-reanimated/plugin",
+        "@babel/plugin-proposal-export-namespace-from"
     ]
 }

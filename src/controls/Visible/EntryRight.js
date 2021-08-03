@@ -1,6 +1,6 @@
 import React from 'react';
-import EntryContext from 'yes-framework/context/Entry';
-import Element from 'yes-framework/template/Element';
+import EntryContext from '../../context/Entry';
+import Element from '../../template/Element';
 
 const EntryRight = ({ children, element, entry }) => {
     const { entries } = React.useContext(EntryContext);

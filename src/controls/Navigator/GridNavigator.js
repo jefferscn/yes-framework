@@ -4,12 +4,12 @@ import {
     TouchableHighlight, PanResponder, LayoutAnimation,
     TouchableOpacity, Dimensions,
 } from 'react-native';
-import IconFont from 'yes-framework/font';
+import IconFont from '../../font';
 import { Modal, WhiteSpace } from 'antd-mobile';
 import Header from '../Container/Header';
 // import util from '../util';
 // import { showModal } from 'yes-framework/SiblingMgr';
-import { openForm, openModal } from 'yes-framework/util/navigateUtil';
+import { openForm, openModal } from '../../util/navigateUtil';
 import PropTypes from 'prop-types';
 import { Svr } from 'yes-core';
 import AwesomeFontIcon from 'react-native-vector-icons/FontAwesome';

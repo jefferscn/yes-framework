@@ -6,7 +6,7 @@
  */
 import React, { PureComponent } from 'react';
 import { ControlWrap } from 'yes-intf';
-import Element from 'yes-framework/template/Element';
+import Element from '../../template/Element';
 
 class VisibleEqual extends PureComponent {
     render() {

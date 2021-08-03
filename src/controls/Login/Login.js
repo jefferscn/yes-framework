@@ -24,7 +24,7 @@ class Login extends Component {
         this.state = {
             user: '',
             password: '',
-            corp:'000',
+            corp: '000',
             userTextInputBottomBorderColor: '#8a8a8a',
             passwordTextInputBottomBorderColor: '#8a8a8a',
             loginType: 'userAccount',
@@ -65,13 +65,13 @@ class Login extends Component {
     }
     handleClickLogin() {
         this.props.handleClickLogin(
-            `${this.state.corp}_${this.state.user}`, 
+            this.state.user,
             this.state.password,
             {
-                OrgCode: this.state.corp,
+                // OrgCode: this.state.corp,
             });
     }
-    changeLoginType =(loginType)=> {
+    changeLoginType = (loginType) => {
         this.setState({
             loginType,
         })
@@ -90,18 +90,19 @@ class Login extends Component {
                     flexGrow: 1,
                 }}
             >
-                <Image
-                    style={{
-                        flex: 1,
-                        flexDirection: 'row',
-                        width: '100%',
-                    }}
-                    source={this.props.bgImage}
-                    resizeMode="cover"
-                >
-                </Image>
-
-                {this.state.loginType==='userAccount' ? <View
+                {
+                    this.props.bgImage ? <Image
+                        style={{
+                            flex: 1,
+                            flexDirection: 'row',
+                            width: '100%',
+                        }}
+                        source={this.props.bgImage}
+                        resizeMode="cover"
+                    >
+                    </Image> : null
+                }
+                {this.state.loginType === 'userAccount' ? <View
                     style={{
                         flex: 1,
                         // justifyContent: 'center',
@@ -185,9 +186,9 @@ class Login extends Component {
                             <Button
                                 raised
                                 primary
-                                text="登录"
+                                title="登录"
                                 onPress={this.handleClickLogin}
-                            >登录</Button>
+                            />
                         </View>
                     </View>
                     <View
@@ -204,9 +205,9 @@ class Login extends Component {
                             }}
                         >{this.props.companyName}</Text>
                     </View>
-                </View>: null}
+                </View> : null}
                 {
-                    this.state.loginType==='phone'?<View></View>:null
+                    this.state.loginType === 'phone' ? <View></View> : null
                 }
             </View>
         );

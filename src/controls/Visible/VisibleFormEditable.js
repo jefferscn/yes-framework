@@ -6,7 +6,7 @@
  */
 import React, { PureComponent } from 'react';
 import { MetaBillFormWrap } from 'yes-intf';
-import Element from 'yes-framework/template/Element';
+import Element from '../../template/Element';
 /**
  * 添加High Order Component
  * 主要为了包装常用的Attribute： visibale editable等

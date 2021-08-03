@@ -213,14 +213,14 @@ export default class TreeDict extends PureComponent {
             if (this.state.path.includes(item)) {//如果选中项目在当前的路径中
                 const idx = this.state.path.indexOf(item);
                 this.setState({
-                    path: this.state.path.slice(0, idx+1),
+                    path: this.state.path.slice(0, idx + 1),
                 });
             } else {//不在当前路径中，则是在当前路径下继续下行一个层次
                 this.setState({
                     loading: true,
                 });
                 try {
-                    if(!item.children) {
+                    if (!item.children) {
                         await this.loadChildren(item);
                     }
                     this.setState({
@@ -240,23 +240,48 @@ export default class TreeDict extends PureComponent {
             });
         }
     }
-    submitChange= ()=> {
+    submitChange = () => {
         this.props.onChange(this.state.value);
         this.closeModal();
     }
     render() {
         const { inline, modalVisible, isVirtual, caption } = this.props;
         //如果是内联模式则不需要显示一个模态控件
-        if (inline) {
-            return null;
-        }
+        // if (inline) {
+        //     return null;
+        // }
         let needTopPadding = false;
         if (this.context.getTopPadding && this.context.getTopPadding() > 0) {
             needTopPadding = true;
         }
         const { path } = this.state;
         const selectedItem = path.length > 0 ? path[path.length - 1] : null;
-        return (
+        return inline ? (
+            <View
+                style={styles.modal}
+            >
+                <View
+                    style={styles.content}
+                >
+                    <DictCrumbs path={this.state.path} root={caption} onPress={this.onSelectItem} />
+                    <ScrollView style={styles.content}>
+                        {
+                            (isVirtual || this.state.loading) ? <ActivityIndicator /> : null
+                        }
+                        {
+                            <DictItemList
+                                items={selectedItem ? selectedItem.children : null}
+                                onDictItemSelect={this.onSelectItem}
+                                value={this.state.value}
+                            />
+                        }
+                    </ScrollView>
+                </View>
+                <NavBar
+                    rightContent={<TouchableHighlight onPress={this.submitChange}><Icon style={styles.confirm} name="check" /></TouchableHighlight>}
+                />
+            </View>
+        ) : (
             <Modal
                 animationType={"slide"}
                 transparent={false}
@@ -292,8 +317,8 @@ export default class TreeDict extends PureComponent {
                             }
                         </ScrollView>
                     </View>
-                    <NavBar 
-                        rightContent={<TouchableHighlight onPress={this.submitChange}><Icon style={styles.confirm} name="check"/></TouchableHighlight>}
+                    <NavBar
+                        rightContent={<TouchableHighlight onPress={this.submitChange}><Icon style={styles.confirm} name="check" /></TouchableHighlight>}
                     />
                 </View>
             </Modal>

@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { OperationWrap as operationWrap } from 'yes';
 import { StyleSheet, View, Text, Button, TouchableOpacity } from 'react-native';
-import GridTotal from 'yes-framework/hoc/GridTotal';
+import GridTotal from '../../../hoc/GridTotal';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PropTypes from 'prop-types';
 import { Util } from 'yes-intf';

@@ -1,5 +1,5 @@
 import React from 'react';
-import GridTotal from 'yes-framework/hoc/GridTotal';
+import GridTotal from '../../../hoc/GridTotal';
 import { Badge } from 'antd-mobile';
 
 const GridTotalCountBadge = GridTotal(({ totalRowCount, children }) => {

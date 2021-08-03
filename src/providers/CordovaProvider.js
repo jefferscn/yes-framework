@@ -7,7 +7,7 @@ import Compressor from 'compressorjs';
 import path from 'path';
 import { StyleSheet, View, Text, TouchableHighlight } from 'react-native-web';
 import { Update } from '../export';
-import { versionCompare } from 'yes-framework/hoc/AppStatusWrap';
+import { versionCompare } from '../hoc/AppStatusWrap';
 
 const mineTypes = [{ ext: 'doc', minetype: 'application/msword' },
 { ext: 'docx', minetype: 'application/msword' },

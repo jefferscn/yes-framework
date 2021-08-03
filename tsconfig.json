@@ -1,6 +1,9 @@
 {
     "compilerOptions": {
-        "outDir": "./dist/",
+        "lib": [
+            "dom"
+        ],
+        "outDir": "./lib/",
         "noImplicitAny": true,
         "module": "es6",
         "target": "es5",
@@ -8,6 +11,13 @@
         "allowJs": true,
         "experimentalDecorators": true,
         "allowSyntheticDefaultImports": true,
-        "moduleResolution": "node"
-    }
+        "moduleResolution": "node",
+        "skipLibCheck": true
+    },
+    "include": [
+        "src"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
 }

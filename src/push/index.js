@@ -1,8 +1,9 @@
 import { AppDispatcher } from 'yes';
-import ProjectConfig from '../config/project.json';
+// import ProjectConfig from '../config/project.json';
 import baidupush from './baidupush';
 import jpush from './jpush';
 
+let ProjectConfig = null;
 const _init = ()=> {
     //baidu推送
     if(ProjectConfig.baidupush && ProjectConfig.baidupush.apiKey) {
@@ -28,7 +29,8 @@ const _uninit = async ()=> {
     });
 };
 
-export const init = () => {
+export const init = (cfg) => {
+    ProjectConfig = cfg;
     AppDispatcher.register((action) => {
         switch (action.type) {
             case 'LOGINED'://登录之后需要注册deviceId

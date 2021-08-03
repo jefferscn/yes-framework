@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { openForm, openModal } from 'yes-framework/util/navigateUtil';
+import { openForm, openModal } from '../../util/navigateUtil';
 import { ActionSheet } from 'antd-mobile';
 import { BackHandler } from 'yes-intf';
 import { History } from 'yes-web';

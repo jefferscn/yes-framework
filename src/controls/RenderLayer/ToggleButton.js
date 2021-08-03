@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, TouchableHighlight, View, Text } from 'react-native';
 import AwesomefontIcon from 'react-native-vector-icons/FontAwesome';
-import Element from 'yes-framework/template/Element';
+import Element from '../../template/Element';
 import FormContextWrap from '../Context/FormContextWrap';
 
 const styles = StyleSheet.create({

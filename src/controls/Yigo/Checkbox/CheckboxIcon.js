@@ -1,7 +1,7 @@
 import React from 'react';
 import { ControlWrap } from 'yes-intf';
 import AwesomefontIcon from 'react-native-vector-icons/FontAwesome';
-import Element from 'yes-framework/template/Element';
+import { Element } from 'yes-framework';
 
 const CheckboxIcon = ({ style, value, trueIcon, falseIcon, trueStyle, falseStyle }) => {
     const icon = value ? trueIcon : falseIcon;

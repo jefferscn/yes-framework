@@ -1,6 +1,6 @@
 import React from 'react';
-import FormContext from 'yes-framework/context/FormContext';
-import Element from 'yes-framework/template/Element';
+import FormContext from '../../context/FormContext';
+import Element from '../../template/Element';
 
 const ContextValueVisible = ({ children, element, contextKey, value }) => {
     const { contextValues } = React.useContext(FormContext);

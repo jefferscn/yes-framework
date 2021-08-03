@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import Element from 'yes-framework/template/Element';
+import Element from '../../template/Element';
 import { View, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 

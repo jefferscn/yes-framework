@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import FormContext from 'yes-framework/context/FormContext';
+import FormContext from '../../context/FormContext';
 
 export default (Comp) => {
     return ({ contextKey, ...otherProps }) => {

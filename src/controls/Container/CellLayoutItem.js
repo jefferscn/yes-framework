@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View, TouchableOpacity } from 'react-native';
-import CellLayoutTemplate from 'yes-framework/template/TabTemplate/CellLayoutTemplate';
+import CellLayoutTemplate from '../../template/TabTemplate/CellLayoutTemplate';
 import { DynamicControl } from 'yes';
 
 const pressRetentionOffset = { top: 5, left: 5, right: 5, bottom: 5 };

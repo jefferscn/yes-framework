@@ -7,9 +7,9 @@ import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 export default (DEBUG, PATH, PORT = 3000) => {
     return ({
         resolve: {
-            extensions: ['.web.js', '.js', '.jsx'],
+            extensions: ['.web.js', '.js', '.jsx', '.tsx', 'ts'],
             alias: {
-                'react-native' : path.resolve(__dirname, '../src/react-native'),
+                'react-native': path.resolve(__dirname, '../src/react-native'),
                 'yes-platform': 'yes-web',
                 'yes-framework': path.resolve(__dirname, '../src'),
                 yes: 'yes-intf',
@@ -98,6 +98,10 @@ export default (DEBUG, PATH, PORT = 3000) => {
                     test: /\.js$/,
                     enforce: 'pre',
                     use: ['source-map-loader'],
+                }, {
+                    test: /\.tsx?$/,
+                    use: 'ts-loader',
+                    exclude: /node_modules/ //表示node_modules中的tsx文件不做处理
                 }, {
                     test: /\.scss$/,
                     loaders: [

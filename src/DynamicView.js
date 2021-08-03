@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import TemplateView from './TemplateView';
 import { YIUI } from 'yes-core';
-import { FormPara } from './config/index';
+// import { FormPara } from './config/index';
 
 export default ({ navigation, route, document }) => {
     const { metaKey, id, parent, status } = route.params;
@@ -18,10 +18,10 @@ export default ({ navigation, route, document }) => {
         processNewForm();
     }, [metaKey, id]);
 
-    if (id === 'new') {
+    if (realOID === 'new') {
         return null;
     }
-    const params = FormPara ? FormPara[metaKey] : null;
+    // const params = FormPara ? FormPara[metaKey] : null;
     const [formKey] = metaKey.split('*');
     return (
         <TemplateView
@@ -29,7 +29,7 @@ export default ({ navigation, route, document }) => {
             oid={realOID || -1}
             document={document}
             parent={parent}
-            params={params}
+            // params={params}
             status={status || 'EDIT'}
         />
     );

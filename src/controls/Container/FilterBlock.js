@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react';
 // import SegementCombobox from '../../controls/SegementCombobox';
-import Element from 'yes-framework/template/Element';
+import Element from '../../template/Element';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { View, StyleSheet, Button, TouchableOpacity } from 'react-native';
 import { Modal } from 'antd-mobile';
 import PropTypes from 'prop-types';
-import CellLayoutTemplate from 'yes-framework/template/TabTemplate/CellLayoutTemplate';
+import CellLayoutTemplate from '../../template/TabTemplate/CellLayoutTemplate';
 
 class FilterButton extends PureComponent {
     static contextTypes = {

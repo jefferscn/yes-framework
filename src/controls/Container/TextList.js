@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
-import ListText from 'yes-framework/controls/Yigo/Text/ListText';
+import ListText from '../Yigo/Text/ListText';
 
 const styles = StyleSheet.create({
     container: {

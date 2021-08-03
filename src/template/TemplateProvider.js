@@ -7,6 +7,8 @@ export default class TemplateProvider extends PureComponent {
         getCustomControl: PropTypes.func,
         getFormTemplate: PropTypes.func,
         getDefaultFormTemplate: PropTypes.func,
+        getFormParams: PropTypes.func,
+        setActiveElement: PropTypes.func,
     }
 
     getChildContext() {
@@ -15,7 +17,22 @@ export default class TemplateProvider extends PureComponent {
             getCustomControl: this.getCustomControl,
             getFormTemplate: this.getFormTemplate,
             getDefaultFormTemplate: this.getDefaultFormTemplate,
+            getFormParams: this.getFormParams,
+            setActiveElement: this.setActiveElement,
         };
+    }
+    /**
+     * 设置当前选中的Element对象，仅在设计模式下使用
+     */
+    setActiveElement() {
+
+    }
+
+    getFormParams = (metaKey) => {
+        if(this.props.formParams) {
+            return null;
+        }
+        return this.props.formParams[metaKey];
     }
 
     getCustomControl = (type) => {
