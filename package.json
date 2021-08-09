@@ -5,7 +5,7 @@
   "main": "lib/export/index.js",
   "scripts": {
     "clean-lib": "rm -rf lib && mkdir lib",
-    "lib": "npm run clean-lib && babel src -d lib && tsc --build",
+    "lib": "npm run clean-lib && babel src -d lib --extensions .ts,.tsx,.js",
     "ts": "tsc --build",
     "start": "gulp serve --platform web",
     "build": "npm run build:clean && cross-env NODE_ENV=production webpack --config config/webpack.prod.babel.js --color -p --progress",
@@ -89,6 +89,7 @@
     "@babel/preset-es2015": "^7.0.0-beta.53",
     "@babel/preset-flow": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
+    "@babel/preset-typescript": "^7.15.0",
     "@babel/register": "^7.5.5",
     "@babel/runtime": "^7.5.5",
     "@storybook/addon-actions": "^6.0.21",
