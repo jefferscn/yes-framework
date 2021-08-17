@@ -1,6 +1,7 @@
 export * as NavigateUtil from '../util/navigateUtil';
 export { default as Element } from '../template/Element';
 export { default as createAppOptions } from '../createAppOptions';
+export { default as createEmbedOptions } from '../createEmbedOptions';
 import templateRegistry from '../template/defaultTemplateMapping';
 export * from './control';
 export * from './hoc';
